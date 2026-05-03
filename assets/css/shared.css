@@ -23,6 +23,12 @@ html { font-size: 20px; }
   --green:        #1e5c38;
   --green-bg:     #d4edda;
   --green-border: #8ac4a0;
+  --amber:        #b45309;
+  --amber-bg:     #fff7ed;
+  --amber-border: #fdba7460;
+  --red:          #9b2c2c;
+  --red-bg:       #fdecec;
+  --red-border:   #e8a8a8;
 }
 
 body {

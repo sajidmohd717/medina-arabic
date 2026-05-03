@@ -238,6 +238,35 @@
       animation: fadeIn 0.6s ease 0.8s both;
     }
 
+    .btn-reset-progress {
+      display: block;
+      margin: 1rem auto 0;
+      padding: 0.55rem 1.25rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: transparent;
+      border: 1.5px solid var(--gold-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      animation: fadeIn 0.6s ease 0.85s both;
+    }
+
+    .btn-reset-progress:hover {
+      color: var(--text-dark);
+      border-color: var(--gold);
+      background: var(--gold-faint);
+    }
+
+    .btn-reset-progress:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-10px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -318,7 +347,11 @@
     </div>
 
     <p class="footer">Your progress is saved locally in your browser</p>
+    <button type="button" class="btn-reset-progress" onclick="confirmAndResetAllMedinaProgress()">
+      Reset all progress…
+    </button>
   </main>
 
+  <script src="assets/js/progress.js"></script>
 </body>
 </html>

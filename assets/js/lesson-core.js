@@ -66,6 +66,16 @@ function unlockAndGo(step) {
   goToStep(step);
 }
 
+/** Open all steps and go straight to the quiz (used with ?step=quiz from the book list). */
+function applyQuizJumpMode() {
+  UNLOCKED_STEPS = { vocab: true, lesson: true, practice: true, quiz: true };
+  ['vocab', 'lesson', 'practice', 'quiz'].forEach(step => {
+    const btn = document.getElementById(`step-${step}`);
+    if (btn) btn.classList.remove('locked');
+  });
+  goToStep('quiz');
+}
+
 // ─────────────────────────────────────────────────────────────
 // PRACTICE FUNCTIONS
 // ─────────────────────────────────────────────────────────────
@@ -303,22 +313,144 @@ function attachKeyboard() {
 // UI BUILDING FUNCTIONS
 // ─────────────────────────────────────────────────────────────
 
+const VOCAB_RATING_CLASSES = ['know', 'struggle', 'unknown'];
+
+function applyVocabCardRating(card, book, lessonNum, wordIndex, rating) {
+  VOCAB_RATING_CLASSES.forEach(r => card.classList.remove(`vocab-card--${r}`));
+  card.querySelectorAll('.vocab-rate-btn').forEach(b => {
+    b.classList.toggle('is-active', b.dataset.rating === rating && rating !== null && rating !== '');
+    b.setAttribute('aria-pressed', b.dataset.rating === rating && rating !== null && rating !== '' ? 'true' : 'false');
+  });
+  if (rating === 'know' || rating === 'struggle' || rating === 'unknown') {
+    card.classList.add(`vocab-card--${rating}`);
+  }
+  if (typeof setVocabWordRating === 'function') {
+    setVocabWordRating(book, lessonNum, wordIndex, rating || null);
+  }
+}
+
+function insertVocabCardSorted(grid, card) {
+  const idx = parseInt(card.dataset.wordIndex, 10);
+  for (const child of grid.children) {
+    const ci = parseInt(child.dataset.wordIndex, 10);
+    if (idx < ci) {
+      grid.insertBefore(card, child);
+      return;
+    }
+  }
+  grid.appendChild(card);
+}
+
+function refreshVocabKnownBucket(ctx) {
+  const n = ctx.knownGrid.children.length;
+  ctx.knownDetails.hidden = n === 0;
+  if (ctx.summaryCountEl) ctx.summaryCountEl.textContent = String(n);
+}
+
+function placeVocabCardInBucket(card, layoutEl) {
+  const ctx = layoutEl && layoutEl._vocabCtx;
+  if (!ctx) return;
+  const isKnow = card.classList.contains('vocab-card--know');
+  card.classList.toggle('vocab-card--compact-known', isKnow);
+  const target = isKnow ? ctx.knownGrid : ctx.activeGrid;
+  insertVocabCardSorted(target, card);
+  refreshVocabKnownBucket(ctx);
+}
+
 function buildVocabularyPanel(data) {
-  const vocabGrid = document.querySelector('#panel-vocab .vocab-grid');
-  if (!vocabGrid) return;
-  
-  vocabGrid.innerHTML = '';
-  data.vocab.forEach(item => {
+  const slot = document.querySelector('#panel-vocab .vocab-grid');
+  if (!slot) return;
+
+  slot.className = 'vocab-layout';
+  slot.innerHTML = '';
+  slot._vocabCtx = null;
+
+  const hint = document.createElement('p');
+  hint.className = 'vocab-rating-hint';
+  hint.textContent =
+    'Rate each word: ✓ know it well · ≈ still practising · ✗ new or difficult. Words marked ✓ move into Words you know well — just above the words you are still studying. Open it anytime to review. Tap the same rating again to clear.';
+
+  const activeGrid = document.createElement('div');
+  activeGrid.className = 'vocab-grid vocab-grid-active';
+
+  const knownDetails = document.createElement('details');
+  knownDetails.className = 'vocab-known-details';
+
+  const summary = document.createElement('summary');
+  summary.className = 'vocab-known-summary';
+  summary.innerHTML =
+    'Words you know well <span class="vocab-known-count-wrap">(<span class="vocab-known-count">0</span>)</span>';
+
+  const knownGrid = document.createElement('div');
+  knownGrid.className = 'vocab-grid vocab-grid-known';
+
+  knownDetails.appendChild(summary);
+  knownDetails.appendChild(knownGrid);
+  slot.append(hint, knownDetails, activeGrid);
+
+  const ctx = {
+    activeGrid,
+    knownGrid,
+    knownDetails,
+    summaryCountEl: summary.querySelector('.vocab-known-count'),
+  };
+  slot._vocabCtx = ctx;
+
+  const ratings =
+    typeof getVocabRatingsForLesson === 'function'
+      ? getVocabRatingsForLesson(data.book, data.lessonNum)
+      : {};
+
+  data.vocab.forEach((item, index) => {
     const card = document.createElement('div');
     card.className = 'vocab-card';
+    card.dataset.wordIndex = String(index);
+
+    const saved = ratings[String(index)];
+    if (saved === 'know' || saved === 'struggle' || saved === 'unknown') {
+      card.classList.add(`vocab-card--${saved}`);
+    }
+
     card.innerHTML = `
-      <div class="vocab-arabic">${item.ar}</div>
-      <div class="vocab-transliteration">${item.trans}</div>
-      <div class="vocab-meaning">${item.meaning}</div>
-      <span class="vocab-type">${item.type}</span>
+      <div class="vocab-card-body">
+        <div class="vocab-arabic">${item.ar}</div>
+        <div class="vocab-transliteration">${item.trans}</div>
+        <div class="vocab-meaning">${item.meaning}</div>
+        <span class="vocab-type">${item.type}</span>
+      </div>
+      <div class="vocab-card-actions" role="group" aria-label="How well do you know this word?">
+        <button type="button" class="vocab-rate-btn vocab-rate-know${saved === 'know' ? ' is-active' : ''}" data-rating="know" title="Know well" aria-pressed="${saved === 'know' ? 'true' : 'false'}">✓</button>
+        <button type="button" class="vocab-rate-btn vocab-rate-struggle${saved === 'struggle' ? ' is-active' : ''}" data-rating="struggle" title="Still practising" aria-pressed="${saved === 'struggle' ? 'true' : 'false'}">≈</button>
+        <button type="button" class="vocab-rate-btn vocab-rate-unknown${saved === 'unknown' ? ' is-active' : ''}" data-rating="unknown" title="New or difficult" aria-pressed="${saved === 'unknown' ? 'true' : 'false'}">✗</button>
+      </div>
     `;
-    vocabGrid.appendChild(card);
+
+    card.querySelectorAll('.vocab-rate-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        const choice = btn.dataset.rating;
+        const isToggleOff =
+          (choice === 'know' && card.classList.contains('vocab-card--know')) ||
+          (choice === 'struggle' && card.classList.contains('vocab-card--struggle')) ||
+          (choice === 'unknown' && card.classList.contains('vocab-card--unknown'));
+        applyVocabCardRating(card, data.book, data.lessonNum, index, isToggleOff ? null : choice);
+        placeVocabCardInBucket(card, slot);
+        if (!isToggleOff && choice === 'know' && slot._vocabCtx) {
+          slot._vocabCtx.knownDetails.open = true;
+        }
+      });
+    });
+
+    if (saved === 'know') {
+      card.classList.add('vocab-card--compact-known');
+      insertVocabCardSorted(knownGrid, card);
+    } else {
+      insertVocabCardSorted(activeGrid, card);
+    }
   });
+
+  refreshVocabKnownBucket(ctx);
 }
 
 function buildLessonPanel(data) {
@@ -492,6 +624,7 @@ function initLesson() {
 // Export for global access
 window.goToStep = goToStep;
 window.unlockAndGo = unlockAndGo;
+window.applyQuizJumpMode = applyQuizJumpMode;
 window.checkPractice = checkPractice;
 window.checkQuiz = checkQuiz;
 window.checkTyping = checkTyping;

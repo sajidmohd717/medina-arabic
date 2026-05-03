@@ -12,9 +12,19 @@ const PROGRESS_KEYS = {
 
 const BOOK_TOTALS = { book1: 23, book2: 23, book3: 23 };
 
+/** Per-lesson vocabulary word ratings: word index → 'know' | 'struggle' | 'unknown' */
+const VOCAB_RATINGS_KEY = 'medina_vocab_ratings';
+
+/** Stored while the learner has opened a lesson but not yet passed its quiz */
+const LESSON_IN_PROGRESS = 'in_progress';
+
 /** Convert a Western digit string to Arabic-Indic numerals (٠١٢...) */
 function toArabicNumeral(n) {
   return String(n).split('').map(d => '٠١٢٣٤٥٦٧٨٩'[+d]).join('');
+}
+
+function isCompleteValue(v) {
+  return v === true || v === 'complete';
 }
 
 /** Read progress object for a given book */
@@ -26,23 +36,112 @@ function getProgress(book = 'book1') {
   }
 }
 
+/**
+ * @returns {'not_started'|'in_progress'|'complete'}
+ */
+function getLessonStatus(lessonNumber, book = 'book1') {
+  const v = getProgress(book)[String(lessonNumber)];
+  if (isCompleteValue(v)) return 'complete';
+  if (v === LESSON_IN_PROGRESS) return 'in_progress';
+  return 'not_started';
+}
+
+/** Lesson N opens only after lessons 1 … N−1 are complete (quiz passed). */
+function isLessonUnlocked(lessonNumber, book = 'book1') {
+  const n = Number(lessonNumber);
+  if (n <= 1) return true;
+  for (let i = 1; i < n; i++) {
+    if (getLessonStatus(i, book) !== 'complete') return false;
+  }
+  return true;
+}
+
+function lessonHtmlRelPath(book, lessonNum) {
+  const prefix = String(book).replace('book', 'b');
+  return `lessons/${prefix}-lesson${lessonNum}.html`;
+}
+
+/**
+ * Sequential locks on book list: grey row, ✕ badge, no navigation until previous quizzes passed.
+ * Expects .lesson-card with data-lesson, .lesson-card-main, .lesson-card-quiz.
+ */
+function updateLessonSequentialLocks(book = 'book1') {
+  document.querySelectorAll('.lesson-card').forEach(card => {
+    const n = parseInt(card.dataset.lesson, 10);
+    if (Number.isNaN(n)) return;
+
+    const main = card.querySelector('.lesson-card-main');
+    const quiz = card.querySelector('.lesson-card-quiz');
+    const badge = card.querySelector('.lesson-num-badge');
+    const unlocked = isLessonUnlocked(n, book);
+    const base = lessonHtmlRelPath(book, n);
+
+    if (unlocked) {
+      card.classList.remove('lesson-card--locked');
+      if (badge) badge.removeAttribute('aria-label');
+      if (main) {
+        main.setAttribute('href', base);
+        main.removeAttribute('aria-disabled');
+        main.removeAttribute('tabindex');
+        main.removeAttribute('title');
+      }
+      if (quiz) {
+        quiz.setAttribute('href', `${base}?step=quiz`);
+        quiz.removeAttribute('aria-disabled');
+        quiz.removeAttribute('tabindex');
+        quiz.removeAttribute('title');
+        quiz.textContent = 'Quiz only';
+      }
+      return;
+    }
+
+    card.classList.add('lesson-card--locked');
+    if (badge) {
+      badge.textContent = '✕';
+      badge.setAttribute('aria-label', 'Locked — complete earlier lessons first');
+    }
+    if (main) {
+      main.setAttribute('href', '#');
+      main.setAttribute('aria-disabled', 'true');
+      main.setAttribute('tabindex', '-1');
+      main.setAttribute('title', 'Complete the previous lesson quiz to unlock this one.');
+    }
+    if (quiz) {
+      quiz.setAttribute('href', '#');
+      quiz.setAttribute('aria-disabled', 'true');
+      quiz.setAttribute('tabindex', '-1');
+      quiz.setAttribute('title', 'Complete the previous lesson quiz to unlock.');
+      quiz.textContent = 'Locked';
+    }
+  });
+}
+
+/** Call when the learner opens a lesson page (including quiz-only mode). No-op if already complete. */
+function markLessonInProgress(lessonNumber, book = 'book1') {
+  const progress = getProgress(book);
+  const key = String(lessonNumber);
+  if (isCompleteValue(progress[key])) return;
+  progress[key] = LESSON_IN_PROGRESS;
+  localStorage.setItem(PROGRESS_KEYS[book], JSON.stringify(progress));
+}
+
 /** Mark a lesson as complete and save */
 function markComplete(lessonNumber, book = 'book1') {
   const progress = getProgress(book);
-  progress[lessonNumber] = true;
+  progress[String(lessonNumber)] = true;
   localStorage.setItem(PROGRESS_KEYS[book], JSON.stringify(progress));
 }
 
 /** Mark a lesson as incomplete */
 function markIncomplete(lessonNumber, book = 'book1') {
   const progress = getProgress(book);
-  delete progress[lessonNumber];
+  delete progress[String(lessonNumber)];
   localStorage.setItem(PROGRESS_KEYS[book], JSON.stringify(progress));
 }
 
 /** Count completed lessons for a book */
 function countCompleted(book = 'book1') {
-  return Object.values(getProgress(book)).filter(Boolean).length;
+  return Object.values(getProgress(book)).filter(isCompleteValue).length;
 }
 
 /**
@@ -55,7 +154,7 @@ function updateProgressBar(book = 'book1') {
 
   const fill = document.getElementById('progressFill');
   const label = document.getElementById('progressLabel');
-  if (fill)  fill.style.width = (completed / total * 100) + '%';
+  if (fill) fill.style.width = (completed / total * 100) + '%';
   if (label) label.textContent = completed + ' / ' + total;
 }
 
@@ -69,22 +168,20 @@ function updateCompletedCount(book = 'book1') {
 }
 
 /**
- * Mark completed lesson cards visually on the book list page.
- * Expects .lesson-card elements with data-lesson="N" attributes.
+ * Reflect lesson status on book list cards.
+ * Expects .lesson-card elements with data-lesson="N".
  */
 function updateLessonCards(book = 'book1') {
-  const progress = getProgress(book);
   document.querySelectorAll('.lesson-card').forEach(card => {
     const num = card.dataset.lesson;
-    if (progress[num]) {
-      card.classList.add('completed');
-      const badge = card.querySelector('.lesson-num-badge');
-      if (badge) badge.textContent = '✓';
-    } else {
-      card.classList.remove('completed');
-      const badge = card.querySelector('.lesson-num-badge');
-      if (badge) badge.textContent = toArabicNumeral(num);
-    }
+    const status = getLessonStatus(num, book);
+
+    card.classList.remove('lesson-card--not-started', 'lesson-card--in-progress', 'lesson-card--complete');
+    card.classList.add(`lesson-card--${status}`);
+
+    const badge = card.querySelector('.lesson-num-badge');
+    if (!badge) return;
+    badge.textContent = status === 'complete' ? '✓' : toArabicNumeral(num);
   });
 }
 
@@ -95,7 +192,7 @@ function updateLessonCards(book = 'book1') {
 function updateFinalQuiz(book = 'book1') {
   const completed = countCompleted(book);
   const total = BOOK_TOTALS[book];
-  const btn  = document.getElementById('finalQuizBtn');
+  const btn = document.getElementById('finalQuizBtn');
   const note = document.getElementById('finalQuizNote');
   if (!btn) return;
 
@@ -115,6 +212,7 @@ function refreshBookListUI(book = 'book1') {
   updateProgressBar(book);
   updateCompletedCount(book);
   updateLessonCards(book);
+  updateLessonSequentialLocks(book);
   updateFinalQuiz(book);
 }
 
@@ -139,3 +237,63 @@ function initSidebarScroll() {
 
   sections.forEach(s => observer.observe(s));
 }
+
+function vocabRatingsLessonKey(book, lessonNum) {
+  return `${book}_${lessonNum}`;
+}
+
+/** @returns {Record<string, 'know'|'struggle'|'unknown'>} map of word index → rating */
+function getVocabRatingsForLesson(book, lessonNum) {
+  try {
+    const all = JSON.parse(localStorage.getItem(VOCAB_RATINGS_KEY)) || {};
+    return all[vocabRatingsLessonKey(book, lessonNum)] || {};
+  } catch {
+    return {};
+  }
+}
+
+/** @param {number} wordIndex index in LESSON_DATA.vocab
+ * @param {'know'|'struggle'|'unknown'|null} rating pass null to clear */
+function setVocabWordRating(book, lessonNum, wordIndex, rating) {
+  try {
+    const all = JSON.parse(localStorage.getItem(VOCAB_RATINGS_KEY)) || {};
+    const lk = vocabRatingsLessonKey(book, lessonNum);
+    const idx = String(wordIndex);
+    if (!all[lk]) all[lk] = {};
+
+    if (rating !== 'know' && rating !== 'struggle' && rating !== 'unknown') {
+      delete all[lk][idx];
+      if (!Object.keys(all[lk]).length) delete all[lk];
+    } else {
+      all[lk][idx] = rating;
+    }
+
+    localStorage.setItem(VOCAB_RATINGS_KEY, JSON.stringify(all));
+  } catch (e) {
+    console.warn('Could not save vocabulary rating', e);
+  }
+}
+
+/** Remove all saved lesson progress and vocabulary ratings (this site only). */
+function clearAllMedinaProgress() {
+  Object.values(PROGRESS_KEYS).forEach(k => localStorage.removeItem(k));
+  localStorage.removeItem(VOCAB_RATINGS_KEY);
+}
+
+/** Confirm, clear storage, reload the current page. */
+function confirmAndResetAllMedinaProgress() {
+  const ok = window.confirm(
+    'Clear every lesson, quiz outcome, and vocabulary word rating saved for Medina Arabic in this browser? This cannot be undone.'
+  );
+  if (!ok) return;
+  clearAllMedinaProgress();
+  window.location.reload();
+}
+
+window.markLessonInProgress = markLessonInProgress;
+window.getLessonStatus = getLessonStatus;
+window.isLessonUnlocked = isLessonUnlocked;
+window.getVocabRatingsForLesson = getVocabRatingsForLesson;
+window.setVocabWordRating = setVocabWordRating;
+window.clearAllMedinaProgress = clearAllMedinaProgress;
+window.confirmAndResetAllMedinaProgress = confirmAndResetAllMedinaProgress;

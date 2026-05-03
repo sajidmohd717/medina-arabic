@@ -22,8 +22,11 @@ The site works like Duolingo — structured lessons with vocabulary, grammar con
 - Cover all 3 Medina Books (Book 1: 23 lessons, Book 2: ~23 lessons, Book 3: ~23 lessons)
 - Each lesson has 4 steps: Vocabulary → Lesson Content → Practice → Quiz
 - A final quiz at the end of each book before moving to the next
-- Progress is tracked locally via `localStorage` — no backend, no accounts
+- Progress is tracked locally via `localStorage` — no backend, no accounts (lesson completion, in-progress flags, optional vocabulary word ratings, and “reset all progress”)
 - Arabic typing practice is built into every quiz
+- Book list lessons unlock **in order**: lesson *N* opens only after the quiz for lesson *N−1* is passed (deep links redirect back to the book page if locked)
+- Learners can open **Quiz only** (`?step=quiz`) from the book list to jump straight to the quiz on an unlocked lesson
+- Vocabulary panel supports **word ratings** (know / practising / difficult) and collapses “know well” words into a **Words you know well** section
 - Accessible and readable — designed with dyslexia-friendliness in mind (no thin fonts, no italics for body text, strong contrast)
 - Hosted for free on GitHub Pages as a fully static site
 
@@ -54,9 +57,11 @@ The project uses a **data-driven architecture** to avoid code duplication across
 - **Shared logic lives in core JS files** — navigation, keyboard, scoring, etc.
 
 This means:
-- Creating a new lesson takes 5 minutes (just fill in a data file)
-- Fixing a bug once fixes it for all 69 lessons
-- Adding a feature to all lessons requires editing one file
+- Creating a new lesson takes a few minutes (data file + HTML shell + Book 1 catalog row when applicable)
+- Fixing a bug once fixes it for all lessons that share the same JS/CSS
+- Adding a feature to all lesson pages usually means editing `lesson-core.js` / `lesson.css` once
+
+**Book 1 list page:** `book1.html` is a thin shell. Section headers, sidebar links, and all lesson cards are built at runtime from **`assets/js/book1-lesson-list.js`** (`BOOK1_SECTIONS`, `BOOK1_LESSONS`, `renderBook1LessonList()`). Editing copy or adding a Book 1 lesson row happens in that file—avoid duplicating dozens of lesson cards in HTML.
 
 ### File Structure
 
@@ -64,7 +69,7 @@ This means:
 medina-arabic/
 ├── GUIDELINES.md               ← you are here
 ├── index.html                  ← landing page (book selector)
-├── book1.html                  ← Book 1 lesson list
+├── book1.html                  ← Book 1 shell; lesson rows built by book1-lesson-list.js
 ├── book2.html                  ← Book 2 lesson list (coming soon)
 ├── book3.html                  ← Book 3 lesson list (coming soon)
 │
@@ -76,6 +81,7 @@ medina-arabic/
 │   │
 │   └── js/
 │       ├── progress.js         ← localStorage progress tracking
+│       ├── book1-lesson-list.js ← Book 1 section headers + lesson list (data + DOM)
 │       ├── lesson-core.js      ← Shared functions (keyboard, scoring, navigation)
 │       └── lesson-loader.js    ← Builds the page from data
 │
@@ -92,13 +98,19 @@ medina-arabic/
 │       └── ...                 ← One data file per lesson
 ```
 
+### How `book1.html` Works
+
+1. Loads `progress.js` then `book1-lesson-list.js`
+2. Calls `renderBook1LessonList()` to fill `#book1-sidebar-nav` and `#book1-lessons-mount`
+3. Calls `refreshBookListUI('book1')` to apply progress colours, sequential locks, final quiz state
+
 ### How a Lesson Page Works
 
 1. `b1-lesson1.html` loads CSS and creates empty containers
-2. `progress.js` loads (tracks overall progress)
+2. `progress.js` loads (storage helpers + book list UI; vocabulary rating helpers)
 3. `lesson-core.js` loads (all shared functions)
 4. `data/b1-lesson1.js` loads (the unique content for this lesson)
-5. `lesson-loader.js` runs, reads the data, and populates all panels
+5. `lesson-loader.js` runs: checks sequential unlock, optionally marks lesson in-progress, reads `LESSON_DATA`, populates all panels; if URL has `?step=quiz`, unlocks all steps and opens the quiz panel
 
 ### Lesson Data Structure (`b1-lessonX.js`)
 
@@ -193,14 +205,14 @@ Only loaded by `book1.html`, `book2.html`, `book3.html`. Contains:
 - Page header, stats, eyebrow
 - Two-column layout with sticky sidebar
 - Section headers and section nav
-- Lesson cards (`.lesson-card`, `.lesson-num-badge`, etc.)
-- Final quiz card
+- Lesson cards (`.lesson-card`, `.lesson-card-main`, `.lesson-card-quiz`, status modifiers, locked state with ✕ badge)
+- Final quiz card and reset-progress button (`.btn-reset-progress`)
 
 ### lesson.css
 Only loaded by lesson pages. Contains:
 - Step indicator bar
 - Lesson panels
-- Vocab grid and vocab cards
+- Vocabulary layout (`vocab-layout`, active grid, **Words you know well** `<details>`, compact cards for rated “know”)
 - Grammar blocks, example tables
 - Practice questions and options
 - Quiz questions, Arabic typing input, on-screen keyboard
@@ -222,35 +234,62 @@ Only loaded by lesson pages. Contains:
 --green          #1e5c38   /* success / completed state */
 --green-bg       #d4edda   /* light green background */
 --green-border   #8ac4a0   /* green border */
+--amber          #b45309   /* “in progress” / practising highlights */
+--amber-bg       #fff7ed
+--amber-border   #fdba7460 /* semi-transparent amber */
+--red            #9b2c2c   /* vocab “difficult” / emphasis */
+--red-bg         #fdecec
+--red-border     #e8a8a8
 ```
 
-**Do not hardcode hex values in page-specific CSS.** Always use these variables.
+**Do not hardcode hex values in page-specific CSS.** Always use these variables (define new tokens in `shared.css` first).
+
+**Note:** `index.html` still uses inline `<style>` for the landing hero; prefer aligning with `shared.css` variables when touching that page.
 
 ---
 
 ## JavaScript Architecture
 
-### `progress.js` (unchanged from original)
-Loaded by every page. Provides:
+### `progress.js`
+Loaded by lesson pages and book list pages. Handles **lesson progress**, **sequential locks on the book list**, **vocabulary word ratings**, and **global reset**.
+
+**Lesson progress (`localStorage` keys `medina_book1_progress`, etc.):**
+- Value `true` → lesson **completed** (quiz passed)
+- Value `'in_progress'` → learner opened the lesson but has not passed the quiz yet
+- Key absent → **not started**
 
 | Function | Purpose |
 |---|---|
-| `getProgress(book)` | Returns progress object from localStorage |
-| `markComplete(lessonNum, book)` | Marks a lesson as done and saves |
-| `markIncomplete(lessonNum, book)` | Removes a lesson completion |
-| `countCompleted(book)` | Returns number of completed lessons |
-| `updateProgressBar(book)` | Updates `#progressFill` and `#progressLabel` in nav |
-| `updateCompletedCount(book)` | Updates `#completedCount` Arabic numeral stat |
-| `updateLessonCards(book)` | Marks completed cards green with ✓ on book list page |
-| `updateFinalQuiz(book)` | Unlocks final quiz button when all lessons done |
-| `refreshBookListUI(book)` | Calls all of the above — use this on book list pages |
-| `initSidebarScroll()` | Activates sidebar section highlighting on scroll |
-| `toArabicNumeral(n)` | Converts Western digits to Arabic-Indic numerals |
+| `getProgress(book)` | Raw progress object from localStorage |
+| `getLessonStatus(lessonNum, book)` | `'not_started'` \| `'in_progress'` \| `'complete'` |
+| `markLessonInProgress(lessonNum, book)` | Sets `'in_progress'` if not already complete |
+| `markComplete` / `markIncomplete` | Quiz pass / clear completion |
+| `countCompleted(book)` | Counts completed lessons only |
+| `isLessonUnlocked(lessonNum, book)` | Lesson 1 always; else requires all previous lessons **complete** |
+| `lessonHtmlRelPath(book, n)` | Builds `lessons/b1-lessonN.html` style path |
+| `updateLessonSequentialLocks(book)` | Applies locked UI (✕, disabled links) on book list |
+| `updateProgressBar`, `updateCompletedCount`, `updateLessonCards`, `updateFinalQuiz` | Book list nav + stats + card colours + final quiz lock |
+| `refreshBookListUI(book)` | Full refresh after DOM for lesson cards exists |
+| `initSidebarScroll()` | Sidebar section highlighting |
+| `toArabicNumeral(n)` | Western → Arabic-Indic digits |
 
-**localStorage keys:**
-- `medina_book1_progress` — object like `{ "1": true, "2": true, ... }`
-- `medina_book2_progress`
-- `medina_book3_progress`
+**Vocabulary ratings (`localStorage` key `medina_vocab_ratings`):**
+- Nested object: `${book}_${lessonNum}` → `{ wordIndex: 'know' \| 'struggle' \| 'unknown' }`
+
+| Function | Purpose |
+|---|---|
+| `getVocabRatingsForLesson(book, lessonNum)` | Read ratings for one lesson |
+| `setVocabWordRating(book, lessonNum, wordIndex, rating)` | Save or clear (`null`) |
+
+**Reset**
+
+| Function | Purpose |
+|---|---|
+| `clearAllMedinaProgress()` | Removes all progress + vocab rating keys |
+| `confirmAndResetAllMedinaProgress()` | `confirm()` dialog, clear, `location.reload()` |
+
+### `book1-lesson-list.js`
+Loaded only by `book1.html`. Defines **`BOOK1_SECTIONS`**, **`BOOK1_LESSONS`**, and **`renderBook1LessonList()`** (builds sidebar + section blocks + lesson cards). Exposes **`BOOK1_LIST_META`** for optional tooling.
 
 ### `lesson-core.js`
 Shared functions used by all lesson pages:
@@ -259,6 +298,8 @@ Shared functions used by all lesson pages:
 |---|---|
 | `goToStep(step)` | Navigates between vocab/lesson/practice/quiz panels |
 | `unlockAndGo(step)` | Unlocks a step and navigates to it |
+| `applyQuizJumpMode()` | Unlocks every step and switches to quiz (`?step=quiz`) |
+| `buildVocabularyPanel` / vocab helpers | Renders vocab cards, ratings, **Words you know well** bucket |
 | `checkPractice(btn, isCorrect)` | Handles practice question answers |
 | `checkQuiz(btn, qNum, isCorrect)` | Handles multiple choice quiz answers |
 | `checkTyping(qNum, questionData)` | Handles typed quiz answers with lenient matching |
@@ -269,42 +310,7 @@ Shared functions used by all lesson pages:
 | `stripDiacritics(str)` | Removes Arabic vowel marks |
 
 ### `lesson-loader.js`
-Reads `LESSON_DATA` and populates all panels on the page.
-
----
-
-## Creating a New Lesson
-
-To create a new lesson (e.g., Lesson 3 of Book 1):
-
-### Step 1: Create the data file
-
-Copy `lessons/data/b1-lesson2.js` to `lessons/data/b1-lesson3.js`
-
-Update:
-- `lessonNum: 3`
-- `titleArabic` and `titleEnglish`
-- `summary`
-- `nextLesson` (e.g., `'b1-lesson4.html'`)
-- All vocabulary, grammar blocks, examples, practice questions, and quiz questions
-
-### Step 2: Create the HTML file
-
-Copy `lessons/b1-lesson2.html` to `lessons/b1-lesson3.html`
-
-Change only:
-- `<title>` tag to reflect the new lesson
-- `nav-title` content (if desired — the loader will override it anyway)
-
-### Step 3: Update the script reference
-
-Ensure the HTML file loads the correct data file:
-
-```html
-<script src="data/b1-lesson3.js"></script>
-```
-
-That's it. The loader handles everything else.
+After `LESSON_DATA` is available: checks **`isLessonUnlocked`** (redirects to the book page if locked), **`markLessonInProgress`**, resets step state, **`initLesson()`**, then applies **`?step=quiz`** via **`applyQuizJumpMode`** when requested.
 
 ---
 
@@ -321,9 +327,10 @@ That's it. The loader handles everything else.
 ### Colour
 - The palette is warm and classical — gold, parchment, dark brown
 - Never use cool greys, blues, or white backgrounds — always use the warm CSS variables
-- Gold (`--gold: #8a6420`) is the only accent colour across the whole site
-- Green is reserved strictly for correct answers and completed states
-- Red/pink is reserved strictly for wrong answers
+- Gold (`--gold`) is the primary accent across the site
+- Green — completed lessons / correct quiz feedback / “know well” vocabulary emphasis
+- Amber — in-progress lessons / “still practising” vocabulary
+- Red — wrong quiz answers and “difficult / new” vocabulary emphasis (not the only cue — icons/text too)
 
 ### Layout
 - Max content width: `1220px` on book list pages, `900px` on lesson pages
@@ -381,6 +388,7 @@ When writing lesson content, vocabulary, and quiz questions:
 | `assets/css/book-list.css` | ✅ Complete |
 | `assets/css/lesson.css` | ✅ Complete |
 | `assets/js/progress.js` | ✅ Complete |
+| `assets/js/book1-lesson-list.js` | ✅ Complete |
 | `assets/js/lesson-core.js` | ✅ Complete |
 | `assets/js/lesson-loader.js` | ✅ Complete |
 | `lessons/b1-lesson1.html` | ✅ Complete |
@@ -411,8 +419,9 @@ When writing lesson content, vocabulary, and quiz questions:
    - `quizQuestions.typing` array
 3. **Copy the previous HTML file** (e.g., `b1-lesson2.html` → `b1-lesson3.html`)
 4. **Update the data file reference** in the HTML script tag
-5. **Test the lesson** in your browser
-6. **Update the GUIDELINES.md progress table** to mark the lesson as complete
+5. **Register the lesson on Book 1** — add one object to `BOOK1_LESSONS` in `assets/js/book1-lesson-list.js` (`lessonNum`, `section`, `slug`, `ar`, `title`, `desc`) so it appears on `book1.html`
+6. **Test the lesson** in your browser
+7. **Update the GUIDELINES.md progress table** to mark the lesson as complete
 
 ---
 
@@ -420,7 +429,7 @@ When writing lesson content, vocabulary, and quiz questions:
 
 - Do not add any backend, database, or server-side code — this is a static site
 - Do not add npm, webpack, or any build tools — plain HTML/CSS/JS only
-- Do not use `localStorage` for anything other than lesson progress
+- Do not use `localStorage` for unrelated features — only **lesson progress**, **vocabulary word ratings**, and the **reset-all** action; use **documented keys only** (`medina_book*_progress`, `medina_vocab_ratings`)
 - Do not change the base font size (`20px`) or the max content widths without good reason
 - Do not use italics for body text
 - Do not use font weights below 400
@@ -428,8 +437,7 @@ When writing lesson content, vocabulary, and quiz questions:
 - Do not add new CSS variables without adding them to `shared.css` first
 - Do not create new JS files without documenting them in this file
 - Do not change the lesson file naming convention
-- Do not put lesson content directly in HTML files — always use the data-driven approach
-```
+- Do not put lesson content directly in HTML files — always use the data-driven approach (`lessons/data/*.js`). Book 1 **list card copy** lives in `book1-lesson-list.js`, not in `book1.html`.
 
 ---
 

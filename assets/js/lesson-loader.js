@@ -24,6 +24,16 @@
     CURRENT_LESSON_DATA = LESSON_DATA;
     CURRENT_BOOK = LESSON_DATA.book;
     CURRENT_LESSON_NUM = LESSON_DATA.lessonNum;
+
+    if (typeof isLessonUnlocked === 'function' && !isLessonUnlocked(CURRENT_LESSON_NUM, CURRENT_BOOK)) {
+      const bn = CURRENT_BOOK.replace('book', '');
+      window.location.replace(`../book${bn}.html`);
+      return;
+    }
+
+    if (typeof markLessonInProgress === 'function') {
+      markLessonInProgress(CURRENT_LESSON_NUM, CURRENT_BOOK);
+    }
     
     // Reset state
     UNLOCKED_STEPS = { vocab: true, lesson: false, practice: false, quiz: false };
@@ -35,6 +45,12 @@
       initLesson();
     } else {
       console.error('initLesson function not found! Make sure lesson-core.js is loaded.');
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('step') === 'quiz' && typeof applyQuizJumpMode === 'function') {
+      applyQuizJumpMode();
     }
   }
 })();
