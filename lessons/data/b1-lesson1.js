@@ -7,7 +7,7 @@ const LESSON_DATA = {
   lessonNum: 1,
   titleArabic: 'هَذَا',
   titleEnglish: 'This is… (Masculine)',
-  summary: 'Learn how to point at things and name them using هَذَا. This is the foundation of Arabic sentence structure — once you understand this pattern, hundreds of sentences become possible.',
+  summary: 'Learn how to point at things and name them using هَذَا. This lesson teaches the fundamental pattern: "This is a [noun]" — the foundation of Arabic sentence structure. Master these 40 essential words and you will be able to form hundreds of sentences.',
   nextLesson: 'b1-lesson2.html',
   passMark: 5,
   totalQuestions: 8,
@@ -15,18 +15,26 @@ const LESSON_DATA = {
   // ============================================================
   // VOCABULARY
   // ============================================================
+  // Lesson 1 focuses on: هَذَا + masculine noun pattern
+  // Core vocabulary only - prepositions, adjectives, and verbs
+  // are introduced in later lessons (Lesson 4 for prepositions,
+  // Lessons 6-9 for adjectives, Lesson 10+ for verbs)
   vocab: [
+    // Core demonstrative (the main focus of this lesson)
     { ar: 'هَذَا', trans: 'hādhā', meaning: 'This (masc.)', type: 'Demonstrative' },
     { ar: 'هٰذَا', trans: 'hādhā', meaning: 'This (masc., Quranic)', type: 'Demonstrative' },
-    { ar: 'ذٰلِكَ', trans: 'dhālika', meaning: 'That (masc.)', type: 'Demonstrative' },
-    { ar: 'هَذِهِ', trans: 'hādhihi', meaning: 'This (fem.)', type: 'Demonstrative' },
-    { ar: 'تِلْكَ', trans: 'tilka', meaning: 'That (fem.)', type: 'Demonstrative' },
-    { ar: 'أَ', trans: 'a', meaning: 'Question prefix (is/are?)', type: 'Particle' },
-    { ar: 'هَلْ', trans: 'hal', meaning: 'Question particle', type: 'Particle' },
+    
+    // Question words (essential for practice)
     { ar: 'مَا', trans: 'mā', meaning: 'What?', type: 'Interrogative' },
     { ar: 'مَنْ', trans: 'man', meaning: 'Who?', type: 'Interrogative' },
+    { ar: 'أَ', trans: 'a', meaning: 'Question prefix (is/are?)', type: 'Particle' },
+    { ar: 'هَلْ', trans: 'hal', meaning: 'Question particle', type: 'Particle' },
+    
+    // Basic responses
     { ar: 'نَعَمْ', trans: 'naʿam', meaning: 'Yes', type: 'Particle' },
     { ar: 'لا', trans: 'lā', meaning: 'No', type: 'Particle' },
+    
+    // Core masculine nouns (the building blocks for sentences with هَذَا)
     { ar: 'بَيْتٌ', trans: 'baytun', meaning: 'A house', type: 'Noun' },
     { ar: 'كِتَابٌ', trans: 'kitābun', meaning: 'A book', type: 'Noun' },
     { ar: 'قَلَمٌ', trans: 'qalamun', meaning: 'A pen', type: 'Noun' },
@@ -42,6 +50,8 @@ const LESSON_DATA = {
     { ar: 'وَلَدٌ', trans: 'waladun', meaning: 'A boy', type: 'Noun' },
     { ar: 'تَاجِرٌ', trans: 'tājirun', meaning: 'A merchant', type: 'Noun' },
     { ar: 'قَمِيصٌ', trans: 'qamīṣun', meaning: 'A shirt', type: 'Noun' },
+    
+    // Animals (common examples)
     { ar: 'كَلْبٌ', trans: 'kalbun', meaning: 'A dog', type: 'Noun' },
     { ar: 'قِطٌّ', trans: 'qiṭṭun', meaning: 'A cat', type: 'Noun' },
     { ar: 'حِمَارٌ', trans: 'ḥimārun', meaning: 'A donkey', type: 'Noun' },
@@ -49,21 +59,8 @@ const LESSON_DATA = {
     { ar: 'جَمَلٌ', trans: 'jamalun', meaning: 'A camel', type: 'Noun' },
     { ar: 'بَقَرَةٌ', trans: 'baqaratun', meaning: 'A cow', type: 'Noun' },
     { ar: 'غَنَمٌ', trans: 'ghanamun', meaning: 'Sheep / goat', type: 'Noun' },
-    { ar: 'فِي', trans: 'fī', meaning: 'In', type: 'Preposition' },
-    { ar: 'عَلَى', trans: 'ʿalā', meaning: 'On', type: 'Preposition' },
-    { ar: 'مِنْ', trans: 'min', meaning: 'From', type: 'Preposition' },
-    { ar: 'إِلَى', trans: 'ilā', meaning: 'To', type: 'Preposition' },
-    { ar: 'أَيْنَ', trans: 'ayna', meaning: 'Where?', type: 'Interrogative' },
-    { ar: 'كَبِيرٌ', trans: 'kabīrun', meaning: 'Big', type: 'Adjective' },
-    { ar: 'صَغِيرٌ', trans: 'ṣaghīrun', meaning: 'Small', type: 'Adjective' },
-    { ar: 'جَدِيدٌ', trans: 'jadīdun', meaning: 'New', type: 'Adjective' },
-    { ar: 'قَدِيمٌ', trans: 'qadīmun', meaning: 'Old', type: 'Adjective' },
-    { ar: 'ذَهَبَ', trans: 'dhahaba', meaning: 'He went', type: 'Verb (past)' },
-    { ar: 'دَخَلَ', trans: 'dakhala', meaning: 'He entered', type: 'Verb (past)' },
-    { ar: 'خَرَجَ', trans: 'kharaja', meaning: 'He went out', type: 'Verb (past)' },
-    { ar: 'جَلَسَ', trans: 'jalasa', meaning: 'He sat', type: 'Verb (past)' },
-    { ar: 'قَرَأَ', trans: 'qara\'a', meaning: 'He read', type: 'Verb (past)' },
-    { ar: 'كَتَبَ', trans: 'kataba', meaning: 'He wrote', type: 'Verb (past)' },
+    
+    // Common names (for "Who is this?" practice)
     { ar: 'مُحَمَّدٌ', trans: 'Muḥammadun', meaning: 'Muhammad', type: 'Name' },
     { ar: 'أَحْمَدُ', trans: 'Aḥmadu', meaning: 'Ahmed', type: 'Name' },
     { ar: 'عَلِيٌّ', trans: 'ʿAliyyun', meaning: 'Ali', type: 'Name' },
@@ -93,7 +90,7 @@ const LESSON_DATA = {
     {
       title: 'Asking questions',
       content: '<p>To ask a question in Arabic, you can use the prefix <strong>أَ</strong> (a) at the beginning of a sentence, or the particle <strong>هَلْ</strong> (hal). Both turn a statement into a yes/no question.</p><p>For open-ended questions, use <strong>مَا</strong> (mā) meaning "what?" or <strong>مَنْ</strong> (man) meaning "who?"</p>',
-      rule: 'أَهَذَا بَيْتٌ؟ = "Is this a house?"<br>هَلْ هَذَا كِتَابٌ؟ = "Is this a book?"<br>مَا هَذَا؟ = "What is this?"<br>مَنْ هَذَا؟ = "Who is this?"'
+      rule: 'أَهَذَا بَيْتٌ؟ = "Is this a house?"<br>هَلْ هَذَا كِتَابٌ؟ = "Is this a book?"<br>مَا هَذَا؟ = "What is this?"<br>مَنْ هَذَا؟ = "Who is this?"<br>نَعَمْ = "Yes" · لا = "No"'
     }
   ],
   

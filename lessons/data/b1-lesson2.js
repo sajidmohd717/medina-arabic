@@ -16,25 +16,18 @@ const LESSON_DATA = {
   // ============================================================
   // NEW VOCABULARY FOR LESSON 2
   // ============================================================
+  // Note: Lesson 2 builds on Lesson 1 vocabulary. Words from Lesson 1
+  // are NOT repeated here - they appear in examples and practice
+  // but are not shown as new vocabulary to learn.
   vocab: [
-    // Core demonstrative for this lesson
+    // Core demonstratives for this lesson
     { ar: 'ذَلِكَ', trans: 'dhālika', meaning: 'That (masc., far)', type: 'Demonstrative' },
     { ar: 'تِلْكَ', trans: 'tilka', meaning: 'That (fem., far)', type: 'Demonstrative' },
     
-    // Question words (review + new)
-    { ar: 'مَا', trans: 'mā', meaning: 'What?', type: 'Interrogative' },
-    { ar: 'مَنْ', trans: 'man', meaning: 'Who?', type: 'Interrogative' },
-    { ar: 'أَ', trans: 'a', meaning: 'Question prefix (is/are?)', type: 'Particle' },
-    { ar: 'هَلْ', trans: 'hal', meaning: 'Question particle', type: 'Particle' },
-    
-    // Responses
-    { ar: 'نَعَمْ', trans: 'naʿam', meaning: 'Yes', type: 'Particle' },
-    { ar: 'لا', trans: 'lā', meaning: 'No', type: 'Particle' },
-    
-    // Conjunction
+    // Conjunction (new for Lesson 2)
     { ar: 'وَ', trans: 'wa', meaning: 'And', type: 'Conjunction' },
     
-    // New nouns for Lesson 2
+    // New nouns for Lesson 2 (not in Lesson 1)
     { ar: 'لَبَنٌ', trans: 'labanun', meaning: 'Milk', type: 'Noun' },
     { ar: 'سُكَّرٌ', trans: 'sukkarun', meaning: 'Sugar', type: 'Noun' },
     { ar: 'حَجَرٌ', trans: 'hajarun', meaning: 'A stone / rock', type: 'Noun' },
@@ -42,28 +35,7 @@ const LESSON_DATA = {
     { ar: 'دِيكٌ', trans: 'dīkun', meaning: 'A rooster', type: 'Noun' },
     { ar: 'حِصَانٌ', trans: 'hiṣānun', meaning: 'A horse (stallion)', type: 'Noun' },
     { ar: 'مِنْدِيلٌ', trans: 'mindīlun', meaning: 'A handkerchief', type: 'Noun' },
-    { ar: 'طَبِيبٌ', trans: 'ṭabībun', meaning: 'A doctor', type: 'Noun' },
-    { ar: 'جَمَلٌ', trans: 'jamalun', meaning: 'A camel', type: 'Noun' },
-    { ar: 'قِطٌّ', trans: 'qiṭṭun', meaning: 'A cat', type: 'Noun' },
-    { ar: 'كَلْبٌ', trans: 'kalbun', meaning: 'A dog', type: 'Noun' },
-    { ar: 'حِمَارٌ', trans: 'ḥimārun', meaning: 'A donkey', type: 'Noun' },
-    
-    // Review nouns from Lesson 1 (for building sentences)
-    { ar: 'بَيْتٌ', trans: 'baytun', meaning: 'A house', type: 'Noun' },
-    { ar: 'كِتَابٌ', trans: 'kitābun', meaning: 'A book', type: 'Noun' },
-    { ar: 'قَلَمٌ', trans: 'qalamun', meaning: 'A pen', type: 'Noun' },
-    { ar: 'مِفْتَاحٌ', trans: 'miftāḥun', meaning: 'A key', type: 'Noun' },
-    { ar: 'بَابٌ', trans: 'bābun', meaning: 'A door', type: 'Noun' },
-    { ar: 'مَكْتَبٌ', trans: 'maktabun', meaning: 'A desk / office', type: 'Noun' },
-    { ar: 'مَسْجِدٌ', trans: 'masjidun', meaning: 'A mosque', type: 'Noun' },
-    { ar: 'كُرْسِيٌّ', trans: 'kursiyyun', meaning: 'A chair', type: 'Noun' },
-    { ar: 'سَرِيرٌ', trans: 'sarīrun', meaning: 'A bed', type: 'Noun' },
-    { ar: 'طَالِبٌ', trans: 'ṭālibun', meaning: 'A student', type: 'Noun' },
-    { ar: 'مُدَرِّسٌ', trans: 'mudarrisun', meaning: 'A teacher', type: 'Noun' },
-    { ar: 'رَجُلٌ', trans: 'rajulun', meaning: 'A man', type: 'Noun' },
-    { ar: 'وَلَدٌ', trans: 'waladun', meaning: 'A boy', type: 'Noun' },
-    { ar: 'تَاجِرٌ', trans: 'tājirun', meaning: 'A merchant', type: 'Noun' },
-    { ar: 'قَمِيصٌ', trans: 'qamīṣun', meaning: 'A shirt', type: 'Noun' }
+    { ar: 'طَبِيبٌ', trans: 'ṭabībun', meaning: 'A doctor', type: 'Noun' }
   ],
   
   // ============================================================

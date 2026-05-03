@@ -95,7 +95,23 @@
     return chips;
   }
 
-  function buildLessonCard(lesson) {
+  function getCurrentLessonNumber() {
+    // Find the first unlocked lesson that is not complete
+    for (const lesson of BOOK1_LESSONS) {
+      const isUnlocked = typeof isLessonUnlocked === 'function'
+        ? isLessonUnlocked(lesson.lessonNum, BOOK)
+        : lesson.lessonNum === 1;
+      const status = typeof getLessonStatus === 'function'
+        ? getLessonStatus(lesson.lessonNum, BOOK)
+        : 'not_started';
+      if (isUnlocked && status !== 'complete') {
+        return lesson.lessonNum;
+      }
+    }
+    return null;
+  }
+
+  function buildLessonCard(lesson, isCurrent) {
     const href = lessonHref(lesson.slug);
     const card = document.createElement('div');
     card.className = 'lesson-card lesson-card--not-started';
@@ -124,7 +140,17 @@
     desc.className = 'lesson-desc';
     desc.textContent = lesson.desc;
 
-    textWrap.append(ar, title, desc);
+    // Add skip button for current lesson
+    if (isCurrent) {
+      const skipBtn = document.createElement('a');
+      skipBtn.className = 'lesson-skip-btn';
+      skipBtn.href = `${href}?step=quiz`;
+      skipBtn.textContent = 'Skip this lesson — take quiz now';
+      textWrap.append(ar, title, desc, skipBtn);
+    } else {
+      textWrap.append(ar, title, desc);
+    }
+
     main.append(badge, textWrap, buildChips());
 
     const quiz = document.createElement('a');
@@ -137,7 +163,7 @@
     return card;
   }
 
-  function buildSectionBlock(sec) {
+  function buildSectionBlock(sec, currentLessonNum) {
     const section = document.createElement('section');
     section.className = 'section-block';
     section.id = sec.id;
@@ -171,7 +197,7 @@
 
     BOOK1_LESSONS.filter(l => l.section === sec.id)
       .sort((a, b) => a.lessonNum - b.lessonNum)
-      .forEach(lesson => section.appendChild(buildLessonCard(lesson)));
+      .forEach(lesson => section.appendChild(buildLessonCard(lesson, lesson.lessonNum === currentLessonNum)));
 
     return section;
   }
@@ -180,6 +206,9 @@
     const sidebarMount = document.getElementById('book1-sidebar-nav');
     const lessonsMount = document.getElementById('book1-lessons-mount');
     if (!sidebarMount || !lessonsMount) return;
+
+    // Determine current lesson before building
+    const currentLessonNum = getCurrentLessonNumber();
 
     sidebarMount.innerHTML = '';
     BOOK1_SECTIONS.forEach((sec, idx) => {
@@ -194,7 +223,7 @@
     });
 
     lessonsMount.innerHTML = '';
-    BOOK1_SECTIONS.forEach(sec => lessonsMount.appendChild(buildSectionBlock(sec)));
+    BOOK1_SECTIONS.forEach(sec => lessonsMount.appendChild(buildSectionBlock(sec, currentLessonNum)));
   };
 
   window.BOOK1_LIST_META = { book: BOOK, lessonCount: BOOK1_LESSONS.length };

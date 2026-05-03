@@ -30,8 +30,7 @@ function stripDiacritics(str) {
 function normalise(str) {
   return stripDiacritics(str)
     .replace(/[.،؟?!,،.]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
+    .replace(/\s+/g, '')
     .toLowerCase();
 }
 
@@ -436,9 +435,6 @@ function buildVocabularyPanel(data) {
           (choice === 'unknown' && card.classList.contains('vocab-card--unknown'));
         applyVocabCardRating(card, data.book, data.lessonNum, index, isToggleOff ? null : choice);
         placeVocabCardInBucket(card, slot);
-        if (!isToggleOff && choice === 'know' && slot._vocabCtx) {
-          slot._vocabCtx.knownDetails.open = true;
-        }
       });
     });
 
