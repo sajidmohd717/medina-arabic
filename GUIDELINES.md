@@ -373,6 +373,7 @@ When writing lesson content, vocabulary, and quiz questions:
 - Transliterations should follow standard academic conventions (macrons for long vowels: ā, ī, ū)
 - Always include diacritics (full harakat) on Arabic text shown to students
 - Quiz questions should test what was actually taught in that lesson — do not reference concepts from later lessons
+- **Do not duplicate vocabulary across lessons** — the `vocab` array should contain only genuinely new words for that lesson. Words from previous lessons may appear in examples and practice questions for review, but should not be listed as new vocabulary
 
 ---
 
@@ -411,7 +412,7 @@ When writing lesson content, vocabulary, and quiz questions:
    - `titleArabic`, `titleEnglish`
    - `summary`
    - `nextLesson`
-   - `vocab` array (keep review words, add new ones)
+   - `vocab` array (**new words only** — remove words already taught in previous lessons; they will appear in examples/practice for review)
    - `grammarBlocks` array
    - `examples` array
    - `practiceQuestions` array
