@@ -58,6 +58,10 @@
         <div class="step-icon">📝</div>
         <span class="step-label">Lesson</span>
       </button>
+      <button class="step-btn locked" id="step-comprehension" onclick="goToStep('comprehension')">
+        <div class="step-icon">📖</div>
+        <span class="step-label">Reading</span>
+      </button>
       <button class="step-btn locked" id="step-practice" onclick="goToStep('practice')">
         <div class="step-icon">⚡</div>
         <span class="step-label">Practice</span>
@@ -96,7 +100,23 @@
       <div class="lesson-content-inner"></div>
       <div class="panel-nav">
         <button class="btn btn-secondary" onclick="goToStep('vocab')">← Vocabulary</button>
-        <button class="btn btn-primary" onclick="unlockAndGo('practice')">I understand — Next: Practice →</button>
+        <button class="btn btn-primary" onclick="unlockAndGo('comprehension')">I understand — Next: Reading →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 2.5 — COMPREHENSION -->
+    <div class="lesson-panel" id="panel-comprehension">
+      <div class="panel-heading">
+        <div class="panel-heading-icon">📖</div>
+        <div class="panel-heading-text">
+          <h2>Reading Comprehension</h2>
+          <p>Read the story below and answer the questions to test your understanding.</p>
+        </div>
+      </div>
+      <div class="comprehension-content"></div>
+      <div class="panel-nav">
+        <button class="btn btn-secondary" onclick="goToStep('lesson')">← Lesson</button>
+        <button class="btn btn-primary" onclick="unlockAndGo('practice')">Finished — Next: Practice →</button>
       </div>
     </div>
 

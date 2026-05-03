@@ -11,8 +11,9 @@
 let CURRENT_LESSON_DATA = null;
 let CURRENT_BOOK = null;
 let CURRENT_LESSON_NUM = null;
-let UNLOCKED_STEPS = { vocab: true, lesson: false, practice: false, quiz: false };
+let UNLOCKED_STEPS = { vocab: true, lesson: false, comprehension: false, practice: false, quiz: false };
 let QUIZ_RESULTS = {};
+let COMPREHENSION_RESULTS = {};
 let ACTIVE_INPUT = null;
 let CURRENT_STEP = 'vocab';
 
@@ -41,7 +42,7 @@ function normalise(str) {
 function goToStep(step) {
   if (!UNLOCKED_STEPS[step]) return;
   
-  const steps = ['vocab', 'lesson', 'practice', 'quiz'];
+  const steps = ['vocab', 'lesson', 'comprehension', 'practice', 'quiz'];
   steps.forEach(s => {
     const panel = document.getElementById(`panel-${s}`);
     const btn = document.getElementById(`step-${s}`);
@@ -67,12 +68,41 @@ function unlockAndGo(step) {
 
 /** Open all steps and go straight to the quiz (used with ?step=quiz from the book list). */
 function applyQuizJumpMode() {
-  UNLOCKED_STEPS = { vocab: true, lesson: true, practice: true, quiz: true };
-  ['vocab', 'lesson', 'practice', 'quiz'].forEach(step => {
+  UNLOCKED_STEPS = { vocab: true, lesson: true, comprehension: true, practice: true, quiz: true };
+  ['vocab', 'lesson', 'comprehension', 'practice', 'quiz'].forEach(step => {
     const btn = document.getElementById(`step-${step}`);
     if (btn) btn.classList.remove('locked');
   });
   goToStep('quiz');
+}
+
+// ─────────────────────────────────────────────────────────────
+// COMPREHENSION FUNCTIONS
+// ─────────────────────────────────────────────────────────────
+
+function checkComprehension(btn, qNum, isCorrect) {
+  const container = btn.closest('.comprehension-question');
+  const feedback = container.querySelector('.comprehension-feedback');
+  const options = container.querySelectorAll('.comprehension-option');
+  
+  options.forEach(o => o.disabled = true);
+  COMPREHENSION_RESULTS[qNum] = isCorrect;
+  
+  if (isCorrect) {
+    btn.classList.add('correct');
+    feedback.textContent = '✓ Correct!';
+    feedback.className = 'comprehension-feedback correct';
+  } else {
+    btn.classList.add('wrong');
+    feedback.textContent = '✗ Not quite — look at the story again.';
+    feedback.className = 'comprehension-feedback wrong';
+    options.forEach(o => {
+      // Find the correct option to highlight it
+      if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) {
+        o.classList.add('correct');
+      }
+    });
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -490,6 +520,54 @@ function buildLessonPanel(data) {
   lessonContent.innerHTML = html;
 }
 
+function buildComprehensionPanel(data) {
+  const comprehensionPanel = document.getElementById('panel-comprehension');
+  if (!comprehensionPanel) return;
+  
+  const comprehensionContent = comprehensionPanel.querySelector('.comprehension-content');
+  if (!comprehensionContent) return;
+  
+  if (!data.comprehension) {
+    // If no comprehension data, hide the step from navigation
+    const stepBtn = document.getElementById('step-comprehension');
+    if (stepBtn) stepBtn.style.display = 'none';
+    return;
+  }
+  
+  let html = `
+    <div class="comprehension-story">
+      <div class="comprehension-story-title">${data.comprehension.title}</div>
+      <div class="comprehension-story-arabic">${data.comprehension.arabic}</div>
+      <details class="comprehension-translation-details">
+        <summary>Show Translation</summary>
+        <div class="comprehension-story-english">${data.comprehension.english}</div>
+      </details>
+    </div>
+    <div class="comprehension-questions">
+  `;
+  
+  data.comprehension.questions.forEach((q, idx) => {
+    const qNum = idx + 1;
+    const optionsHtml = q.options.map((opt, optIdx) => {
+      const isCorrect = opt === q.correct;
+      return `<button class="comprehension-option" onclick="checkComprehension(this, ${qNum}, ${isCorrect})">${opt}</button>`;
+    }).join('');
+    
+    html += `
+      <div class="comprehension-question">
+        <div class="comprehension-q-number">Question ${qNum}</div>
+        <div class="comprehension-q-text">${q.text}</div>
+        <div class="comprehension-options">${optionsHtml}</div>
+        <div class="comprehension-feedback"></div>
+      </div>
+    `;
+    COMPREHENSION_RESULTS[qNum] = null;
+  });
+  
+  html += `</div>`;
+  comprehensionContent.innerHTML = html;
+}
+
 function buildPracticePanel(data) {
   const practiceContainer = document.querySelector('#panel-practice .practice-container');
   if (!practiceContainer) return;
@@ -601,6 +679,7 @@ function initLesson() {
   // Build all panels
   buildVocabularyPanel(CURRENT_LESSON_DATA);
   buildLessonPanel(CURRENT_LESSON_DATA);
+  buildComprehensionPanel(CURRENT_LESSON_DATA);
   buildPracticePanel(CURRENT_LESSON_DATA);
   buildQuizPanel(CURRENT_LESSON_DATA);
   

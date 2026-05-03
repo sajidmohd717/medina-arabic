@@ -20,7 +20,7 @@ The site works like Duolingo — structured lessons with vocabulary, grammar con
 ## Goals
 
 - Cover all 3 Medina Books (Book 1: 23 lessons, Book 2: ~23 lessons, Book 3: ~23 lessons)
-- Each lesson has 4 steps: Vocabulary → Lesson Content → Practice → Quiz
+- Each lesson has 5 steps: Vocabulary → Lesson Content → Reading Comprehension → Practice → Quiz
 - A final quiz at the end of each book before moving to the next
 - Progress is tracked locally via `localStorage` — no backend, no accounts (lesson completion, in-progress flags, optional vocabulary word ratings, and “reset all progress”)
 - Arabic typing practice is built into every quiz

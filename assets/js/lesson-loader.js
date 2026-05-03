@@ -36,7 +36,7 @@
     }
     
     // Reset state
-    UNLOCKED_STEPS = { vocab: true, lesson: false, practice: false, quiz: false };
+    UNLOCKED_STEPS = { vocab: true, lesson: false, comprehension: false, practice: false, quiz: false };
     QUIZ_RESULTS = {};
     CURRENT_STEP = 'vocab';
     

@@ -111,6 +111,32 @@ const LESSON_DATA = {
   ],
   
   // ============================================================
+  // READING COMPREHENSION
+  // ============================================================
+  comprehension: {
+    title: 'In the House',
+    arabic: 'هَذَا بَيْتٌ. هَذَا بَابٌ وَهَذَا مِفْتَاحٌ. هَذَا كُرْسِيٌّ وَهَذَا مَكْتَبٌ. هَذَا كِتَابٌ وَهَذَا قَلَمٌ. مَنْ هَذَا؟ هَذَا طَالِبٌ. أَهَذَا مُدَرِّسٌ؟ لا، هَذَا تَاجِرٌ.',
+    english: 'This is a house. This is a door and this is a key. This is a chair and this is a desk. This is a book and this is a pen. Who is this? This is a student. Is this a teacher? No, this is a merchant.',
+    questions: [
+      {
+        text: 'What is mentioned along with the door (بَاب)?',
+        options: ['A pen', 'A key', 'A book', 'A chair'],
+        correct: 'A key'
+      },
+      {
+        text: 'Who is the person identified as a student?',
+        options: ['The teacher', 'The merchant', 'The student', 'The boy'],
+        correct: 'The student'
+      },
+      {
+        text: 'Is the second person a teacher?',
+        options: ['Yes', 'No, he is a merchant', 'No, he is a doctor', 'Yes, he is a teacher'],
+        correct: 'No, he is a merchant'
+      }
+    ]
+  },
+  
+  // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
   practiceQuestions: [

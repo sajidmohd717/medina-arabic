@@ -97,6 +97,32 @@ const LESSON_DATA = {
   ],
   
   // ============================================================
+  // READING COMPREHENSION
+  // ============================================================
+  comprehension: {
+    title: 'Near and Far',
+    arabic: 'هَذَا بَيْتٌ وَذَلِكَ مَسْجِدٌ. هَذَا حِصَانٌ وَذَلِكَ حِمَارٌ. أَمَا ذَلِكَ؟ ذَلِكَ حَجَرٌ. هَذَا سُكَّرٌ وَذَلِكَ لَبَنٌ. مَنْ هَذَا وَمَنْ ذَلِكَ؟ هَذَا مُدَرِّسٌ وَذَلِكَ إِمَامٌ.',
+    english: 'This is a house and that is a mosque. This is a horse and that is a donkey. What is that? That is a stone. This is sugar and that is milk. Who is this and who is that? This is a teacher and that is an imam.',
+    questions: [
+      {
+        text: 'What is near (هَذَا) and what is far (ذَلِكَ) in the first sentence?',
+        options: ['A mosque is near, a house is far', 'A house is near, a mosque is far', 'A house is near, a school is far', 'A mosque is near, a school is far'],
+        correct: 'A house is near, a mosque is far'
+      },
+      {
+        text: 'What is the object that is far (ذَلِكَ) in the third sentence?',
+        options: ['A pen', 'A key', 'A stone', 'A desk'],
+        correct: 'A stone'
+      },
+      {
+        text: 'Who is the person pointed to as being far away (ذَلِكَ)?',
+        options: ['A teacher', 'A student', 'An imam', 'A merchant'],
+        correct: 'An imam'
+      }
+    ]
+  },
+  
+  // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
   practiceQuestions: [
