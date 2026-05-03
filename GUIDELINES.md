@@ -43,39 +43,135 @@ The site works like Duolingo — structured lessons with vocabulary, grammar con
 
 ---
 
-## File Structure
+## Architecture (Refactored)
+
+The project uses a **data-driven architecture** to avoid code duplication across 69+ lesson pages.
+
+### Core Principle
+
+- **Lesson pages are shells** — they contain only the HTML structure
+- **Lesson content is pure JavaScript data** — stored in separate data files
+- **Shared logic lives in core JS files** — navigation, keyboard, scoring, etc.
+
+This means:
+- Creating a new lesson takes 5 minutes (just fill in a data file)
+- Fixing a bug once fixes it for all 69 lessons
+- Adding a feature to all lessons requires editing one file
+
+### File Structure
 
 ```
 medina-arabic/
 ├── GUIDELINES.md               ← you are here
 ├── index.html                  ← landing page (book selector)
 ├── book1.html                  ← Book 1 lesson list
-├── book2.html                  ← Book 2 lesson list (or coming soon placeholder)
-├── book3.html                  ← Book 3 lesson list (or coming soon placeholder)
+├── book2.html                  ← Book 2 lesson list (coming soon)
+├── book3.html                  ← Book 3 lesson list (coming soon)
+│
 ├── assets/
 │   ├── css/
-│   │   ├── shared.css          ← CSS variables, fonts, nav, geo background, chips, animations
-│   │   ├── book-list.css       ← styles for book lesson-list pages only
-│   │   └── lesson.css          ← styles for individual lesson pages only
+│   │   ├── shared.css          ← CSS variables, nav, geo background, chips
+│   │   ├── book-list.css       ← styles for book lesson-list pages
+│   │   └── lesson.css          ← styles for individual lesson pages
+│   │
 │   └── js/
-│       └── progress.js         ← all localStorage progress logic, shared across all pages
-└── lessons/
-    ├── b1-lesson1.html         ← Book 1, Lesson 1
-    ├── b1-lesson2.html         ← Book 1, Lesson 2
-    ├── ...
-    ├── b1-lesson23.html        ← Book 1, Lesson 23
-    ├── b1-final-quiz.html      ← Book 1 final assessment
-    ├── b2-lesson1.html         ← Book 2, Lesson 1
-    ├── ...
-    └── b3-final-quiz.html      ← Book 3 final assessment
+│       ├── progress.js         ← localStorage progress tracking
+│       ├── lesson-core.js      ← Shared functions (keyboard, scoring, navigation)
+│       └── lesson-loader.js    ← Builds the page from data
+│
+├── lessons/
+│   ├── b1-lesson1.html         ← Shell for Lesson 1 (tiny — ~180 lines)
+│   ├── b1-lesson2.html         ← Shell for Lesson 2
+│   ├── ...
+│   ├── b1-lesson23.html
+│   ├── b1-final-quiz.html      ← Final assessment (to be built)
+│   │
+│   └── data/
+│       ├── b1-lesson1.js       ← All content for Lesson 1
+│       ├── b1-lesson2.js       ← All content for Lesson 2
+│       └── ...                 ← One data file per lesson
 ```
 
-### File naming rules
-- Book list pages: `book1.html`, `book2.html`, `book3.html` — flat in root
-- Lesson pages: `b{book number}-lesson{lesson number}.html` — e.g. `b1-lesson1.html`
-- Final quizzes: `b{book number}-final-quiz.html`
-- All lessons live in the `/lessons/` folder
-- Never use `index.html` for anything other than the root landing page
+### How a Lesson Page Works
+
+1. `b1-lesson1.html` loads CSS and creates empty containers
+2. `progress.js` loads (tracks overall progress)
+3. `lesson-core.js` loads (all shared functions)
+4. `data/b1-lesson1.js` loads (the unique content for this lesson)
+5. `lesson-loader.js` runs, reads the data, and populates all panels
+
+### Lesson Data Structure (`b1-lessonX.js`)
+
+Each data file exports a `LESSON_DATA` object with this shape:
+
+```javascript
+const LESSON_DATA = {
+  book: 'book1',                    // 'book1', 'book2', or 'book3'
+  lessonNum: 2,                     // Lesson number (1-23)
+  titleArabic: 'ذَلِكَ',            // Arabic title
+  titleEnglish: 'That is…',         // English title
+  summary: 'Lesson description...', // Shown at top of page
+  nextLesson: 'b1-lesson3.html',    // Link to next lesson
+  passMark: 5,                      // Number of correct answers needed to pass
+  totalQuestions: 8,                // Total number of quiz questions
+
+  vocab: [                          // Array of vocabulary items
+    { ar: 'ذَلِكَ', trans: 'dhālika', meaning: 'That (masc., far)', type: 'Demonstrative' },
+    // ...
+  ],
+
+  grammarBlocks: [                  // Array of grammar explanations
+    {
+      title: 'What is ذَلِكَ?',
+      content: '<p>HTML content here...</p>',
+      rule: 'The grammar rule in a highlighted box.'
+    },
+    // ...
+  ],
+
+  examples: [                       // Array of example sentences
+    { ar: 'ذَلِكَ بَيْتٌ', trans: 'dhālika baytun', meaning: 'That is a house.' },
+    // ...
+  ],
+
+  practiceQuestions: [              // Array of practice questions (4-8)
+    { arabic: 'ذَلِكَ مَسْجِدٌ', correct: 'That is a mosque.', options: ['Option A', 'Option B', 'Option C', 'Option D'] },
+    // or with text instead of arabic:
+    { text: 'What does ذَلِكَ mean?', correct: 'That (masc., far)', options: [...] },
+    // ...
+  ],
+
+  quizQuestions: {
+    multipleChoice: [               // Multiple choice questions (6-8 recommended)
+      { prompt: 'What does ذَلِكَ mean?', options: ['This', 'That', 'These', 'Those'], correct: 1 },
+      // correct is the index (0-based) of the right answer
+      // can also include arabic: 'هَذَا بَيْتٌ' for questions that show Arabic
+    ],
+    typing: [                       // Typing questions (2-3 recommended)
+      { prompt: 'Type in Arabic: "That is a house."', ideal: 'ذَلِكَ بَيْتٌ', accepts: ['ذلك بيت', 'ذَلِكَ بَيْتٌ', 'ذلك بيتٌ', 'ذَلِكَ بيت'] },
+      // accepts is an array of acceptable normalised answers
+    ]
+  }
+};
+```
+
+---
+
+## File Naming Rules
+
+| File Type | Pattern | Example |
+|-----------|---------|---------|
+| Book list page | `bookX.html` | `book1.html` |
+| Lesson HTML | `bX-lessonY.html` | `b1-lesson1.html` |
+| Lesson data | `bX-lessonY.js` | `b1-lesson1.js` (in `lessons/data/`) |
+| Final quiz HTML | `bX-final-quiz.html` | `b1-final-quiz.html` |
+| Final quiz data | `bX-final-quiz.js` | `b1-final-quiz.js` (in `lessons/data/`) |
+
+**Rules:**
+- Never use spaces in filenames
+- Always use lowercase
+- Book number: 1, 2, or 3
+- Lesson number: 1-23 (with no leading zeros)
 
 ---
 
@@ -90,7 +186,6 @@ Contains everything that is used on more than one page:
 - Geometric SVG background (`.geo-bg`)
 - Sticky nav bar (`nav`, `.nav-back`, `.nav-title`, `.nav-progress`)
 - Vocab/Grammar/Quiz chips (`.chip`, `.chip-vocab`, `.chip-grammar`, `.chip-quiz`)
-- Ornamental divider (`.ornament-divider`)
 - Global keyframe animations (`fadeDown`, `fadeUp`, `fadeIn`)
 
 ### book-list.css
@@ -102,17 +197,18 @@ Only loaded by `book1.html`, `book2.html`, `book3.html`. Contains:
 - Final quiz card
 
 ### lesson.css
-Only loaded by lesson pages (`b1-lesson1.html` etc.). Contains:
+Only loaded by lesson pages. Contains:
 - Step indicator bar
-- Lesson panels (vocab, lesson content, practice, quiz)
+- Lesson panels
 - Vocab grid and vocab cards
 - Grammar blocks, example tables
 - Practice questions and options
 - Quiz questions, Arabic typing input, on-screen keyboard
 - Score card
-- Navigation buttons (`.btn`, `.btn-primary`, `.btn-secondary`, `.btn-success`)
+- Navigation buttons
 
-### CSS variables (defined in shared.css)
+### CSS Variables (defined in shared.css)
+
 ```css
 --gold           #8a6420   /* primary accent — all gold UI elements */
 --gold-light     #c4a050   /* lighter gold for borders and dividers */
@@ -134,7 +230,7 @@ Only loaded by lesson pages (`b1-lesson1.html` etc.). Contains:
 
 ## JavaScript Architecture
 
-### progress.js (shared)
+### `progress.js` (unchanged from original)
 Loaded by every page. Provides:
 
 | Function | Purpose |
@@ -156,14 +252,59 @@ Loaded by every page. Provides:
 - `medina_book2_progress`
 - `medina_book3_progress`
 
-### Lesson page JS (inline per lesson)
-Each lesson page has its own inline `<script>` for:
-- Step navigation (`goToStep`, `unlockAndGo`)
-- Practice question checking (`checkPractice`)
-- Quiz multiple choice checking (`checkQuiz`)
-- Typing question checking (`checkTyping`) with lenient normalisation
-- Quiz submission and scoring (`submitQuiz`, `retryQuiz`)
-- On-screen Arabic keyboard (`typeKey`, `deleteKey`, `clearInput`)
+### `lesson-core.js`
+Shared functions used by all lesson pages:
+
+| Function | Purpose |
+|---|---|
+| `goToStep(step)` | Navigates between vocab/lesson/practice/quiz panels |
+| `unlockAndGo(step)` | Unlocks a step and navigates to it |
+| `checkPractice(btn, isCorrect)` | Handles practice question answers |
+| `checkQuiz(btn, qNum, isCorrect)` | Handles multiple choice quiz answers |
+| `checkTyping(qNum, questionData)` | Handles typed quiz answers with lenient matching |
+| `submitQuiz()` | Calculates score and marks lesson complete if passed |
+| `retryQuiz()` | Resets all quiz questions |
+| `attachKeyboard()` | Initialises the on-screen Arabic keyboard |
+| `normalise(str)` | Strips diacritics for lenient answer matching |
+| `stripDiacritics(str)` | Removes Arabic vowel marks |
+
+### `lesson-loader.js`
+Reads `LESSON_DATA` and populates all panels on the page.
+
+---
+
+## Creating a New Lesson
+
+To create a new lesson (e.g., Lesson 3 of Book 1):
+
+### Step 1: Create the data file
+
+Copy `lessons/data/b1-lesson2.js` to `lessons/data/b1-lesson3.js`
+
+Update:
+- `lessonNum: 3`
+- `titleArabic` and `titleEnglish`
+- `summary`
+- `nextLesson` (e.g., `'b1-lesson4.html'`)
+- All vocabulary, grammar blocks, examples, practice questions, and quiz questions
+
+### Step 2: Create the HTML file
+
+Copy `lessons/b1-lesson2.html` to `lessons/b1-lesson3.html`
+
+Change only:
+- `<title>` tag to reflect the new lesson
+- `nav-title` content (if desired — the loader will override it anyway)
+
+### Step 3: Update the script reference
+
+Ensure the HTML file loads the correct data file:
+
+```html
+<script src="data/b1-lesson3.js"></script>
+```
+
+That's it. The loader handles everything else.
 
 ---
 
@@ -197,44 +338,12 @@ Each lesson page has its own inline `<script>` for:
 
 ---
 
-## Lesson Page Structure
-
-Every lesson page (`b1-lesson1.html` etc.) follows this exact structure:
-
-```
-1. Vocabulary panel
-   - Grid of vocab cards (Arabic word, transliteration, English meaning, word type badge)
-   - "I know these words" button unlocks Step 2
-
-2. Lesson Content panel
-   - Grammar blocks explaining the concept
-   - Grammar rules highlighted in a gold left-border callout box
-   - Example sentences in a table (Arabic | Transliteration | Meaning)
-   - "I understand" button unlocks Step 3
-
-3. Practice panel
-   - 4 low-stakes multiple choice questions (no score tracked)
-   - Instant feedback per question — correct answer always revealed
-   - "Ready — Take the Quiz" button unlocks Step 4
-
-4. Quiz panel
-   - 6 questions: mix of multiple choice and Arabic typing
-   - Typing questions have a per-question "Check Answer" button
-   - Lenient answer matching: strips diacritics and punctuation before comparing
-   - Ideal answer always shown after checking a typing question
-   - Pass mark: 4/6
-   - On pass: `markComplete(lessonNum, 'book1')` is called
-   - On-screen Arabic keyboard available for typing questions
-```
-
----
-
 ## Arabic Typing — Lenient Matching Rules
 
 When checking typed Arabic answers, the following normalisation is applied before comparison:
 
 1. Strip all diacritics (harakat): fatha, kasra, damma, tanwin, shadda, sukun (Unicode range `\u064B–\u065F`)
-2. Strip punctuation: Arabic comma، full stop، question mark؟ and Latin equivalents
+2. Strip punctuation: Arabic comma، full stop۔ question mark؟ and Latin equivalents
 3. Collapse multiple spaces into one
 4. Trim leading/trailing whitespace
 
@@ -272,29 +381,15 @@ When writing lesson content, vocabulary, and quiz questions:
 | `assets/css/book-list.css` | ✅ Complete |
 | `assets/css/lesson.css` | ✅ Complete |
 | `assets/js/progress.js` | ✅ Complete |
+| `assets/js/lesson-core.js` | ✅ Complete |
+| `assets/js/lesson-loader.js` | ✅ Complete |
 | `lessons/b1-lesson1.html` | ✅ Complete |
-| `lessons/b1-lesson2.html` | 🔲 Not started |
+| `lessons/data/b1-lesson1.js` | ✅ Complete |
+| `lessons/b1-lesson2.html` | ✅ Complete |
+| `lessons/data/b1-lesson2.js` | ✅ Complete |
 | `lessons/b1-lesson3.html` | 🔲 Not started |
-| `lessons/b1-lesson4.html` | 🔲 Not started |
-| `lessons/b1-lesson5.html` | 🔲 Not started |
-| `lessons/b1-lesson6.html` | 🔲 Not started |
-| `lessons/b1-lesson7.html` | 🔲 Not started |
-| `lessons/b1-lesson8.html` | 🔲 Not started |
-| `lessons/b1-lesson9.html` | 🔲 Not started |
-| `lessons/b1-lesson10.html` | 🔲 Not started |
-| `lessons/b1-lesson11.html` | 🔲 Not started |
-| `lessons/b1-lesson12.html` | 🔲 Not started |
-| `lessons/b1-lesson13.html` | 🔲 Not started |
-| `lessons/b1-lesson14.html` | 🔲 Not started |
-| `lessons/b1-lesson15.html` | 🔲 Not started |
-| `lessons/b1-lesson16.html` | 🔲 Not started |
-| `lessons/b1-lesson17.html` | 🔲 Not started |
-| `lessons/b1-lesson18.html` | 🔲 Not started |
-| `lessons/b1-lesson19.html` | 🔲 Not started |
-| `lessons/b1-lesson20.html` | 🔲 Not started |
-| `lessons/b1-lesson21.html` | 🔲 Not started |
-| `lessons/b1-lesson22.html` | 🔲 Not started |
-| `lessons/b1-lesson23.html` | 🔲 Not started |
+| `lessons/data/b1-lesson3.js` | 🔲 Not started |
+| ... | (Lessons 4-23) | 🔲 Not started |
 | `lessons/b1-final-quiz.html` | 🔲 Not started |
 | All Book 2 & 3 lessons | 🔲 Not started |
 
@@ -302,19 +397,22 @@ When writing lesson content, vocabulary, and quiz questions:
 
 ## When Adding a New Lesson
 
-1. Copy `b1-lesson1.html` as a starting template
-2. Update the `<title>` tag
-3. Update the nav breadcrumb (`Book 1 · Lesson N`)
-4. Update the `h1` Arabic text and English subtitle
-5. Update the lesson summary paragraph
-6. Replace all vocab cards with the correct vocabulary for that lesson
-7. Replace all grammar blocks with the correct content
-8. Replace all practice questions (4 questions minimum)
-9. Replace all quiz questions (6 questions — aim for 2 typing, 4 multiple choice)
-10. Update `TYPING_QUESTIONS` with correct answers and accepted variants
-11. Update `markComplete(N, 'book1')` — change `N` to the correct lesson number
-12. Update the "Next Lesson" button href to point to the next lesson file
-13. Update `GUIDELINES.md` progress table — mark the lesson as ✅ Complete
+1. **Copy the previous data file** (e.g., `b1-lesson2.js` → `b1-lesson3.js`)
+2. **Update the `LESSON_DATA` object** with the new lesson's content:
+   - `lessonNum`
+   - `titleArabic`, `titleEnglish`
+   - `summary`
+   - `nextLesson`
+   - `vocab` array (keep review words, add new ones)
+   - `grammarBlocks` array
+   - `examples` array
+   - `practiceQuestions` array
+   - `quizQuestions.multipleChoice` array
+   - `quizQuestions.typing` array
+3. **Copy the previous HTML file** (e.g., `b1-lesson2.html` → `b1-lesson3.html`)
+4. **Update the data file reference** in the HTML script tag
+5. **Test the lesson** in your browser
+6. **Update the GUIDELINES.md progress table** to mark the lesson as complete
 
 ---
 
@@ -330,3 +428,8 @@ When writing lesson content, vocabulary, and quiz questions:
 - Do not add new CSS variables without adding them to `shared.css` first
 - Do not create new JS files without documenting them in this file
 - Do not change the lesson file naming convention
+- Do not put lesson content directly in HTML files — always use the data-driven approach
+```
+
+---
+
