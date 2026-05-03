@@ -1,0 +1,356 @@
+/* ============================================================
+   book-list.css — Medina Arabic
+   Styles specific to book lesson-list pages (book1.html etc.)
+   Requires shared.css to be loaded first.
+   ============================================================ */
+
+/* ── Page header ── */
+.page-header {
+  position: relative; z-index: 1;
+  max-width: 1220px; margin: 0 auto;
+  padding: 3.5rem 2.5rem 2rem;
+}
+
+.book-eyebrow {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.7rem;
+}
+
+.page-header h1 {
+  font-family: 'Amiri', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+}
+
+.page-header h1 span {
+  display: block;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  margin-top: 0.2rem;
+}
+
+.page-intro {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-mid);
+  max-width: 580px;
+  line-height: 1.75;
+  margin-bottom: 2rem;
+}
+
+.header-stats {
+  display: flex; gap: 2.5rem;
+}
+
+.stat { display: flex; flex-direction: column; gap: 3px; }
+
+.stat-number {
+  font-family: 'Amiri', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.header-rule {
+  margin: 2rem 0 0;
+  height: 1.5px;
+  background: linear-gradient(to right, var(--gold-border), transparent);
+  border: none;
+}
+
+/* ── Main two-column layout ── */
+.main-layout {
+  position: relative; z-index: 1;
+  max-width: 1220px; margin: 0 auto;
+  padding: 0 2.5rem 6rem;
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+/* ── Sticky sidebar ── */
+.sidebar {
+  position: sticky; top: 80px;
+}
+
+.sidebar-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+}
+
+.section-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text-mid);
+  font-family: 'Lato', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  transition: background 0.2s, color 0.2s;
+  margin-bottom: 2px;
+}
+.section-nav-item:hover { background: var(--gold-faint); color: var(--text-dark); }
+.section-nav-item.active { background: var(--gold-faint); color: var(--gold); font-weight: 700; }
+
+.section-nav-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold-border);
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.section-nav-item.active .section-nav-dot { background: var(--gold); }
+
+/* ── Lessons content column ── */
+.lessons-content { min-width: 0; }
+.section-block { margin-bottom: 3.5rem; }
+
+/* ── Section header ── */
+.section-header {
+  display: flex; align-items: flex-start; gap: 1rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1.5px solid var(--gold-border);
+}
+
+.section-number {
+  font-family: 'Amiri', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  opacity: 0.3;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: -2px;
+}
+
+.section-info { flex: 1; }
+
+.section-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  margin-bottom: 0.3rem;
+}
+
+.section-desc {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--text-mid);
+  line-height: 1.6;
+}
+
+.section-tag {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gold-faint);
+  border: 1.5px solid var(--gold-border);
+  border-radius: 20px;
+  padding: 4px 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+/* ── Lesson card ── */
+.lesson-card {
+  display: grid;
+  grid-template-columns: 54px 1fr auto;
+  align-items: center;
+  gap: 1.2rem;
+  background: var(--bg-card);
+  border: 1.5px solid var(--gold-border);
+  border-radius: 12px;
+  padding: 1.3rem 1.6rem;
+  margin-bottom: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.lesson-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 20px #8a642014;
+  border-color: var(--gold);
+}
+
+.lesson-card.completed {
+  border-color: var(--green-border);
+  background: #f2fbf5;
+}
+
+.lesson-num-badge {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--gold-faint);
+  border: 1.5px solid var(--gold-border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Amiri', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.lesson-card.completed .lesson-num-badge {
+  background: var(--green-bg);
+  border-color: var(--green-border);
+  color: var(--green);
+  font-size: 1.2rem;
+}
+
+.lesson-text { min-width: 0; }
+
+.lesson-arabic {
+  font-family: 'Amiri', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 2px;
+  direction: rtl;
+}
+
+.lesson-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 3px;
+}
+
+.lesson-desc {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-mid);
+  line-height: 1.5;
+}
+
+/* ── Final quiz card ── */
+.final-quiz-card {
+  background: #fffbf0;
+  border: 2px solid var(--gold-light);
+  border-radius: 16px;
+  padding: 2.2rem 2rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.final-quiz-ornament {
+  font-family: 'Amiri', serif;
+  font-size: 1.6rem;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.final-quiz-label {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.final-quiz-arabic {
+  font-family: 'Amiri', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.6rem;
+}
+
+.final-quiz-desc {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-mid);
+  max-width: 420px;
+  margin: 0 auto 1.4rem;
+  line-height: 1.7;
+}
+
+.final-quiz-btn {
+  display: inline-block;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--gold);
+  border-radius: 8px;
+  padding: 0.75rem 2.2rem;
+  text-decoration: none;
+  opacity: 0.45;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.final-quiz-btn.unlocked { opacity: 1; pointer-events: auto; }
+.final-quiz-btn.unlocked:hover { transform: translateY(-2px); opacity: 0.88; }
+
+.final-quiz-note {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 0.7rem;
+}
+
+/* ── Section block entry animations ── */
+.section-block { animation: fadeUp 0.5s ease both; }
+.section-block:nth-child(1) { animation-delay: 0.05s; }
+.section-block:nth-child(2) { animation-delay: 0.12s; }
+.section-block:nth-child(3) { animation-delay: 0.19s; }
+.section-block:nth-child(4) { animation-delay: 0.26s; }
+.section-block:nth-child(5) { animation-delay: 0.33s; }
+
+/* ── Responsive (desktop-first, mobile fallback) ── */
+@media (max-width: 860px) {
+  .main-layout { grid-template-columns: 1fr; gap: 1rem; }
+  .sidebar { position: static; display: none; }
+  .page-header, .main-layout { padding-left: 1.2rem; padding-right: 1.2rem; }
+  .lesson-card { grid-template-columns: 44px 1fr; }
+  .chips { display: none; }
+}

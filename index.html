@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medina Arabic — تعلّم العربية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 18px; }
+
+    :root {
+      --gold: #8a6420;
+      --gold-light: #c4a050;
+      --gold-border: #c4a05060;
+      --gold-faint: #8a642015;
+      --bg: #fdf6ec;
+      --bg-card: #fff9f2;
+      --text-dark: #1a1208;
+      --text-mid: #4a3820;
+      --text-muted: #8a7254;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text-dark);
+      font-family: 'Lato', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .geo-bg {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .arabic-watermark {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Amiri', serif;
+      font-size: clamp(160px, 32vw, 380px);
+      color: var(--gold);
+      opacity: 0.04;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      z-index: 0;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 960px;
+      padding: 5rem 3rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .top-ornament {
+      font-family: 'Amiri', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.8rem;
+      text-align: center;
+      animation: fadeDown 0.7s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.7rem;
+      text-align: center;
+      animation: fadeDown 0.7s ease 0.1s both;
+    }
+
+    .main-title {
+      font-family: 'Amiri', serif;
+      font-size: clamp(3rem, 7vw, 5.2rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      text-align: center;
+      margin-bottom: 0.8rem;
+      line-height: 1.4;
+      animation: fadeDown 0.7s ease 0.15s both;
+    }
+
+    .subtitle {
+      font-family: 'Lato', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--text-mid);
+      text-align: center;
+      margin-bottom: 2.8rem;
+      line-height: 1.7;
+      animation: fadeDown 0.7s ease 0.2s both;
+    }
+
+    .divider {
+      display: flex; align-items: center; gap: 16px;
+      width: 100%; max-width: 560px;
+      margin-bottom: 2.2rem;
+      animation: fadeIn 0.7s ease 0.3s both;
+    }
+    .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--gold-border), transparent); }
+    .divider-diamond { width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg); opacity: 0.6; }
+
+    .choose-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 2rem;
+      animation: fadeIn 0.5s ease 0.35s both;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .book-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--gold-border);
+      border-radius: 16px;
+      padding: 2.6rem 1.8rem 2.2rem;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .book-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .book-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-6px);
+      box-shadow: 0 14px 36px #8a642018;
+    }
+    .book-card:hover::before { opacity: 1; }
+
+    .book-number-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .book-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .book-title-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      text-align: center;
+    }
+
+    .book-desc {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--text-mid);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .book-badge {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: var(--gold-faint);
+      border: 1.5px solid var(--gold-border);
+      border-radius: 20px;
+      padding: 4px 16px;
+      margin-top: 4px;
+    }
+
+    .book-card { opacity: 0; animation: fadeUp 0.55s ease forwards; }
+    .book-card:nth-child(1) { animation-delay: 0.4s; }
+    .book-card:nth-child(2) { animation-delay: 0.52s; }
+    .book-card:nth-child(3) { animation-delay: 0.64s; }
+
+    .footer {
+      margin-top: 3rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      text-align: center;
+      animation: fadeIn 0.6s ease 0.8s both;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @media (max-width: 700px) {
+      .books-grid { grid-template-columns: 1fr; max-width: 380px; }
+      main { padding: 3.5rem 1.5rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg class="geo-bg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <pattern id="geo" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+        <polygon points="40,5 75,22 75,57 40,74 5,57 5,22" fill="none" stroke="#8a6420" stroke-width="1"/>
+        <polygon points="40,18 62,29 62,51 40,62 18,51 18,29" fill="none" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="40" y1="5"  x2="40" y2="18" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="75" y1="22" x2="62" y2="29" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="75" y1="57" x2="62" y2="51" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="40" y1="74" x2="40" y2="62" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="5"  y1="57" x2="18" y2="51" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="5"  y1="22" x2="18" y2="29" stroke="#8a6420" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="800" height="600" fill="url(#geo)"/>
+  </svg>
+
+  <div class="arabic-watermark" aria-hidden="true">العربية</div>
+
+  <main>
+    <div class="top-ornament">✦ بِسْمِ اللهِ ✦</div>
+    <div class="eyebrow">Medina Arabic</div>
+    <h1 class="main-title">تعلّم العربية</h1>
+    <p class="subtitle">Learn Classical Arabic through the Medina Books</p>
+
+    <div class="divider" aria-hidden="true">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="choose-label">Choose your book</div>
+
+    <div class="books-grid">
+      <a class="book-card" href="book1.html" aria-label="Medina Book 1 — Beginner">
+        <div class="book-number-arabic">١</div>
+        <div class="book-label">Book One</div>
+        <div class="book-title-arabic">الكتاب الأول</div>
+        <div class="book-desc">Foundations of Arabic grammar and vocabulary</div>
+        <div class="book-badge">Beginner</div>
+      </a>
+
+      <a class="book-card" href="book2.html" aria-label="Medina Book 2 — Intermediate">
+        <div class="book-number-arabic">٢</div>
+        <div class="book-label">Book Two</div>
+        <div class="book-title-arabic">الكتاب الثاني</div>
+        <div class="book-desc">Expanding grammar and Quranic patterns</div>
+        <div class="book-badge">Intermediate</div>
+      </a>
+
+      <a class="book-card" href="book3.html" aria-label="Medina Book 3 — Advanced">
+        <div class="book-number-arabic">٣</div>
+        <div class="book-label">Book Three</div>
+        <div class="book-title-arabic">الكتاب الثالث</div>
+        <div class="book-desc">Advanced structures and classical texts</div>
+        <div class="book-badge">Advanced</div>
+      </a>
+    </div>
+
+    <p class="footer">Your progress is saved locally in your browser</p>
+  </main>
+
+</body>
+</html>

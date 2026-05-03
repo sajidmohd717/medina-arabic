@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — هَذَا — Medina Arabic</title>
+  <link rel="stylesheet" href="../assets/css/shared.css" />
+  <link rel="stylesheet" href="../assets/css/lesson.css" />
+</head>
+<body>
+
+  <!-- Geo background -->
+  <svg class="geo-bg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <pattern id="geo" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+        <polygon points="40,5 75,22 75,57 40,74 5,57 5,22" fill="none" stroke="#8a6420" stroke-width="1"/>
+        <polygon points="40,18 62,29 62,51 40,62 18,51 18,29" fill="none" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="40" y1="5"  x2="40" y2="18" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="75" y1="22" x2="62" y2="29" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="75" y1="57" x2="62" y2="51" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="40" y1="74" x2="40" y2="62" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="5"  y1="57" x2="18" y2="51" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="5"  y1="22" x2="18" y2="29" stroke="#8a6420" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="800" height="600" fill="url(#geo)"/>
+  </svg>
+
+  <!-- Nav -->
+  <nav>
+    <a class="nav-back" href="../book1.html">Book 1</a>
+    <span class="nav-divider">✦</span>
+    <span class="nav-title">Lesson 1 — هَذَا</span>
+    <div class="nav-progress">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+      <span class="progress-label" id="progressLabel">0 / 23</span>
+    </div>
+  </nav>
+
+  <div class="lesson-page">
+
+    <!-- Lesson header -->
+    <header class="lesson-header">
+      <div class="lesson-eyebrow">Book 1 · Lesson 1</div>
+      <h1>هَذَا<span>This is… (Masculine)</span></h1>
+      <p class="lesson-summary">Learn how to point at things and name them using هَذَا. This is the foundation of Arabic sentence structure — once you understand this pattern, hundreds of sentences become possible.</p>
+    </header>
+
+    <!-- Step indicator -->
+    <div class="step-indicator">
+      <button class="step-btn active" id="step-vocab" onclick="goToStep('vocab')">
+        <div class="step-icon">📖</div>
+        <span class="step-label">Vocabulary</span>
+      </button>
+      <button class="step-btn locked" id="step-lesson" onclick="goToStep('lesson')">
+        <div class="step-icon">📝</div>
+        <span class="step-label">Lesson</span>
+      </button>
+      <button class="step-btn locked" id="step-practice" onclick="goToStep('practice')">
+        <div class="step-icon">⚡</div>
+        <span class="step-label">Practice</span>
+      </button>
+      <button class="step-btn locked" id="step-quiz" onclick="goToStep('quiz')">
+        <div class="step-icon">🎯</div>
+        <span class="step-label">Quiz</span>
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PANEL 1 — VOCABULARY
+         ══════════════════════════════════════ -->
+    <div class="lesson-panel active" id="panel-vocab">
+      <div class="panel-heading">
+        <div class="panel-heading-icon">📖</div>
+        <div class="panel-heading-text">
+          <h2>Vocabulary</h2>
+          <p>Study these words before moving on. They all appear in today's lesson.</p>
+        </div>
+      </div>
+
+      <div class="vocab-grid">
+        <div class="vocab-card">
+          <div class="vocab-arabic">هَذَا</div>
+          <div class="vocab-transliteration">hādhā</div>
+          <div class="vocab-meaning">This (masc.)</div>
+          <span class="vocab-type">Demonstrative</span>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-arabic">بَيْتٌ</div>
+          <div class="vocab-transliteration">baytun</div>
+          <div class="vocab-meaning">A house</div>
+          <span class="vocab-type">Noun</span>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-arabic">كِتَابٌ</div>
+          <div class="vocab-transliteration">kitābun</div>
+          <div class="vocab-meaning">A book</div>
+          <span class="vocab-type">Noun</span>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-arabic">قَلَمٌ</div>
+          <div class="vocab-transliteration">qalamun</div>
+          <div class="vocab-meaning">A pen</div>
+          <span class="vocab-type">Noun</span>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-arabic">بَابٌ</div>
+          <div class="vocab-transliteration">bābun</div>
+          <div class="vocab-meaning">A door</div>
+          <span class="vocab-type">Noun</span>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-arabic">مَسْجِدٌ</div>
+          <div class="vocab-transliteration">masjidun</div>
+          <div class="vocab-meaning">A mosque</div>
+          <span class="vocab-type">Noun</span>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-arabic">كُرْسِيٌّ</div>
+          <div class="vocab-transliteration">kursiyyun</div>
+          <div class="vocab-meaning">A chair</div>
+          <span class="vocab-type">Noun</span>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-arabic">سَرِيرٌ</div>
+          <div class="vocab-transliteration">sarīrun</div>
+          <div class="vocab-meaning">A bed</div>
+          <span class="vocab-type">Noun</span>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-arabic">طَالِبٌ</div>
+          <div class="vocab-transliteration">ṭālibun</div>
+          <div class="vocab-meaning">A student (masc.)</div>
+          <span class="vocab-type">Noun</span>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-arabic">رَجُلٌ</div>
+          <div class="vocab-transliteration">rajulun</div>
+          <div class="vocab-meaning">A man</div>
+          <span class="vocab-type">Noun</span>
+        </div>
+      </div>
+
+      <div class="panel-nav">
+        <a class="btn btn-secondary" href="../book1.html">← Back to Book 1</a>
+        <button class="btn btn-primary" onclick="unlockAndGo('lesson')">I know these words — Next: Lesson →</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PANEL 2 — LESSON CONTENT
+         ══════════════════════════════════════ -->
+    <div class="lesson-panel" id="panel-lesson">
+      <div class="panel-heading">
+        <div class="panel-heading-icon">📝</div>
+        <div class="panel-heading-text">
+          <h2>Lesson</h2>
+          <p>Read through the grammar explanation, then study the examples.</p>
+        </div>
+      </div>
+
+      <div class="grammar-block">
+        <h3>What is هَذَا?</h3>
+        <p>هَذَا (hādhā) means <strong>"this"</strong> in English. It is called a <strong>demonstrative pronoun</strong> — a word you use to point at something near you.</p>
+        <p>In Arabic, هَذَا is used exclusively with <strong>masculine nouns</strong>. You will learn the feminine version (هَذِهِ) in Lesson 6.</p>
+        <div class="grammar-rule">
+          هَذَا is always used for masculine nouns. It never changes its form.
+        </div>
+      </div>
+
+      <div class="grammar-block">
+        <h3>Arabic has no word for "is"</h3>
+        <p>In English we say: <em>"This <u>is</u> a house."</em></p>
+        <p>In Arabic, there is no word for "is". You simply place هَذَا next to the noun:</p>
+        <div class="grammar-rule">
+          هَذَا + noun = "This is a [noun]"
+        </div>
+        <p>So هَذَا بَيْتٌ literally reads "This a house" — but means "This is a house." The "is" is implied.</p>
+      </div>
+
+      <div class="grammar-block">
+        <h3>The -un sound (Tanwīn)</h3>
+        <p>You will notice all the nouns end in the sound <strong>-un</strong> (written as ٌ — two small damma marks). This is called <strong>tanwīn</strong> and it means the noun is indefinite — like "a house" rather than "the house". You will learn about definite nouns (the house) in Lesson 3.</p>
+        <div class="grammar-rule">
+          Noun + ٌ (tanwīn) = indefinite noun → "a [noun]"
+        </div>
+      </div>
+
+      <div class="grammar-block">
+        <h3>Example sentences</h3>
+        <table class="example-table">
+          <thead>
+            <tr>
+              <th>Arabic</th>
+              <th>Transliteration</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-arabic">هَذَا بَيْتٌ</td>
+              <td class="col-trans">hādhā baytun</td>
+              <td class="col-meaning">This is a house.</td>
+            </tr>
+            <tr>
+              <td class="col-arabic">هَذَا كِتَابٌ</td>
+              <td class="col-trans">hādhā kitābun</td>
+              <td class="col-meaning">This is a book.</td>
+            </tr>
+            <tr>
+              <td class="col-arabic">هَذَا قَلَمٌ</td>
+              <td class="col-trans">hādhā qalamun</td>
+              <td class="col-meaning">This is a pen.</td>
+            </tr>
+            <tr>
+              <td class="col-arabic">هَذَا مَسْجِدٌ</td>
+              <td class="col-trans">hādhā masjidun</td>
+              <td class="col-meaning">This is a mosque.</td>
+            </tr>
+            <tr>
+              <td class="col-arabic">هَذَا بَابٌ</td>
+              <td class="col-trans">hādhā bābun</td>
+              <td class="col-meaning">This is a door.</td>
+            </tr>
+            <tr>
+              <td class="col-arabic">هَذَا طَالِبٌ</td>
+              <td class="col-trans">hādhā ṭālibun</td>
+              <td class="col-meaning">This is a student.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel-nav">
+        <button class="btn btn-secondary" onclick="goToStep('vocab')">← Vocabulary</button>
+        <button class="btn btn-primary" onclick="unlockAndGo('practice')">I understand — Next: Practice →</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PANEL 3 — PRACTICE
+         ══════════════════════════════════════ -->
+    <div class="lesson-panel" id="panel-practice">
+      <div class="panel-heading">
+        <div class="panel-heading-icon">⚡</div>
+        <div class="panel-heading-text">
+          <h2>Practice</h2>
+          <p>Try these exercises. Mistakes are fine here — this is just practice, not the real quiz.</p>
+        </div>
+      </div>
+
+      <!-- Practice Q1 -->
+      <div class="practice-question">
+        <div class="practice-q-label">Question 1 of 4 — Choose the correct meaning</div>
+        <div class="practice-q-arabic">هَذَا كِتَابٌ</div>
+        <div class="practice-options">
+          <button class="practice-option" onclick="checkPractice(this, false)">This is a pen.</button>
+          <button class="practice-option" onclick="checkPractice(this, true)">This is a book.</button>
+          <button class="practice-option" onclick="checkPractice(this, false)">This is a house.</button>
+          <button class="practice-option" onclick="checkPractice(this, false)">This is a door.</button>
+        </div>
+        <div class="practice-feedback" id="pf1"></div>
+      </div>
+
+      <!-- Practice Q2 -->
+      <div class="practice-question">
+        <div class="practice-q-label">Question 2 of 4 — Choose the correct meaning</div>
+        <div class="practice-q-arabic">هَذَا مَسْجِدٌ</div>
+        <div class="practice-options">
+          <button class="practice-option" onclick="checkPractice(this, false)">This is a chair.</button>
+          <button class="practice-option" onclick="checkPractice(this, false)">This is a book.</button>
+          <button class="practice-option" onclick="checkPractice(this, true)">This is a mosque.</button>
+          <button class="practice-option" onclick="checkPractice(this, false)">This is a bed.</button>
+        </div>
+        <div class="practice-feedback" id="pf2"></div>
+      </div>
+
+      <!-- Practice Q3 -->
+      <div class="practice-question">
+        <div class="practice-q-label">Question 3 of 4 — Which word means "a pen"?</div>
+        <div class="practice-q-text">Pick the correct Arabic word.</div>
+        <div class="practice-options">
+          <button class="practice-option" onclick="checkPractice(this, false)">كِتَابٌ</button>
+          <button class="practice-option" onclick="checkPractice(this, false)">بَيْتٌ</button>
+          <button class="practice-option" onclick="checkPractice(this, true)">قَلَمٌ</button>
+          <button class="practice-option" onclick="checkPractice(this, false)">بَابٌ</button>
+        </div>
+        <div class="practice-feedback" id="pf3"></div>
+      </div>
+
+      <!-- Practice Q4 -->
+      <div class="practice-question">
+        <div class="practice-q-label">Question 4 of 4 — True or false?</div>
+        <div class="practice-q-text">In Arabic, you need a word for "is" to form a sentence like "This is a house."</div>
+        <div class="practice-options">
+          <button class="practice-option" onclick="checkPractice(this, false)">True</button>
+          <button class="practice-option" onclick="checkPractice(this, true)">False — Arabic has no word for "is"</button>
+        </div>
+        <div class="practice-feedback" id="pf4"></div>
+      </div>
+
+      <div class="panel-nav">
+        <button class="btn btn-secondary" onclick="goToStep('lesson')">← Lesson</button>
+        <button class="btn btn-primary" onclick="unlockAndGo('quiz')">Ready — Take the Quiz →</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PANEL 4 — QUIZ
+         ══════════════════════════════════════ -->
+    <div class="lesson-panel" id="panel-quiz">
+      <div class="panel-heading">
+        <div class="panel-heading-icon">🎯</div>
+        <div class="panel-heading-text">
+          <h2>Quiz</h2>
+          <p>6 questions. Answer all of them to complete this lesson.</p>
+        </div>
+      </div>
+
+      <!-- Quiz Q1 — multiple choice -->
+      <div class="quiz-question" id="qq1">
+        <div class="quiz-q-number">Question 1 of 6</div>
+        <div class="quiz-q-prompt">What does هَذَا mean?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, 1, false)">That (masc.)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 1, true)">This (masc.)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 1, false)">This (fem.)</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 1, false)">The</button>
+        </div>
+        <div class="quiz-feedback" id="qf1"></div>
+      </div>
+
+      <!-- Quiz Q2 — multiple choice -->
+      <div class="quiz-question" id="qq2">
+        <div class="quiz-q-number">Question 2 of 6</div>
+        <div class="quiz-q-prompt">Translate into English:</div>
+        <div class="quiz-q-arabic">هَذَا بَابٌ</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, 2, false)">This is a book.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 2, false)">That is a door.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 2, true)">This is a door.</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 2, false)">This is a pen.</button>
+        </div>
+        <div class="quiz-feedback" id="qf2"></div>
+      </div>
+
+      <!-- Quiz Q3 — Arabic typing -->
+      <div class="quiz-question" id="qq3">
+        <div class="quiz-q-number">Question 3 of 6</div>
+        <div class="quiz-q-prompt">Type in Arabic: "This is a house."</div>
+        <div class="arabic-input-wrap">
+          <input class="arabic-input" type="text" id="qi3" placeholder="اكتب هنا..." autocomplete="off" onkeydown="if(event.key==='Enter') checkTyping(3)" />
+        </div>
+        <div class="input-hint">Tip: Use the keyboard below, or your system Arabic keyboard. Vowel marks are optional.</div>
+        <div style="margin-top:0.6rem;">
+          <button class="btn btn-secondary" id="checkBtn3" onclick="checkTyping(3)">Check Answer</button>
+        </div>
+        <div class="quiz-feedback" id="qf3"></div>
+        <div class="quiz-ideal" id="ideal3" style="display:none; margin-top:0.5rem; font-family:'Amiri',serif; font-size:1.15rem; color:var(--text-mid); direction:rtl; text-align:right;"></div>
+      </div>
+
+      <!-- Quiz Q4 — multiple choice -->
+      <div class="quiz-question" id="qq4">
+        <div class="quiz-q-number">Question 4 of 6</div>
+        <div class="quiz-q-prompt">Which of these is the correct Arabic for "a mosque"?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, 4, false)">بَيْتٌ</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 4, false)">كُرْسِيٌّ</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 4, true)">مَسْجِدٌ</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 4, false)">سَرِيرٌ</button>
+        </div>
+        <div class="quiz-feedback" id="qf4"></div>
+      </div>
+
+      <!-- Quiz Q5 — Arabic typing -->
+      <div class="quiz-question" id="qq5">
+        <div class="quiz-q-number">Question 5 of 6</div>
+        <div class="quiz-q-prompt">Type in Arabic: "This is a pen."</div>
+        <div class="arabic-input-wrap">
+          <input class="arabic-input" type="text" id="qi5" placeholder="اكتب هنا..." autocomplete="off" onkeydown="if(event.key==='Enter') checkTyping(5)" />
+        </div>
+        <div class="input-hint">Remember: pen = قَلَمٌ — vowel marks are optional.</div>
+        <div style="margin-top:0.6rem;">
+          <button class="btn btn-secondary" id="checkBtn5" onclick="checkTyping(5)">Check Answer</button>
+        </div>
+        <div class="quiz-feedback" id="qf5"></div>
+        <div class="quiz-ideal" id="ideal5" style="display:none; margin-top:0.5rem; font-family:'Amiri',serif; font-size:1.15rem; color:var(--text-mid); direction:rtl; text-align:right;"></div>
+      </div>
+
+      <!-- Quiz Q6 — multiple choice -->
+      <div class="quiz-question" id="qq6">
+        <div class="quiz-q-number">Question 6 of 6</div>
+        <div class="quiz-q-prompt">هَذَا can be used with which type of noun?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="checkQuiz(this, 6, false)">Feminine nouns only</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 6, true)">Masculine nouns only</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 6, false)">Both masculine and feminine</button>
+          <button class="quiz-option" onclick="checkQuiz(this, 6, false)">Only definite nouns</button>
+        </div>
+        <div class="quiz-feedback" id="qf6"></div>
+      </div>
+
+      <!-- On-screen Arabic keyboard -->
+      <div class="arabic-keyboard">
+        <div class="keyboard-title">Arabic keyboard — click a letter to type it into the active input</div>
+        <div class="keyboard-row">
+          <button class="key" onclick="typeKey('ض')">ض</button>
+          <button class="key" onclick="typeKey('ص')">ص</button>
+          <button class="key" onclick="typeKey('ث')">ث</button>
+          <button class="key" onclick="typeKey('ق')">ق</button>
+          <button class="key" onclick="typeKey('ف')">ف</button>
+          <button class="key" onclick="typeKey('غ')">غ</button>
+          <button class="key" onclick="typeKey('ع')">ع</button>
+          <button class="key" onclick="typeKey('ه')">ه</button>
+          <button class="key" onclick="typeKey('خ')">خ</button>
+          <button class="key" onclick="typeKey('ح')">ح</button>
+          <button class="key" onclick="typeKey('ج')">ج</button>
+        </div>
+        <div class="keyboard-row">
+          <button class="key" onclick="typeKey('ش')">ش</button>
+          <button class="key" onclick="typeKey('س')">س</button>
+          <button class="key" onclick="typeKey('ي')">ي</button>
+          <button class="key" onclick="typeKey('ب')">ب</button>
+          <button class="key" onclick="typeKey('ل')">ل</button>
+          <button class="key" onclick="typeKey('ا')">ا</button>
+          <button class="key" onclick="typeKey('ت')">ت</button>
+          <button class="key" onclick="typeKey('ن')">ن</button>
+          <button class="key" onclick="typeKey('م')">م</button>
+          <button class="key" onclick="typeKey('ك')">ك</button>
+          <button class="key" onclick="typeKey('د')">د</button>
+        </div>
+        <div class="keyboard-row">
+          <button class="key" onclick="typeKey('ئ')">ئ</button>
+          <button class="key" onclick="typeKey('ء')">ء</button>
+          <button class="key" onclick="typeKey('ؤ')">ؤ</button>
+          <button class="key" onclick="typeKey('ر')">ر</button>
+          <button class="key" onclick="typeKey('ى')">ى</button>
+          <button class="key" onclick="typeKey('ة')">ة</button>
+          <button class="key" onclick="typeKey('و')">و</button>
+          <button class="key" onclick="typeKey('ز')">ز</button>
+          <button class="key" onclick="typeKey('ظ')">ظ</button>
+          <button class="key" onclick="typeKey('ذ')">ذ</button>
+        </div>
+        <div class="keyboard-row">
+          <!-- Diacritics row -->
+          <button class="key" onclick="typeKey('َ')" title="Fatha (a)">فَ</button>
+          <button class="key" onclick="typeKey('ِ')" title="Kasra (i)">فِ</button>
+          <button class="key" onclick="typeKey('ُ')" title="Damma (u)">فُ</button>
+          <button class="key" onclick="typeKey('ً')" title="Tanwin fath">فً</button>
+          <button class="key" onclick="typeKey('ٌ')" title="Tanwin damm">فٌ</button>
+          <button class="key" onclick="typeKey('ٍ')" title="Tanwin kasr">فٍ</button>
+          <button class="key" onclick="typeKey('ّ')" title="Shadda">فّ</button>
+          <button class="key" onclick="typeKey('ْ')" title="Sukun">فْ</button>
+          <button class="key key-wide key-backspace" onclick="deleteKey()">⌫ Del</button>
+          <button class="key key-wide key-clear" onclick="clearInput()">Clear</button>
+        </div>
+      </div>
+
+      <!-- Submit + score -->
+      <div class="panel-nav">
+        <button class="btn btn-secondary" onclick="goToStep('practice')">← Practice</button>
+        <button class="btn btn-primary" id="submitQuizBtn" onclick="submitQuiz()">Submit Quiz →</button>
+      </div>
+
+      <!-- Score card (hidden until submit) -->
+      <div class="quiz-score-card" id="scoreCard" style="display:none;">
+        <div class="quiz-score-arabic">✦ النَّتِيجَة ✦</div>
+        <div class="quiz-score-title">Your Score</div>
+        <div class="quiz-score-number" id="scoreNumber">0/6</div>
+        <div class="quiz-score-label" id="scoreLabel"></div>
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:1rem;">
+          <button class="btn btn-secondary" onclick="retryQuiz()">Try Again</button>
+          <a class="btn btn-success" id="nextLessonBtn" href="b1-lesson2.html">Next Lesson →</a>
+        </div>
+      </div>
+
+    </div><!-- end quiz panel -->
+
+  </div><!-- end lesson-page -->
+
+  <script src="../assets/js/progress.js"></script>
+  <script>
+    // ── Step / panel navigation ──────────────────────────────
+
+    const STEPS = ['vocab', 'lesson', 'practice', 'quiz'];
+    const unlocked = { vocab: true, lesson: false, practice: false, quiz: false };
+
+    function goToStep(step) {
+      if (!unlocked[step]) return;
+      STEPS.forEach(s => {
+        document.getElementById('panel-' + s).classList.remove('active');
+        document.getElementById('step-' + s).classList.remove('active');
+      });
+      document.getElementById('panel-' + step).classList.add('active');
+      document.getElementById('step-' + step).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function unlockAndGo(step) {
+      unlocked[step] = true;
+      document.getElementById('step-' + step).classList.remove('locked');
+      goToStep(step);
+    }
+
+    // ── Practice questions ───────────────────────────────────
+
+    function checkPractice(btn, isCorrect) {
+      const container = btn.closest('.practice-question');
+      const feedback  = container.querySelector('.practice-feedback');
+      const options   = container.querySelectorAll('.practice-option');
+      options.forEach(o => o.disabled = true);
+      if (isCorrect) {
+        btn.classList.add('correct');
+        feedback.textContent = '✓ Correct!';
+        feedback.className = 'practice-feedback correct';
+      } else {
+        btn.classList.add('wrong');
+        feedback.textContent = '✗ Not quite — the correct answer is highlighted.';
+        feedback.className = 'practice-feedback wrong';
+        options.forEach(o => { if (o.getAttribute('onclick').includes('true')) o.classList.add('correct'); });
+      }
+    }
+
+    // ── Normalisation helpers ────────────────────────────────
+
+    // Strip Arabic diacritics (harakat) — fatha, kasra, damma, tanwin, shadda, sukun etc.
+    function stripDiacritics(str) {
+      return str.replace(/[\u0610-\u061A\u064B-\u065F\u0670]/g, '');
+    }
+
+    // Normalise a string for lenient comparison:
+    // - strip diacritics
+    // - strip punctuation (Arabic & Latin full stops, question marks, commas)
+    // - collapse whitespace
+    // - lowercase
+    function normalise(str) {
+      return stripDiacritics(str)
+        .replace(/[.،؟?!,،.]/g, '')   // punctuation
+        .replace(/\s+/g, ' ')          // collapse spaces
+        .trim()
+        .toLowerCase();
+    }
+
+    // ── Typing answer definitions ────────────────────────────
+    // Each entry: { ideal (shown to user), accepts (array of normalised acceptable forms) }
+    const TYPING_QUESTIONS = {
+      3: {
+        ideal: 'هَذَا بَيْتٌ',
+        // Accept with full diacritics, without diacritics, and common spelling variants
+        accepts: ['هذا بيت', 'هَذَا بَيْتٌ', 'هذا بيتٌ', 'هَذَا بيت']
+      },
+      5: {
+        ideal: 'هَذَا قَلَمٌ',
+        accepts: ['هذا قلم', 'هَذَا قَلَمٌ', 'هذا قلمٌ', 'هَذَا قلم']
+      }
+    };
+
+    // Track quiz results — null = unanswered, true/false = graded
+    const quizResults = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null };
+
+    // ── Per-question Check button for typing ────────────────
+
+    function checkTyping(qNum) {
+      const q = TYPING_QUESTIONS[qNum];
+      const input    = document.getElementById('qi' + qNum);
+      const feedback = document.getElementById('qf' + qNum);
+      const idealEl  = document.getElementById('ideal' + qNum);
+      const checkBtn = document.getElementById('checkBtn' + qNum);
+
+      const userRaw  = input.value.trim();
+      if (!userRaw) {
+        feedback.textContent = 'Please type your answer first.';
+        feedback.className = 'quiz-feedback wrong';
+        return;
+      }
+
+      const userNorm = normalise(userRaw);
+      const isCorrect = q.accepts.some(a => normalise(a) === userNorm);
+
+      quizResults[qNum] = isCorrect;
+
+      // Lock the input and hide the check button
+      input.disabled = true;
+      checkBtn.disabled = true;
+      checkBtn.style.opacity = '0.4';
+
+      if (isCorrect) {
+        input.classList.add('correct');
+        feedback.textContent = '✓ Correct!';
+        feedback.className = 'quiz-feedback correct';
+        // Still show ideal so user can compare their vowelling
+        idealEl.textContent = 'Full answer with vowels: ' + q.ideal;
+        idealEl.style.display = 'block';
+      } else {
+        input.classList.add('wrong');
+        feedback.textContent = '✗ Not quite.';
+        feedback.className = 'quiz-feedback wrong';
+        idealEl.textContent = 'Ideal answer: ' + q.ideal + '  (you wrote: ' + userRaw + ')';
+        idealEl.style.display = 'block';
+      }
+    }
+
+    // ── Multiple choice quiz ─────────────────────────────────
+
+    function checkQuiz(btn, qNum, isCorrect) {
+      const container = btn.closest('.quiz-question');
+      const feedback  = container.querySelector('.quiz-feedback');
+      const options   = container.querySelectorAll('.quiz-option');
+      options.forEach(o => o.disabled = true);
+      quizResults[qNum] = isCorrect;
+      if (isCorrect) {
+        btn.classList.add('correct');
+        feedback.textContent = '✓ Correct!';
+        feedback.className = 'quiz-feedback correct';
+      } else {
+        btn.classList.add('wrong');
+        feedback.textContent = '✗ Incorrect.';
+        feedback.className = 'quiz-feedback wrong';
+        options.forEach(o => { if (o.getAttribute('onclick').includes('true')) o.classList.add('correct'); });
+      }
+    }
+
+    // ── Submit quiz ──────────────────────────────────────────
+
+    function submitQuiz() {
+      // Auto-check any typing questions the user forgot to check
+      [3, 5].forEach(n => {
+        if (quizResults[n] === null) checkTyping(n);
+      });
+
+      const score  = Object.values(quizResults).filter(Boolean).length;
+      const total  = 6;
+      const passed = score >= 4;
+
+      document.getElementById('scoreNumber').textContent = score + ' / ' + total;
+      document.getElementById('scoreLabel').textContent = passed
+        ? '🎉 Great work! Lesson marked as complete.'
+        : 'You need at least 4 out of 6 to pass. Review the lesson and try again.';
+
+      document.getElementById('scoreCard').style.display = 'block';
+      document.getElementById('submitQuizBtn').style.display = 'none';
+
+      if (passed) {
+        markComplete(1, 'book1');
+        updateProgressBar('book1');
+        updateCompletedCount('book1');
+        document.getElementById('nextLessonBtn').style.display = 'inline-block';
+      } else {
+        document.getElementById('nextLessonBtn').style.display = 'none';
+      }
+
+      document.getElementById('scoreCard').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function retryQuiz() {
+      [1, 2, 4, 6].forEach(n => {
+        quizResults[n] = null;
+        const fb = document.getElementById('qf' + n);
+        if (fb) { fb.textContent = ''; fb.className = 'quiz-feedback'; }
+        document.querySelectorAll('#qq' + n + ' .quiz-option').forEach(o => {
+          o.disabled = false;
+          o.classList.remove('correct', 'wrong');
+        });
+      });
+
+      [3, 5].forEach(n => {
+        quizResults[n] = null;
+        const input  = document.getElementById('qi' + n);
+        const fb     = document.getElementById('qf' + n);
+        const ideal  = document.getElementById('ideal' + n);
+        const btn    = document.getElementById('checkBtn' + n);
+        input.value = '';
+        input.disabled = false;
+        input.classList.remove('correct', 'wrong');
+        fb.textContent = ''; fb.className = 'quiz-feedback';
+        ideal.style.display = 'none'; ideal.textContent = '';
+        btn.disabled = false; btn.style.opacity = '1';
+      });
+
+      document.getElementById('scoreCard').style.display = 'none';
+      document.getElementById('submitQuizBtn').style.display = 'inline-block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── On-screen Arabic keyboard ────────────────────────────
+
+    let activeInput = null;
+
+    document.querySelectorAll('.arabic-input').forEach(input => {
+      input.addEventListener('focus', () => { activeInput = input; });
+    });
+
+    function typeKey(char) {
+      if (!activeInput || activeInput.disabled) {
+        const inputs = document.querySelectorAll('.arabic-input:not(:disabled)');
+        if (inputs.length) activeInput = inputs[0]; else return;
+      }
+      const pos = activeInput.selectionStart;
+      const val = activeInput.value;
+      activeInput.value = val.slice(0, pos) + char + val.slice(pos);
+      activeInput.focus();
+      activeInput.setSelectionRange(pos + 1, pos + 1);
+    }
+
+    function deleteKey() {
+      if (!activeInput || activeInput.disabled) return;
+      const pos = activeInput.selectionStart;
+      if (pos === 0) return;
+      const val = activeInput.value;
+      activeInput.value = val.slice(0, pos - 1) + val.slice(pos);
+      activeInput.focus();
+      activeInput.setSelectionRange(pos - 1, pos - 1);
+    }
+
+    function clearInput() {
+      if (!activeInput || activeInput.disabled) return;
+      activeInput.value = '';
+      activeInput.focus();
+    }
+
+    // ── Init ─────────────────────────────────────────────────
+    updateProgressBar('book1');
+  </script>
+
+</body>
+</html>

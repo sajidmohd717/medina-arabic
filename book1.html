@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book 1 — Medina Arabic</title>
+  <link rel="stylesheet" href="assets/css/shared.css" />
+  <link rel="stylesheet" href="assets/css/book-list.css" />
+</head>
+<body>
+
+  <!-- Geometric background -->
+  <svg class="geo-bg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <pattern id="geo" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+        <polygon points="40,5 75,22 75,57 40,74 5,57 5,22" fill="none" stroke="#8a6420" stroke-width="1"/>
+        <polygon points="40,18 62,29 62,51 40,62 18,51 18,29" fill="none" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="40" y1="5"  x2="40" y2="18" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="75" y1="22" x2="62" y2="29" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="75" y1="57" x2="62" y2="51" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="40" y1="74" x2="40" y2="62" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="5"  y1="57" x2="18" y2="51" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="5"  y1="22" x2="18" y2="29" stroke="#8a6420" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="800" height="600" fill="url(#geo)"/>
+  </svg>
+
+  <!-- Nav -->
+  <nav>
+    <a class="nav-back" href="index.html">Home</a>
+    <span class="nav-divider">✦</span>
+    <span class="nav-title">الكتاب الأول — Book One</span>
+    <div class="nav-progress">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+      <span class="progress-label" id="progressLabel">0 / 23</span>
+    </div>
+  </nav>
+
+  <!-- Page header -->
+  <header class="page-header">
+    <div class="book-eyebrow">Medina Arabic · Book One</div>
+    <h1>الكتاب الأوّل<span>The First Book</span></h1>
+    <p class="page-intro">23 lessons taking you from your very first Arabic words to confident sentences. Work through each lesson in order, or jump to any lesson to test what you already know.</p>
+    <div class="header-stats">
+      <div class="stat">
+        <span class="stat-number">٢٣</span>
+        <span class="stat-label">Lessons</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">٥</span>
+        <span class="stat-label">Sections</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" id="completedCount">٠</span>
+        <span class="stat-label">Completed</span>
+      </div>
+    </div>
+    <hr class="header-rule" />
+  </header>
+
+  <!-- Main layout -->
+  <div class="main-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Sections</div>
+      <a class="section-nav-item active" href="#section-1"><div class="section-nav-dot"></div>Nouns &amp; Pointing</a>
+      <a class="section-nav-item" href="#section-2"><div class="section-nav-dot"></div>Gender &amp; Definiteness</a>
+      <a class="section-nav-item" href="#section-3"><div class="section-nav-dot"></div>Pronouns &amp; Verbs</a>
+      <a class="section-nav-item" href="#section-4"><div class="section-nav-dot"></div>Verbs &amp; Adverbs</a>
+      <a class="section-nav-item" href="#section-5"><div class="section-nav-dot"></div>Plurals &amp; Numbers</a>
+    </aside>
+
+    <!-- Lessons -->
+    <main class="lessons-content">
+
+      <!-- ══ SECTION 1 ══ -->
+      <section class="section-block" id="section-1">
+        <div class="section-header">
+          <div class="section-number">١</div>
+          <div class="section-info">
+            <div class="section-title">Nouns &amp; Pointing</div>
+            <div class="section-desc">Your first Arabic words — how to point at things and name them. The building blocks of every sentence.</div>
+          </div>
+          <div class="section-tag">Lessons 1–5</div>
+        </div>
+
+        <a class="lesson-card" href="lessons/b1-lesson1.html" data-lesson="1">
+          <div class="lesson-num-badge">١</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">هَذَا</div>
+            <div class="lesson-title">This is… (Masculine)</div>
+            <div class="lesson-desc">Using هَذَا to point at masculine nouns. Your very first Arabic sentence pattern.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson2.html" data-lesson="2">
+          <div class="lesson-num-badge">٢</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">ذَلِكَ</div>
+            <div class="lesson-title">That is… (Masculine)</div>
+            <div class="lesson-desc">Pointing at something farther away using ذَلِكَ. Contrast with هَذَا.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson3.html" data-lesson="3">
+          <div class="lesson-num-badge">٣</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">بَيْتٌ — الْبَيْتُ</div>
+            <div class="lesson-title">Indefinite &amp; Definite Nouns</div>
+            <div class="lesson-desc">The difference between "a house" and "the house". Understanding tanwīn and al- (ال).</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson4.html" data-lesson="4">
+          <div class="lesson-num-badge">٤</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">حُرُوفُ الْجَرّ</div>
+            <div class="lesson-title">Prepositions</div>
+            <div class="lesson-desc">في، عَلَى، مِنْ، إِلَى and more — saying "in", "on", "from", "to" and asking أَيْنَ؟ (Where?).</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson5.html" data-lesson="5">
+          <div class="lesson-num-badge">٥</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">مُضَافٌ وَمُضَافٌ إِلَيْهِ</div>
+            <div class="lesson-title">The Possessive Construction (Iḍāfa)</div>
+            <div class="lesson-desc">How Arabic expresses "of" and possession — joining two nouns together without any extra word.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+      </section>
+
+      <!-- ══ SECTION 2 ══ -->
+      <section class="section-block" id="section-2">
+        <div class="section-header">
+          <div class="section-number">٢</div>
+          <div class="section-info">
+            <div class="section-title">Gender &amp; Definiteness</div>
+            <div class="section-desc">Arabic has two genders. Learn to identify feminine nouns, point at them correctly, and understand sun and moon letters.</div>
+          </div>
+          <div class="section-tag">Lessons 6–9</div>
+        </div>
+
+        <a class="lesson-card" href="lessons/b1-lesson6.html" data-lesson="6">
+          <div class="lesson-num-badge">٦</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">هَذِهِ</div>
+            <div class="lesson-title">This is… (Feminine)</div>
+            <div class="lesson-desc">Pointing at feminine nouns with هَذِهِ. Understanding the tā' marbūṭa (ة) ending.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson7.html" data-lesson="7">
+          <div class="lesson-num-badge">٧</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">تِلْكَ</div>
+            <div class="lesson-title">That is… (Feminine)</div>
+            <div class="lesson-desc">The feminine counterpart to ذَلِكَ. Pointing at distant feminine nouns.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson8.html" data-lesson="8">
+          <div class="lesson-num-badge">٨</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">الشَّمْسِيَّة وَالْقَمَرِيَّة</div>
+            <div class="lesson-title">Sun &amp; Moon Letters</div>
+            <div class="lesson-desc">Why ال sometimes changes pronunciation. The 14 sun letters and 14 moon letters — a key rule for reading Arabic.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson9.html" data-lesson="9">
+          <div class="lesson-num-badge">٩</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">النَّعْتُ وَالْمَنْعُوتُ</div>
+            <div class="lesson-title">Adjectives</div>
+            <div class="lesson-desc">How adjectives agree with nouns in gender and definiteness. "A big mosque", "The small book".</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+      </section>
+
+      <!-- ══ SECTION 3 ══ -->
+      <section class="section-block" id="section-3">
+        <div class="section-header">
+          <div class="section-number">٣</div>
+          <div class="section-info">
+            <div class="section-title">Pronouns &amp; Verbs</div>
+            <div class="section-desc">Introduce yourself and others. Your first verbs and the pronouns that attach to them.</div>
+          </div>
+          <div class="section-tag">Lessons 10–14</div>
+        </div>
+
+        <a class="lesson-card" href="lessons/b1-lesson10.html" data-lesson="10">
+          <div class="lesson-num-badge">١٠</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">ذَهَبْتَ — ذَهَبْتِ</div>
+            <div class="lesson-title">Past Tense Verbs (You)</div>
+            <div class="lesson-desc">Your first verbs! The past tense for masculine and feminine "you". How verb endings change by gender.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson11.html" data-lesson="11">
+          <div class="lesson-num-badge">١١</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">فِيهِ — فِيهَا</div>
+            <div class="lesson-title">Attached Pronouns</div>
+            <div class="lesson-desc">Pronouns that attach to nouns and prepositions — "in it (m.)", "in it (f.)", "his book", "her pen".</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson12.html" data-lesson="12">
+          <div class="lesson-num-badge">١٢</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">الَّذِي — الَّتِي</div>
+            <div class="lesson-title">Relative Pronouns (Who / Which)</div>
+            <div class="lesson-desc">"The man who…", "The book which…". Forming relative clauses in Arabic.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson13.html" data-lesson="13">
+          <div class="lesson-num-badge">١٣</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">ذَهَبَ — ذَهَبَتْ</div>
+            <div class="lesson-title">Past Tense Verbs (He / She)</div>
+            <div class="lesson-desc">The past tense for third person — "he went", "she went". Expanding verb conjugation.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson14.html" data-lesson="14">
+          <div class="lesson-num-badge">١٤</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">النَّعْتُ السَّبَبِيّ</div>
+            <div class="lesson-title">The Causal Adjective</div>
+            <div class="lesson-desc">A special adjective form that agrees with a word other than the noun it describes — a uniquely Arabic construction.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+      </section>
+
+      <!-- ══ SECTION 4 ══ -->
+      <section class="section-block" id="section-4">
+        <div class="section-header">
+          <div class="section-number">٤</div>
+          <div class="section-info">
+            <div class="section-title">Verbs, Adverbs &amp; Key Particles</div>
+            <div class="section-desc">Building richer sentences — full verb conjugation, describing location, and important grammar particles.</div>
+          </div>
+          <div class="section-tag">Lessons 15–19</div>
+        </div>
+
+        <a class="lesson-card" href="lessons/b1-lesson15.html" data-lesson="15">
+          <div class="lesson-num-badge">١٥</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">أَفْعَالٌ مَاضِيَة</div>
+            <div class="lesson-title">Past Tense — Full Conjugation</div>
+            <div class="lesson-desc">All persons of the past tense — I, you (m/f), he, she, we, they. The complete picture of Arabic verb anatomy.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson16.html" data-lesson="16">
+          <div class="lesson-num-badge">١٦</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">أَمَامَ — خَلْفَ</div>
+            <div class="lesson-title">Adverbs of Place &amp; Substitution</div>
+            <div class="lesson-desc">In front of, behind, above, below, between. Positional adverbs and the concept of badal (substitution).</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson17.html" data-lesson="17">
+          <div class="lesson-num-badge">١٧</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">يَا</div>
+            <div class="lesson-title">The Particle of Calling (Yā)</div>
+            <div class="lesson-desc">Using يَا to call out to someone. How the called noun changes its ending.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson18.html" data-lesson="18">
+          <div class="lesson-num-badge">١٨</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">مَنْ — مَا</div>
+            <div class="lesson-title">Interrogatives — Who &amp; What</div>
+            <div class="lesson-desc">Asking "who?" and "what?" — and how interrogative particles change sentence structure.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson19.html" data-lesson="19">
+          <div class="lesson-num-badge">١٩</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">إِنَّ وَأَخَوَاتُهَا</div>
+            <div class="lesson-title">Inna and Its Sisters</div>
+            <div class="lesson-desc">Particles that add emphasis and change noun case endings. إِنَّ، أَنَّ، لَكِنَّ and how to use them.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+      </section>
+
+      <!-- ══ SECTION 5 ══ -->
+      <section class="section-block" id="section-5">
+        <div class="section-header">
+          <div class="section-number">٥</div>
+          <div class="section-info">
+            <div class="section-title">Plurals, Duals &amp; Numbers</div>
+            <div class="section-desc">Mastering how Arabic handles more than one — sound plurals, broken plurals, duals, and counting.</div>
+          </div>
+          <div class="section-tag">Lessons 20–23</div>
+        </div>
+
+        <a class="lesson-card" href="lessons/b1-lesson20.html" data-lesson="20">
+          <div class="lesson-num-badge">٢٠</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">جَمْعُ الْمُذَكَّرِ السَّالِم</div>
+            <div class="lesson-title">Sound Masculine Plural</div>
+            <div class="lesson-desc">The regular plural for masculine nouns — adding ون / ين. "Teachers", "students", "Muslims".</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson21.html" data-lesson="21">
+          <div class="lesson-num-badge">٢١</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">جَمْعُ الْمُؤَنَّثِ السَّالِم</div>
+            <div class="lesson-title">Sound Feminine Plural</div>
+            <div class="lesson-desc">The regular plural for feminine nouns — adding ات. "Lessons", "schools", "rooms".</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson22.html" data-lesson="22">
+          <div class="lesson-num-badge">٢٢</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">الْمُثَنَّى</div>
+            <div class="lesson-title">The Dual</div>
+            <div class="lesson-desc">Arabic has a special form for exactly two of something. Adding ان / ين for masculine and feminine duals.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+
+        <a class="lesson-card" href="lessons/b1-lesson23.html" data-lesson="23">
+          <div class="lesson-num-badge">٢٣</div>
+          <div class="lesson-text">
+            <div class="lesson-arabic">كَمْ — التَّمْيِيز</div>
+            <div class="lesson-title">How Many? — كَمْ and the Specification Noun</div>
+            <div class="lesson-desc">Asking "how many?" with كَمْ and using the tamyīz. The final grammar concept of Book 1.</div>
+          </div>
+          <div class="chips">
+            <span class="chip chip-vocab">Vocab</span>
+            <span class="chip chip-grammar">Grammar</span>
+            <span class="chip chip-quiz">Quiz</span>
+          </div>
+        </a>
+      </section>
+
+      <!-- ══ FINAL QUIZ ══ -->
+      <div class="final-quiz-card">
+        <div class="final-quiz-ornament">✦ الاِمْتِحَان ✦</div>
+        <div class="final-quiz-label">Final Assessment</div>
+        <div class="final-quiz-arabic">الاِخْتِبَارُ النِّهَائِيّ</div>
+        <div class="final-quiz-desc">A comprehensive test covering all 23 lessons of Book 1. Pass this to show you are ready for Book 2.</div>
+        <a class="final-quiz-btn" href="lessons/b1-final-quiz.html" id="finalQuizBtn">Begin Final Quiz →</a>
+        <div class="final-quiz-note" id="finalQuizNote">Complete all 23 lessons to unlock this.</div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="assets/js/progress.js"></script>
+  <script>
+    // Init this page
+    refreshBookListUI('book1');
+    initSidebarScroll();
+  </script>
+
+</body>
+</html>
