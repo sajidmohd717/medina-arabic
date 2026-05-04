@@ -32,6 +32,31 @@ The site works like Duolingo — structured lessons with vocabulary, grammar con
 
 ---
 
+## External Resources & References
+
+When building or updating lessons, refer to these authoritative sources for the original Madinah Arabic Course content. The sources listed below are **highly recommended**, but feel free to use other sources if they are more comprehensive or better suited for a specific lesson.
+
+### **Primary Source (Dr. V. Abdur Rahim)**
+- **[AbdurRahman.org - Mastering Madina Arabic](https://abdurrahman.org/arabic-learning/madina-arabic/)**: The most comprehensive repository. Includes:
+    - **Arabic Textbooks (PDF)**: The original books used in Madinah University.
+    - **English Keys (PDF)**: Essential for understanding the grammar explanations and vocabulary translations.
+    - **Arabic Solutions (PDF)**: Useful for verifying practice and quiz answers.
+    - **Audio Files**: MP3s read by Dr. V. Abdur Rahim for correct pronunciation.
+
+### **Alternative Reference Sites**
+- **[Understand-Arabic.com](https://understand-arabic.com/)**: High-quality digital versions and structured notes for all three books.
+- **[IslamicBulletin.org](https://islamicbulletin.org/free_downloads/quran/mastering_madina_arabic_books.pdf)**: Direct link to the combined English keys and textbooks.
+- **[QuranHomePro](https://www.quranhomepro.com/store/c1/Featured_Products.html)**: Quick links for downloading specific book PDFs and handouts.
+
+### **Quick Check for Lessons**
+| Resource | Use Case |
+| :--- | :--- |
+| **English Key** | Finding the specific grammar rules and vocab meanings taught in that lesson. |
+| **Arabic Solutions** | Verifying the answers to the exercises in the back of the book. |
+| **Glossary** | Looking up word roots or synonyms if needed for stories. |
+
+---
+
 ## Tech Stack
 
 | Layer | Choice | Reason |
@@ -145,6 +170,19 @@ const LESSON_DATA = {
     { ar: 'ذَلِكَ بَيْتٌ', trans: 'dhālika baytun', meaning: 'That is a house.' },
     // ...
   ],
+
+  comprehension: {                  // Reading comprehension story (New!)
+    title: 'Story Title',
+    arabic: 'Arabic story text with full diacritics...',
+    english: 'English translation (hidden by default)...',
+    questions: [
+      {
+        text: 'Question about the story?',
+        options: ['Option A', 'Option B', 'Option C', 'Option D'],
+        correct: 'Option A' // The exact string of the correct option
+      }
+    ]
+  },
 
   practiceQuestions: [              // Array of practice questions (4-8)
     { arabic: 'ذَلِكَ مَسْجِدٌ', correct: 'That is a mosque.', options: ['Option A', 'Option B', 'Option C', 'Option D'] },
@@ -296,10 +334,12 @@ Shared functions used by all lesson pages:
 
 | Function | Purpose |
 |---|---|
-| `goToStep(step)` | Navigates between vocab/lesson/practice/quiz panels |
+| `goToStep(step)` | Navigates between vocab/lesson/comprehension/practice/quiz panels |
 | `unlockAndGo(step)` | Unlocks a step and navigates to it |
 | `applyQuizJumpMode()` | Unlocks every step and switches to quiz (`?step=quiz`) |
 | `buildVocabularyPanel` / vocab helpers | Renders vocab cards, ratings, **Words you know well** bucket |
+| `buildComprehensionPanel` | Renders the story, translation toggle, and MCQ questions |
+| `checkComprehension(btn, qNum, isCorrect)` | Handles story-based MCQ answers |
 | `checkPractice(btn, isCorrect)` | Handles practice question answers |
 | `checkQuiz(btn, qNum, isCorrect)` | Handles multiple choice quiz answers |
 | `checkTyping(qNum, questionData)` | Handles typed quiz answers with lenient matching |
@@ -396,9 +436,15 @@ When writing lesson content, vocabulary, and quiz questions:
 | `lessons/data/b1-lesson1.js` | ✅ Complete |
 | `lessons/b1-lesson2.html` | ✅ Complete |
 | `lessons/data/b1-lesson2.js` | ✅ Complete |
-| `lessons/b1-lesson3.html` | 🔲 Not started |
-| `lessons/data/b1-lesson3.js` | 🔲 Not started |
-| ... | (Lessons 4-23) | 🔲 Not started |
+| `lessons/b1-lesson3.html` | ✅ Complete |
+| `lessons/data/b1-lesson3.js` | ✅ Complete |
+| `lessons/b1-lesson4.html` | ✅ Complete |
+| `lessons/data/b1-lesson4.js` | ✅ Complete |
+| `lessons/b1-lesson5.html` | ✅ Complete |
+| `lessons/data/b1-lesson5.js` | ✅ Complete |
+| `lessons/b1-lesson6.html` | ✅ Complete |
+| `lessons/data/b1-lesson6.js` | ✅ Complete |
+| ... | (Lessons 7-23) | 🔲 Not started |
 | `lessons/b1-final-quiz.html` | 🔲 Not started |
 | All Book 2 & 3 lessons | 🔲 Not started |
 
@@ -415,6 +461,7 @@ When writing lesson content, vocabulary, and quiz questions:
    - `vocab` array (**new words only** — remove words already taught in previous lessons; they will appear in examples/practice for review)
    - `grammarBlocks` array
    - `examples` array
+   - `comprehension` object (Arabic story + English translation + MCQ questions)
    - `practiceQuestions` array
    - `quizQuestions.multipleChoice` array
    - `quizQuestions.typing` array
