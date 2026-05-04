@@ -60,7 +60,7 @@
     { lessonNum: 5, section: 'section-1', slug: 'b1-lesson5', ar: 'مُضَافٌ وَمُضَافٌ إِلَيْهِ', title: 'The Possessive Construction (Iḍāfa)', desc: 'How Arabic expresses "of" and possession — joining two nouns together without any extra word.' },
     { lessonNum: 6, section: 'section-2', slug: 'b1-lesson6', ar: 'هَذِهِ', title: 'This is… (Feminine)', desc: "Pointing at feminine nouns with هَذِهِ. Understanding the tā' marbūṭa (ة) ending." },
     { lessonNum: 7, section: 'section-2', slug: 'b1-lesson7', ar: 'تِلْكَ', title: 'That is… (Feminine)', desc: 'The feminine counterpart to ذَلِكَ. Pointing at distant feminine nouns.' },
-    { lessonNum: 8, section: 'section-2', slug: 'b1-lesson8', ar: 'الشَّمْسِيَّة وَالْقَمَرِيَّة', title: 'Sun & Moon Letters', desc: 'Why ال sometimes changes pronunciation. The 14 sun letters and 14 moon letters — a key rule for reading Arabic.' },
+    { lessonNum: 8, section: 'section-2', slug: 'b1-lesson8', ar: 'الْحُرُوفُ الشَّمْسِيَّةُ وَالْقَمَرِيَّةُ', title: 'Sun and Moon Letters', desc: 'Why ال sometimes changes pronunciation. The 14 sun letters and 14 moon letters — a key rule for reading Arabic.' },
     { lessonNum: 9, section: 'section-2', slug: 'b1-lesson9', ar: 'النَّعْتُ وَالْمَنْعُوتُ', title: 'Adjectives', desc: 'How adjectives agree with nouns in gender and definiteness. "A big mosque", "The small book".' },
     { lessonNum: 10, section: 'section-3', slug: 'b1-lesson10', ar: 'ذَهَبْتَ — ذَهَبْتِ', title: 'Past Tense Verbs (You)', desc: 'Your first verbs! The past tense for masculine and feminine "you". How verb endings change by gender.' },
     { lessonNum: 11, section: 'section-3', slug: 'b1-lesson11', ar: 'فِيهِ — فِيهَا', title: 'Attached Pronouns', desc: 'Pronouns that attach to nouns and prepositions — "in it (m.)", "in it (f.)", "his book", "her pen".' },
@@ -85,8 +85,8 @@
   function buildChips() {
     const chips = document.createElement('div');
     chips.className = 'chips';
-    ['Vocab', 'Grammar', 'Quiz'].forEach((label, i) => {
-      const cls = ['chip-vocab', 'chip-grammar', 'chip-quiz'][i];
+    ['Vocab', 'Grammar', 'Reading', 'Practice', 'Quiz'].forEach((label, i) => {
+      const cls = ['chip-vocab', 'chip-grammar', 'chip-reading', 'chip-practice', 'chip-quiz'][i];
       const span = document.createElement('span');
       span.className = `chip ${cls}`;
       span.textContent = label;

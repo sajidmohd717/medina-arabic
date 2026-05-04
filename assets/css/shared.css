@@ -136,6 +136,8 @@ nav {
 }
 .chip-vocab   { color: #0a4a80; background: #dceffe; border: 1.5px solid #90c4f0; }
 .chip-grammar { color: #1e5c38; background: #d4edda; border: 1.5px solid #8ac4a0; }
+.chip-reading { color: #5c1e54; background: #f3e8fd; border: 1.5px solid #c4a0e8; }
+.chip-practice{ color: #1e5c5c; background: #e8fdfd; border: 1.5px solid #a0e8e8; }
 .chip-quiz    { color: #7a3800; background: #fce8cc; border: 1.5px solid #f0b870; }
 
 /* ── Ornamental divider ── */
