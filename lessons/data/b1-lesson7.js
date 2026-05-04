@@ -112,7 +112,7 @@ const LESSON_DATA = {
     { text: 'Which word is the feminine form of "That"?', correct: 'تِلْكَ', options: ['ذَلِكَ', 'تِلْكَ', 'هَذِهِ', 'هَذَا'] },
     { text: 'Translate: "That is an egg."', correct: 'تِلْكَ بَيْضَةٌ', options: ['تِلْكَ بَيْضَةٌ', 'هَذِهِ بَيْضَةٌ', 'ذَلِكَ بَيْضَةٌ', 'تِلْكَ بَطَّةٌ'] },
     { text: 'Which occupation means "Nurse"?', correct: 'مُمَرِّضَةٌ', options: ['طَبِيْبَةٌ', 'مُمَرِّضَةٌ', 'مُدَرِّسَةٌ', 'طَالِبَةٌ'] },
-    { text: 'Translate: "This is tall and that is short."', correct: 'هَذِهِ طَوِيْلَةٌ وَتِلْكَ قَصِيْرَةٌ', options: ['هَذِهِ طَوِيْلَةٌ وَتِلْكَ قَصِيْرَةٌ', 'هَذَا طَوِيْلٌ وَذَلِكَ قَصِيْرٌ', 'هَذِهِ قَصِيْرَةٌ وَتِلْكَ طَوِيْلَةٌ', 'هَذَا قَصِيْرٌ وَذَلِكَ طَوِيْلٌ'] }
+    { text: 'Translate: "This is tall and that is short." (feminine)', correct: 'هَذِهِ طَوِيْلَةٌ وَتِلْكَ قَصِيْرَةٌ', options: ['هَذِهِ طَوِيْلَةٌ وَتِلْكَ قَصِيْرَةٌ', 'هَذَا طَوِيْلٌ وَذَلِكَ قَصِيْرٌ', 'هَذِهِ قَصِيْرَةٌ وَتِلْكَ طَوِيْلَةٌ', 'هَذَا قَصِيْرٌ وَذَلِكَ طَوِيْلٌ'] }
   ],
   
   // ============================================================
@@ -120,7 +120,7 @@ const LESSON_DATA = {
   // ============================================================
   quizQuestions: {
     multipleChoice: [
-      { prompt: 'What is the feminine counterpart to ذَلِكَ?', options: ['هَذِهِ', 'تِلْكَ', 'هِيَ', 'تِلْكَ'], correct: 1 },
+      { prompt: 'What is the feminine counterpart to ذَلِكَ?', options: ['هَذِهِ', 'تِلْكَ', 'هِيَ', 'ذَلِكَ'], correct: 1 },
       { prompt: 'Translate: "That is a hen."', options: ['تِلْكَ بَطَّةٌ', 'تِلْكَ دَجَاجَةٌ', 'ذَلِكَ دِيْكٌ', 'هَذِهِ دَجَاجَةٌ'], correct: 1 },
       { prompt: 'Which word means "Nurse" (fem.)?', options: ['طَبِيْبَةٌ', 'مُدَرِّسَةٌ', 'مُمَرِّضَةٌ', 'طَالِبَةٌ'], correct: 2 },
       { prompt: 'Translate: "That is a duck."', options: ['تِلْكَ بَطَّةٌ', 'تِلْكَ دَجَاجَةٌ', 'تِلْكَ بَيْضَةٌ', 'هَذِهِ بَطَّةٌ'], correct: 0 },

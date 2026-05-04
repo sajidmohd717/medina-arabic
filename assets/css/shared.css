@@ -11,6 +11,8 @@ html { font-size: 20px; }
 
 /* ── Design tokens ── */
 :root {
+  --brand-primary: #1a5c4a; /* Deep emerald for Arabiq */
+  --brand-accent:  #8a6420; /* Keep gold as secondary accent */
   --gold:         #8a6420;
   --gold-light:   #c4a050;
   --gold-border:  #c4a05060;

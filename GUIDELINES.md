@@ -1,75 +1,13 @@
-# Medina Arabic — Project Guidelines
+# Arabiq — The Clear Path to Arabic
 
-> This file is for any contributor, collaborator, or AI assistant working on this project.
-> Read this before making any changes.
+A modern, interactive platform for learning the Arabic language, built on the foundation of the world-renowned Madinah Arabic Course.
 
----
+## Brand Identity: Arabiq
 
-## What This Project Is
-
-A free, static, self-hostable web application for learning Classical Arabic through the **Medina Arabic Books** (also known as *Durus al-Lughah al-Arabiyyah*) by Shaykh Dr. V. Abdur-Raheem of the Islamic University of Madinah.
-
-The site works like Duolingo — structured lessons with vocabulary, grammar content, practice exercises, and a quiz — but is built specifically around the Medina Book curriculum which is the most widely used Classical/Quranic Arabic course in the world.
-
-**Target audience:** English-speaking adults learning Classical Arabic, including people who have studied the Medina Books before but need a structured way to review and test themselves without restarting from the beginning.
-
-**Primary platform:** Desktop/PC browsers. Mobile is supported but desktop is the priority.
-
----
-
-## Goals
-
-- Cover all 3 Medina Books (Book 1: 23 lessons, Book 2: ~23 lessons, Book 3: ~23 lessons)
-- Each lesson has 5 steps: Vocabulary → Lesson Content → Reading Comprehension → Practice → Quiz
-- A final quiz at the end of each book before moving to the next
-- Progress is tracked locally via `localStorage` — no backend, no accounts (lesson completion, in-progress flags, optional vocabulary word ratings, and “reset all progress”)
-- Arabic typing practice is built into every quiz
-- Book list lessons unlock **in order**: lesson *N* opens only after the quiz for lesson *N−1* is passed (deep links redirect back to the book page if locked)
-- Learners can open **Quiz only** (`?step=quiz`) from the book list to jump straight to the quiz on an unlocked lesson
-- Vocabulary panel supports **word ratings** (know / practising / difficult) and collapses “know well” words into a **Words you know well** section
-- Accessible and readable — designed with dyslexia-friendliness in mind (no thin fonts, no italics for body text, strong contrast)
-- Hosted for free on GitHub Pages as a fully static site
-
----
-
-## External Resources & References
-
-When building or updating lessons, refer to these authoritative sources for the original Madinah Arabic Course content. The sources listed below are **highly recommended**, but feel free to use other sources if they are more comprehensive or better suited for a specific lesson.
-
-### **Primary Source (Dr. V. Abdur Rahim)**
-- **[AbdurRahman.org - Mastering Madina Arabic](https://abdurrahman.org/arabic-learning/madina-arabic/)**: The most comprehensive repository. Includes:
-    - **Arabic Textbooks (PDF)**: The original books used in Madinah University.
-    - **English Keys (PDF)**: Essential for understanding the grammar explanations and vocabulary translations.
-    - **Arabic Solutions (PDF)**: Useful for verifying practice and quiz answers.
-    - **Audio Files**: MP3s read by Dr. V. Abdur Rahim for correct pronunciation.
-
-### **Alternative Reference Sites**
-- **[Understand-Arabic.com](https://understand-arabic.com/)**: High-quality digital versions and structured notes for all three books.
-- **[IslamicBulletin.org](https://islamicbulletin.org/free_downloads/quran/mastering_madina_arabic_books.pdf)**: Direct link to the combined English keys and textbooks.
-- **[QuranHomePro](https://www.quranhomepro.com/store/c1/Featured_Products.html)**: Quick links for downloading specific book PDFs and handouts.
-
-### **Quick Check for Lessons**
-| Resource | Use Case |
-| :--- | :--- |
-| **English Key** | Finding the specific grammar rules and vocab meanings taught in that lesson. |
-| **Arabic Solutions** | Verifying the answers to the exercises in the back of the book. |
-| **Glossary** | Looking up word roots or synonyms if needed for stories. |
-
----
-
-## Tech Stack
-
-| Layer | Choice | Reason |
-|---|---|---|
-| Hosting | GitHub Pages | Free, static, no backend needed |
-| Languages | HTML, CSS, vanilla JS | No frameworks — keeps it simple and portable |
-| Arabic font | Amiri (Google Fonts) | Best Arabic web font for readability |
-| English font | Lato (Google Fonts) | Dyslexia-friendly, strong weights, clear at all sizes |
-| Display font | Cinzel (Google Fonts) | Used for labels, eyebrows, uppercase headings |
-| Progress tracking | localStorage | No server required |
-| Build tools | None | Plain files, no npm, no bundler |
-
----
+- **Name**: Arabiq (Arabic + IQ / Quick)
+- **Tagline**: The Clear Path to Arabic
+- **Domain**: arabiq.app
+- **Vision**: To be the premium digital home for students of the Arabic language, focusing on clarity, speed, and structural mastery.
 
 ## Architecture (Refactored)
 
