@@ -57,8 +57,8 @@ function isLessonUnlocked(lessonNumber, book = 'book1') {
 }
 
 function lessonHtmlRelPath(book, lessonNum) {
-  const prefix = String(book).replace('book', 'b');
-  return `lessons/${prefix}-lesson${lessonNum}.html`;
+  const bookNum = String(book).replace('book', '');
+  return `lessons/lesson.html?book=${bookNum}&lesson=${lessonNum}`;
 }
 
 /**

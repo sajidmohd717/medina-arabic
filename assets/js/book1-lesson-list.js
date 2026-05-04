@@ -78,8 +78,8 @@
     { lessonNum: 23, section: 'section-5', slug: 'b1-lesson23', ar: 'كَمْ — التَّمْيِيز', title: 'How Many? — كَمْ and the Specification Noun', desc: 'Asking "how many?" with كَمْ and using the tamyīz. The final grammar concept of Book 1.' },
   ];
 
-  function lessonHref(slug) {
-    return `lessons/${slug}.html`;
+  function lessonHref(lessonNum) {
+    return `lessons/lesson.html?book=1&lesson=${lessonNum}`;
   }
 
   function buildChips() {
@@ -112,7 +112,7 @@
   }
 
   function buildLessonCard(lesson, isCurrent) {
-    const href = lessonHref(lesson.slug);
+    const href = lessonHref(lesson.lessonNum);
     const card = document.createElement('div');
     card.className = 'lesson-card lesson-card--not-started';
     card.dataset.lesson = String(lesson.lessonNum);

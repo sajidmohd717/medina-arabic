@@ -73,20 +73,18 @@ When building or updating lessons, refer to these authoritative sources for the 
 
 ## Architecture (Refactored)
 
-The project uses a **data-driven architecture** to avoid code duplication across 69+ lesson pages.
+The project uses a **single-template architecture** to avoid code duplication across 69+ lesson pages.
 
 ### Core Principle
 
-- **Lesson pages are shells** — they contain only the HTML structure
-- **Lesson content is pure JavaScript data** — stored in separate data files
-- **Shared logic lives in core JS files** — navigation, keyboard, scoring, etc.
+- **One Shell to Rule Them All**: `lessons/lesson.html` is the only HTML file for all lessons.
+- **Dynamic Loading**: `lesson-loader.js` reads URL parameters (`?book=1&lesson=7`) and dynamically injects the corresponding data script.
+- **Pure Data**: All lesson content is stored in pure JavaScript data files in `lessons/data/`.
 
 This means:
-- Creating a new lesson takes a few minutes (data file + HTML shell + Book 1 catalog row when applicable)
-- Fixing a bug once fixes it for all lessons that share the same JS/CSS
-- Adding a feature to all lesson pages usually means editing `lesson-core.js` / `lesson.css` once
-
-**Book 1 list page:** `book1.html` is a thin shell. Section headers, sidebar links, and all lesson cards are built at runtime from **`assets/js/book1-lesson-list.js`** (`BOOK1_SECTIONS`, `BOOK1_LESSONS`, `renderBook1LessonList()`). Editing copy or adding a Book 1 lesson row happens in that file—avoid duplicating dozens of lesson cards in HTML.
+- **Zero HTML duplication**: To change the lesson UI, you only edit one file (`lesson.html`).
+- **Easy Maintenance**: Logic and structure are completely decoupled from the content.
+- **Portability**: The site remains fully static and requires no backend or build tools.
 
 ### File Structure
 
@@ -95,8 +93,6 @@ medina-arabic/
 ├── GUIDELINES.md               ← you are here
 ├── index.html                  ← landing page (book selector)
 ├── book1.html                  ← Book 1 shell; lesson rows built by book1-lesson-list.js
-├── book2.html                  ← Book 2 lesson list (coming soon)
-├── book3.html                  ← Book 3 lesson list (coming soon)
 │
 ├── assets/
 │   ├── css/
@@ -106,38 +102,29 @@ medina-arabic/
 │   │
 │   └── js/
 │       ├── progress.js         ← localStorage progress tracking
-│       ├── book1-lesson-list.js ← Book 1 section headers + lesson list (data + DOM)
+│       ├── book1-lesson-list.js ← Book 1 data + card rendering
 │       ├── lesson-core.js      ← Shared functions (keyboard, scoring, navigation)
-│       └── lesson-loader.js    ← Builds the page from data
+│       └── lesson-loader.js    ← Dynamic data injector and initialiser
 │
 ├── lessons/
-│   ├── b1-lesson1.html         ← Shell for Lesson 1 (tiny — ~180 lines)
-│   ├── b1-lesson2.html         ← Shell for Lesson 2
-│   ├── ...
-│   ├── b1-lesson23.html
-│   ├── b1-final-quiz.html      ← Final assessment (to be built)
+│   ├── lesson.html             ← THE ONLY HTML SHELL for all 69+ lessons
 │   │
 │   └── data/
-│       ├── b1-lesson1.js       ← All content for Lesson 1
-│       ├── b1-lesson2.js       ← All content for Lesson 2
+│       ├── b1-lesson1.js       ← Data for Lesson 1
+│       ├── b1-lesson2.js       ← Data for Lesson 2
 │       └── ...                 ← One data file per lesson
 ```
 
-### How `book1.html` Works
+### How a Lesson Loads
 
-1. Loads `progress.js` then `book1-lesson-list.js`
-2. Calls `renderBook1LessonList()` to fill `#book1-sidebar-nav` and `#book1-lessons-mount`
-3. Calls `refreshBookListUI('book1')` to apply progress colours, sequential locks, final quiz state
+1.  User clicks a lesson link: `lessons/lesson.html?book=1&lesson=5`.
+2.  `lesson.html` loads `lesson-core.js` and `lesson-loader.js`.
+3.  `lesson-loader.js` parses the URL:
+    - `book=1`, `lesson=5` → `data/b1-lesson5.js`.
+4.  It creates a `<script>` tag to load the data file.
+5.  Once the data is loaded, it calls `initLesson()` in `lesson-core.js` to populate the UI.
 
-### How a Lesson Page Works
-
-1. `b1-lesson1.html` loads CSS and creates empty containers
-2. `progress.js` loads (storage helpers + book list UI; vocabulary rating helpers)
-3. `lesson-core.js` loads (all shared functions)
-4. `data/b1-lesson1.js` loads (the unique content for this lesson)
-5. `lesson-loader.js` runs: checks sequential unlock, optionally marks lesson in-progress, reads `LESSON_DATA`, populates all panels; if URL has `?step=quiz`, unlocks all steps and opens the quiz panel
-
-### Lesson Data Structure (`b1-lessonX.js`)
+### Lesson Data Structure (`bX-lessonY.js`)
 
 Each data file exports a `LESSON_DATA` object with this shape:
 

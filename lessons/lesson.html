@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lesson 6 — هَذِهِ — Medina Arabic</title>
+  <title>Lesson — Medina Arabic</title>
   <link rel="stylesheet" href="../assets/css/shared.css" />
   <link rel="stylesheet" href="../assets/css/lesson.css" />
 </head>
@@ -28,14 +28,14 @@
 
   <!-- Nav -->
   <nav>
-    <a class="nav-back" href="../book1.html">Book 1</a>
+    <a class="nav-back" id="navBackLink" href="../book1.html">Book 1</a>
     <span class="nav-divider">✦</span>
-    <span class="nav-title" id="navTitle">Lesson 6 — هَذِهِ</span>
+    <span class="nav-title" id="navTitle">Loading Lesson...</span>
     <div class="nav-progress">
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progressFill"></div>
       </div>
-      <span class="progress-label" id="progressLabel">0 / 23</span>
+      <span class="progress-label" id="progressLabel">0 / 0</span>
     </div>
   </nav>
 
@@ -83,7 +83,7 @@
       </div>
       <div class="vocab-grid"></div>
       <div class="panel-nav">
-        <a class="btn btn-secondary" href="../book1.html">← Back to Book 1</a>
+        <a class="btn btn-secondary" id="panelVocabBackLink" href="../book1.html">← Back to Book</a>
         <button class="btn btn-primary" onclick="unlockAndGo('lesson')">I know these words — Next: Lesson →</button>
       </div>
     </div>
@@ -142,7 +142,7 @@
         <div class="panel-heading-icon">🎯</div>
         <div class="panel-heading-text">
           <h2>Quiz</h2>
-          <p id="quizTotalLabel">12 questions. Answer all of them to complete this lesson.</p>
+          <p id="quizTotalLabel">... questions. Answer all of them to complete this lesson.</p>
         </div>
       </div>
       <div class="quiz-container"></div>
@@ -212,7 +212,7 @@
       <div class="quiz-score-card" id="scoreCard" style="display:none;">
         <div class="quiz-score-arabic">✦ النَّتِيجَة ✦</div>
         <div class="quiz-score-title">Your Score</div>
-        <div class="quiz-score-number" id="scoreNumber">0/12</div>
+        <div class="quiz-score-number" id="scoreNumber">0/0</div>
         <div class="quiz-score-label" id="scoreLabel"></div>
         <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:1rem;">
           <button class="btn btn-secondary" onclick="retryQuiz()">Try Again</button>
@@ -224,7 +224,7 @@
 
   <script src="../assets/js/progress.js"></script>
   <script src="../assets/js/lesson-core.js"></script>
-  <script src="data/b1-lesson6.js"></script>
+  <!-- Data file will be injected here by lesson-loader.js -->
   <script src="../assets/js/lesson-loader.js"></script>
 
 </body>

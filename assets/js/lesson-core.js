@@ -685,7 +685,17 @@ function initLesson() {
   
   // Set next lesson link
   const nextBtn = document.getElementById('nextLessonBtn');
-  if (nextBtn) nextBtn.href = CURRENT_LESSON_DATA.nextLesson;
+  if (nextBtn) {
+    let nextHref = CURRENT_LESSON_DATA.nextLesson;
+    // Transform b1-lesson2.html to lesson.html?book=1&lesson=2
+    if (nextHref && nextHref.includes('-lesson')) {
+      const match = nextHref.match(/b(\d+)-lesson(\d+)\.html/);
+      if (match) {
+        nextHref = `lesson.html?book=${match[1]}&lesson=${match[2]}`;
+      }
+    }
+    nextBtn.href = nextHref;
+  }
   
   // Attach keyboard after DOM is ready
   setTimeout(attachKeyboard, 100);
