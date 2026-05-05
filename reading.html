@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading Track - Kalamo</title>
+  <meta name="description" content="Build Arabic reading fluency with Kalamo's simple leveled reading stories and comprehension checks." />
+  <link rel="canonical" href="https://sajidmohd717.github.io/medina-arabic/reading.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Kalamo" />
+  <meta property="og:url" content="https://sajidmohd717.github.io/medina-arabic/reading.html" />
+  <meta property="og:title" content="Reading Track - Kalamo" />
+  <meta property="og:description" content="Practice Arabic reading with one leveled story at a time." />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Reading Track - Kalamo" />
+  <meta name="twitter:description" content="Practice Arabic reading with one leveled story at a time." />
+  <link rel="stylesheet" href="assets/css/shared.css" />
+  <link rel="stylesheet" href="assets/css/reading.css" />
+</head>
+<body>
+
+  <svg class="geo-bg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <pattern id="geo" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+        <polygon points="40,5 75,22 75,57 40,74 5,57 5,22" fill="none" stroke="#8a6420" stroke-width="1"/>
+        <polygon points="40,18 62,29 62,51 40,62 18,51 18,29" fill="none" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="40" y1="5" x2="40" y2="18" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="75" y1="22" x2="62" y2="29" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="75" y1="57" x2="62" y2="51" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="40" y1="74" x2="40" y2="62" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="5" y1="57" x2="18" y2="51" stroke="#8a6420" stroke-width="0.5"/>
+        <line x1="5" y1="22" x2="18" y2="29" stroke="#8a6420" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="800" height="600" fill="url(#geo)"/>
+  </svg>
+
+  <nav>
+    <a class="nav-back" href="book1.html">Book 1</a>
+    <span class="nav-divider">✦</span>
+    <span class="nav-title">Reading Track</span>
+    <div class="nav-progress">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="readingProgressFill"></div>
+      </div>
+      <span class="progress-label" id="readingProgressLabel">٠ / ٠</span>
+    </div>
+  </nav>
+
+  <main class="reading-page">
+    <header class="reading-hero">
+      <div>
+        <div class="reading-eyebrow">Quick Reading Practice</div>
+        <h1>قِرَاءَةٌ</h1>
+        <p>One short story, a few questions, and a clear reading level. Come here when you want practice without opening a full lesson.</p>
+      </div>
+      <div class="level-card" aria-label="Current reading level">
+        <span class="level-card-label">Reading Level</span>
+        <strong id="readingLevelName">Pre-Level One</strong>
+        <span id="nextUpgradeHint">Pass ٣ stories to reach Level One.</span>
+      </div>
+    </header>
+
+    <section class="daily-reader" id="readerCard" aria-live="polite"></section>
+
+    <details class="satchel-drawer">
+      <summary>Vocabulary satchel</summary>
+      <div class="satchel-summary">
+        <span><strong id="satchelCount">٠</strong> words unlocked</span>
+        <span><strong id="passedCount">٠</strong> stories passed</span>
+      </div>
+      <div class="satchel-list" id="satchelList"></div>
+    </details>
+  </main>
+
+  <script src="assets/js/progress.js"></script>
+  <script src="assets/js/reading.js"></script>
+</body>
+</html>

@@ -42,6 +42,7 @@
     <a class="nav-back" href="index.html">Home</a>
     <span class="nav-divider">✦</span>
     <span class="nav-title">الكتاب الأول — Book One</span>
+    <a class="nav-link nav-link-reading" id="readingNavLink" href="reading.html">Reading Track</a>
     <div class="nav-progress">
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progressFill"></div>
@@ -52,13 +53,15 @@
 
   <!-- Page header -->
   <header class="page-header">
+    <div class="book-header-main">
+      <div class="book-header-copy">
     <div class="book-eyebrow">Foundation · Book One</div>
     <h1>الكتاب الأوّل<span>The First Book</span></h1>
     <p class="page-intro">
-      <span class="intro-full">23 lessons in order: each one unlocks after you pass the quiz for the lesson before it. Open only the next lesson you are ready for, or use <strong>Quiz only</strong> on that row to test yourself without reading the full lesson first.</span>
+      <span class="intro-full">23 ordered lessons. Pass each quiz to unlock the next lesson. Use <strong>Quiz only</strong> when you want to test out of a lesson quickly.</span>
       <span class="intro-mobile">23 ordered lessons. Pass each quiz to unlock the next.</span>
     </p>
-    <p class="lesson-status-legend">A <span class="legend-lock">✕</span> on the badge means the lesson is locked until you finish the previous quiz. Otherwise: muted row = not opened yet; <span class="legend-warn">orange</span> = in progress; <span class="legend-ok">green</span> = completed.</p>
+      </div>
     <div class="header-stats">
       <div class="stat">
         <span class="stat-number">٢٣</span>
@@ -73,6 +76,8 @@
         <span class="stat-label">Completed</span>
       </div>
     </div>
+    </div>
+    <p class="lesson-status-legend">Muted rows are unopened, <span class="legend-warn">orange</span> rows are in progress, <span class="legend-ok">green</span> rows are complete, and <span class="legend-lock">✕</span> means locked.</p>
     <hr class="header-rule" />
   </header>
 
@@ -115,6 +120,17 @@
     renderBook1LessonList();
     refreshBookListUI('book1');
     initSidebarScroll();
+    (function updateReadingNavLabel() {
+      const el = document.getElementById('readingNavLink');
+      if (!el) return;
+      let passed = 0;
+      try {
+        const progress = JSON.parse(localStorage.getItem('kalamo_reading_progress')) || {};
+        passed = Object.values(progress.passed || {}).filter(Boolean).length;
+      } catch {}
+      const grade = passed >= 3 ? 'Level One' : 'Pre-Level One';
+      el.textContent = `Reading Track (${grade})`;
+    })();
   </script>
 
 </body>

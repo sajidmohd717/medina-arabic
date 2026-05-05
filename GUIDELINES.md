@@ -22,6 +22,7 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 - Book 1 lesson list page with progress tracking, section nav, and lesson cards
 - Lessons 1–11 complete with full content (vocab, grammar, reading, practice, quiz)
 - Hover/tap-translate tooltips on reading comprehension Arabic text
+- Focused reading track with one-story-at-a-time practice, course-progress unlocks, a collapsed vocabulary satchel, and comprehension checks
 - On-screen Arabic keyboard for typed quiz answers
 - Vocabulary rating system (know / still practising / difficult) with localStorage persistence
 - Progress tracking — sequential lesson locks, completed/in-progress/not-started states
@@ -64,6 +65,7 @@ medina-arabic/
 ├── README.md
 ├── index.html                     ← Landing page (book selector)
 ├── book1.html                     ← Book 1 lesson list
+├── reading.html                   ← Leveled reading challenge track
 ├── book2.html                     ← Book 2 (coming soon placeholder)
 ├── book3.html                     ← Book 3 (coming soon placeholder)
 ├── 404.html                       ← Custom error page
@@ -75,13 +77,15 @@ medina-arabic/
 │   ├── css/
 │   │   ├── shared.css             ← Variables, base reset, nav, chips, animations
 │   │   ├── book-list.css          ← Book lesson-list page styles
-│   │   └── lesson.css             ← Lesson page styles (panels, quiz, keyboard, tooltips)
+│   │   ├── lesson.css             ← Lesson page styles (panels, quiz, keyboard, tooltips)
+│   │   └── reading.css            ← Reading track styles
 │   │
 │   └── js/
 │       ├── progress.js            ← localStorage progress + vocab rating tracking
 │       ├── book1-lesson-list.js   ← Book 1 section/lesson data + card rendering
 │       ├── lesson-core.js         ← All lesson UI logic (panels, quiz, keyboard, tooltips)
-│       └── lesson-loader.js       ← Reads URL params, injects data file, calls initLesson()
+│       ├── lesson-loader.js       ← Reads URL params, injects data file, calls initLesson()
+│       └── reading.js             ← Reading challenges, satchel, and reading progress
 │
 ├── lessons/
 │   ├── lesson.html                ← THE ONLY HTML SHELL for all lessons
@@ -315,6 +319,19 @@ All lesson UI logic. Key functions:
 ### lesson-loader.js
 Reads URL params → builds data file path → injects `<script>` → calls `initLesson()`. Also checks lesson lock state (redirects if locked) and marks lesson in-progress.
 
+### reading.js
+Runs the optional reading track on `reading.html`.
+
+- Entry point is the Book 1 navigation CTA, not the home page. The home page stays focused on the three Madinah books.
+- Shows one unlocked story at a time, chosen from the learner's completed Book 1 lessons and unread reading challenges.
+- Keeps the first screen calm: reading level, one story, and visible comprehension questions with no extra start gate.
+- After checking answers, shows pass/retry feedback, reading-level progress, and a frictionless next-story action when another story is available.
+- Keeps the vocabulary satchel collapsed by default so it supports curiosity without cluttering the main reading flow.
+- Builds the satchel from course words already unlocked plus reading-only reward words.
+- Stores reading challenge passes in `kalamo_reading_progress`.
+- Stores reading-only satchel words in `kalamo_reading_satchel`.
+- Keeps levels learner-facing (`Pre-Level One`, `Level One`, `Level Two`) while internally following novice-reader principles: familiar vocabulary, short controlled sentences, clear literal comprehension questions, and gradual grammar expansion.
+
 ---
 
 ## Hover/Tap-Translate Feature
@@ -422,11 +439,14 @@ All HTML pages have: `<meta name="description">`, Open Graph tags (`og:title`, `
 | `assets/css/shared.css` | ✅ Complete |
 | `assets/css/book-list.css` | ✅ Complete |
 | `assets/css/lesson.css` | ✅ Complete |
+| `assets/css/reading.css` | ✅ Complete |
 | `assets/js/progress.js` | ✅ Complete |
 | `assets/js/book1-lesson-list.js` | ✅ Complete |
 | `assets/js/lesson-core.js` | ✅ Complete |
 | `assets/js/lesson-loader.js` | ✅ Complete |
+| `assets/js/reading.js` | ✅ Complete |
 | `lessons/lesson.html` | ✅ Complete |
+| `reading.html` | ✅ Complete |
 
 ### Book 1 Lessons
 | Lesson | Topic | Status |

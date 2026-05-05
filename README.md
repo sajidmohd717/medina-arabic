@@ -16,6 +16,7 @@ Kalamo is a fully static web app that guides students through the Madinah Arabic
 - **Progress tracking** — lesson completion and vocab ratings saved in your browser (localStorage)
 - **On-screen Arabic keyboard** — for typing Arabic answers without switching your system keyboard
 - **Vocab rating system** — mark words as "know", "still practising", or "new/difficult" to track your retention
+- **Reading track** — leveled stories, comprehension checks, and a vocabulary satchel that grows with lesson progress
 - **Fully static** — no backend, no build tools, no accounts required
 
 ---
@@ -56,16 +57,19 @@ Books 2 and 3 are planned.
 medina-arabic/
 ├── index.html                  ← Landing page
 ├── book1.html                  ← Book 1 lesson list
+├── reading.html                ← Leveled reading challenge track
 ├── assets/
 │   ├── css/
 │   │   ├── shared.css          ← Global variables and base styles
 │   │   ├── book-list.css       ← Book lesson-list page styles
-│   │   └── lesson.css          ← Individual lesson page styles
+│   │   ├── lesson.css          ← Individual lesson page styles
+│   │   └── reading.css         ← Reading track styles
 │   └── js/
 │       ├── progress.js         ← localStorage progress tracking
 │       ├── book1-lesson-list.js ← Book 1 lesson data and card rendering
 │       ├── lesson-core.js      ← Lesson UI logic (panels, quiz, keyboard)
-│       └── lesson-loader.js    ← Dynamically loads lesson data by URL param
+│       ├── lesson-loader.js    ← Dynamically loads lesson data by URL param
+│       └── reading.js          ← Reading challenges, satchel, and reading progress
 ├── lessons/
 │   ├── lesson.html             ← Single HTML shell for all lessons
 │   ├── b1-final-quiz.html      ← Final quiz placeholder
