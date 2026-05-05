@@ -1,355 +1,397 @@
 # Arabiq — The Clear Path to Arabic
 
-A modern, interactive platform for learning the Arabic language, built on the foundation of the world-renowned Madinah Arabic Course.
+A modern, interactive platform for learning the Arabic language, built on the foundation of the world-renowned Madinah Arabic Course. Fully static — no backend, no build tools, no accounts required.
 
-## Brand Identity: Arabiq
+**Live site:** https://sajidmohd717.github.io/medina-arabic/
+
+---
+
+## Brand Identity
 
 - **Name**: Arabiq (Arabic + IQ / Quick)
 - **Tagline**: The Clear Path to Arabic
-- **Domain**: arabiq.app
-- **Vision**: To be the premium digital home for students of the Arabic language, focusing on clarity, speed, and structural mastery.
+- **Domain**: arabiq.app (target)
+- **Vision**: A premium, free digital home for students of the Arabic language — clarity, speed, and structural mastery above all.
 
-## Architecture (Refactored)
+---
 
-The project uses a **single-template architecture** to avoid code duplication across 69+ lesson pages.
+## Current State (as of May 2026)
 
-### Core Principle
+### What's built
+- Full single-template lesson architecture — one HTML shell for all 69+ lessons
+- Book 1 lesson list page with progress tracking, section nav, and lesson cards
+- Lessons 1–11 complete with full content (vocab, grammar, reading, practice, quiz)
+- Hover-translate tooltips on reading comprehension Arabic text
+- On-screen Arabic keyboard for typed quiz answers
+- Vocabulary rating system (know / still practising / difficult) with localStorage persistence
+- Progress tracking — sequential lesson locks, completed/in-progress/not-started states
+- SEO: meta descriptions, Open Graph tags, canonical URLs on all pages
+- favicon.svg, robots.txt, sitemap.xml, 404.html
 
-- **One Shell to Rule Them All**: `lessons/lesson.html` is the only HTML file for all lessons.
-- **Dynamic Loading**: `lesson-loader.js` reads URL parameters (`?book=1&lesson=7`) and dynamically injects the corresponding data script.
-- **Pure Data**: All lesson content is stored in pure JavaScript data files in `lessons/data/`.
+### What's next (priority order)
+1. Complete Book 1 lessons 12–23 (one data file per lesson)
+2. Book 1 final quiz
+3. Book 2 lessons
+4. Book 3 lessons
+
+### Development workflow
+Work in sessions, batch related changes, and push to `main` once a meaningful chunk is done. Do not commit every small tweak — keep the git history clean and meaningful.
+
+---
+
+## Architecture
+
+The project uses a **single-template architecture** — one HTML shell for all lessons.
+
+### Core principle
+
+- **One shell**: `lessons/lesson.html` is the only HTML file for all lessons across all books.
+- **Dynamic loading**: `lesson-loader.js` reads URL params (`?book=1&lesson=7`) and injects the right data script.
+- **Pure data**: All lesson content lives in plain JS objects in `lessons/data/`.
 
 This means:
-- **Zero HTML duplication**: To change the lesson UI, you only edit one file (`lesson.html`).
-- **Easy Maintenance**: Logic and structure are completely decoupled from the content.
-- **Portability**: The site remains fully static and requires no backend or build tools.
+- Zero HTML duplication — change the lesson UI by editing one file.
+- Add a lesson by creating one data file and registering it in the lesson list.
+- Fully static and portable — no server, no build step.
 
-### File Structure
+### File structure
 
 ```
 medina-arabic/
-├── GUIDELINES.md               ← you are here
-├── index.html                  ← landing page (book selector)
-├── book1.html                  ← Book 1 shell; lesson rows built by book1-lesson-list.js
+├── GUIDELINES.md
+├── README.md
+├── index.html                     ← Landing page (book selector)
+├── book1.html                     ← Book 1 lesson list
+├── book2.html                     ← Book 2 (coming soon placeholder)
+├── book3.html                     ← Book 3 (coming soon placeholder)
+├── 404.html                       ← Custom error page
+├── favicon.svg                    ← SVG favicon (Arabic ع, emerald/gold)
+├── robots.txt                     ← Allows all crawlers, links sitemap
+├── sitemap.xml                    ← Main pages for Google indexing
 │
 ├── assets/
 │   ├── css/
-│   │   ├── shared.css          ← CSS variables, nav, geo background, chips
-│   │   ├── book-list.css       ← styles for book lesson-list pages
-│   │   └── lesson.css          ← styles for individual lesson pages
+│   │   ├── shared.css             ← Variables, base reset, nav, chips, animations
+│   │   ├── book-list.css          ← Book lesson-list page styles
+│   │   └── lesson.css             ← Lesson page styles (panels, quiz, keyboard, tooltips)
 │   │
 │   └── js/
-│       ├── progress.js         ← localStorage progress tracking
-│       ├── book1-lesson-list.js ← Book 1 data + card rendering
-│       ├── lesson-core.js      ← Shared functions (keyboard, scoring, navigation)
-│       └── lesson-loader.js    ← Dynamic data injector and initialiser
+│       ├── progress.js            ← localStorage progress + vocab rating tracking
+│       ├── book1-lesson-list.js   ← Book 1 section/lesson data + card rendering
+│       ├── lesson-core.js         ← All lesson UI logic (panels, quiz, keyboard, tooltips)
+│       └── lesson-loader.js       ← Reads URL params, injects data file, calls initLesson()
 │
-├── lessons/
-│   ├── lesson.html             ← THE ONLY HTML SHELL for all 69+ lessons
-│   │
-│   └── data/
-│       ├── b1-lesson1.js       ← Data for Lesson 1
-│       ├── b1-lesson2.js       ← Data for Lesson 2
-│       └── ...                 ← One data file per lesson
+└── lessons/
+    ├── lesson.html                ← THE ONLY HTML SHELL for all lessons
+    └── data/
+        ├── b1-lesson1.js
+        ├── b1-lesson2.js
+        └── ...                    ← One file per lesson
 ```
 
-### How a Lesson Loads
+### How a lesson loads
 
-1.  User clicks a lesson link: `lessons/lesson.html?book=1&lesson=5`.
-2.  `lesson.html` loads `lesson-core.js` and `lesson-loader.js`.
-3.  `lesson-loader.js` parses the URL:
-    - `book=1`, `lesson=5` → `data/b1-lesson5.js`.
-4.  It creates a `<script>` tag to load the data file.
-5.  Once the data is loaded, it calls `initLesson()` in `lesson-core.js` to populate the UI.
+1. User clicks a lesson link: `lessons/lesson.html?book=1&lesson=5`
+2. `lesson.html` loads `lesson-core.js` then `lesson-loader.js`
+3. `lesson-loader.js` parses the URL → `b1-lesson5.js`
+4. It creates a `<script>` tag to load the data file
+5. Once loaded, calls `initLesson()` in `lesson-core.js` to populate all panels
 
-### Lesson Data Structure (`bX-lessonY.js`)
+---
 
-Each data file exports a `LESSON_DATA` object with this shape:
+## Lesson Data Structure
+
+Each file in `lessons/data/` exports a single `LESSON_DATA` object:
 
 ```javascript
 const LESSON_DATA = {
   book: 'book1',                    // 'book1', 'book2', or 'book3'
-  lessonNum: 2,                     // Lesson number (1-23)
-  titleArabic: 'ذَلِكَ',            // Arabic title
-  titleEnglish: 'That is…',         // English title
-  summary: 'Lesson description...', // Shown at top of page
-  nextLesson: 'b1-lesson3.html',    // Link to next lesson
-  passMark: 5,                      // Number of correct answers needed to pass
-  totalQuestions: 8,                // Total number of quiz questions
+  lessonNum: 5,                     // integer, matches filename
+  titleArabic: 'مُضَافٌ وَمُضَافٌ إِلَيْهِ',
+  titleEnglish: 'The Possessive Construction',
+  summary: 'One or two sentences shown at the top of the lesson page.',
+  nextLesson: 'b1-lesson6.html',    // used to build the Next Lesson button
+  passMark: 8,                      // correct answers needed to pass
+  totalQuestions: 12,               // must equal MC + typing question counts
 
-  vocab: [                          // Array of vocabulary items
-    { ar: 'ذَلِكَ', trans: 'dhālika', meaning: 'That (masc., far)', type: 'Demonstrative' },
-    // ...
+  vocab: [
+    // NEW words only — do not repeat vocab from previous lessons
+    { ar: 'كِتَابٌ', trans: 'kitābun', meaning: 'Book', type: 'Noun' },
   ],
 
-  grammarBlocks: [                  // Array of grammar explanations
+  grammarBlocks: [
     {
-      title: 'What is ذَلِكَ?',
-      content: '<p>HTML content here...</p>',
-      rule: 'The grammar rule in a highlighted box.'
+      title: 'Block title',
+      content: '<p>HTML content — use <strong>, <ul>, <li> etc.</strong></p>',
+      rule: 'The key rule, shown in a highlighted box.'
     },
-    // ...
   ],
 
-  examples: [                       // Array of example sentences
-    { ar: 'ذَلِكَ بَيْتٌ', trans: 'dhālika baytun', meaning: 'That is a house.' },
-    // ...
+  examples: [
+    { ar: 'هَذَا كِتَابُ الطَّالِبِ', trans: 'hādhā kitābu l-ṭālibi', meaning: 'This is the student\'s book.' },
   ],
 
-  comprehension: {                  // Reading comprehension story (New!)
-    title: 'Story Title',
-    arabic: 'Arabic story text with full diacritics...',
-    english: 'English translation (hidden by default)...',
+  comprehension: {
+    title: 'Story title in English',
+    arabic: 'Full Arabic story text with diacritics...',
+    english: 'English translation shown on demand...',
     questions: [
       {
         text: 'Question about the story?',
-        options: ['Option A', 'Option B', 'Option C', 'Option D'],
-        correct: 'Option A' // The exact string of the correct option
-      }
+        options: ['A', 'B', 'C', 'D'],
+        correct: 'B'           // exact string matching one of the options
+      },
     ]
   },
 
-  practiceQuestions: [              // Array of practice questions (4-8)
-    { arabic: 'ذَلِكَ مَسْجِدٌ', correct: 'That is a mosque.', options: ['Option A', 'Option B', 'Option C', 'Option D'] },
-    // or with text instead of arabic:
-    { text: 'What does ذَلِكَ mean?', correct: 'That (masc., far)', options: [...] },
-    // ...
+  practiceQuestions: [
+    // Show Arabic word → pick meaning
+    { arabic: 'هَذَا بَيْتٌ', correct: 'This is a house.', options: ['...', '...', '...', '...'] },
+    // Or show a text question → pick answer
+    { text: 'What does هَذَا mean?', correct: 'This (masc.)', options: ['...', '...', '...', '...'] },
   ],
 
   quizQuestions: {
-    multipleChoice: [               // Multiple choice questions (6-8 recommended)
-      { prompt: 'What does ذَلِكَ mean?', options: ['This', 'That', 'These', 'Those'], correct: 1 },
-      // correct is the index (0-based) of the right answer
-      // can also include arabic: 'هَذَا بَيْتٌ' for questions that show Arabic
+    multipleChoice: [
+      // correct is the 0-based index of the right option
+      { prompt: 'Translate: "His book"', options: ['كِتَابِي', 'كِتَابُكَ', 'كِتَابُهُ', 'كِتَابُهَا'], correct: 2 },
+      // optionally include an Arabic display above the options
+      { prompt: 'What does this mean?', arabic: 'هَذَا بَيْتٌ', options: ['...'], correct: 0 },
     ],
-    typing: [                       // Typing questions (2-3 recommended)
-      { prompt: 'Type in Arabic: "That is a house."', ideal: 'ذَلِكَ بَيْتٌ', accepts: ['ذلك بيت', 'ذَلِكَ بَيْتٌ', 'ذلك بيتٌ', 'ذَلِكَ بيت'] },
-      // accepts is an array of acceptable normalised answers
+    typing: [
+      {
+        prompt: 'Type in Arabic: "His book"',
+        ideal: 'كِتَابُهُ',
+        accepts: ['كتابه', 'كِتَابُهُ', 'كتابهُ']   // all accepted without diacritics
+      },
     ]
   }
 };
 ```
 
+**Key rules for lesson data:**
+- `totalQuestions` must equal `multipleChoice.length + typing.length`
+- `passMark` should be roughly 65–70% of `totalQuestions`
+- Comprehension question `correct` is the **exact string** of the right option (not an index)
+- Quiz `correct` is a **0-based index** into the options array
+- Vocab is **new words only** — words from earlier lessons may appear in examples and practice for reinforcement but must not be listed as new vocab
+- All Arabic text must carry full diacritics (harakat)
+- Transliterations follow academic convention: macrons for long vowels (ā, ī, ū), ʿ for ʿayn
+
 ---
 
 ## File Naming Rules
 
-| File Type | Pattern | Example |
-|-----------|---------|---------|
+| File | Pattern | Example |
+|------|---------|---------|
 | Book list page | `bookX.html` | `book1.html` |
-| Lesson HTML | `bX-lessonY.html` | `b1-lesson1.html` |
-| Lesson data | `bX-lessonY.js` | `b1-lesson1.js` (in `lessons/data/`) |
-| Final quiz HTML | `bX-final-quiz.html` | `b1-final-quiz.html` |
-| Final quiz data | `bX-final-quiz.js` | `b1-final-quiz.js` (in `lessons/data/`) |
+| Lesson data | `bX-lessonY.js` | `b1-lesson5.js` |
+| Final quiz data | `bX-final-quiz.js` | `b1-final-quiz.js` |
 
-**Rules:**
-- Never use spaces in filenames
-- Always use lowercase
+- Lowercase only, no spaces
 - Book number: 1, 2, or 3
-- Lesson number: 1-23 (with no leading zeros)
+- Lesson number: no leading zeros (1, not 01)
+- There is only one lesson HTML file: `lessons/lesson.html` — do not create per-lesson HTML files
+
+---
+
+## How to Add a New Lesson
+
+1. Create `lessons/data/bX-lessonY.js` — use an existing lesson file as a template
+2. Fill in the `LESSON_DATA` object (see structure above)
+3. Register it in `assets/js/book1-lesson-list.js` — add one entry to `BOOK1_LESSONS`:
+   ```js
+   { lessonNum: 12, section: 'section-3', slug: 'b1-lesson12', ar: 'الَّذِي — الَّتِي', title: 'Relative Pronouns', desc: 'Short description for the card.' }
+   ```
+4. Open the lesson in the browser via `lessons/lesson.html?book=1&lesson=12` and test all five steps
+5. Update the **Progress** table in this file
 
 ---
 
 ## CSS Architecture
 
-All pages load `shared.css` first, then the page-specific stylesheet.
+All pages load `shared.css` first, then a page-specific stylesheet.
 
 ### shared.css
-Contains everything that is used on more than one page:
 - CSS custom properties (design tokens)
 - Body and base reset
 - Geometric SVG background (`.geo-bg`)
-- Sticky nav bar (`nav`, `.nav-back`, `.nav-title`, `.nav-progress`)
-- Vocab/Grammar/Quiz chips (`.chip`, `.chip-vocab`, `.chip-grammar`, `.chip-quiz`)
+- Sticky nav bar
+- Vocab/Grammar/Quiz chips (`.chip`, `.chip-vocab`, etc.)
 - Global keyframe animations (`fadeDown`, `fadeUp`, `fadeIn`)
 
 ### book-list.css
-Only loaded by `book1.html`, `book2.html`, `book3.html`. Contains:
+Loaded by book list pages only. Contains:
 - Page header, stats, eyebrow
 - Two-column layout with sticky sidebar
-- Section headers and section nav
-- Lesson cards (`.lesson-card`, `.lesson-card-main`, `.lesson-card-quiz`, status modifiers, locked state with ✕ badge)
-- Final quiz card and reset-progress button (`.btn-reset-progress`)
+- Section headers and sidebar nav
+- Lesson cards — layout, status colours (not-started / in-progress / complete / locked), skip button, quiz-only button
+- Chips are rendered **inline inside the card text area**, not in a separate column
 
 ### lesson.css
-Only loaded by lesson pages. Contains:
+Loaded by lesson pages only. Contains:
 - Step indicator bar
-- Lesson panels
-- Vocabulary layout (`vocab-layout`, active grid, **Words you know well** `<details>`, compact cards for rated “know”)
-- Grammar blocks, example tables
-- Practice questions and options
-- Quiz questions, Arabic typing input, on-screen keyboard
+- All five lesson panels (vocab, lesson, comprehension, practice, quiz)
+- Vocabulary layout: active grid + "Words you know well" collapsible bucket
+- Grammar blocks and example tables
+- Practice and quiz question styles
+- Arabic typing input and on-screen keyboard
 - Score card
-- Navigation buttons
+- **Hover-translate tooltip** styles (`.ar-word[data-meaning]`) — dashed underline + dark tooltip above word on hover
 
-### CSS Variables (defined in shared.css)
+### CSS variables (defined in shared.css)
 
-```css
---gold           #8a6420   /* primary accent — all gold UI elements */
---gold-light     #c4a050   /* lighter gold for borders and dividers */
---gold-border    #c4a05060 /* semi-transparent gold for card borders */
---gold-faint     #8a642015 /* very faint gold for hover backgrounds */
---bg             #fdf6ec   /* warm parchment page background */
---bg-card        #fff9f2   /* slightly lighter card background */
---text-dark      #1a1208   /* near-black — main body text */
---text-mid       #4a3820   /* dark brown — secondary text */
---text-muted     #8a7254   /* muted brown — hints, labels */
---green          #1e5c38   /* success / completed state */
---green-bg       #d4edda   /* light green background */
---green-border   #8ac4a0   /* green border */
---amber          #b45309   /* “in progress” / practising highlights */
+```
+--gold           #8a6420    primary accent — all gold UI elements
+--gold-light     #c4a050    lighter gold for borders and dividers
+--gold-border    #c4a05060  semi-transparent gold for card borders
+--gold-faint     #8a642015  very faint gold for hover backgrounds
+--bg             #fdf6ec    warm parchment page background
+--bg-card        #fff9f2    slightly lighter card background
+--text-dark      #1a1208    near-black — main body text
+--text-mid       #4a3820    dark brown — secondary text
+--text-muted     #8a7254    muted brown — hints, labels
+--green          #1e5c38    success / completed state
+--green-bg       #d4edda
+--green-border   #8ac4a0
+--amber          #b45309    in-progress / practising
 --amber-bg       #fff7ed
---amber-border   #fdba7460 /* semi-transparent amber */
---red            #9b2c2c   /* vocab “difficult” / emphasis */
+--amber-border   #fdba7460
+--red            #9b2c2c    wrong answers / difficult vocab
 --red-bg         #fdecec
 --red-border     #e8a8a8
 ```
 
-**Do not hardcode hex values in page-specific CSS.** Always use these variables (define new tokens in `shared.css` first).
-
-**Note:** `index.html` still uses inline `<style>` for the landing hero; prefer aligning with `shared.css` variables when touching that page.
+**Never hardcode hex values in page CSS — always use these variables.**
 
 ---
 
 ## JavaScript Architecture
 
-### `progress.js`
-Loaded by lesson pages and book list pages. Handles **lesson progress**, **sequential locks on the book list**, **vocabulary word ratings**, and **global reset**.
+### progress.js
+Manages all localStorage state.
 
-**Lesson progress (`localStorage` keys `medina_book1_progress`, etc.):**
-- Value `true` → lesson **completed** (quiz passed)
-- Value `'in_progress'` → learner opened the lesson but has not passed the quiz yet
-- Key absent → **not started**
+**Lesson progress** (`medina_book1_progress` etc.):
+- `true` → complete
+- `'in_progress'` → opened but not passed
+- absent → not started
 
-| Function | Purpose |
-|---|---|
-| `getProgress(book)` | Raw progress object from localStorage |
-| `getLessonStatus(lessonNum, book)` | `'not_started'` \| `'in_progress'` \| `'complete'` |
-| `markLessonInProgress(lessonNum, book)` | Sets `'in_progress'` if not already complete |
-| `markComplete` / `markIncomplete` | Quiz pass / clear completion |
-| `countCompleted(book)` | Counts completed lessons only |
-| `isLessonUnlocked(lessonNum, book)` | Lesson 1 always; else requires all previous lessons **complete** |
-| `lessonHtmlRelPath(book, n)` | Builds `lessons/b1-lessonN.html` style path |
-| `updateLessonSequentialLocks(book)` | Applies locked UI (✕, disabled links) on book list |
-| `updateProgressBar`, `updateCompletedCount`, `updateLessonCards`, `updateFinalQuiz` | Book list nav + stats + card colours + final quiz lock |
-| `refreshBookListUI(book)` | Full refresh after DOM for lesson cards exists |
-| `initSidebarScroll()` | Sidebar section highlighting |
-| `toArabicNumeral(n)` | Western → Arabic-Indic digits |
+**Vocab ratings** (`medina_vocab_ratings`):
+- Nested: `book1_5` → `{ 0: 'know', 1: 'struggle', 2: 'unknown' }`
 
-**Vocabulary ratings (`localStorage` key `medina_vocab_ratings`):**
-- Nested object: `${book}_${lessonNum}` → `{ wordIndex: 'know' \| 'struggle' \| 'unknown' }`
+Key functions: `getLessonStatus`, `markComplete`, `isLessonUnlocked`, `refreshBookListUI`, `getVocabRatingsForLesson`, `setVocabWordRating`, `confirmAndResetAllMedinaProgress`
+
+### book1-lesson-list.js
+Defines `BOOK1_SECTIONS` (5 sections) and `BOOK1_LESSONS` (23 lessons). Builds the lesson list DOM on `book1.html` — section headers, lesson cards with inline chips, skip button on the current lesson, quiz-only button.
+
+### lesson-core.js
+All lesson UI logic. Key functions:
 
 | Function | Purpose |
 |---|---|
-| `getVocabRatingsForLesson(book, lessonNum)` | Read ratings for one lesson |
-| `setVocabWordRating(book, lessonNum, wordIndex, rating)` | Save or clear (`null`) |
+| `initLesson()` | Entry point — populates header, builds all panels |
+| `goToStep(step)` / `unlockAndGo(step)` | Panel navigation |
+| `applyQuizJumpMode()` | Unlocks all steps, jumps to quiz (`?step=quiz`) |
+| `buildVocabularyPanel(data)` | Renders vocab cards with rating buttons and the known-words bucket |
+| `buildLessonPanel(data)` | Renders grammar blocks and example table |
+| `buildComprehensionPanel(data)` | Renders story with hover-translate, MCQ questions |
+| `buildPracticePanel(data)` | Renders practice questions |
+| `buildQuizPanel(data)` | Renders MC + typing quiz questions |
+| `annotateArabicText(text, vocab)` | Splits Arabic text into words, matches against vocab, wraps matched words in `<span class="ar-word" data-meaning="...">` for hover tooltips |
+| `checkComprehension` / `checkPractice` / `checkQuiz` / `checkTyping` | Answer checking |
+| `submitQuiz()` / `retryQuiz()` | Quiz scoring and reset |
+| `attachKeyboard()` | On-screen Arabic keyboard |
+| `stripDiacritics(str)` / `normalise(str)` | Lenient answer matching |
 
-**Reset**
+### lesson-loader.js
+Reads URL params → builds data file path → injects `<script>` → calls `initLesson()`. Also checks lesson lock state (redirects if locked) and marks lesson in-progress.
 
-| Function | Purpose |
-|---|---|
-| `clearAllMedinaProgress()` | Removes all progress + vocab rating keys |
-| `confirmAndResetAllMedinaProgress()` | `confirm()` dialog, clear, `location.reload()` |
+---
 
-### `book1-lesson-list.js`
-Loaded only by `book1.html`. Defines **`BOOK1_SECTIONS`**, **`BOOK1_LESSONS`**, and **`renderBook1LessonList()`** (builds sidebar + section blocks + lesson cards). Exposes **`BOOK1_LIST_META`** for optional tooling.
+## Hover-Translate Feature
 
-### `lesson-core.js`
-Shared functions used by all lesson pages:
+Reading comprehension Arabic text is annotated automatically. When `buildComprehensionPanel` renders the Arabic story, it calls `annotateArabicText(text, vocab)` which:
 
-| Function | Purpose |
-|---|---|
-| `goToStep(step)` | Navigates between vocab/lesson/comprehension/practice/quiz panels |
-| `unlockAndGo(step)` | Unlocks a step and navigates to it |
-| `applyQuizJumpMode()` | Unlocks every step and switches to quiz (`?step=quiz`) |
-| `buildVocabularyPanel` / vocab helpers | Renders vocab cards, ratings, **Words you know well** bucket |
-| `buildComprehensionPanel` | Renders the story, translation toggle, and MCQ questions |
-| `checkComprehension(btn, qNum, isCorrect)` | Handles story-based MCQ answers |
-| `checkPractice(btn, isCorrect)` | Handles practice question answers |
-| `checkQuiz(btn, qNum, isCorrect)` | Handles multiple choice quiz answers |
-| `checkTyping(qNum, questionData)` | Handles typed quiz answers with lenient matching |
-| `submitQuiz()` | Calculates score and marks lesson complete if passed |
-| `retryQuiz()` | Resets all quiz questions |
-| `attachKeyboard()` | Initialises the on-screen Arabic keyboard |
-| `normalise(str)` | Strips diacritics for lenient answer matching |
-| `stripDiacritics(str)` | Removes Arabic vowel marks |
+1. Builds a lookup map from the lesson's `vocab` array (stripping diacritics for matching)
+2. Splits the Arabic text on spaces
+3. Wraps each word that matches a vocab entry in `<span class="ar-word" data-meaning="English meaning">`
+4. Non-matching words are rendered as plain text
 
-### `lesson-loader.js`
-After `LESSON_DATA` is available: checks **`isLessonUnlocked`** (redirects to the book page if locked), **`markLessonInProgress`**, resets step state, **`initLesson()`**, then applies **`?step=quiz`** via **`applyQuizJumpMode`** when requested.
+The CSS tooltip is pure CSS — no JS needed for show/hide. Words get a dashed gold underline; hovering shows a dark tooltip above with the English meaning.
+
+**Limitation:** Inflected forms (e.g. كِتَابُهُ vs vocab كِتَابٌ) may not match due to case endings and attached pronouns. This is acceptable for now — core vocabulary still matches reliably.
+
+---
+
+## Arabic Typing — Lenient Matching
+
+Typed answers are normalised before comparison:
+1. Strip all diacritics (harakat) — Unicode range `ً–ٟ`
+2. Strip punctuation (Arabic comma، full stop, question mark؟)
+3. Collapse multiple spaces
+4. Trim
+
+So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After any check, the ideal answer with full vowels is always shown.
 
 ---
 
 ## Design Rules
 
 ### Typography
-- **Arabic text** → always `font-family: 'Amiri', serif; font-weight: 700`
-- **Body/UI text** → always `font-family: 'Lato', sans-serif`
-- **Labels/eyebrows** → `font-family: 'Cinzel', serif` — uppercase only
-- **No italics** on body text — this is intentional for readability and dyslexia accessibility
-- **No thin font weights** — minimum `font-weight: 400`, prefer `700` for anything important
-- Base font size: `html { font-size: 20px }` — do not reduce this
+- Arabic text → `font-family: 'Amiri', serif; font-weight: 700`
+- Body/UI text → `font-family: 'Lato', sans-serif`
+- Labels/eyebrows → `font-family: 'Cinzel', serif` — uppercase only
+- No italics on body text
+- Minimum `font-weight: 400`, prefer `700` for anything important
+- Base font size: `html { font-size: 20px }` — do not reduce
 
 ### Colour
-- The palette is warm and classical — gold, parchment, dark brown
-- Never use cool greys, blues, or white backgrounds — always use the warm CSS variables
-- Gold (`--gold`) is the primary accent across the site
-- Green — completed lessons / correct quiz feedback / “know well” vocabulary emphasis
-- Amber — in-progress lessons / “still practising” vocabulary
-- Red — wrong quiz answers and “difficult / new” vocabulary emphasis (not the only cue — icons/text too)
+- Palette is warm and classical: gold, parchment, dark brown
+- Never use cool greys, blues, or white backgrounds — always the warm CSS variables
+- Gold → primary accent throughout
+- Green → completed / correct
+- Amber → in-progress / practising
+- Red → wrong / difficult (always paired with icon + text, never colour alone)
 
 ### Layout
-- Max content width: `1220px` on book list pages, `900px` on lesson pages
-- Desktop-first — the site is designed for 1280px+ screens at 100% zoom
-- The geometric SVG tile pattern appears on every page as a fixed background at `opacity: 0.04`
-- All pages share the same sticky nav bar structure
+- Max width: `1220px` on book list pages, `900px` on lesson pages
+- Desktop-first — designed for 1280px+ at 100% zoom
+- Geometric SVG tile pattern fixed on every page at `opacity: 0.04`
+- Sticky nav on all pages
 
 ### Accessibility
-- All Arabic numerals displayed to users should use Arabic-Indic numerals (٠١٢٣٤٥٦٧٨٩) via `toArabicNumeral()`
-- Colour is never the only indicator — correct/wrong states also use ✓/✗ icons and text feedback
+- Arabic-Indic numerals (٠١٢٣٤٥٦٧٨٩) for all numbers shown to users — use `toArabicNumeral()`
+- Colour is never the only indicator — correct/wrong always uses icons and text too
 - All interactive elements have `:hover` and `:focus-visible` states
 
 ---
 
-## Arabic Typing — Lenient Matching Rules
+## SEO & Production Files
 
-When checking typed Arabic answers, the following normalisation is applied before comparison:
+| File | Purpose |
+|------|---------|
+| `favicon.svg` | Browser tab icon — Arabic ع, emerald background, gold text |
+| `robots.txt` | Allows all crawlers, points to sitemap |
+| `sitemap.xml` | Lists main pages for Google indexing |
+| `404.html` | Custom branded error page for GitHub Pages |
 
-1. Strip all diacritics (harakat): fatha, kasra, damma, tanwin, shadda, sukun (Unicode range `\u064B–\u065F`)
-2. Strip punctuation: Arabic comma، full stop۔ question mark؟ and Latin equivalents
-3. Collapse multiple spaces into one
-4. Trim leading/trailing whitespace
-
-This means `هذا بيت` and `هَذَا بَيْتٌ` are treated as the same answer.
-
-After any typing check (right or wrong), the ideal answer with full vowels is always shown so the student can compare.
+All HTML pages have: `<meta name="description">`, Open Graph tags (`og:title`, `og:description`, `og:url`, `og:type`, `og:site_name`), Twitter card tags, and `<link rel="canonical">`.
 
 ---
 
-## Content Source
+## Progress
 
-All lesson content is based on **Durus al-Lughah al-Arabiyyah (Lessons in Arabic Language)** by Shaykh Dr. V. Abdur-Raheem, published by the Islamic University of Madinah.
-
-- Book 1: 23 lessons — foundational grammar, demonstratives, nouns, basic verbs
-- Book 2: ~23 lessons — expanded grammar, more verb forms, Quranic vocabulary
-- Book 3: ~23 lessons — advanced structures, classical text reading
-
-When writing lesson content, vocabulary, and quiz questions:
-- Be accurate to the book — do not invent grammar rules
-- Transliterations should follow standard academic conventions (macrons for long vowels: ā, ī, ū)
-- Always include diacritics (full harakat) on Arabic text shown to students
-- Quiz questions should test what was actually taught in that lesson — do not reference concepts from later lessons
-- **Do not duplicate vocabulary across lessons** — the `vocab` array should contain only genuinely new words for that lesson. Words from previous lessons may appear in examples and practice questions for review, but should not be listed as new vocabulary
-
----
-
-## Progress Status
-
+### Infrastructure
 | File | Status |
-|---|---|
+|------|--------|
 | `index.html` | ✅ Complete |
 | `book1.html` | ✅ Complete |
-| `book2.html` | ✅ Placeholder (coming soon) |
-| `book3.html` | ✅ Placeholder (coming soon) |
+| `book2.html` | ✅ Placeholder |
+| `book3.html` | ✅ Placeholder |
+| `404.html` | ✅ Complete |
+| `favicon.svg` | ✅ Complete |
+| `robots.txt` | ✅ Complete |
+| `sitemap.xml` | ✅ Complete |
 | `assets/css/shared.css` | ✅ Complete |
 | `assets/css/book-list.css` | ✅ Complete |
 | `assets/css/lesson.css` | ✅ Complete |
@@ -357,60 +399,51 @@ When writing lesson content, vocabulary, and quiz questions:
 | `assets/js/book1-lesson-list.js` | ✅ Complete |
 | `assets/js/lesson-core.js` | ✅ Complete |
 | `assets/js/lesson-loader.js` | ✅ Complete |
-| `lessons/b1-lesson1.html` | ✅ Complete |
-| `lessons/data/b1-lesson1.js` | ✅ Complete |
-| `lessons/b1-lesson2.html` | ✅ Complete |
-| `lessons/data/b1-lesson2.js` | ✅ Complete |
-| `lessons/b1-lesson3.html` | ✅ Complete |
-| `lessons/data/b1-lesson3.js` | ✅ Complete |
-| `lessons/b1-lesson4.html` | ✅ Complete |
-| `lessons/data/b1-lesson4.js` | ✅ Complete |
-| `lessons/b1-lesson5.html` | ✅ Complete |
-| `lessons/data/b1-lesson5.js` | ✅ Complete |
-| `lessons/b1-lesson6.html` | ✅ Complete |
-| `lessons/data/b1-lesson6.js` | ✅ Complete |
-| ... | (Lessons 7-23) | 🔲 Not started |
-| `lessons/b1-final-quiz.html` | 🔲 Not started |
-| All Book 2 & 3 lessons | 🔲 Not started |
+| `lessons/lesson.html` | ✅ Complete |
 
----
+### Book 1 Lessons
+| Lesson | Topic | Status |
+|--------|-------|--------|
+| 1 | This is… (Masculine) — هَذَا | ✅ Complete |
+| 2 | That is… (Masculine) — ذَلِكَ | ✅ Complete |
+| 3 | Indefinite & Definite Nouns | ✅ Complete |
+| 4 | Prepositions | ✅ Complete |
+| 5 | The Possessive Construction (Iḍāfa) | ✅ Complete |
+| 6 | This is… (Feminine) — هَذِهِ | ✅ Complete |
+| 7 | That is… (Feminine) — تِلْكَ | ✅ Complete |
+| 8 | Sun and Moon Letters | ✅ Complete |
+| 9 | Adjectives | ✅ Complete |
+| 10 | Attached Pronouns | ✅ Complete |
+| 11 | Pronouns with Prepositions — فِيهِ / فِيهَا | ✅ Complete |
+| 12 | Relative Pronouns — الَّذِي / الَّتِي | 🔲 Not started |
+| 13 | Past Tense Verbs — ذَهَبَ / ذَهَبَتْ | 🔲 Not started |
+| 14 | Past Tense (You & I) | 🔲 Not started |
+| 15 | Past Tense — Full Conjugation | 🔲 Not started |
+| 16 | Adverbs of Place & Substitution | 🔲 Not started |
+| 17 | The Particle of Calling — يَا | 🔲 Not started |
+| 18 | Interrogatives — مَنْ / مَا | 🔲 Not started |
+| 19 | Inna and Its Sisters — إِنَّ | 🔲 Not started |
+| 20 | Sound Masculine Plural | 🔲 Not started |
+| 21 | Sound Feminine Plural | 🔲 Not started |
+| 22 | The Dual — الْمُثَنَّى | 🔲 Not started |
+| 23 | How Many? — كَمْ | 🔲 Not started |
+| Final Quiz | Book 1 comprehensive | 🔲 Not started |
 
-## When Adding a New Lesson
-
-1. **Copy the previous data file** (e.g., `b1-lesson2.js` → `b1-lesson3.js`)
-2. **Update the `LESSON_DATA` object** with the new lesson's content:
-   - `lessonNum`
-   - `titleArabic`, `titleEnglish`
-   - `summary`
-   - `nextLesson`
-   - `vocab` array (**new words only** — remove words already taught in previous lessons; they will appear in examples/practice for review)
-   - `grammarBlocks` array
-   - `examples` array
-   - `comprehension` object (Arabic story + English translation + MCQ questions)
-   - `practiceQuestions` array
-   - `quizQuestions.multipleChoice` array
-   - `quizQuestions.typing` array
-3. **Copy the previous HTML file** (e.g., `b1-lesson2.html` → `b1-lesson3.html`)
-4. **Update the data file reference** in the HTML script tag
-5. **Register the lesson on Book 1** — add one object to `BOOK1_LESSONS` in `assets/js/book1-lesson-list.js` (`lessonNum`, `section`, `slug`, `ar`, `title`, `desc`) so it appears on `book1.html`
-6. **Test the lesson** in your browser
-7. **Update the GUIDELINES.md progress table** to mark the lesson as complete
+### Book 2 & 3
+🔲 Not started — pending completion of Book 1
 
 ---
 
 ## What NOT To Do
 
-- Do not add any backend, database, or server-side code — this is a static site
-- Do not add npm, webpack, or any build tools — plain HTML/CSS/JS only
-- Do not use `localStorage` for unrelated features — only **lesson progress**, **vocabulary word ratings**, and the **reset-all** action; use **documented keys only** (`medina_book*_progress`, `medina_vocab_ratings`)
-- Do not change the base font size (`20px`) or the max content widths without good reason
-- Do not use italics for body text
-- Do not use font weights below 400
-- Do not hardcode hex colour values — use CSS variables
-- Do not add new CSS variables without adding them to `shared.css` first
-- Do not create new JS files without documenting them in this file
-- Do not change the lesson file naming convention
-- Do not put lesson content directly in HTML files — always use the data-driven approach (`lessons/data/*.js`). Book 1 **list card copy** lives in `book1-lesson-list.js`, not in `book1.html`.
-
----
-
+- No backend, database, or server-side code — static only
+- No npm, webpack, or build tools — plain HTML/CSS/JS
+- No per-lesson HTML files — `lessons/lesson.html` is the only shell
+- Do not hardcode hex colours — use CSS variables
+- Do not add CSS variables outside `shared.css`
+- Do not store anything in localStorage except lesson progress and vocab ratings (keys: `medina_book*_progress`, `medina_vocab_ratings`)
+- Do not reduce the base font size (`20px`) or max content widths without good reason
+- Do not use italics on body text or font weights below 400
+- Do not duplicate vocabulary across lessons
+- Do not reference grammar concepts in a lesson's quiz that haven't been taught yet
+- Do not commit and push every small change — batch into meaningful commits
