@@ -58,9 +58,24 @@
       <div class="level-card" aria-label="Current reading level">
         <span class="level-card-label">Reading Level</span>
         <strong id="readingLevelName">Pre-Level One</strong>
-        <span id="nextUpgradeHint">Pass ٣ stories to reach Level One.</span>
+        <span id="nextUpgradeHint">Pass ٥ stories to reach Level One.</span>
       </div>
     </header>
+
+    <section class="rank-ladder" aria-label="Reading rank progress">
+      <div class="rank-ladder-head">
+        <div>
+          <span class="rank-kicker">Rank Climb</span>
+          <h2 id="rankHeadline">Pre-Level One</h2>
+        </div>
+        <strong id="rankProgressText">٠ / ٥</strong>
+      </div>
+      <div class="rank-track" aria-hidden="true">
+        <div class="rank-track-fill" id="rankTrackFill"></div>
+      </div>
+      <div class="rank-nodes" id="rankNodes"></div>
+      <p class="rank-note" id="rankNote">Pass ٥ stories to reach Level One.</p>
+    </section>
 
     <section class="daily-reader" id="readerCard" aria-live="polite"></section>
 

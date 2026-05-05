@@ -6,6 +6,12 @@
   const READING_PROGRESS_KEY = 'kalamo_reading_progress';
   const READING_WORDS_KEY = 'kalamo_reading_satchel';
   const LEVEL_ONE_TARGET = 5;
+  const RANKS = [
+    { name: 'Pre-Level One', required: 0 },
+    { name: 'Level One', required: 5 },
+    { name: 'Level Two', required: 10 },
+    { name: 'Level Three', required: 15 },
+  ];
 
   const COURSE_WORDS = [
     { lesson: 1, ar: 'هٰذَا', trans: 'hādhā', meaning: 'this' },
@@ -151,7 +157,13 @@
   }
 
   function currentLevelName() {
-    return passedIds().length >= LEVEL_ONE_TARGET ? 'Level One' : 'Pre-Level One';
+    const passed = passedIds().length;
+    return [...RANKS].reverse().find(rank => passed >= rank.required).name;
+  }
+
+  function nextRank() {
+    const passed = passedIds().length;
+    return RANKS.find(rank => passed < rank.required) || null;
   }
 
   function nextChallenge(excludeId = '') {
@@ -160,6 +172,15 @@
       || CHALLENGES.find(challenge => completed >= challenge.unlockAfterLesson && challenge.id !== excludeId)
       || CHALLENGES.find(challenge => completed >= challenge.unlockAfterLesson)
       || null;
+  }
+
+  function nextUnreadChallenge(excludeId = '') {
+    const completed = completedLessons();
+    return CHALLENGES.find(challenge => (
+      completed >= challenge.unlockAfterLesson
+      && !state.passed[challenge.id]
+      && challenge.id !== excludeId
+    )) || null;
   }
 
   function stripDiacritics(value) {
@@ -192,16 +213,46 @@
   function renderStats() {
     const passed = passedIds().length;
     const total = CHALLENGES.length;
-    const remainingToLevelOne = Math.max(0, LEVEL_ONE_TARGET - passed);
+    const targetRank = nextRank();
+    const activeRank = currentLevelName();
+    const previousRank = [...RANKS].reverse().find(rank => passed >= rank.required) || RANKS[0];
+    const rankStart = previousRank.required;
+    const rankEnd = targetRank ? targetRank.required : Math.max(passed, previousRank.required + LEVEL_ONE_TARGET);
+    const rankSpan = Math.max(1, rankEnd - rankStart);
+    const rankProgress = Math.min(rankSpan, Math.max(0, passed - rankStart));
+    const rankPct = (rankProgress / rankSpan) * 100;
 
-    document.getElementById('readingLevelName').textContent = currentLevelName();
+    document.getElementById('readingLevelName').textContent = activeRank;
     document.getElementById('passedCount').textContent = toArabicNumeral(passed);
     document.getElementById('satchelCount').textContent = toArabicNumeral(satchelWords().length);
     document.getElementById('readingProgressFill').style.width = `${total ? (passed / total) * 100 : 0}%`;
     document.getElementById('readingProgressLabel').textContent = `${toArabicNumeral(passed)} / ${toArabicNumeral(total)}`;
-    document.getElementById('nextUpgradeHint').textContent = remainingToLevelOne
-      ? `Pass ${toArabicNumeral(remainingToLevelOne)} more stories to reach Level One.`
-      : 'You are reading at Level One.';
+    document.getElementById('nextUpgradeHint').textContent = targetRank
+      ? `Pass ${toArabicNumeral(targetRank.required - passed)} more stories to reach ${targetRank.name}.`
+      : 'Highest reading rank reached for now.';
+    document.getElementById('rankHeadline').textContent = activeRank;
+    document.getElementById('rankProgressText').textContent = `${toArabicNumeral(rankProgress)} / ${toArabicNumeral(rankSpan)}`;
+    document.getElementById('rankTrackFill').style.width = `${rankPct}%`;
+    document.getElementById('rankNote').textContent = targetRank
+      ? `${toArabicNumeral(targetRank.required - passed)} more passed stories to reach ${targetRank.name}.`
+      : 'You have cleared every reading rank currently available.';
+    renderRankNodes(passed);
+  }
+
+  function renderRankNodes(passed) {
+    const mount = document.getElementById('rankNodes');
+    mount.innerHTML = RANKS.map((rank, index) => {
+      const complete = passed >= rank.required;
+      const current = rank.name === currentLevelName();
+      const state = current ? 'current' : complete ? 'complete' : 'locked';
+      return `
+        <div class="rank-node ${state}">
+          <span>${toArabicNumeral(index + 1)}</span>
+          <strong>${rank.name}</strong>
+          <small>${rank.required ? `${toArabicNumeral(rank.required)} stories` : 'Start'}</small>
+        </div>
+      `;
+    }).join('');
   }
 
   function renderSatchel() {
@@ -220,16 +271,21 @@
   }
 
   function levelProgressMarkup() {
-    const passed = Math.min(passedIds().length, LEVEL_ONE_TARGET);
-    const pct = (passed / LEVEL_ONE_TARGET) * 100;
-    const remaining = Math.max(0, LEVEL_ONE_TARGET - passed);
-    const note = remaining
-      ? `${toArabicNumeral(remaining)} more stories to reach Level One.`
-      : 'Level One reached.';
+    const passed = passedIds().length;
+    const targetRank = nextRank();
+    const previousRank = [...RANKS].reverse().find(rank => passed >= rank.required) || RANKS[0];
+    const rankStart = previousRank.required;
+    const rankEnd = targetRank ? targetRank.required : Math.max(passed, previousRank.required + LEVEL_ONE_TARGET);
+    const rankSpan = Math.max(1, rankEnd - rankStart);
+    const rankProgress = Math.min(rankSpan, Math.max(0, passed - rankStart));
+    const pct = (rankProgress / rankSpan) * 100;
+    const note = targetRank
+      ? `${toArabicNumeral(targetRank.required - passed)} more stories to reach ${targetRank.name}.`
+      : 'Highest reading rank reached for now.';
     return `
       <div class="level-progress-card">
         <div class="level-progress-copy">
-          <strong>${toArabicNumeral(passed)} / ${toArabicNumeral(LEVEL_ONE_TARGET)} completed</strong>
+          <strong>${toArabicNumeral(rankProgress)} / ${toArabicNumeral(rankSpan)} completed</strong>
           <span>${note}</span>
         </div>
         <div class="level-progress-track" aria-hidden="true">
@@ -272,7 +328,10 @@
     const newWords = challenge.newWords
       .map(word => `<strong>${word.ar}</strong> ${word.trans} - ${word.meaning}`)
       .join(', ');
-    const next = nextChallenge(challenge.id);
+    const next = nextUnreadChallenge(challenge.id);
+    const lockedHint = passedCurrent && !next
+      ? '<p class="next-story-hint">No new unlocked story yet. Complete more Book One lessons to unlock the next reading challenge.</p>'
+      : '';
     const resultPanel = resultText ? `
       <div class="reading-result-panel ${resultClass}">
         <div>
@@ -281,6 +340,7 @@
         </div>
         ${levelProgressMarkup()}
         ${passedCurrent && next ? '<button class="reading-btn" type="button" id="nextStoryBtn">Read next story</button>' : ''}
+        ${lockedHint}
       </div>
     ` : '';
 
@@ -302,6 +362,7 @@
       <div class="questions">${questions}</div>
       <div class="reader-actions">
         <button class="reading-btn" type="button" id="submitReading">Check Answers</button>
+        <span class="reading-inline-result" id="readingInlineResult"></span>
       </div>
       ${resultPanel}
     `;
@@ -315,10 +376,19 @@
 
   function submitChallenge(challenge) {
     let score = 0;
+    let answered = 0;
     challenge.questions.forEach((question, index) => {
       const selected = document.querySelector(`input[name="q${index}"]:checked`);
-      if (selected && Number(selected.value) === question.correct) score++;
+      if (!selected) return;
+      answered++;
+      if (Number(selected.value) === question.correct) score++;
     });
+
+    if (answered < challenge.questions.length) {
+      const inlineResult = document.getElementById('readingInlineResult');
+      if (inlineResult) inlineResult.textContent = 'Answer every question before checking.';
+      return;
+    }
 
     const passed = score >= Math.ceil(challenge.questions.length * 0.7);
     if (passed) {

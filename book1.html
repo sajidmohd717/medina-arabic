@@ -128,7 +128,7 @@
         const progress = JSON.parse(localStorage.getItem('kalamo_reading_progress')) || {};
         passed = Object.values(progress.passed || {}).filter(Boolean).length;
       } catch {}
-      const grade = passed >= 3 ? 'Level One' : 'Pre-Level One';
+      const grade = passed >= 5 ? 'Level One' : 'Pre-Level One';
       el.textContent = `Reading Track (${grade})`;
     })();
   </script>

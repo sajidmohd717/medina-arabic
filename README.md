@@ -16,7 +16,7 @@ Kalamo is a fully static web app that guides students through the Madinah Arabic
 - **Progress tracking** — lesson completion and vocab ratings saved in your browser (localStorage)
 - **On-screen Arabic keyboard** — for typing Arabic answers without switching your system keyboard
 - **Vocab rating system** — mark words as "know", "still practising", or "new/difficult" to track your retention
-- **Reading track** — leveled stories, comprehension checks, and a vocabulary satchel that grows with lesson progress
+- **Reading track** — one-story reading practice, comprehension checks, a rank ladder, and a vocabulary satchel that grows with lesson progress
 - **Fully static** — no backend, no build tools, no accounts required
 
 ---

@@ -326,6 +326,8 @@ Runs the optional reading track on `reading.html`.
 - Shows one unlocked story at a time, chosen from the learner's completed Book 1 lessons and unread reading challenges.
 - Keeps the first screen calm: reading level, one story, and visible comprehension questions with no extra start gate.
 - After checking answers, shows pass/retry feedback, reading-level progress, and a frictionless next-story action when another story is available.
+- Uses a visible rank ladder so reading feels like a climb: `Pre-Level One` → `Level One` → `Level Two` → `Level Three`.
+- Current rank threshold is 5 passed stories per level; update `RANKS` and the UI copy together if this methodology changes.
 - Keeps the vocabulary satchel collapsed by default so it supports curiosity without cluttering the main reading flow.
 - Builds the satchel from course words already unlocked plus reading-only reward words.
 - Stores reading challenge passes in `kalamo_reading_progress`.
