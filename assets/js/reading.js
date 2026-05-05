@@ -42,6 +42,10 @@
     { lesson: 12, ar: 'الَّتِي', trans: 'allatī', meaning: 'who/which feminine' },
     { lesson: 12, ar: 'مَرِيضٌ', trans: 'marīḍun', meaning: 'sick' },
     { lesson: 12, ar: 'مَشْغُولٌ', trans: 'mashghūlun', meaning: 'busy' },
+    { lesson: 13, ar: 'دَخَلَ', trans: 'dakhala', meaning: 'he entered' },
+    { lesson: 13, ar: 'جَلَسَتْ', trans: 'jalasat', meaning: 'she sat' },
+    { lesson: 13, ar: 'كَتَبَ', trans: 'kataba', meaning: 'he wrote' },
+    { lesson: 13, ar: 'قَرَأَتْ', trans: 'qaraʾat', meaning: 'she read' },
   ];
 
   const CHALLENGES = [
@@ -133,6 +137,21 @@
         { prompt: 'Who is busy?', options: ['The teacher', 'The student', 'The doctor'], correct: 0 },
         { prompt: 'What is the student like?', options: ['Sick', 'Big', 'New'], correct: 0 },
         { prompt: 'Where is the key?', options: ['In the bag', 'On the chair', 'In the mosque'], correct: 0 },
+      ],
+    },
+    {
+      id: 'level1-after-class',
+      level: 'Level One',
+      unlockAfterLesson: 13,
+      title: 'After Class',
+      target: 'Past tense: he did and she did',
+      newWords: [{ ar: 'بَعْدَ', trans: 'baʿda', meaning: 'after' }],
+      story: 'دَخَلَ خَالِدٌ الْفَصْلَ وَجَلَسَ عَلَى الْكُرْسِيِّ. قَرَأَ الدَّرْسَ وَكَتَبَ كَلِمَةً. دَخَلَتْ آمِنَةُ الْغُرْفَةَ وَجَلَسَتْ قَرِيبَةً مِنَ النَّافِذَةِ. بَعْدَ الدَّرْسِ رَجَعَ خَالِدٌ إِلَى الْبَيْتِ.',
+      translation: 'Khalid entered the classroom and sat on the chair. He read the lesson and wrote a word. Aminah entered the room and sat near the window. After the lesson, Khalid returned home.',
+      questions: [
+        { prompt: 'Who entered the classroom?', options: ['Khalid', 'Aminah', 'The doctor'], correct: 0 },
+        { prompt: 'What did Khalid write?', options: ['A word', 'A house', 'A key'], correct: 0 },
+        { prompt: 'Where did Aminah sit?', options: ['Near the window', 'On the table', 'In the hospital'], correct: 0 },
       ],
     },
   ];
