@@ -40,6 +40,8 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 ### Development workflow
 Work in sessions, batch related changes, and push to `main` once a meaningful chunk is done. Do not commit every small tweak — keep the git history clean and meaningful.
 
+For meaningful changes, use the lightweight agent briefs in `.agents/`: Content Lead for lesson quality, Experience Lead for UI/UX, and QA Lead for validation and pre-push checks. Do not use the agent workflow for tiny fixes unless requested.
+
 ---
 
 ## Architecture
