@@ -6,6 +6,7 @@
 
 (function () {
   const BOOK = 'book1';
+  const AVAILABLE_LESSON_COUNT = 11;
 
   /** Sidebar + section-block chrome */
   const BOOK1_SECTIONS = [
@@ -82,6 +83,10 @@
     return `lessons/lesson.html?book=1&lesson=${lessonNum}`;
   }
 
+  function quizHref(lessonNum) {
+    return `${lessonHref(lessonNum)}&step=quiz`;
+  }
+
   function buildChips() {
     const chips = document.createElement('div');
     chips.className = 'chips';
@@ -113,9 +118,11 @@
 
   function buildLessonCard(lesson, isCurrent) {
     const href = lessonHref(lesson.lessonNum);
+    const isAvailable = lesson.lessonNum <= AVAILABLE_LESSON_COUNT;
     const card = document.createElement('div');
     card.className = 'lesson-card lesson-card--not-started';
     card.dataset.lesson = String(lesson.lessonNum);
+    card.dataset.available = isAvailable ? 'true' : 'false';
 
     const main = document.createElement('a');
     main.className = 'lesson-card-main';
@@ -141,10 +148,10 @@
     desc.textContent = lesson.desc;
 
     // Add skip button for current lesson
-    if (isCurrent) {
+    if (isCurrent && isAvailable) {
       const skipBtn = document.createElement('a');
       skipBtn.className = 'lesson-skip-btn';
-      skipBtn.href = `${href}?step=quiz`;
+      skipBtn.href = quizHref(lesson.lessonNum);
       skipBtn.textContent = 'Skip this lesson — take quiz now';
       textWrap.append(ar, title, desc, buildChips(), skipBtn);
     } else {
@@ -155,7 +162,7 @@
 
     const quiz = document.createElement('a');
     quiz.className = 'lesson-card-quiz';
-    quiz.href = `${href}?step=quiz`;
+    quiz.href = quizHref(lesson.lessonNum);
     quiz.setAttribute('aria-label', `Jump straight to the quiz for lesson ${lesson.lessonNum}`);
     quiz.textContent = 'Quiz only';
 
@@ -226,5 +233,5 @@
     BOOK1_SECTIONS.forEach(sec => lessonsMount.appendChild(buildSectionBlock(sec, currentLessonNum)));
   };
 
-  window.BOOK1_LIST_META = { book: BOOK, lessonCount: BOOK1_LESSONS.length };
+  window.BOOK1_LIST_META = { book: BOOK, lessonCount: BOOK1_LESSONS.length, availableLessonCount: AVAILABLE_LESSON_COUNT };
 })();

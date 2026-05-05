@@ -11,6 +11,7 @@ const PROGRESS_KEYS = {
 };
 
 const BOOK_TOTALS = { book1: 23, book2: 23, book3: 23 };
+const BOOK_AVAILABLE_LESSONS = { book1: 11, book2: 0, book3: 0 };
 
 /** Per-lesson vocabulary word ratings: word index → 'know' | 'struggle' | 'unknown' */
 const VOCAB_RATINGS_KEY = 'medina_vocab_ratings';
@@ -74,9 +75,10 @@ function updateLessonSequentialLocks(book = 'book1') {
     const quiz = card.querySelector('.lesson-card-quiz');
     const badge = card.querySelector('.lesson-num-badge');
     const unlocked = isLessonUnlocked(n, book);
+    const available = card.dataset.available !== 'false' && n <= (BOOK_AVAILABLE_LESSONS[book] ?? BOOK_TOTALS[book]);
     const base = lessonHtmlRelPath(book, n);
 
-    if (unlocked) {
+    if (unlocked && available) {
       card.classList.remove('lesson-card--locked');
       if (badge) badge.removeAttribute('aria-label');
       if (main) {
@@ -86,7 +88,7 @@ function updateLessonSequentialLocks(book = 'book1') {
         main.removeAttribute('title');
       }
       if (quiz) {
-        quiz.setAttribute('href', `${base}?step=quiz`);
+        quiz.setAttribute('href', `${base}&step=quiz`);
         quiz.removeAttribute('aria-disabled');
         quiz.removeAttribute('tabindex');
         quiz.removeAttribute('title');
@@ -98,20 +100,20 @@ function updateLessonSequentialLocks(book = 'book1') {
     card.classList.add('lesson-card--locked');
     if (badge) {
       badge.textContent = '✕';
-      badge.setAttribute('aria-label', 'Locked — complete earlier lessons first');
+      badge.setAttribute('aria-label', available ? 'Locked — complete earlier lessons first' : 'Coming soon');
     }
     if (main) {
       main.setAttribute('href', '#');
       main.setAttribute('aria-disabled', 'true');
       main.setAttribute('tabindex', '-1');
-      main.setAttribute('title', 'Complete the previous lesson quiz to unlock this one.');
+      main.setAttribute('title', available ? 'Complete the previous lesson quiz to unlock this one.' : 'This lesson is coming soon.');
     }
     if (quiz) {
       quiz.setAttribute('href', '#');
       quiz.setAttribute('aria-disabled', 'true');
       quiz.setAttribute('tabindex', '-1');
-      quiz.setAttribute('title', 'Complete the previous lesson quiz to unlock.');
-      quiz.textContent = 'Locked';
+      quiz.setAttribute('title', available ? 'Complete the previous lesson quiz to unlock.' : 'This lesson is coming soon.');
+      quiz.textContent = available ? 'Locked' : 'Soon';
     }
   });
 }
