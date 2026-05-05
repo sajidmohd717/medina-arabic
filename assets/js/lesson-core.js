@@ -84,6 +84,10 @@ function normalise(str) {
     .toLowerCase();
 }
 
+function displayNumber(value) {
+  return typeof toArabicNumeral === 'function' ? toArabicNumeral(value) : String(value);
+}
+
 // ─────────────────────────────────────────────────────────────
 // STEP NAVIGATION
 // ─────────────────────────────────────────────────────────────
@@ -275,11 +279,11 @@ function submitQuiz() {
   const submitBtn = document.getElementById('submitQuizBtn');
   const nextBtn = document.getElementById('nextLessonBtn');
   
-  if (scoreNumber) scoreNumber.textContent = `${score} / ${total}`;
+  if (scoreNumber) scoreNumber.textContent = `${displayNumber(score)} / ${displayNumber(total)}`;
   if (scoreLabel) {
     scoreLabel.textContent = passed
       ? '🎉 Great work! Lesson marked as complete.'
-      : `You need at least ${CURRENT_LESSON_DATA.passMark} out of ${total} to pass. Review the lesson and try again.`;
+      : `You need at least ${displayNumber(CURRENT_LESSON_DATA.passMark)} out of ${displayNumber(total)} to pass. Review the lesson and try again.`;
   }
   if (scoreCard) {
     scoreCard.style.display = 'block';
@@ -615,7 +619,7 @@ function buildComprehensionPanel(data) {
     
     html += `
       <div class="comprehension-question">
-        <div class="comprehension-q-number">Question ${qNum}</div>
+        <div class="comprehension-q-number">Question ${displayNumber(qNum)}</div>
         <div class="comprehension-q-text">${q.text}</div>
         <div class="comprehension-options">${optionsHtml}</div>
         <div class="comprehension-feedback"></div>
@@ -643,7 +647,7 @@ function buildPracticePanel(data) {
     
     html += `
       <div class="practice-question">
-        <div class="practice-q-label">Question ${qNum} of ${data.practiceQuestions.length}</div>
+        <div class="practice-q-label">Question ${displayNumber(qNum)} of ${displayNumber(data.practiceQuestions.length)}</div>
         ${q.arabic ? `<div class="practice-q-arabic">${q.arabic}</div>` : ''}
         ${q.text ? `<div class="practice-q-text">${q.text}</div>` : ''}
         <div class="practice-options">${optionsHtml}</div>
@@ -661,11 +665,15 @@ function buildQuizPanel(data) {
   
   // Set title in nav and quiz panel
   const navTitle = document.getElementById('navTitle');
-  if (navTitle) navTitle.textContent = `Lesson ${data.lessonNum} — Kalamo`;
+  if (navTitle) navTitle.textContent = `Lesson ${displayNumber(data.lessonNum)} — Kalamo`;
 
   const mcCount = data.quizQuestions.multipleChoice.length;
   const typingCount = data.quizQuestions.typing.length;
   const total = mcCount + typingCount;
+  const quizTotalLabel = document.getElementById('quizTotalLabel');
+  if (quizTotalLabel) {
+    quizTotalLabel.textContent = `${displayNumber(total)} questions. Answer all of them to complete this lesson.`;
+  }
   
   let html = '';
   let qCounter = 1;
@@ -680,7 +688,7 @@ function buildQuizPanel(data) {
     
     html += `
       <div class="quiz-question" id="qq${qNum}">
-        <div class="quiz-q-number">Question ${qNum} of ${total}</div>
+        <div class="quiz-q-number">Question ${displayNumber(qNum)} of ${displayNumber(total)}</div>
         <div class="quiz-q-prompt">${q.prompt}</div>
         ${q.arabic ? `<div class="quiz-q-arabic">${q.arabic}</div>` : ''}
         <div class="quiz-options">${optionsHtml}</div>
@@ -695,7 +703,7 @@ function buildQuizPanel(data) {
     const qNum = mcCount + idx + 1;
     html += `
       <div class="quiz-question" id="qq${qNum}">
-        <div class="quiz-q-number">Question ${qNum} of ${total}</div>
+        <div class="quiz-q-number">Question ${displayNumber(qNum)} of ${displayNumber(total)}</div>
         <div class="quiz-q-prompt">${q.prompt}</div>
         <div class="arabic-input-wrap">
           <input class="arabic-input" type="text" id="qi${qNum}" placeholder="اكتب هنا..." autocomplete="off" onkeydown="if(event.key==='Enter') checkTyping(${qNum}, CURRENT_LESSON_DATA.quizQuestions.typing[${idx}])" />
@@ -737,7 +745,7 @@ function initLesson() {
   const lessonSpan = document.querySelector('.lesson-header h1 span');
   const lessonSummary = document.querySelector('.lesson-summary');
   
-  if (lessonEyebrow) lessonEyebrow.textContent = `Book ${CURRENT_BOOK.replace('book', '')} · Lesson ${CURRENT_LESSON_NUM}`;
+  if (lessonEyebrow) lessonEyebrow.textContent = `Book ${displayNumber(CURRENT_BOOK.replace('book', ''))} · Lesson ${displayNumber(CURRENT_LESSON_NUM)}`;
   if (lessonH1) lessonH1.innerHTML = `${CURRENT_LESSON_DATA.titleArabic}<span>${CURRENT_LESSON_DATA.titleEnglish}</span>`;
   if (lessonSummary) lessonSummary.textContent = CURRENT_LESSON_DATA.summary;
   

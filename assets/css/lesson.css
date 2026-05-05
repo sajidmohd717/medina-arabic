@@ -58,6 +58,9 @@
 
 /* ── Step indicator ── */
 .step-indicator {
+  position: sticky;
+  top: 76px;
+  z-index: 40;
   display: flex;
   align-items: center;
   gap: 0;
@@ -69,7 +72,7 @@
   position: sticky;
   top: 80px;
   z-index: 90;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 24px var(--gold-faint);
 }
 
 .step-btn {
@@ -111,6 +114,11 @@
 .step-btn.locked {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.step-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }
 
 .step-icon {
@@ -229,7 +237,7 @@
   margin-bottom: 1rem;
   border: 1.5px solid var(--green-border);
   border-radius: 12px;
-  background: #f6fbf8;
+  background: var(--green-bg);
   overflow: hidden;
 }
 
@@ -357,7 +365,7 @@
 
 .vocab-card--know {
   border-color: var(--green-border);
-  background: #f4fbf6;
+  background: var(--green-bg);
 }
 
 .vocab-card--struggle {
@@ -426,7 +434,7 @@
 }
 
 .vocab-rate-struggle.is-active {
-  background: #ffedd5;
+  background: var(--amber-bg);
   border-color: var(--amber-border);
   color: var(--amber);
 }
@@ -453,7 +461,6 @@
   font-weight: 400;
   color: var(--text-muted);
   margin-bottom: 6px;
-  font-style: italic;
 }
 
 .vocab-meaning {
@@ -751,9 +758,9 @@
 }
 
 .comprehension-option.wrong {
-  background: #fde8e8;
-  border-color: #e4a0a0;
-  color: #8b2020;
+  background: var(--red-bg);
+  border-color: var(--red-border);
+  color: var(--red);
 }
 
 .comprehension-feedback {
@@ -766,7 +773,7 @@
 }
 
 .comprehension-feedback.correct { color: var(--green); }
-.comprehension-feedback.wrong   { color: #8b2020; }
+.comprehension-feedback.wrong   { color: var(--red); }
 
 /* ════════════════════════════════
    PRACTICE PANEL
@@ -843,9 +850,9 @@
 }
 
 .practice-option.wrong {
-  background: #fde8e8;
-  border-color: #e4a0a0;
-  color: #8b2020;
+  background: var(--red-bg);
+  border-color: var(--red-border);
+  color: var(--red);
 }
 
 .practice-feedback {
@@ -858,7 +865,7 @@
 }
 
 .practice-feedback.correct { color: var(--green); }
-.practice-feedback.wrong   { color: #8b2020; }
+.practice-feedback.wrong   { color: var(--red); }
 
 /* ════════════════════════════════
    QUIZ PANEL
@@ -926,7 +933,7 @@
 
 .arabic-input:focus { border-color: var(--gold); }
 .arabic-input.correct { border-color: var(--green-border); background: var(--green-bg); }
-.arabic-input.wrong   { border-color: #e4a0a0; background: #fde8e8; }
+.arabic-input.wrong   { border-color: var(--red-border); background: var(--red-bg); }
 
 .input-hint {
   font-family: 'Lato', sans-serif;
@@ -992,8 +999,8 @@
   color: var(--text-mid);
 }
 
-.key-backspace { color: #8b2020; border-color: #e4a0a060; }
-.key-backspace:hover { background: #fde8e8; border-color: #e4a0a0; }
+.key-backspace { color: var(--red); border-color: var(--red-border); }
+.key-backspace:hover { background: var(--red-bg); border-color: var(--red-border); }
 
 .key-clear { color: var(--text-muted); }
 
@@ -1021,7 +1028,7 @@
 
 .quiz-option:hover:not(:disabled) { background: var(--gold-faint); border-color: var(--gold); }
 .quiz-option.correct { background: var(--green-bg); border-color: var(--green-border); color: var(--green); font-weight: 700; }
-.quiz-option.wrong   { background: #fde8e8; border-color: #e4a0a0; color: #8b2020; }
+.quiz-option.wrong   { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
 
 .quiz-feedback {
   font-family: 'Lato', sans-serif;
@@ -1033,7 +1040,7 @@
 }
 
 .quiz-feedback.correct { color: var(--green); }
-.quiz-feedback.wrong   { color: #8b2020; }
+.quiz-feedback.wrong   { color: var(--red); }
 
 /* Score summary */
 .quiz-score-card {
@@ -1153,7 +1160,7 @@
   .lesson-header h1 { font-size: 1.65rem; line-height: 1.35; }
   .lesson-header h1 span { font-size: 0.72rem; letter-spacing: 0.12em; margin-top: 0.35rem; }
   .lesson-summary { font-size: 0.86rem; line-height: 1.55; margin-top: 0.65rem; }
-  .step-indicator { margin-bottom: 1.35rem; padding: 0.35rem; border-radius: 10px; }
+  .step-indicator { position: static; margin-bottom: 1.35rem; padding: 0.35rem; border-radius: 10px; box-shadow: none; }
   .vocab-grid { gap: 8px; }
   .vocab-grid-active { grid-template-columns: 1fr; }
   .vocab-rating-hint { font-size: 0.76rem; line-height: 1.45; padding: 0.55rem 0.65rem; }
@@ -1231,10 +1238,34 @@
   .grammar-block p,
   .grammar-rule { font-size: 0.84rem; line-height: 1.6; }
   .grammar-rule { padding: 0.7rem 0.85rem; }
-  .example-table td { padding: 0.5rem 0.55rem; }
-  .example-table .col-arabic { font-size: 1.25rem; }
+  .example-table,
+  .example-table thead,
+  .example-table tbody,
+  .example-table tr,
+  .example-table td {
+    display: block;
+    width: 100%;
+  }
+  .example-table thead { display: none; }
+  .example-table tr {
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--gold-border);
+  }
+  .example-table tr:last-child { border-bottom: none; }
+  .example-table td {
+    padding: 0.12rem 0;
+    border-bottom: none;
+  }
+  .example-table .col-arabic {
+    width: 100%;
+    font-size: 1.32rem;
+    text-align: right;
+  }
   .example-table .col-trans,
-  .example-table .col-meaning { font-size: 0.76rem; }
+  .example-table .col-meaning {
+    width: 100%;
+    font-size: 0.78rem;
+  }
   .comprehension-story { padding: 1rem 0.85rem; margin-bottom: 1rem; border-radius: 10px; }
   .comprehension-story-title { font-size: 0.86rem; margin-bottom: 0.8rem; }
   .comprehension-story-arabic { font-size: 1.38rem; line-height: 1.9; padding: 0.7rem; }

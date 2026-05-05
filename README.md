@@ -10,6 +10,8 @@ A modern, interactive platform for learning the Arabic language, built on the Ma
 
 Kalamo is a fully static web app that guides students through the Madinah Arabic Course — one of the most widely used Arabic curricula in the world. Each lesson walks you through vocabulary, grammar, reading comprehension, practice exercises, and a graded quiz before unlocking the next lesson.
 
+Current Book 1 lesson content is complete through Lesson 12.
+
 ### Features
 
 - **Structured lessons** — vocabulary, grammar explanation, reading comprehension with hover/tap-translate tooltips, practice, and a scored quiz

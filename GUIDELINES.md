@@ -20,7 +20,7 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 ### What's built
 - Full single-template lesson architecture — one HTML shell for all 69+ lessons
 - Book 1 lesson list page with progress tracking, section nav, and lesson cards
-- Lessons 1–11 complete with full content (vocab, grammar, reading, practice, quiz)
+- Lessons 1–12 complete with full content (vocab, grammar, reading, practice, quiz)
 - Hover/tap-translate tooltips on reading comprehension Arabic text
 - Focused reading track with one-story-at-a-time practice, course-progress unlocks, a collapsed vocabulary satchel, and comprehension checks
 - On-screen Arabic keyboard for typed quiz answers
@@ -32,7 +32,7 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 - `scripts/validate-lessons.js` local lesson data validator
 
 ### What's next (priority order)
-1. Complete Book 1 lessons 12–23 (one data file per lesson)
+1. Complete Book 1 lessons 13–23 (one data file per lesson)
 2. Book 1 final quiz content
 3. Book 2 lessons
 4. Book 3 lessons
@@ -464,7 +464,7 @@ All HTML pages have: `<meta name="description">`, Open Graph tags (`og:title`, `
 | 9 | Adjectives | ✅ Complete |
 | 10 | Attached Pronouns | ✅ Complete |
 | 11 | Pronouns with Prepositions — فِيهِ / فِيهَا | ✅ Complete |
-| 12 | Relative Pronouns — الَّذِي / الَّتِي | 🔲 Not started |
+| 12 | Relative Pronouns — الَّذِي / الَّتِي | ✅ Complete |
 | 13 | Past Tense Verbs — ذَهَبَ / ذَهَبَتْ | 🔲 Not started |
 | 14 | Past Tense (You & I) | 🔲 Not started |
 | 15 | Past Tense — Full Conjugation | 🔲 Not started |

@@ -38,6 +38,10 @@
     { lesson: 9, ar: 'صَغِيرٌ', trans: 'ṣaghīrun', meaning: 'small' },
     { lesson: 10, ar: 'كِتَابُهُ', trans: 'kitābuhu', meaning: 'his book' },
     { lesson: 11, ar: 'فِيهَا', trans: 'fīhā', meaning: 'in her/it' },
+    { lesson: 12, ar: 'الَّذِي', trans: 'alladhī', meaning: 'who/which masculine' },
+    { lesson: 12, ar: 'الَّتِي', trans: 'allatī', meaning: 'who/which feminine' },
+    { lesson: 12, ar: 'مَرِيضٌ', trans: 'marīḍun', meaning: 'sick' },
+    { lesson: 12, ar: 'مَشْغُولٌ', trans: 'mashghūlun', meaning: 'busy' },
   ];
 
   const CHALLENGES = [
@@ -114,6 +118,21 @@
         { prompt: 'What is clean?', options: ['The school', 'The room', 'The pen'], correct: 0 },
         { prompt: 'What is small?', options: ['The room', 'The school', 'The mosque'], correct: 0 },
         { prompt: 'What is in the room?', options: ['A book and a pen', 'A sun and moon', 'A teacher'], correct: 0 },
+      ],
+    },
+    {
+      id: 'level1-busy-teacher',
+      level: 'Level One',
+      unlockAfterLesson: 12,
+      title: 'The Busy Teacher',
+      target: 'Relative pronouns with known school words',
+      newWords: [{ ar: 'دَرْسٌ', trans: 'darsun', meaning: 'lesson' }],
+      story: 'الْمُدَرِّسُ الَّذِي فِي الْفَصْلِ مَشْغُولٌ. عِنْدَهُ كِتَابٌ وَقَلَمٌ. الطَّالِبُ الَّذِي عَلَى الْكُرْسِيِّ مَرِيضٌ. الْحَقِيبَةُ الَّتِي عَلَى الْمَكْتَبِ فِيهَا مِفْتَاحٌ.',
+      translation: 'The teacher who is in the classroom is busy. He has a book and a pen. The student who is on the chair is sick. The bag which is on the desk has a key in it.',
+      questions: [
+        { prompt: 'Who is busy?', options: ['The teacher', 'The student', 'The doctor'], correct: 0 },
+        { prompt: 'What is the student like?', options: ['Sick', 'Big', 'New'], correct: 0 },
+        { prompt: 'Where is the key?', options: ['In the bag', 'On the chair', 'In the mosque'], correct: 0 },
       ],
     },
   ];
