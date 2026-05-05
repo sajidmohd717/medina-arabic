@@ -204,10 +204,19 @@ nav {
 
 /* ── Mobile nav ── */
 @media (max-width: 600px) {
-  nav { padding: 0.62rem 0.75rem; gap: 0.55rem; }
+  nav { padding: 0.62rem 0.75rem; gap: 0.55rem; flex-wrap: wrap; }
   .nav-back { font-size: 0.68rem; letter-spacing: 0.03em; }
   .nav-back::before { font-size: 0.85rem; }
   .nav-link { display: none; }
+  .nav-link-reading {
+    order: 10;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-left: 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.68rem;
+  }
   .nav-divider { display: none; }
   .nav-title {
     font-size: 0.92rem;
