@@ -241,10 +241,10 @@
 
 .lesson-card-main {
   display: grid;
-  grid-template-columns: 54px 1fr auto;
+  grid-template-columns: 52px 1fr;
   align-items: center;
   gap: 1.2rem;
-  padding: 1.3rem 1rem 1.3rem 1.6rem;
+  padding: 1rem 1.4rem 1rem 1.4rem;
   text-decoration: none;
   color: inherit;
   min-width: 0;
@@ -442,7 +442,7 @@
 
 .lesson-desc {
   font-family: 'Lato', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 400;
   color: var(--text-mid);
   line-height: 1.5;
@@ -573,5 +573,4 @@
     min-width: unset;
     padding: 0.65rem 1rem;
   }
-  .chips { display: none; }
 }

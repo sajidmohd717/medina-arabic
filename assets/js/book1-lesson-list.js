@@ -146,12 +146,12 @@
       skipBtn.className = 'lesson-skip-btn';
       skipBtn.href = `${href}?step=quiz`;
       skipBtn.textContent = 'Skip this lesson — take quiz now';
-      textWrap.append(ar, title, desc, skipBtn);
+      textWrap.append(ar, title, desc, buildChips(), skipBtn);
     } else {
-      textWrap.append(ar, title, desc);
+      textWrap.append(ar, title, desc, buildChips());
     }
 
-    main.append(badge, textWrap, buildChips());
+    main.append(badge, textWrap);
 
     const quiz = document.createElement('a');
     quiz.className = 'lesson-card-quiz';

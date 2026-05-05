@@ -28,6 +28,23 @@ function stripDiacritics(str) {
   return str.replace(/[\u0610-\u061A\u064B-\u065F\u0670]/g, '');
 }
 
+function annotateArabicText(text, vocab) {
+  const lookup = {};
+  vocab.forEach(item => {
+    const key = stripDiacritics(item.ar).replace(/\s+/g, '').trim();
+    if (key) lookup[key] = item.meaning;
+  });
+
+  return text.split(/\s+/).map(token => {
+    const bare = stripDiacritics(token).replace(/[.\u060C\u061F?!,]/g, '').trim();
+    const meaning = lookup[bare];
+    if (meaning) {
+      return `<span class="ar-word" data-meaning="${meaning.replace(/"/g, '&quot;')}">${token}</span>`;
+    }
+    return token;
+  }).join(' ');
+}
+
 function normalise(str) {
   return stripDiacritics(str)
     .replace(/[.،؟?!,،.]/g, '')
@@ -537,7 +554,7 @@ function buildComprehensionPanel(data) {
   let html = `
     <div class="comprehension-story">
       <div class="comprehension-story-title">${data.comprehension.title}</div>
-      <div class="comprehension-story-arabic">${data.comprehension.arabic}</div>
+      <div class="comprehension-story-arabic">${annotateArabicText(data.comprehension.arabic, data.vocab)}</div>
       <details class="comprehension-translation-details">
         <summary>Show Translation</summary>
         <div class="comprehension-story-english">${data.comprehension.english}</div>

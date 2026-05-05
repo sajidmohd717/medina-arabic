@@ -128,7 +128,7 @@ const LESSON_DATA = {
       { prompt: 'Translate: "Your (fem.) pen"', options: ['قَلَمُكَ', 'قَلَمُكِ', 'قَلَمُهُ', 'قَلَمِي'], correct: 1 },
       { prompt: 'Which word is used for "having" a relative?', options: ['عِنْدَ', 'مَعَ', 'لِـ', 'فِي'], correct: 2 },
       { prompt: 'Translate: "My father is in the mosque."', options: ['أَبُوهُ فِي الْمَسْجِدِ', 'أَبِي فِي الْمَسْجِدِ', 'أَبُوكَ فِي الْمَسْجِدِ', 'أَبِي فِي الْبَيْتِ'], correct: 1 },
-      { prompt: 'What does زَمِيلِي mean?', options: ['My friend', 'My brother', 'My colleague', 'My teacher'], correct: 0 },
+      { prompt: 'What does زَمِيلِي mean?', options: ['My friend', 'My brother', 'My colleague', 'My teacher'], correct: 2 },
       { prompt: 'Translate: "What is your (masc.) name?"', options: ['مَا اسْمُكِ؟', 'مَا اسْمُكَ؟', 'مَا اسْمُهُ؟', 'مَا اسْمِي؟'], correct: 1 },
       { prompt: 'Translate: "I have a car."', options: ['لِي سَيَّارَةٌ', 'عِنْدِي سَيَّارَةٌ', 'مَعِي سَيَّارَةٌ', 'أَنَا سَيَّارَةٌ'], correct: 1 },
       { prompt: 'Which suffix means "Her"?', options: ['ـهُ', 'ـهَا', 'ـكَ', 'ـكِ'], correct: 1 },
