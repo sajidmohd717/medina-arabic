@@ -1,5 +1,5 @@
 /* ============================================================
-   progress.js — Medina Arabic
+   progress.js — Kalamo
    localStorage-based progress tracking.
    Used by book list pages and individual lesson pages.
    ============================================================ */
@@ -283,7 +283,7 @@ function clearAllMedinaProgress() {
 /** Confirm, clear storage, reload the current page. */
 function confirmAndResetAllMedinaProgress() {
   const ok = window.confirm(
-    'Clear every lesson, quiz outcome, and vocabulary word rating saved for Medina Arabic in this browser? This cannot be undone.'
+    'Clear every lesson, quiz outcome, and vocabulary word rating saved for Kalamo in this browser? This cannot be undone.'
   );
   if (!ok) return;
   clearAllMedinaProgress();

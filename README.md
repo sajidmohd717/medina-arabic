@@ -1,4 +1,4 @@
-# Arabiq — The Clear Path to Arabic
+# Kalamo — The Clear Path to Arabic
 
 A modern, interactive platform for learning the Arabic language, built on the Madinah Arabic Course curriculum.
 
@@ -8,7 +8,7 @@ A modern, interactive platform for learning the Arabic language, built on the Ma
 
 ## What is this?
 
-Arabiq is a fully static web app that guides students through the Madinah Arabic Course — one of the most widely used Arabic curricula in the world. Each lesson walks you through vocabulary, grammar, reading comprehension, practice exercises, and a graded quiz before unlocking the next lesson.
+Kalamo is a fully static web app that guides students through the Madinah Arabic Course — one of the most widely used Arabic curricula in the world. Each lesson walks you through vocabulary, grammar, reading comprehension, practice exercises, and a graded quiz before unlocking the next lesson.
 
 ### Features
 

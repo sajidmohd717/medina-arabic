@@ -1,5 +1,5 @@
 /* ============================================================
-   book-list.css — Medina Arabic
+   book-list.css — Kalamo
    Styles specific to book lesson-list pages (book1.html etc.)
    Requires shared.css to be loaded first.
    ============================================================ */
@@ -565,6 +565,8 @@
   .main-layout { grid-template-columns: 1fr; gap: 1rem; }
   .sidebar { position: static; display: none; }
   .page-header, .main-layout { padding-left: 1.2rem; padding-right: 1.2rem; }
+  .page-header { padding-top: 2rem; }
+  .header-stats { gap: 1.5rem; }
   .lesson-card { grid-template-columns: 1fr; }
   .lesson-card-main { grid-template-columns: 44px 1fr; padding-right: 1.2rem; }
   .lesson-card-quiz {
@@ -573,4 +575,15 @@
     min-width: unset;
     padding: 0.65rem 1rem;
   }
+}
+
+@media (max-width: 480px) {
+  .page-header { padding: 1.5rem 1rem 1rem; }
+  .main-layout { padding-left: 1rem; padding-right: 1rem; padding-bottom: 4rem; }
+  .header-stats { gap: 1rem; }
+  .stat-number { font-size: 1.4rem; }
+  .lesson-num-badge { width: 40px; height: 40px; font-size: 1.1rem; }
+  .lesson-card-main { grid-template-columns: 40px 1fr; gap: 0.8rem; padding: 0.85rem 1rem; }
+  .lesson-arabic { font-size: 1.1rem; }
+  .lesson-title { font-size: 0.95rem; }
 }

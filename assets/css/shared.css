@@ -1,5 +1,5 @@
 /* ============================================================
-   shared.css — Medina Arabic
+   shared.css — Kalamo
    Global variables, base styles, nav bar, geo background,
    chips, and animations used across every page.
    ============================================================ */
@@ -11,7 +11,7 @@ html { font-size: 20px; }
 
 /* ── Design tokens ── */
 :root {
-  --brand-primary: #1a5c4a; /* Deep emerald for Arabiq */
+  --brand-primary: #1a5c4a; /* Deep emerald for Kalamo */
   --brand-accent:  #8a6420; /* Keep gold as secondary accent */
   --gold:         #8a6420;
   --gold-light:   #c4a050;
@@ -154,6 +154,14 @@ nav {
   background: var(--gold);
   transform: rotate(45deg);
   opacity: 0.55;
+}
+
+/* ── Mobile nav ── */
+@media (max-width: 600px) {
+  nav { padding: 0.75rem 1rem; }
+  .nav-title { font-size: 1rem; }
+  .progress-bar-wrap { width: 80px; }
+  .progress-label { display: none; }
 }
 
 /* ── Page entry animations ── */

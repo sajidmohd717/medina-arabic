@@ -1,4 +1,4 @@
-# Arabiq — The Clear Path to Arabic
+# Kalamo — The Clear Path to Arabic
 
 A modern, interactive platform for learning the Arabic language, built on the foundation of the world-renowned Madinah Arabic Course. Fully static — no backend, no build tools, no accounts required.
 
@@ -8,9 +8,9 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 
 ## Brand Identity
 
-- **Name**: Arabiq (Arabic + IQ / Quick)
+- **Name**: Kalamo (Speech in Arabic)
 - **Tagline**: The Clear Path to Arabic
-- **Domain**: arabiq.app (target)
+- **Domain**: kalamo.app (target)
 - **Vision**: A premium, free digital home for students of the Arabic language — clarity, speed, and structural mastery above all.
 
 ---

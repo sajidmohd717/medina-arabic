@@ -1,5 +1,5 @@
 /* ============================================================
-   lesson-core.js — Medina Arabic
+   lesson-core.js — Kalamo
    Shared functions for all lesson pages.
    Handles: keyboard, navigation, scoring, normalisation, UI building
    ============================================================ */
@@ -617,7 +617,7 @@ function buildQuizPanel(data) {
   
   // Set title in nav and quiz panel
   const navTitle = document.getElementById('navTitle');
-  if (navTitle) navTitle.textContent = `Lesson ${data.lessonNum} — Arabiq`;
+  if (navTitle) navTitle.textContent = `Lesson ${data.lessonNum} — Kalamo`;
 
   const mcCount = data.quizQuestions.multipleChoice.length;
   const typingCount = data.quizQuestions.typing.length;
@@ -686,7 +686,7 @@ function initLesson() {
   }
   
   // Set page title and header
-  document.title = `Lesson ${CURRENT_LESSON_NUM} — ${CURRENT_LESSON_DATA.titleArabic} — Arabiq`;
+  document.title = `Lesson ${CURRENT_LESSON_NUM} — ${CURRENT_LESSON_DATA.titleArabic} — Kalamo`;
   
   const lessonEyebrow = document.querySelector('.lesson-eyebrow');
   const lessonH1 = document.querySelector('.lesson-header h1');

@@ -1,5 +1,5 @@
 /* ============================================================
-   book1-lesson-list.js — Medina Arabic
+   book1-lesson-list.js — Kalamo
    Book 1 section headers + lesson cards as data; builds DOM for
    book1.html (sidebar nav + lesson list). Document in GUIDELINES.md.
    ============================================================ */

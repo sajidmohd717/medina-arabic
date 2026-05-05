@@ -1,5 +1,5 @@
 /* ============================================================
-   lesson-loader.js — Medina Arabic
+   lesson-loader.js — Kalamo
    Loads lesson data dynamically based on URL params and initialises the page.
    ============================================================ */
 
