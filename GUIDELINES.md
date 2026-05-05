@@ -343,7 +343,8 @@ So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After
 - Labels/eyebrows → `font-family: 'Cinzel', serif` — uppercase only
 - No italics on body text
 - Minimum `font-weight: 400`, prefer `700` for anything important
-- Base font size: `html { font-size: 20px }` — do not reduce
+- Desktop base font size: `html { font-size: 20px }`
+- Mobile may use smaller component-level type and tighter spacing when needed for scanability; do not blindly preserve desktop scale on phones
 
 ### Colour
 - Palette is warm and classical: gold, parchment, dark brown
@@ -355,7 +356,11 @@ So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After
 
 ### Layout
 - Max width: `1220px` on book list pages, `900px` on lesson pages
-- Desktop-first — designed for 1280px+ at 100% zoom
+- Desktop remains the richest layout, designed for 1280px+ at 100% zoom
+- Mobile gets purpose-built compact layouts, not just a squeezed desktop layout
+- At phone widths, prefer short rows, tighter padding, fewer decorative chips, and smaller Arabic display sizes where the desktop treatment would create excessive scrolling
+- Vocabulary cards should become compact study rows on mobile: Arabic + meaning remain visible, secondary metadata can be reduced or hidden
+- Lesson/book cards can hide nonessential chips/descriptions on very narrow screens if the primary action and lesson identity remain clear
 - Geometric SVG tile pattern fixed on every page at `opacity: 0.04`
 - Sticky nav on all pages
 
@@ -442,7 +447,8 @@ All HTML pages have: `<meta name="description">`, Open Graph tags (`og:title`, `
 - Do not hardcode hex colours — use CSS variables
 - Do not add CSS variables outside `shared.css`
 - Do not store anything in localStorage except lesson progress and vocab ratings (keys: `medina_book*_progress`, `medina_vocab_ratings`)
-- Do not reduce the base font size (`20px`) or max content widths without good reason
+- Do not reduce the desktop base font size (`20px`) or max content widths without good reason
+- Do not treat mobile as an afterthought — every new page/component needs a phone-width pass for spacing, type size, and scrolling density
 - Do not use italics on body text or font weights below 400
 - Do not duplicate vocabulary across lessons
 - Do not reference grammar concepts in a lesson's quiz that haven't been taught yet

@@ -301,6 +301,43 @@
       .books-grid { grid-template-columns: 1fr; max-width: 380px; }
       main { padding: 3.5rem 1.5rem 3rem; }
     }
+
+    @media (max-width: 480px) {
+      html { font-size: 16px; }
+      body { justify-content: flex-start; }
+      .arabic-watermark { font-size: clamp(110px, 42vw, 180px); }
+      main { padding: 2.6rem 0.85rem 2rem; }
+      .top-ornament { font-size: 1.45rem; margin-bottom: 0.55rem; }
+      .eyebrow { font-size: 0.6rem; letter-spacing: 0.28em; }
+      .main-title { font-size: 2.55rem; letter-spacing: 0.08em; margin-bottom: 0.45rem; }
+      .subtitle { font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.6rem; }
+      .divider { margin-bottom: 1.4rem; }
+      .choose-label { font-size: 0.58rem; letter-spacing: 0.26em; margin-bottom: 1.2rem; }
+      .books-grid { gap: 10px; max-width: 100%; }
+      .book-card {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 8px 12px;
+        padding: 0.85rem;
+        border-radius: 10px;
+        text-align: left;
+      }
+      .book-number-arabic { font-size: 2.2rem; grid-row: 1 / span 3; }
+      .book-label { font-size: 0.5rem; letter-spacing: 0.16em; }
+      .book-title-arabic { font-size: 1.15rem; text-align: left; }
+      .book-desc { grid-column: 2 / -1; font-size: 0.78rem; line-height: 1.35; text-align: left; }
+      .book-badge {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+        justify-self: end;
+        padding: 3px 8px;
+        font-size: 0.52rem;
+        letter-spacing: 0.08em;
+      }
+      .footer { margin-top: 1.5rem; font-size: 0.76rem; }
+      .btn-reset-progress { font-size: 0.65rem; padding: 0.48rem 0.9rem; }
+    }
   </style>
 </head>
 <body>
