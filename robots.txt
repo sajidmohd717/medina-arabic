@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sajidmohd717.github.io/medina-arabic/sitemap.xml
