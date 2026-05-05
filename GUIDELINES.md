@@ -21,16 +21,18 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 - Full single-template lesson architecture — one HTML shell for all 69+ lessons
 - Book 1 lesson list page with progress tracking, section nav, and lesson cards
 - Lessons 1–11 complete with full content (vocab, grammar, reading, practice, quiz)
-- Hover-translate tooltips on reading comprehension Arabic text
+- Hover/tap-translate tooltips on reading comprehension Arabic text
 - On-screen Arabic keyboard for typed quiz answers
 - Vocabulary rating system (know / still practising / difficult) with localStorage persistence
 - Progress tracking — sequential lesson locks, completed/in-progress/not-started states
 - SEO: meta descriptions, Open Graph tags, canonical URLs on all pages
 - favicon.svg, robots.txt, sitemap.xml, 404.html
+- Book 1 final quiz placeholder route
+- `scripts/validate-lessons.js` local lesson data validator
 
 ### What's next (priority order)
 1. Complete Book 1 lessons 12–23 (one data file per lesson)
-2. Book 1 final quiz
+2. Book 1 final quiz content
 3. Book 2 lessons
 4. Book 3 lessons
 
@@ -81,12 +83,16 @@ medina-arabic/
 │       ├── lesson-core.js         ← All lesson UI logic (panels, quiz, keyboard, tooltips)
 │       └── lesson-loader.js       ← Reads URL params, injects data file, calls initLesson()
 │
-└── lessons/
-    ├── lesson.html                ← THE ONLY HTML SHELL for all lessons
-    └── data/
-        ├── b1-lesson1.js
-        ├── b1-lesson2.js
-        └── ...                    ← One file per lesson
+├── lessons/
+│   ├── lesson.html                ← THE ONLY HTML SHELL for all lessons
+│   ├── b1-final-quiz.html         ← Final quiz placeholder
+│   └── data/
+│       ├── b1-lesson1.js
+│       ├── b1-lesson2.js
+│       └── ...                    ← One file per lesson
+│
+└── scripts/
+    └── validate-lessons.js        ← Local lesson data validator
 ```
 
 ### How a lesson loads
@@ -201,10 +207,11 @@ const LESSON_DATA = {
 2. Fill in the `LESSON_DATA` object (see structure above)
 3. Register it in `assets/js/book1-lesson-list.js` — add one entry to `BOOK1_LESSONS`:
    ```js
-   { lessonNum: 12, section: 'section-3', slug: 'b1-lesson12', ar: 'الَّذِي — الَّتِي', title: 'Relative Pronouns', desc: 'Short description for the card.' }
+   { lessonNum: 12, section: 'section-3', slug: 'b1-lesson12', available: true, ar: 'الَّذِي — الَّتِي', title: 'Relative Pronouns', desc: 'Short description for the card.' }
    ```
-4. Open the lesson in the browser via `lessons/lesson.html?book=1&lesson=12` and test all five steps
-5. Update the **Progress** table in this file
+4. Run `node scripts/validate-lessons.js`
+5. Open the lesson in the browser via `lessons/lesson.html?book=1&lesson=12` and test all five steps
+6. Update the **Progress** table in this file
 
 ---
 
@@ -237,7 +244,7 @@ Loaded by lesson pages only. Contains:
 - Practice and quiz question styles
 - Arabic typing input and on-screen keyboard
 - Score card
-- **Hover-translate tooltip** styles (`.ar-word[data-meaning]`) — dashed underline + dark tooltip above word on hover
+- **Hover/tap-translate tooltip** styles (`.ar-word[data-meaning]`) — dashed underline + dark tooltip for hover, focus, and tap
 
 ### CSS variables (defined in shared.css)
 
@@ -271,18 +278,20 @@ Loaded by lesson pages only. Contains:
 ### progress.js
 Manages all localStorage state.
 
-**Lesson progress** (`medina_book1_progress` etc.):
+**Lesson progress** (`kalamo_book1_progress` etc.):
 - `true` → complete
 - `'in_progress'` → opened but not passed
 - absent → not started
 
-**Vocab ratings** (`medina_vocab_ratings`):
+**Vocab ratings** (`kalamo_vocab_ratings`):
 - Nested: `book1_5` → `{ 0: 'know', 1: 'struggle', 2: 'unknown' }`
 
-Key functions: `getLessonStatus`, `markComplete`, `isLessonUnlocked`, `refreshBookListUI`, `getVocabRatingsForLesson`, `setVocabWordRating`, `confirmAndResetAllMedinaProgress`
+Legacy `medina_*` keys are migrated automatically on first load so existing learner progress is preserved.
+
+Key functions: `getLessonStatus`, `markComplete`, `isLessonUnlocked`, `refreshBookListUI`, `getVocabRatingsForLesson`, `setVocabWordRating`, `confirmAndResetAllKalamoProgress`
 
 ### book1-lesson-list.js
-Defines `BOOK1_SECTIONS` (5 sections) and `BOOK1_LESSONS` (23 lessons). Builds the lesson list DOM on `book1.html` — section headers, lesson cards with inline chips, skip button on the current lesson, quiz-only button.
+Defines `BOOK1_SECTIONS` (5 sections) and `BOOK1_LESSONS` (23 lessons). Builds the lesson list DOM on `book1.html` — section headers, lesson cards with inline chips, skip button on the current lesson, quiz-only button. Lessons with data files should set `available: true`; future lessons omit it or set `available: false` so they render as coming soon.
 
 ### lesson-core.js
 All lesson UI logic. Key functions:
@@ -294,10 +303,10 @@ All lesson UI logic. Key functions:
 | `applyQuizJumpMode()` | Unlocks all steps, jumps to quiz (`?step=quiz`) |
 | `buildVocabularyPanel(data)` | Renders vocab cards with rating buttons and the known-words bucket |
 | `buildLessonPanel(data)` | Renders grammar blocks and example table |
-| `buildComprehensionPanel(data)` | Renders story with hover-translate, MCQ questions |
+| `buildComprehensionPanel(data)` | Renders story with hover/tap-translate, MCQ questions |
 | `buildPracticePanel(data)` | Renders practice questions |
 | `buildQuizPanel(data)` | Renders MC + typing quiz questions |
-| `annotateArabicText(text, vocab)` | Splits Arabic text into words, matches against vocab, wraps matched words in `<span class="ar-word" data-meaning="...">` for hover tooltips |
+| `annotateArabicText(text, vocab)` | Splits Arabic text into words, matches against vocab, wraps matched words in `<span class="ar-word" data-meaning="...">` for hover/tap tooltips |
 | `checkComprehension` / `checkPractice` / `checkQuiz` / `checkTyping` | Answer checking |
 | `submitQuiz()` / `retryQuiz()` | Quiz scoring and reset |
 | `attachKeyboard()` | On-screen Arabic keyboard |
@@ -308,7 +317,7 @@ Reads URL params → builds data file path → injects `<script>` → calls `ini
 
 ---
 
-## Hover-Translate Feature
+## Hover/Tap-Translate Feature
 
 Reading comprehension Arabic text is annotated automatically. When `buildComprehensionPanel` renders the Arabic story, it calls `annotateArabicText(text, vocab)` which:
 
@@ -317,9 +326,21 @@ Reading comprehension Arabic text is annotated automatically. When `buildCompreh
 3. Wraps each word that matches a vocab entry in `<span class="ar-word" data-meaning="English meaning">`
 4. Non-matching words are rendered as plain text
 
-The CSS tooltip is pure CSS — no JS needed for show/hide. Words get a dashed gold underline; hovering shows a dark tooltip above with the English meaning.
+Words get a dashed gold underline. Hovering, keyboard focus, or tapping shows a dark tooltip with the English meaning. `attachArabicWordMeaningToggles()` handles mobile tap state and closes any open meaning when the learner taps elsewhere.
 
 **Limitation:** Inflected forms (e.g. كِتَابُهُ vs vocab كِتَابٌ) may not match due to case endings and attached pronouns. This is acceptable for now — core vocabulary still matches reliably.
+
+---
+
+## Validation
+
+Run the local validator before and after adding lesson content:
+
+```bash
+node scripts/validate-lessons.js
+```
+
+It checks required lesson fields, vocab shape, grammar blocks, practice/comprehension answer strings, quiz indices, `passMark`, and `totalQuestions`. Missing future `nextLesson` data files are warnings, not errors, so the latest completed lesson can point to the next planned lesson.
 
 ---
 
@@ -394,6 +415,7 @@ All HTML pages have: `<meta name="description">`, Open Graph tags (`og:title`, `
 | `book2.html` | ✅ Placeholder |
 | `book3.html` | ✅ Placeholder |
 | `404.html` | ✅ Complete |
+| `lessons/b1-final-quiz.html` | ✅ Placeholder |
 | `favicon.svg` | ✅ Complete |
 | `robots.txt` | ✅ Complete |
 | `sitemap.xml` | ✅ Complete |
@@ -432,7 +454,7 @@ All HTML pages have: `<meta name="description">`, Open Graph tags (`og:title`, `
 | 21 | Sound Feminine Plural | 🔲 Not started |
 | 22 | The Dual — الْمُثَنَّى | 🔲 Not started |
 | 23 | How Many? — كَمْ | 🔲 Not started |
-| Final Quiz | Book 1 comprehensive | 🔲 Not started |
+| Final Quiz | Book 1 comprehensive | ✅ Placeholder |
 
 ### Book 2 & 3
 🔲 Not started — pending completion of Book 1
@@ -446,7 +468,7 @@ All HTML pages have: `<meta name="description">`, Open Graph tags (`og:title`, `
 - No per-lesson HTML files — `lessons/lesson.html` is the only shell
 - Do not hardcode hex colours — use CSS variables
 - Do not add CSS variables outside `shared.css`
-- Do not store anything in localStorage except lesson progress and vocab ratings (keys: `medina_book*_progress`, `medina_vocab_ratings`)
+- Do not store anything in localStorage except lesson progress and vocab ratings (keys: `kalamo_book*_progress`, `kalamo_vocab_ratings`; legacy `medina_*` keys are migration-only)
 - Do not reduce the desktop base font size (`20px`) or max content widths without good reason
 - Do not treat mobile as an afterthought — every new page/component needs a phone-width pass for spacing, type size, and scrolling density
 - Do not use italics on body text or font weights below 400

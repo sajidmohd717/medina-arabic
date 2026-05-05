@@ -613,6 +613,12 @@
   color: var(--gold);
 }
 
+.ar-word[data-meaning]:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 .ar-word[data-meaning]::after {
   content: attr(data-meaning);
   position: absolute;
@@ -636,7 +642,9 @@
   z-index: 20;
 }
 
-.ar-word[data-meaning]:hover::after {
+.ar-word[data-meaning]:hover::after,
+.ar-word[data-meaning]:focus::after,
+.ar-word[data-meaning].is-open::after {
   opacity: 1;
 }
 
@@ -1201,6 +1209,13 @@
   .comprehension-story { padding: 1rem 0.85rem; margin-bottom: 1rem; border-radius: 10px; }
   .comprehension-story-title { font-size: 0.86rem; margin-bottom: 0.8rem; }
   .comprehension-story-arabic { font-size: 1.38rem; line-height: 1.9; padding: 0.7rem; }
+  .ar-word[data-meaning]::after {
+    bottom: auto;
+    top: calc(100% + 6px);
+    max-width: min(220px, 70vw);
+    white-space: normal;
+    line-height: 1.25;
+  }
   .comprehension-story-english { font-size: 0.84rem; line-height: 1.55; padding: 0.65rem 0.8rem; }
   .comprehension-q-text,
   .practice-q-text,

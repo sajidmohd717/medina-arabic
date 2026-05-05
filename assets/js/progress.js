@@ -5,16 +5,22 @@
    ============================================================ */
 
 const PROGRESS_KEYS = {
+  book1: 'kalamo_book1_progress',
+  book2: 'kalamo_book2_progress',
+  book3: 'kalamo_book3_progress',
+};
+
+const LEGACY_PROGRESS_KEYS = {
   book1: 'medina_book1_progress',
   book2: 'medina_book2_progress',
   book3: 'medina_book3_progress',
 };
 
 const BOOK_TOTALS = { book1: 23, book2: 23, book3: 23 };
-const BOOK_AVAILABLE_LESSONS = { book1: 11, book2: 0, book3: 0 };
 
 /** Per-lesson vocabulary word ratings: word index → 'know' | 'struggle' | 'unknown' */
-const VOCAB_RATINGS_KEY = 'medina_vocab_ratings';
+const VOCAB_RATINGS_KEY = 'kalamo_vocab_ratings';
+const LEGACY_VOCAB_RATINGS_KEY = 'medina_vocab_ratings';
 
 /** Stored while the learner has opened a lesson but not yet passed its quiz */
 const LESSON_IN_PROGRESS = 'in_progress';
@@ -28,13 +34,31 @@ function isCompleteValue(v) {
   return v === true || v === 'complete';
 }
 
-/** Read progress object for a given book */
-function getProgress(book = 'book1') {
+function readJsonStorage(key) {
   try {
-    return JSON.parse(localStorage.getItem(PROGRESS_KEYS[book])) || {};
+    return JSON.parse(localStorage.getItem(key)) || {};
   } catch {
     return {};
   }
+}
+
+function migrateStorageKey(fromKey, toKey) {
+  if (localStorage.getItem(toKey) || !localStorage.getItem(fromKey)) return;
+  localStorage.setItem(toKey, localStorage.getItem(fromKey));
+}
+
+function migrateLegacyProgressStorage() {
+  Object.keys(PROGRESS_KEYS).forEach(book => {
+    migrateStorageKey(LEGACY_PROGRESS_KEYS[book], PROGRESS_KEYS[book]);
+  });
+  migrateStorageKey(LEGACY_VOCAB_RATINGS_KEY, VOCAB_RATINGS_KEY);
+}
+
+migrateLegacyProgressStorage();
+
+/** Read progress object for a given book */
+function getProgress(book = 'book1') {
+  return readJsonStorage(PROGRESS_KEYS[book]);
 }
 
 /**
@@ -75,7 +99,7 @@ function updateLessonSequentialLocks(book = 'book1') {
     const quiz = card.querySelector('.lesson-card-quiz');
     const badge = card.querySelector('.lesson-num-badge');
     const unlocked = isLessonUnlocked(n, book);
-    const available = card.dataset.available !== 'false' && n <= (BOOK_AVAILABLE_LESSONS[book] ?? BOOK_TOTALS[book]);
+    const available = card.dataset.available !== 'false';
     const base = lessonHtmlRelPath(book, n);
 
     if (unlocked && available) {
@@ -246,12 +270,7 @@ function vocabRatingsLessonKey(book, lessonNum) {
 
 /** @returns {Record<string, 'know'|'struggle'|'unknown'>} map of word index → rating */
 function getVocabRatingsForLesson(book, lessonNum) {
-  try {
-    const all = JSON.parse(localStorage.getItem(VOCAB_RATINGS_KEY)) || {};
-    return all[vocabRatingsLessonKey(book, lessonNum)] || {};
-  } catch {
-    return {};
-  }
+  return readJsonStorage(VOCAB_RATINGS_KEY)[vocabRatingsLessonKey(book, lessonNum)] || {};
 }
 
 /** @param {number} wordIndex index in LESSON_DATA.vocab
@@ -277,18 +296,20 @@ function setVocabWordRating(book, lessonNum, wordIndex, rating) {
 }
 
 /** Remove all saved lesson progress and vocabulary ratings (this site only). */
-function clearAllMedinaProgress() {
+function clearAllKalamoProgress() {
   Object.values(PROGRESS_KEYS).forEach(k => localStorage.removeItem(k));
+  Object.values(LEGACY_PROGRESS_KEYS).forEach(k => localStorage.removeItem(k));
   localStorage.removeItem(VOCAB_RATINGS_KEY);
+  localStorage.removeItem(LEGACY_VOCAB_RATINGS_KEY);
 }
 
 /** Confirm, clear storage, reload the current page. */
-function confirmAndResetAllMedinaProgress() {
+function confirmAndResetAllKalamoProgress() {
   const ok = window.confirm(
     'Clear every lesson, quiz outcome, and vocabulary word rating saved for Kalamo in this browser? This cannot be undone.'
   );
   if (!ok) return;
-  clearAllMedinaProgress();
+  clearAllKalamoProgress();
   window.location.reload();
 }
 
@@ -297,5 +318,7 @@ window.getLessonStatus = getLessonStatus;
 window.isLessonUnlocked = isLessonUnlocked;
 window.getVocabRatingsForLesson = getVocabRatingsForLesson;
 window.setVocabWordRating = setVocabWordRating;
-window.clearAllMedinaProgress = clearAllMedinaProgress;
-window.confirmAndResetAllMedinaProgress = confirmAndResetAllMedinaProgress;
+window.clearAllKalamoProgress = clearAllKalamoProgress;
+window.confirmAndResetAllKalamoProgress = confirmAndResetAllKalamoProgress;
+window.clearAllMedinaProgress = clearAllKalamoProgress;
+window.confirmAndResetAllMedinaProgress = confirmAndResetAllKalamoProgress;

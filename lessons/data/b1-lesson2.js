@@ -10,8 +10,8 @@ const LESSON_DATA = {
   titleEnglish: 'That is… (Masculine)',
   summary: 'Learn how to point at things that are far away using ذَلِكَ. This lesson introduces the concept of "that" versus "this", new vocabulary, and continues building your sentence-forming skills.',
   nextLesson: 'b1-lesson3.html',
-  passMark: 5,
-  totalQuestions: 8,
+  passMark: 7,
+  totalQuestions: 11,
   
   // ============================================================
   // NEW VOCABULARY FOR LESSON 2

@@ -39,10 +39,42 @@ function annotateArabicText(text, vocab) {
     const bare = stripDiacritics(token).replace(/[.\u060C\u061F?!,]/g, '').trim();
     const meaning = lookup[bare];
     if (meaning) {
-      return `<span class="ar-word" data-meaning="${meaning.replace(/"/g, '&quot;')}">${token}</span>`;
+      const safeMeaning = meaning.replace(/"/g, '&quot;');
+      return `<span class="ar-word" data-meaning="${safeMeaning}" tabindex="0" role="button" aria-label="${token}: ${safeMeaning}">${token}</span>`;
     }
     return token;
   }).join(' ');
+}
+
+function attachArabicWordMeaningToggles(root = document) {
+  const words = root.querySelectorAll('.ar-word[data-meaning]');
+  if (!words.length) return;
+
+  words.forEach(word => {
+    word.addEventListener('click', event => {
+      event.stopPropagation();
+      const isOpen = word.classList.contains('is-open');
+      words.forEach(w => w.classList.remove('is-open'));
+      word.classList.toggle('is-open', !isOpen);
+    });
+
+    word.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      word.click();
+    });
+
+    word.addEventListener('blur', () => {
+      word.classList.remove('is-open');
+    });
+  });
+
+  if (!document._kalamoMeaningClickAttached) {
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.ar-word.is-open').forEach(word => word.classList.remove('is-open'));
+    });
+    document._kalamoMeaningClickAttached = true;
+  }
 }
 
 function normalise(str) {
@@ -583,6 +615,7 @@ function buildComprehensionPanel(data) {
   
   html += `</div>`;
   comprehensionContent.innerHTML = html;
+  attachArabicWordMeaningToggles(comprehensionContent);
 }
 
 function buildPracticePanel(data) {

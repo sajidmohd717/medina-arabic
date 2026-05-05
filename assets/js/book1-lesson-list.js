@@ -6,7 +6,6 @@
 
 (function () {
   const BOOK = 'book1';
-  const AVAILABLE_LESSON_COUNT = 11;
 
   /** Sidebar + section-block chrome */
   const BOOK1_SECTIONS = [
@@ -54,17 +53,17 @@
 
   /** lessonNum must match slug; section ties row to BOOK1_SECTIONS.id */
   const BOOK1_LESSONS = [
-    { lessonNum: 1, section: 'section-1', slug: 'b1-lesson1', ar: 'هَذَا', title: 'This is… (Masculine)', desc: 'Using هَذَا to point at masculine nouns. Your very first Arabic sentence pattern.' },
-    { lessonNum: 2, section: 'section-1', slug: 'b1-lesson2', ar: 'ذَلِكَ', title: 'That is… (Masculine)', desc: 'Pointing at something farther away using ذَلِكَ. Contrast with هَذَا.' },
-    { lessonNum: 3, section: 'section-1', slug: 'b1-lesson3', ar: 'بَيْتٌ — الْبَيْتُ', title: 'Indefinite & Definite Nouns', desc: 'The difference between "a house" and "the house". Understanding tanwīn and al- (ال).' },
-    { lessonNum: 4, section: 'section-1', slug: 'b1-lesson4', ar: 'حُرُوفُ الْجَرّ', title: 'Prepositions', desc: 'في، عَلَى، مِنْ، إِلَى and more — saying "in", "on", "from", "to" and asking أَيْنَ؟ (Where?).' },
-    { lessonNum: 5, section: 'section-1', slug: 'b1-lesson5', ar: 'مُضَافٌ وَمُضَافٌ إِلَيْهِ', title: 'The Possessive Construction (Iḍāfa)', desc: 'How Arabic expresses "of" and possession — joining two nouns together without any extra word.' },
-    { lessonNum: 6, section: 'section-2', slug: 'b1-lesson6', ar: 'هَذِهِ', title: 'This is… (Feminine)', desc: "Pointing at feminine nouns with هَذِهِ. Understanding the tā' marbūṭa (ة) ending." },
-    { lessonNum: 7, section: 'section-2', slug: 'b1-lesson7', ar: 'تِلْكَ', title: 'That is… (Feminine)', desc: 'The feminine counterpart to ذَلِكَ. Pointing at distant feminine nouns.' },
-    { lessonNum: 8, section: 'section-2', slug: 'b1-lesson8', ar: 'الْحُرُوفُ الشَّمْسِيَّةُ وَالْقَمَرِيَّةُ', title: 'Sun and Moon Letters', desc: 'Why ال sometimes changes pronunciation. The 14 sun letters and 14 moon letters — a key rule for reading Arabic.' },
-    { lessonNum: 9, section: 'section-2', slug: 'b1-lesson9', ar: 'النَّعْتُ وَالْمَنْعُوتُ', title: 'Adjectives', desc: 'How adjectives agree with nouns in gender and definiteness. "A big mosque", "The small book".' },
-    { lessonNum: 10, section: 'section-3', slug: 'b1-lesson10', ar: 'الضَّمَائِرُ الْمُتَّصِلَةُ', title: 'Attached Pronouns', desc: 'Show possession using suffixes like -ka, -hu, and -i. Learn to say "I have" for objects and relatives.' },
-    { lessonNum: 11, section: 'section-3', slug: 'b1-lesson11', ar: 'فِيهِ — فِيهَا', title: 'Pronouns with Prepositions', desc: 'Using attached pronouns with prepositions. "In it", "on her", "from me".' },
+    { lessonNum: 1, section: 'section-1', slug: 'b1-lesson1', available: true, ar: 'هَذَا', title: 'This is… (Masculine)', desc: 'Using هَذَا to point at masculine nouns. Your very first Arabic sentence pattern.' },
+    { lessonNum: 2, section: 'section-1', slug: 'b1-lesson2', available: true, ar: 'ذَلِكَ', title: 'That is… (Masculine)', desc: 'Pointing at something farther away using ذَلِكَ. Contrast with هَذَا.' },
+    { lessonNum: 3, section: 'section-1', slug: 'b1-lesson3', available: true, ar: 'بَيْتٌ — الْبَيْتُ', title: 'Indefinite & Definite Nouns', desc: 'The difference between "a house" and "the house". Understanding tanwīn and al- (ال).' },
+    { lessonNum: 4, section: 'section-1', slug: 'b1-lesson4', available: true, ar: 'حُرُوفُ الْجَرّ', title: 'Prepositions', desc: 'في، عَلَى، مِنْ، إِلَى and more — saying "in", "on", "from", "to" and asking أَيْنَ؟ (Where?).' },
+    { lessonNum: 5, section: 'section-1', slug: 'b1-lesson5', available: true, ar: 'مُضَافٌ وَمُضَافٌ إِلَيْهِ', title: 'The Possessive Construction (Iḍāfa)', desc: 'How Arabic expresses "of" and possession — joining two nouns together without any extra word.' },
+    { lessonNum: 6, section: 'section-2', slug: 'b1-lesson6', available: true, ar: 'هَذِهِ', title: 'This is… (Feminine)', desc: "Pointing at feminine nouns with هَذِهِ. Understanding the tā' marbūṭa (ة) ending." },
+    { lessonNum: 7, section: 'section-2', slug: 'b1-lesson7', available: true, ar: 'تِلْكَ', title: 'That is… (Feminine)', desc: 'The feminine counterpart to ذَلِكَ. Pointing at distant feminine nouns.' },
+    { lessonNum: 8, section: 'section-2', slug: 'b1-lesson8', available: true, ar: 'الْحُرُوفُ الشَّمْسِيَّةُ وَالْقَمَرِيَّةُ', title: 'Sun and Moon Letters', desc: 'Why ال sometimes changes pronunciation. The 14 sun letters and 14 moon letters — a key rule for reading Arabic.' },
+    { lessonNum: 9, section: 'section-2', slug: 'b1-lesson9', available: true, ar: 'النَّعْتُ وَالْمَنْعُوتُ', title: 'Adjectives', desc: 'How adjectives agree with nouns in gender and definiteness. "A big mosque", "The small book".' },
+    { lessonNum: 10, section: 'section-3', slug: 'b1-lesson10', available: true, ar: 'الضَّمَائِرُ الْمُتَّصِلَةُ', title: 'Attached Pronouns', desc: 'Show possession using suffixes like -ka, -hu, and -i. Learn to say "I have" for objects and relatives.' },
+    { lessonNum: 11, section: 'section-3', slug: 'b1-lesson11', available: true, ar: 'فِيهِ — فِيهَا', title: 'Pronouns with Prepositions', desc: 'Using attached pronouns with prepositions. "In it", "on her", "from me".' },
     { lessonNum: 12, section: 'section-3', slug: 'b1-lesson12', ar: 'الَّذِي — الَّتِي', title: 'Relative Pronouns', desc: '"The man who…", "The book which…". Forming relative clauses in Arabic.' },
     { lessonNum: 13, section: 'section-3', slug: 'b1-lesson13', ar: 'ذَهَبَ — ذَهَبَتْ', title: 'Past Tense Verbs', desc: 'Your first verbs! The past tense for he and she. How verbs change by gender.' },
     { lessonNum: 14, section: 'section-3', slug: 'b1-lesson14', ar: 'ذَهَبْتَ — ذَهَبْتِ', title: 'Past Tense (You & I)', desc: 'Completing the basic past tense conjugation for "you" (m/f) and "I".' },
@@ -118,7 +117,7 @@
 
   function buildLessonCard(lesson, isCurrent) {
     const href = lessonHref(lesson.lessonNum);
-    const isAvailable = lesson.lessonNum <= AVAILABLE_LESSON_COUNT;
+    const isAvailable = lesson.available === true;
     const card = document.createElement('div');
     card.className = 'lesson-card lesson-card--not-started';
     card.dataset.lesson = String(lesson.lessonNum);
@@ -233,5 +232,9 @@
     BOOK1_SECTIONS.forEach(sec => lessonsMount.appendChild(buildSectionBlock(sec, currentLessonNum)));
   };
 
-  window.BOOK1_LIST_META = { book: BOOK, lessonCount: BOOK1_LESSONS.length, availableLessonCount: AVAILABLE_LESSON_COUNT };
+  window.BOOK1_LIST_META = {
+    book: BOOK,
+    lessonCount: BOOK1_LESSONS.length,
+    availableLessonCount: BOOK1_LESSONS.filter(lesson => lesson.available === true).length,
+  };
 })();

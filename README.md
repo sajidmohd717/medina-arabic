@@ -12,7 +12,7 @@ Kalamo is a fully static web app that guides students through the Madinah Arabic
 
 ### Features
 
-- **Structured lessons** — vocabulary, grammar explanation, reading comprehension with hover-translate tooltips, practice, and a scored quiz
+- **Structured lessons** — vocabulary, grammar explanation, reading comprehension with hover/tap-translate tooltips, practice, and a scored quiz
 - **Progress tracking** — lesson completion and vocab ratings saved in your browser (localStorage)
 - **On-screen Arabic keyboard** — for typing Arabic answers without switching your system keyboard
 - **Vocab rating system** — mark words as "know", "still practising", or "new/difficult" to track your retention
@@ -66,11 +66,14 @@ medina-arabic/
 │       ├── book1-lesson-list.js ← Book 1 lesson data and card rendering
 │       ├── lesson-core.js      ← Lesson UI logic (panels, quiz, keyboard)
 │       └── lesson-loader.js    ← Dynamically loads lesson data by URL param
-└── lessons/
-    ├── lesson.html             ← Single HTML shell for all lessons
-    └── data/
-        ├── b1-lesson1.js       ← Lesson data files
-        └── ...
+├── lessons/
+│   ├── lesson.html             ← Single HTML shell for all lessons
+│   ├── b1-final-quiz.html      ← Final quiz placeholder
+│   └── data/
+│       ├── b1-lesson1.js       ← Lesson data files
+│       └── ...
+└── scripts/
+    └── validate-lessons.js     ← Local lesson data checks
 ```
 
 All lesson pages share one HTML shell (`lessons/lesson.html`). Content is loaded dynamically from `lessons/data/` based on URL parameters — e.g. `lessons/lesson.html?book=1&lesson=5`.
@@ -81,5 +84,6 @@ All lesson pages share one HTML shell (`lessons/lesson.html`). Content is loaded
 
 1. Create `lessons/data/bX-lessonY.js` following the structure of an existing file
 2. Register the lesson in `assets/js/book1-lesson-list.js`
+3. Run `node scripts/validate-lessons.js`
 
 See `GUIDELINES.md` for the full data structure reference.
