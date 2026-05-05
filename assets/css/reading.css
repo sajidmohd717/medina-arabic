@@ -116,13 +116,15 @@
   color: var(--gold);
   font-size: 1.35rem;
   white-space: nowrap;
+  direction: ltr;
+  unicode-bidi: bidi-override;
 }
 
 .rank-track {
   height: 12px;
   overflow: hidden;
   border-radius: 999px;
-  background: var(--gold-border);
+  background: #e8dfd4;
   margin: 0.8rem 0 0.9rem;
 }
 

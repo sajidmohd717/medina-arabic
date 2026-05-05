@@ -66,6 +66,10 @@
   border: 1.5px solid var(--gold-border);
   border-radius: 14px;
   padding: 0.5rem;
+  position: sticky;
+  top: 80px;
+  z-index: 90;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
 }
 
 .step-btn {
@@ -139,8 +143,18 @@
 .step-btn.completed .step-label { color: var(--green); }
 
 /* ── Section panels ── */
-.lesson-panel { display: none; }
-.lesson-panel.active { display: block; }
+.lesson-panel {
+  display: none;
+  opacity: 0;
+  transform: translateY(8px);
+}
+.lesson-panel.active {
+  display: block;
+  animation: panelFadeIn 0.25s ease forwards;
+}
+@keyframes panelFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* ── Panel heading ── */
 .panel-heading {
@@ -1026,9 +1040,20 @@
   background: var(--bg-card);
   border: 2px solid var(--gold-light);
   border-radius: 16px;
-  padding: 2.2rem;
+  padding: 2.4rem 2.2rem;
   text-align: center;
   margin-top: 2rem;
+  animation: panelFadeIn 0.35s ease forwards;
+}
+
+.quiz-score-card.passed {
+  border-color: var(--green-border);
+  background: #f4fbf6;
+}
+
+.quiz-score-card.failed {
+  border-color: var(--amber-border);
+  background: var(--amber-bg);
 }
 
 .quiz-score-arabic {
@@ -1044,25 +1069,29 @@
   font-weight: 900;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
 }
 
 .quiz-score-number {
   font-family: 'Amiri', serif;
-  font-size: 3.5rem;
+  font-size: 5rem;
   font-weight: 700;
-  color: var(--text-dark);
   line-height: 1;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.2rem;
 }
+
+.quiz-score-card.passed .quiz-score-number { color: var(--green); }
+.quiz-score-card.failed .quiz-score-number { color: var(--amber); }
+.quiz-score-card:not(.passed):not(.failed) .quiz-score-number { color: var(--text-dark); }
 
 .quiz-score-label {
   font-family: 'Lato', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 400;
   color: var(--text-mid);
   margin-bottom: 1.5rem;
+  line-height: 1.5;
 }
 
 /* ── Shared navigation buttons ── */

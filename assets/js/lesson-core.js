@@ -112,6 +112,14 @@ function unlockAndGo(step) {
   UNLOCKED_STEPS[step] = true;
   const btn = document.getElementById(`step-${step}`);
   if (btn) btn.classList.remove('locked');
+
+  // Mark the current step as completed before moving on
+  const prevBtn = document.getElementById(`step-${CURRENT_STEP}`);
+  if (prevBtn && CURRENT_STEP !== step) {
+    prevBtn.classList.remove('active');
+    prevBtn.classList.add('completed');
+  }
+
   goToStep(step);
 }
 
@@ -273,7 +281,11 @@ function submitQuiz() {
       ? '🎉 Great work! Lesson marked as complete.'
       : `You need at least ${CURRENT_LESSON_DATA.passMark} out of ${total} to pass. Review the lesson and try again.`;
   }
-  if (scoreCard) scoreCard.style.display = 'block';
+  if (scoreCard) {
+    scoreCard.style.display = 'block';
+    scoreCard.classList.toggle('passed', passed);
+    scoreCard.classList.toggle('failed', !passed);
+  }
   if (submitBtn) submitBtn.style.display = 'none';
   
   if (passed) {
@@ -445,8 +457,7 @@ function buildVocabularyPanel(data) {
 
   const hint = document.createElement('p');
   hint.className = 'vocab-rating-hint';
-  hint.textContent =
-    'Rate each word: ✓ know it well · ≈ still practising · ✗ new or difficult. Words marked ✓ move into Words you know well — just above the words you are still studying. Open it anytime to review. Tap the same rating again to clear.';
+  hint.textContent = 'Rate each word: ✓ know it well · ≈ still practising · ✗ new or difficult. Rated words are saved for later review.';
 
   const activeGrid = document.createElement('div');
   activeGrid.className = 'vocab-grid vocab-grid-active';
