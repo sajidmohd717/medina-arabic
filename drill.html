@@ -214,20 +214,30 @@ async function buildContentPool() {
 /* ── Build questions ── */
 
 function buildQuestions(pool, rng) {
-  const candidates = [];
+  const vocabQuestions = [];
+  const sentenceQuestions = [];
+  const buildQuestions = [];
+  const practiceQuestions = [];
+  const quizQuestions = [];
 
   seededShuffle(pool.vocab, rng).forEach((word, idx) => {
-    candidates.push(buildVocabQuestion(word, pool.vocab, rng, idx % 2 === 0));
+    vocabQuestions.push(buildVocabQuestion(word, pool.vocab, rng, idx % 2 === 0));
   });
   seededShuffle(pool.examples, rng).forEach((example, idx) => {
-    candidates.push(idx % 2 === 0
-      ? buildSentenceQuestion(example, pool.examples, rng)
-      : buildBuildQuestion(example, pool.examples, rng));
+    sentenceQuestions.push(buildSentenceQuestion(example, pool.examples, rng));
+    if (idx % 2 === 0) buildQuestions.push(buildBuildQuestion(example, pool.examples, rng));
   });
-  seededShuffle(pool.practice, rng).forEach(item => candidates.push(buildPracticeQuestion(item)));
-  seededShuffle(pool.quiz, rng).forEach(item => candidates.push(buildQuizQuestion(item)));
+  seededShuffle(pool.practice, rng).forEach(item => practiceQuestions.push(buildPracticeQuestion(item)));
+  seededShuffle(pool.quiz, rng).forEach(item => quizQuestions.push(buildQuizQuestion(item)));
 
-  return seededShuffle(candidates.filter(Boolean), rng).slice(0, PRACTICE_SIZE);
+  const guaranteed = seededShuffle(buildQuestions.filter(Boolean), rng).slice(0, 1);
+  const alreadyUsed = new Set(guaranteed);
+  const candidates = vocabQuestions
+    .concat(sentenceQuestions, buildQuestions, practiceQuestions, quizQuestions)
+    .filter(Boolean)
+    .filter(question => !alreadyUsed.has(question));
+
+  return seededShuffle(guaranteed.concat(seededShuffle(candidates, rng).slice(0, PRACTICE_SIZE - guaranteed.length)), rng);
 }
 
 function buildVocabQuestion(word, vocab, rng, arabicFirst) {
@@ -276,21 +286,29 @@ function buildSentenceQuestion(example, examples, rng) {
 }
 
 function buildBuildQuestion(example, examples, rng) {
-  const others = examples.filter(ex => ex.ar !== example.ar);
-  const options = seededShuffle([
-    { text: example.ar, correct: true, isArabic: true },
-    ...seededShuffle(others, rng).slice(0, 3).map(ex => ({ text: ex.ar, correct: false, isArabic: true }))
-  ], rng);
+  const targetTokens = splitArabicTokens(example.ar);
+  if (targetTokens.length < 2) return null;
+  const tiles = seededShuffle(targetTokens.map((text, idx) => ({
+    id: `${idx}-${text}`,
+    text
+  })), rng);
 
   return {
     mode: 'Build',
-    promptLabel: 'Choose the Arabic sentence',
+    interaction: 'tiles',
+    promptLabel: 'Build the Arabic sentence',
     promptArabic: '',
     promptText: example.meaning,
     promptSub: '',
     lessonNum: example.lessonNum,
-    options
+    targetText: example.ar,
+    targetTokens,
+    tiles
   };
+}
+
+function splitArabicTokens(sentence) {
+  return String(sentence || '').trim().split(/\s+/).filter(Boolean);
 }
 
 function buildPracticeQuestion(item) {
@@ -411,6 +429,14 @@ function showQuestion() {
   // Options
   const container = document.getElementById('drill-options');
   container.innerHTML = '';
+  container.className = 'drill-options';
+
+  if (q.interaction === 'tiles') {
+    renderBuildTiles(container, q);
+    show('state-question');
+    return;
+  }
+
   q.options.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'drill-option';
@@ -435,6 +461,101 @@ function showQuestion() {
   });
 
   show('state-question');
+}
+
+function renderBuildTiles(container, q) {
+  q.selectedTiles = [];
+  container.classList.add('drill-options--build');
+
+  const answer = document.createElement('div');
+  answer.className = 'build-answer';
+  answer.setAttribute('aria-live', 'polite');
+
+  const bank = document.createElement('div');
+  bank.className = 'build-tile-bank';
+
+  const feedback = document.createElement('div');
+  feedback.className = 'build-feedback';
+
+  container.append(answer, bank, feedback);
+
+  function render() {
+    answer.innerHTML = '';
+    bank.innerHTML = '';
+
+    if (!q.selectedTiles.length) {
+      const placeholder = document.createElement('span');
+      placeholder.className = 'build-placeholder';
+      placeholder.textContent = 'Tap the words in order';
+      answer.appendChild(placeholder);
+    } else {
+      q.selectedTiles.forEach((tile, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'build-tile build-tile--selected';
+        btn.textContent = tile.text;
+        btn.disabled = _answered;
+        btn.onclick = () => {
+          if (_answered) return;
+          q.selectedTiles.splice(idx, 1);
+          render();
+        };
+        answer.appendChild(btn);
+      });
+    }
+
+    q.tiles
+      .filter(tile => !q.selectedTiles.some(selected => selected.id === tile.id))
+      .forEach(tile => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'build-tile';
+        btn.textContent = tile.text;
+        btn.disabled = _answered;
+        btn.onclick = () => {
+          if (_answered) return;
+          q.selectedTiles.push(tile);
+          render();
+          if (q.selectedTiles.length === q.targetTokens.length) {
+            setTimeout(() => checkBuildAnswer(q, answer, bank, feedback), 120);
+          }
+        };
+        bank.appendChild(btn);
+      });
+  }
+
+  render();
+}
+
+function checkBuildAnswer(q, answer, bank, feedback) {
+  if (_answered) return;
+  _answered = true;
+
+  const user = q.selectedTiles.map(tile => tile.text).join(' ');
+  const correct = user === q.targetTokens.join(' ');
+
+  answer.classList.add(correct ? 'correct' : 'wrong');
+  bank.querySelectorAll('button').forEach(btn => btn.disabled = true);
+  answer.querySelectorAll('button').forEach(btn => btn.disabled = true);
+
+  if (correct) {
+    _correct++;
+    document.getElementById(`pip-${_qIndex}`).classList.add('correct');
+    feedback.className = 'build-feedback correct';
+    feedback.textContent = 'Correct!';
+  } else {
+    document.getElementById(`pip-${_qIndex}`).classList.add('wrong');
+    feedback.className = 'build-feedback wrong';
+    feedback.textContent = 'Correct answer:';
+    const correctText = document.createElement('span');
+    correctText.textContent = q.targetText;
+    feedback.appendChild(correctText);
+  }
+
+  setTimeout(() => {
+    _qIndex++;
+    showQuestion();
+  }, correct ? 850 : 1400);
 }
 
 function selectOption(btn, correct, idx) {

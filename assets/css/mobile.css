@@ -101,8 +101,20 @@ a, button, [role="button"], label, input, select, textarea {
 /* ── Safe area for sticky nav ── */
 
 @supports (padding-top: env(safe-area-inset-top)) {
-  nav[class] {
+  body > nav:not(.bottom-nav) {
     padding-top: max(0.75rem, env(safe-area-inset-top));
+  }
+}
+
+@media (max-width: 768px) {
+  nav.bottom-nav {
+    top: auto;
+    height: auto;
+    min-height: 0;
+    align-items: stretch;
+    gap: 0;
+    padding: 0 0 env(safe-area-inset-bottom, 0px);
+    border-bottom: 0;
   }
 }
 

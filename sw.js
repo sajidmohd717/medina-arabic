@@ -3,7 +3,7 @@
    Cache-first strategy for app shell + lesson data.
    ============================================================ */
 
-const CACHE_NAME = 'kalamo-v2';
+const CACHE_NAME = 'kalamo-v5';
 
 const APP_SHELL = [
   '/medina-arabic/',

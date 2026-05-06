@@ -202,8 +202,8 @@ function updateLessonCards(book = 'book1') {
     const num = card.dataset.lesson;
     const status = getLessonStatus(num, book);
 
-    card.classList.remove('lesson-card--not-started', 'lesson-card--in-progress', 'lesson-card--complete');
-    card.classList.add(`lesson-card--${status}`);
+    card.classList.remove('lesson-card--not-started', 'lesson-card--not_started', 'lesson-card--in-progress', 'lesson-card--in_progress', 'lesson-card--complete');
+    card.classList.add(`lesson-card--${status.replace('_', '-')}`);
 
     const badge = card.querySelector('.lesson-num-badge');
     if (!badge) return;
