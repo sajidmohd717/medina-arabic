@@ -23,8 +23,8 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <link rel="stylesheet" href="assets/css/shared.css?v=revamp-2" />
-  <link rel="stylesheet" href="assets/css/gamification.css?v=revamp-2" />
+  <link rel="stylesheet" href="assets/css/shared.css?v=revamp-3" />
+  <link rel="stylesheet" href="assets/css/gamification.css?v=revamp-3" />
   <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
   <style>
     html { font-size: 18px; }
@@ -77,59 +77,7 @@
     .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--accent-sky), transparent); opacity: 0.6; }
     .divider-diamond { width: 8px; height: 8px; background: var(--accent-coral); transform: rotate(45deg); opacity: 0.8; }
 
-    /* ── Tooltip on quick-action buttons ── */
-    .quick-action-btn {
-      position: relative;
-    }
-    .quick-action-btn::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%) translateY(4px);
-      background: var(--text-dark);
-      color: #fff;
-      font-family: 'Lato', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 400;
-      line-height: 1.4;
-      white-space: nowrap;
-      padding: 7px 12px;
-      border-radius: 8px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.18s ease, transform 0.18s ease;
-      z-index: 20;
-      max-width: 200px;
-      white-space: normal;
-      text-align: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-    }
-    .quick-action-btn::before {
-      content: '';
-      position: absolute;
-      bottom: calc(100% + 4px);
-      left: 50%;
-      transform: translateX(-50%) translateY(4px);
-      border: 5px solid transparent;
-      border-top-color: var(--text-dark);
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.18s ease, transform 0.18s ease;
-      z-index: 20;
-    }
-    .quick-action-btn:hover::after,
-    .quick-action-btn:focus-visible::after {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-    .quick-action-btn:hover::before,
-    .quick-action-btn:focus-visible::before {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* ── Selector section (pre-onboarding) ── */
+    /* ── Selector section ── */
     .choose-label {
       font-family: 'Lato', sans-serif; font-size: 0.65rem; font-weight: 900;
       letter-spacing: 0.38em; text-transform: uppercase;
@@ -165,91 +113,6 @@
     .book-card:nth-child(2) { animation-delay: 0.52s; }
     .book-card:nth-child(3) { animation-delay: 0.64s; }
 
-    /* ── Dashboard section (post-onboarding) ── */
-    .dashboard-section {
-      width: 100%; max-width: 560px;
-      display: flex; flex-direction: column; align-items: center; gap: 0;
-      animation: fadeUp 0.55s ease 0.3s both;
-    }
-
-    .db-book-badge {
-      font-family: 'Cinzel', serif; font-size: 0.62rem; font-weight: 700;
-      letter-spacing: 0.28em; text-transform: uppercase;
-      color: var(--brand);
-      background: #e8fff8;
-      border: 1.5px solid #8af0d5;
-      border-radius: 20px; padding: 5px 18px;
-      margin-bottom: 1.4rem;
-    }
-
-    .db-progress-wrap {
-      width: 100%; margin-bottom: 0.5rem;
-    }
-    .db-progress-meta {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 6px;
-      font-family: 'Lato', sans-serif; font-size: 0.75rem; font-weight: 700;
-      color: var(--text-muted);
-    }
-    .db-progress-track {
-      height: 10px; background: rgba(0, 0, 0, 0.06);
-      border: none; border-radius: 99px; overflow: hidden;
-      margin-bottom: 1.8rem;
-    }
-    .db-progress-fill {
-      height: 100%;
-      background: linear-gradient(to right, var(--brand), var(--accent-sky), var(--accent-lemon));
-      border-radius: 99px; transition: width 0.6s ease; width: 0%;
-    }
-
-    .db-continue-btn {
-      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-      width: 100%;
-      background: linear-gradient(135deg, var(--brand), var(--accent-sky));
-      border-radius: 14px; padding: 1.1rem 1.4rem;
-      text-decoration: none; color: #fff;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 6px 0 var(--brand-dark), 0 10px 24px rgba(88, 204, 2, 0.25);
-      margin-bottom: 1rem;
-    }
-    .db-continue-btn:hover { background: var(--brand-dark); transform: translateY(-2px); box-shadow: 0 8px 0 var(--brand-dark), 0 14px 30px rgba(88, 204, 2, 0.3); }
-    .db-continue-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--brand-dark); }
-    .db-continue-eyebrow {
-      font-family: 'Cinzel', serif; font-size: 0.55rem; font-weight: 700;
-      letter-spacing: 0.28em; text-transform: uppercase;
-      color: rgba(255,255,255,0.65); margin-bottom: 0.3rem;
-    }
-    .db-continue-label {
-      font-family: 'Lato', sans-serif; font-size: 1rem; font-weight: 700; color: #fff;
-    }
-    .db-continue-arrow { font-size: 1.4rem; flex-shrink: 0; opacity: 0.85; }
-
-    .db-all-lessons-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: 'Lato', sans-serif; font-size: 0.78rem; font-weight: 700;
-      color: var(--brand); text-decoration: none;
-      border: 1.5px solid rgba(0, 0, 0, 0.08); border-radius: 10px;
-      padding: 0.6rem 1.2rem; margin-bottom: 2rem;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .db-all-lessons-btn:hover { background: var(--surface-tint); border-color: var(--accent-sky); }
-
-    .db-divider {
-      display: flex; align-items: center; gap: 16px;
-      width: 100%; margin-bottom: 1.6rem;
-    }
-    .db-divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--accent-sky), transparent); opacity: 0.5; }
-    .db-divider-diamond { width: 6px; height: 6px; background: var(--accent-coral); transform: rotate(45deg); opacity: 0.8; }
-
-    .db-change-path {
-      font-family: 'Lato', sans-serif; font-size: 0.75rem; font-weight: 700;
-      color: var(--text-muted); text-decoration: none;
-      border: none; background: none; cursor: pointer;
-      letter-spacing: 0.03em; margin-top: 0.5rem;
-      transition: color 0.2s;
-    }
-    .db-change-path:hover { color: var(--brand); }
-
     /* ── Footer ── */
     .footer {
       margin-top: 3rem; font-family: 'Lato', sans-serif; font-size: 0.85rem;
@@ -266,9 +129,6 @@
       animation: fadeIn 0.6s ease 0.85s both;
     }
     .btn-reset-progress:hover { color: var(--text-dark); border-color: var(--accent-sky); background: var(--surface-tint); }
-
-    /* streak fixed top-right */
-    .home-streak { position: fixed; top: 16px; right: 20px; z-index: 100; animation: fadeIn 0.6s ease 0.9s both; }
 
     @media (max-width: 700px) {
       .books-grid { grid-template-columns: 1fr; max-width: 380px; }
@@ -298,9 +158,6 @@
       .book-badge { grid-column: 2; grid-row: auto; justify-self: start; padding: 3px 8px; font-size: 0.52rem; letter-spacing: 0.08em; }
       .footer { margin-top: 1.5rem; font-size: 0.76rem; }
       .btn-reset-progress { font-size: 0.65rem; padding: 0.48rem 0.9rem; }
-      /* tooltips off on touch devices */
-      .quick-action-btn::after,
-      .quick-action-btn::before { display: none; }
     }
   </style>
 </head>
@@ -324,77 +181,12 @@
 
   <div class="arabic-watermark" aria-hidden="true">الكلام</div>
 
-  <div class="home-streak">
-    <div id="streak-widget" class="streak-widget" title="Your daily streak"></div>
-  </div>
-
   <main>
     <div class="top-ornament">✦ بِسْمِ اللهِ ✦</div>
     <div class="eyebrow">The Clear Path</div>
     <h1 class="main-title">KALAMO</h1>
-    <p class="subtitle" id="home-subtitle">Master the Arabic language through the world's most proven curriculum.</p>
+    <p class="subtitle">Master the Arabic language through the world's most proven curriculum.</p>
 
-    <!-- XP bar (always shown when onboarded) -->
-    <div class="xp-bar-wrap" id="xp-bar-wrap" style="display:none;">
-      <div class="xp-bar-meta">
-        <span id="xp-level">Level 1</span>
-        <span id="xp-label">0 / 500 XP</span>
-      </div>
-      <div class="xp-bar-track"><div class="xp-bar-fill" id="xp-bar-fill"></div></div>
-    </div>
-
-    <!-- Quick actions (always shown when onboarded) -->
-    <div class="quick-actions" id="quick-actions" style="display:none;">
-      <a href="drill.html" class="quick-action-btn" id="drill-btn"
-         data-tooltip="10 quick questions from your completed lessons — done in under 5 minutes.">
-        <span class="quick-action-icon">⚡</span>
-        <span class="quick-action-label">Daily Practice</span>
-        <span class="quick-action-sub">10 words · 5 min</span>
-      </a>
-      <a href="review.html" class="quick-action-btn"
-         data-tooltip="Flashcard review of words you marked as hard — spaced repetition in action.">
-        <span class="quick-action-icon">🔁</span>
-        <span class="quick-action-label">Review</span>
-        <span class="quick-action-sub">Hard words first</span>
-      </a>
-    </div>
-
-    <!-- ── DASHBOARD (post-onboarding) ── -->
-    <div class="dashboard-section" id="dashboard-section" style="display:none;">
-
-      <div class="db-book-badge" id="db-book-badge">Book 1 · Foundation</div>
-
-      <div class="db-progress-wrap">
-        <div class="db-progress-meta">
-          <span id="db-progress-label">0 of 23 lessons complete</span>
-          <span id="db-progress-pct">0%</span>
-        </div>
-        <div class="db-progress-track">
-          <div class="db-progress-fill" id="db-progress-fill"></div>
-        </div>
-      </div>
-
-      <a id="db-continue-btn" href="book1.html" class="db-continue-btn">
-        <div>
-          <div class="db-continue-eyebrow">Continue learning</div>
-          <div class="db-continue-label" id="db-continue-label">Go to Book 1</div>
-        </div>
-        <div class="db-continue-arrow">→</div>
-      </a>
-
-      <a id="db-all-btn" href="book1.html" class="db-all-lessons-btn">
-        📖 All lessons
-      </a>
-
-      <div class="db-divider" aria-hidden="true">
-        <div class="db-divider-line"></div>
-        <div class="db-divider-diamond"></div>
-        <div class="db-divider-line"></div>
-      </div>
-
-    </div>
-
-    <!-- ── SELECTOR (pre-onboarding / not yet set up) ── -->
     <div id="selector-section">
       <div class="divider" aria-hidden="true">
         <div class="divider-line"></div>
@@ -405,37 +197,31 @@
       <div class="choose-label">Choose your book</div>
 
       <div class="books-grid">
-        <a class="book-card" href="book1.html" aria-label="Medina Book 1 — Beginner">
+        <button class="book-card" onclick="startOnboarding('book1')" aria-label="Medina Book 1 — Beginner">
           <div class="book-number-arabic">١</div>
           <div class="book-label">Book One</div>
           <div class="book-title-arabic">الكتاب الأول</div>
           <div class="book-desc">Foundations of Arabic grammar and vocabulary</div>
           <div class="book-badge">Beginner</div>
-        </a>
-        <a class="book-card" href="book2.html" aria-label="Medina Book 2 — Intermediate">
+        </button>
+        <button class="book-card" onclick="startOnboarding('book2')" aria-label="Medina Book 2 — Intermediate">
           <div class="book-number-arabic">٢</div>
           <div class="book-label">Book Two</div>
           <div class="book-title-arabic">الكتاب الثاني</div>
           <div class="book-desc">Expanding grammar and Quranic patterns</div>
           <div class="book-badge">Intermediate</div>
-        </a>
-        <a class="book-card" href="book3.html" aria-label="Medina Book 3 — Advanced">
+        </button>
+        <button class="book-card" onclick="startOnboarding('book3')" aria-label="Medina Book 3 — Advanced">
           <div class="book-number-arabic">٣</div>
           <div class="book-label">Book Three</div>
           <div class="book-title-arabic">الكتاب الثالث</div>
           <div class="book-desc">Advanced structures and classical texts</div>
           <div class="book-badge">Advanced</div>
-        </a>
+        </button>
       </div>
     </div>
 
     <p class="footer">Your progress is saved locally in your browser</p>
-    <button type="button" class="db-change-path" id="change-path-btn" style="display:none;" onclick="obChangePath()">
-      ↺ Change learning path
-    </button>
-    <button type="button" class="btn-reset-progress" onclick="confirmAndResetAllKalamoProgress()">
-      Reset all progress…
-    </button>
   </main>
 
   <!-- ════════════════════════════════════════════
@@ -590,9 +376,15 @@
        Onboarding state
        ══════════════════════════════════════════════ */
     var _obStep   = 0;
-    var _obMode   = 'companion'; // 'companion' | 'standalone'
+    var _obMode   = 'companion';
     var _obBook   = 'book1';
     var _obLevel  = 0;
+
+    function startOnboarding(book) {
+      _obBook = book;
+      document.getElementById('onboarding-overlay').style.display = 'flex';
+      document.getElementById('selector-section').style.display = 'none';
+    }
 
     /* Step sequence depends on path chosen */
     function _obStepIds() {
@@ -646,12 +438,10 @@
     }
 
     function obFinish() {
-      /* Save chosen book */
       var chosenBook = (_obMode === 'companion') ? _obBook : 'book1';
       localStorage.setItem('kalamo_current_book', chosenBook);
       localStorage.setItem('kalamo_learning_mode', _obMode);
 
-      /* Pre-unlock lessons for standalone learners */
       if (_obMode === 'standalone' && _obLevel > 0) {
         var progress = {};
         for (var i = 1; i <= _obLevel; i++) progress[String(i)] = true;
@@ -662,78 +452,15 @@
       var overlay = document.getElementById('onboarding-overlay');
       overlay.classList.add('fade-out');
       setTimeout(function() {
-        overlay.style.display = 'none';
-        showDashboard();
+        window.location.href = chosenBook + '.html';
       }, 420);
     }
 
-    function obChangePath() {
-      var ok = window.confirm('Reset your learning path? Your lesson progress and XP will be kept.');
-      if (!ok) return;
-      localStorage.removeItem('kalamo_onboarded');
-      localStorage.removeItem('kalamo_current_book');
-      localStorage.removeItem('kalamo_learning_mode');
-      window.location.reload();
-    }
-
-    /* ══════════════════════════════════════════════
-       Dashboard
-       ══════════════════════════════════════════════ */
-    var BOOK_HREFS  = { book1: 'book1.html', book2: 'book2.html', book3: 'book3.html' };
-    var BOOK_LABELS = { book1: 'Book 1 · Foundation', book2: 'Book 2 · Intermediate', book3: 'Book 3 · Advanced' };
-    var BOOK_NAMES  = { book1: 'Book 1', book2: 'Book 2', book3: 'Book 3' };
-    var BOOK_TOTALS = { book1: 23, book2: 23, book3: 23 };
-
-    function showDashboard() {
-      var book     = localStorage.getItem('kalamo_current_book') || 'book1';
-      var progress = readJsonStorage(PROGRESS_KEYS[book]);
-      var total    = BOOK_TOTALS[book];
-      var completed = Object.values(progress).filter(isCompleteValue).length;
-      var pct       = total ? Math.round(completed / total * 100) : 0;
-
-      /* Find next lesson */
-      var nextLesson = null;
-      for (var i = 1; i <= total; i++) {
-        if (!isCompleteValue(progress[String(i)])) { nextLesson = i; break; }
-      }
-
-      /* Update subtitle */
-      document.getElementById('home-subtitle').textContent = 'Keep going — every lesson brings you closer.';
-
-      /* Book badge */
-      document.getElementById('db-book-badge').textContent = BOOK_LABELS[book];
-
-      /* Progress */
-      document.getElementById('db-progress-label').textContent = completed + ' of ' + total + ' lessons complete';
-      document.getElementById('db-progress-pct').textContent   = pct + '%';
-      document.getElementById('db-progress-fill').style.width  = pct + '%';
-
-      /* Continue button */
-      var continueLabel = nextLesson
-        ? (BOOK_NAMES[book] + ' — Lesson ' + nextLesson)
-        : ('All lessons complete 🎉');
-      var continueHref = nextLesson
-        ? ('lessons/lesson.html?book=' + book.replace('book','') + '&lesson=' + nextLesson)
-        : BOOK_HREFS[book];
-      document.getElementById('db-continue-label').textContent = continueLabel;
-      document.getElementById('db-continue-btn').href = continueHref;
-      document.getElementById('db-all-btn').href = BOOK_HREFS[book];
-
-      /* Show dashboard, hide selector */
-      document.getElementById('dashboard-section').style.display = 'flex';
-      document.getElementById('selector-section').style.display  = 'none';
-      document.getElementById('xp-bar-wrap').style.display       = 'block';
-      document.getElementById('quick-actions').style.display     = 'flex';
-      document.getElementById('change-path-btn').style.display   = 'inline-block';
-    }
-
-    /* ══════════════════════════════════════════════
-       Init
-       ══════════════════════════════════════════════ */
     (function init() {
       var onboarded = localStorage.getItem('kalamo_onboarded');
       if (onboarded) {
-        showDashboard();
+        var book = localStorage.getItem('kalamo_current_book') || 'book1';
+        window.location.href = book + '.html';
       } else {
         document.getElementById('onboarding-overlay').style.display = 'flex';
       }

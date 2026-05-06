@@ -1,27 +1,29 @@
-/* ============================================================
-   bottom-nav.js — Kalamo
-   Injects a fixed bottom tab bar on mobile (<= 768px).
-   ============================================================ */
-
 (function () {
-  /* Determine which tab is active based on current URL */
   var path = location.pathname;
+  var currentBook = (function() {
+    try {
+      return localStorage.getItem('kalamo_current_book') || 'book1';
+    } catch { return 'book1'; }
+  })();
+
   var page =
     path.includes('drill')   ? 'drill'   :
     path.includes('review')  ? 'review'  :
     path.includes('reading') ? 'reading' :
     path.includes('book')    ? 'lessons' :
     path.includes('lesson')  ? 'lessons' :
-    'home';
+    'lessons';
 
   var tabs = [
-    { id: 'home',    href: 'index.html',   icon: '🏠', label: 'Home'    },
-    { id: 'lessons', href: 'book1.html',   icon: '📖', label: 'Lessons' },
+    { id: 'lessons', href: currentBook + '.html', icon: '📖', label: 'Course' },
     { id: 'drill',   href: 'drill.html',   icon: '⚡', label: 'Practice' },
     { id: 'review',  href: 'review.html',  icon: '🔁', label: 'Review'  },
   ];
 
-  /* Resolve relative href for pages in subdirectories */
+  if (path.includes('reading')) {
+    tabs.push({ id: 'reading', href: 'reading.html', icon: '📖', label: 'Reading' });
+  }
+
   var base = path.includes('/lessons/') ? '../' : '';
 
   var nav = document.createElement('nav');
@@ -40,7 +42,5 @@
   });
 
   document.body.appendChild(nav);
-
-  /* Add bottom padding to body so content isn't hidden behind the bar */
   document.body.classList.add('has-bottom-nav');
 })();

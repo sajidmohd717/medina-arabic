@@ -21,10 +21,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
-  <link rel="stylesheet" href="assets/css/shared.css?v=revamp-2" />
-  <link rel="stylesheet" href="assets/css/mobile.css?v=revamp-2" />
-  <link rel="stylesheet" href="assets/css/book-list.css?v=revamp-2" />
-  <link rel="stylesheet" href="assets/css/gamification.css?v=revamp-2" />
+  <link rel="stylesheet" href="assets/css/shared.css?v=revamp-3" />
+  <link rel="stylesheet" href="assets/css/mobile.css?v=revamp-3" />
+  <link rel="stylesheet" href="assets/css/book-list.css?v=revamp-3" />
+  <link rel="stylesheet" href="assets/css/gamification.css?v=revamp-3" />
 </head>
 <body>
 
@@ -45,13 +45,130 @@
     <rect width="800" height="600" fill="url(#geo)"/>
   </svg>
 
+  <style>
+    .settings-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      color: var(--text-muted);
+      transition: color 0.2s, background 0.2s;
+      line-height: 1;
+    }
+    .settings-btn:hover {
+      color: var(--text-dark);
+      background: var(--surface-tint);
+    }
+
+    .settings-overlay {
+      position: fixed; inset: 0; z-index: 99999;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      animation: fadeIn 0.2s ease;
+    }
+    .settings-overlay.open { display: flex; }
+
+    .settings-panel {
+      background: var(--surface-card);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      animation: fadeUp 0.25s ease;
+    }
+
+    .settings-panel h2 {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .settings-panel p {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      margin-bottom: 1.5rem;
+    }
+
+    .settings-section {
+      padding: 1rem 0;
+      border-top: 1.5px solid rgba(0,0,0,0.06);
+    }
+
+    .settings-section:first-of-type { border-top: none; padding-top: 0; }
+
+    .settings-label {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .settings-book-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      margin-bottom: 6px;
+      border: 1.5px solid rgba(0,0,0,0.06);
+      border-radius: 12px;
+      background: var(--surface-bg);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .settings-book-btn:hover { border-color: var(--brand); background: var(--surface-tint); }
+    .settings-book-btn--active { border-color: var(--brand); background: var(--surface-tint); }
+
+    .settings-close-btn {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 12px;
+      background: var(--brand);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .settings-close-btn:hover { background: var(--brand-dark); }
+
+    .settings-danger {
+      color: var(--accent-coral);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0.5rem 0;
+      transition: opacity 0.2s;
+    }
+    .settings-danger:hover { opacity: 0.7; }
+  </style>
+
   <!-- Nav -->
   <nav>
-    <a class="nav-back" href="index.html">Home</a>
-    <span class="nav-divider">✦</span>
     <span class="nav-title">الكتاب الأول — Book One</span>
     <a class="nav-link nav-link-reading" id="readingNavLink" href="reading.html">Reading Track</a>
     <div id="streak-widget" class="streak-widget" style="margin-left:auto;margin-right:0.5rem;"></div>
+    <button class="settings-btn" onclick="toggleSettings()" title="Settings" aria-label="Settings">⚙️</button>
     <div class="nav-progress">
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progressFill"></div>
@@ -140,6 +257,32 @@
     </main>
   </div>
 
+  <!-- Settings Modal -->
+  <div class="settings-overlay" id="settingsOverlay" onclick="if(event.target===this) toggleSettings()" role="dialog" aria-modal="true" aria-label="Settings">
+    <div class="settings-panel">
+      <h2>⚙️ Settings</h2>
+      <p>Manage your learning path and data.</p>
+
+      <div class="settings-section">
+        <div class="settings-label">Current Book</div>
+        <button class="settings-book-btn settings-book-btn--active" id="settingsBook1" onclick="switchBook('book1')">📖 Book 1 — Foundation <span style="float:right;color:var(--brand);">✓</span></button>
+        <button class="settings-book-btn" id="settingsBook2" onclick="switchBook('book2')">📖 Book 2 — Intermediate</button>
+        <button class="settings-book-btn" id="settingsBook3" onclick="switchBook('book3')">📖 Book 3 — Advanced</button>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Learning Mode</div>
+        <p style="margin-bottom:0;font-size:0.82rem;" id="settingsModeDisplay">Companion</p>
+      </div>
+
+      <div class="settings-section">
+        <button class="settings-danger" onclick="resetAndGoHome()">🗑 Reset all progress and start over</button>
+      </div>
+
+      <button class="settings-close-btn" onclick="toggleSettings()">Done</button>
+    </div>
+  </div>
+
   <script src="assets/js/progress.js"></script>
   <script src="assets/js/gamification.js"></script>
   <script src="assets/js/bottom-nav.js"></script>
@@ -159,6 +302,40 @@
       const grade = passed >= 5 ? 'Level One' : 'Pre-Level One';
       el.textContent = `Reading Track (${grade})`;
     })();
+
+    function toggleSettings() {
+      const overlay = document.getElementById('settingsOverlay');
+      overlay.classList.toggle('open');
+      if (overlay.classList.contains('open')) {
+        const current = localStorage.getItem('kalamo_current_book') || 'book1';
+        const mode = localStorage.getItem('kalamo_learning_mode') || 'companion';
+        document.getElementById('settingsModeDisplay').textContent =
+          mode === 'companion' ? '📚 Companion to the book' : '🌍 Learning independently';
+        ['book1','book2','book3'].forEach(b => {
+          const btn = document.getElementById('settingsBook' + b.slice(-1));
+          btn.classList.toggle('settings-book-btn--active', b === current);
+          const check = btn.querySelector('span');
+          if (check) check.style.display = b === current ? 'inline' : 'none';
+        });
+      }
+    }
+
+    function switchBook(book) {
+      localStorage.setItem('kalamo_current_book', book);
+      window.location.href = book + '.html';
+    }
+
+    function resetAndGoHome() {
+      if (!window.confirm('Clear all progress, XP, streaks, and vocabulary ratings? This cannot be undone.')) return;
+      if (typeof clearAllKalamoProgress === 'function') clearAllKalamoProgress();
+      localStorage.removeItem('kalamo_onboarded');
+      localStorage.removeItem('kalamo_current_book');
+      localStorage.removeItem('kalamo_learning_mode');
+      localStorage.removeItem('kalamo_xp');
+      localStorage.removeItem('kalamo_streak');
+      localStorage.removeItem('kalamo_drill_date');
+      window.location.href = 'index.html';
+    }
   </script>
 
 </body>

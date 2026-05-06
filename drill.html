@@ -15,15 +15,15 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
-  <link rel="stylesheet" href="assets/css/shared.css?v=revamp-2" />
-  <link rel="stylesheet" href="assets/css/gamification.css?v=revamp-2" />
+  <link rel="stylesheet" href="assets/css/shared.css?v=revamp-3" />
+  <link rel="stylesheet" href="assets/css/gamification.css?v=revamp-3" />
 </head>
 <body>
 
 <div class="fc-page">
 
   <nav class="fc-nav">
-    <a href="index.html" class="fc-back">← Home</a>
+    <a href="book1.html" class="fc-back" id="homeLink">← Home</a>
     <span class="fc-title">Daily Practice</span>
     <div class="fc-streak-wrap">
       <div id="streak-widget" class="streak-widget"></div>
@@ -50,7 +50,7 @@
     <p class="fc-screen-sub">Open Book 1 once and Kalamo will prepare a quick starter session for you.</p>
     <div class="fc-btn-row" style="margin-top:1.4rem;">
       <a href="book1.html" class="fc-btn">Go to Lessons</a>
-      <a href="index.html" class="fc-btn fc-btn--ghost">Home</a>
+      <a href="book1.html" class="fc-btn fc-btn--ghost">Home</a>
     </div>
   </div>
 
@@ -61,7 +61,7 @@
     <p class="fc-screen-sub">You've already finished today's practice. You can still play a quick bonus round.</p>
     <div class="fc-btn-row" style="margin-top:1.4rem;">
       <button class="fc-btn" onclick="startPractice(true)">Bonus round</button>
-      <a href="index.html" class="fc-btn fc-btn--ghost">Home</a>
+      <a href="book1.html" class="fc-btn fc-btn--ghost">Home</a>
     </div>
   </div>
 
@@ -72,7 +72,7 @@
     <p class="fc-screen-sub" id="start-sub">A quick mixed session: words, sentences, and tiny grammar checks. Tap your way through.</p>
     <div class="fc-btn-row" style="margin-top:1.4rem;">
       <button class="fc-btn" onclick="startPractice(false)">Start practice →</button>
-      <a href="index.html" class="fc-btn fc-btn--ghost">Not now</a>
+      <a href="book1.html" class="fc-btn fc-btn--ghost">Not now</a>
     </div>
   </div>
 
@@ -97,7 +97,7 @@
     <div class="fc-screen-xp" id="end-xp">+25 XP earned</div>
     <div class="fc-btn-row">
       <a href="review.html" class="fc-btn">Review Words</a>
-      <a href="index.html" class="fc-btn fc-btn--ghost">Home</a>
+      <a href="book1.html" class="fc-btn fc-btn--ghost">Home</a>
     </div>
   </div>
 
