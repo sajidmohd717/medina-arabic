@@ -570,3 +570,67 @@
     font-size: 1.2rem;
   }
 }
+
+/* ── Bright app theme refresh ── */
+
+.reading-eyebrow,
+.reader-kicker,
+.rank-kicker {
+  color: var(--spark-coral);
+}
+
+.level-card,
+.daily-reader,
+.satchel-drawer,
+.rank-ladder {
+  border-color: rgba(92, 200, 255, 0.3);
+  box-shadow: var(--shadow-soft);
+}
+
+.level-card strong,
+.rank-ladder-head strong {
+  color: var(--brand-primary);
+}
+
+.rank-track {
+  background: #dcecff;
+}
+
+.rank-track-fill {
+  background: linear-gradient(90deg, var(--brand-primary), var(--spark-sky), var(--spark-lemon));
+}
+
+.rank-node {
+  background: #f8fbff;
+  border-color: rgba(92, 200, 255, 0.32);
+}
+
+.rank-node span {
+  background: #e8fff8;
+  color: var(--brand-primary);
+}
+
+.rank-node.current {
+  border-color: var(--spark-coral);
+  background: #fff0f0;
+}
+
+.reader-badge,
+.satchel-word {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+}
+
+.reading-btn {
+  background: linear-gradient(135deg, var(--brand-primary), var(--spark-sky));
+  box-shadow: 0 8px 20px rgba(0, 168, 135, 0.18);
+}
+
+.answer-options label {
+  border-color: rgba(92, 200, 255, 0.32);
+}
+
+.answer-options label:hover {
+  background: var(--surface-tint);
+  border-color: var(--brand-primary);
+}

@@ -17,58 +17,23 @@
   <meta name="twitter:description" content="Learn Arabic free with Kalamo — an interactive platform built on the world-renowned Madinah Arabic Course." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Nunito:wght@400;700;800;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#1a5c4a" />
+  <meta name="theme-color" content="#00a887" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <link rel="stylesheet" href="assets/css/mobile.css" />
-  <link rel="stylesheet" href="assets/css/gamification.css" />
+  <link rel="stylesheet" href="assets/css/shared.css?v=bright-1" />
+  <link rel="stylesheet" href="assets/css/gamification.css?v=bright-1" />
   <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 18px; }
 
-    :root {
-      --brand-primary: #1a5c4a;
-      --brand-accent: #8a6420;
-      --gold: #8a6420;
-      --gold-light: #c4a050;
-      --gold-border: #c4a05060;
-      --gold-faint: #8a642015;
-      --bg: #fdf6ec;
-      --bg-card: #fff9f2;
-      --text-dark: #1a1208;
-      --text-mid: #4a3820;
-      --text-muted: #8a7254;
-    }
-
     body {
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--text-dark);
-      font-family: 'Lato', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    .geo-bg {
-      position: fixed; inset: 0; width: 100%; height: 100%;
-      opacity: 0.05; pointer-events: none; z-index: 0;
-    }
-
-    .arabic-watermark {
-      position: fixed; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Amiri', serif;
-      font-size: clamp(160px, 32vw, 380px);
-      color: var(--brand-primary); opacity: 0.04;
-      pointer-events: none; user-select: none; white-space: nowrap; z-index: 0;
     }
 
     main {
@@ -85,15 +50,15 @@
       animation: fadeDown 0.7s ease both;
     }
     .eyebrow {
-      font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700;
+      font-family: 'Lato', sans-serif; font-size: 0.72rem; font-weight: 900;
       letter-spacing: 0.42em; text-transform: uppercase;
-      color: var(--brand-primary); margin-bottom: 0.7rem; text-align: center;
+      color: var(--spark-coral); margin-bottom: 0.7rem; text-align: center;
       animation: fadeDown 0.7s ease 0.1s both;
     }
     .main-title {
-      font-family: 'Cinzel', serif;
+      font-family: 'Nunito', 'Lato', sans-serif;
       font-size: clamp(3rem, 7vw, 4.5rem); font-weight: 700;
-      color: var(--brand-primary); text-align: center;
+      color: var(--brand-primary-dark); text-align: center;
       margin-bottom: 0.8rem; line-height: 1.2;
       animation: fadeDown 0.7s ease 0.15s both; letter-spacing: 0.1em;
     }
@@ -109,8 +74,8 @@
       width: 100%; max-width: 560px; margin-bottom: 2.2rem;
       animation: fadeIn 0.7s ease 0.3s both;
     }
-    .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--brand-primary), transparent); opacity: 0.3; }
-    .divider-diamond { width: 8px; height: 8px; background: var(--brand-primary); transform: rotate(45deg); opacity: 0.6; }
+    .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--spark-sky), transparent); opacity: 0.6; }
+    .divider-diamond { width: 8px; height: 8px; background: var(--spark-coral); transform: rotate(45deg); opacity: 0.8; }
 
     /* ── Tooltip on quick-action buttons ── */
     .quick-action-btn {
@@ -166,7 +131,7 @@
 
     /* ── Selector section (pre-onboarding) ── */
     .choose-label {
-      font-family: 'Cinzel', serif; font-size: 0.65rem; font-weight: 700;
+      font-family: 'Lato', sans-serif; font-size: 0.65rem; font-weight: 900;
       letter-spacing: 0.38em; text-transform: uppercase;
       color: var(--text-mid); margin-bottom: 2rem;
       animation: fadeIn 0.5s ease 0.35s both;
@@ -176,7 +141,7 @@
       gap: 24px; width: 100%; max-width: 900px;
     }
     .book-card {
-      background: var(--bg-card); border: 1.5px solid var(--gold-border);
+      background: var(--bg-card); border: 1.5px solid rgba(92, 200, 255, 0.3);
       border-radius: 16px; padding: 2.6rem 1.8rem 2.2rem;
       cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
       display: flex; flex-direction: column; align-items: center;
@@ -185,16 +150,16 @@
     }
     .book-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      background: linear-gradient(to right, transparent, var(--spark-coral), var(--spark-lemon), transparent);
       opacity: 0; transition: opacity 0.25s;
     }
-    .book-card:hover { border-color: var(--gold); transform: translateY(-6px); box-shadow: 0 14px 36px #8a642018; }
+    .book-card:hover { border-color: var(--brand-primary); transform: translateY(-6px); box-shadow: var(--shadow-pop); }
     .book-card:hover::before { opacity: 1; }
-    .book-number-arabic { font-family: 'Amiri', serif; font-size: 4rem; font-weight: 700; color: var(--gold); line-height: 1; }
-    .book-label { font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+    .book-number-arabic { font-family: 'Amiri', serif; font-size: 4rem; font-weight: 700; color: var(--brand-primary); line-height: 1; }
+    .book-label { font-family: 'Lato', sans-serif; font-size: 0.6rem; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; color: var(--spark-coral); }
     .book-title-arabic { font-family: 'Amiri', serif; font-size: 1.5rem; font-weight: 700; color: var(--text-dark); text-align: center; }
     .book-desc { font-family: 'Lato', sans-serif; font-size: 0.88rem; font-weight: 400; color: var(--text-mid); text-align: center; line-height: 1.6; }
-    .book-badge { font-family: 'Lato', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); background: var(--gold-faint); border: 1.5px solid var(--gold-border); border-radius: 20px; padding: 4px 16px; margin-top: 4px; }
+    .book-badge { font-family: 'Lato', sans-serif; font-size: 0.65rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: #075985; background: #e0f2fe; border: 1.5px solid #7dd3fc; border-radius: 20px; padding: 4px 16px; margin-top: 4px; }
     .book-card { opacity: 0; animation: fadeUp 0.55s ease forwards; }
     .book-card:nth-child(1) { animation-delay: 0.4s; }
     .book-card:nth-child(2) { animation-delay: 0.52s; }
@@ -211,8 +176,8 @@
       font-family: 'Cinzel', serif; font-size: 0.62rem; font-weight: 700;
       letter-spacing: 0.28em; text-transform: uppercase;
       color: var(--brand-primary);
-      background: #1a5c4a12;
-      border: 1.5px solid #1a5c4a40;
+      background: #e8fff8;
+      border: 1.5px solid #8af0d5;
       border-radius: 20px; padding: 5px 18px;
       margin-bottom: 1.4rem;
     }
@@ -227,27 +192,27 @@
       color: var(--text-muted);
     }
     .db-progress-track {
-      height: 8px; background: var(--gold-faint);
-      border: 1px solid var(--gold-border); border-radius: 99px; overflow: hidden;
+      height: 8px; background: #dcecff;
+      border: 1px solid rgba(92, 200, 255, 0.36); border-radius: 99px; overflow: hidden;
       margin-bottom: 1.8rem;
     }
     .db-progress-fill {
       height: 100%;
-      background: linear-gradient(to right, var(--brand-primary), var(--gold-light));
+      background: linear-gradient(to right, var(--brand-primary), var(--spark-sky), var(--spark-lemon));
       border-radius: 99px; transition: width 0.6s ease; width: 0%;
     }
 
     .db-continue-btn {
       display: flex; align-items: center; justify-content: space-between; gap: 1rem;
       width: 100%;
-      background: var(--brand-primary);
+      background: linear-gradient(135deg, var(--brand-primary), var(--spark-sky));
       border-radius: 14px; padding: 1.1rem 1.4rem;
       text-decoration: none; color: #fff;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px #1a5c4a25;
+      box-shadow: 0 10px 24px rgba(0, 168, 135, 0.18);
       margin-bottom: 1rem;
     }
-    .db-continue-btn:hover { background: #143d30; transform: translateY(-2px); box-shadow: 0 8px 28px #1a5c4a30; }
+    .db-continue-btn:hover { background: linear-gradient(135deg, var(--brand-primary-dark), var(--brand-primary)); transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0, 168, 135, 0.22); }
     .db-continue-eyebrow {
       font-family: 'Cinzel', serif; font-size: 0.55rem; font-weight: 700;
       letter-spacing: 0.28em; text-transform: uppercase;
@@ -262,18 +227,18 @@
       display: inline-flex; align-items: center; gap: 8px;
       font-family: 'Lato', sans-serif; font-size: 0.78rem; font-weight: 700;
       color: var(--brand-primary); text-decoration: none;
-      border: 1.5px solid var(--gold-border); border-radius: 10px;
+      border: 1.5px solid rgba(92, 200, 255, 0.36); border-radius: 10px;
       padding: 0.6rem 1.2rem; margin-bottom: 2rem;
       transition: background 0.2s, border-color 0.2s;
     }
-    .db-all-lessons-btn:hover { background: var(--gold-faint); border-color: var(--gold); }
+    .db-all-lessons-btn:hover { background: var(--surface-tint); border-color: var(--spark-sky); }
 
     .db-divider {
       display: flex; align-items: center; gap: 16px;
       width: 100%; margin-bottom: 1.6rem;
     }
-    .db-divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--brand-primary), transparent); opacity: 0.25; }
-    .db-divider-diamond { width: 6px; height: 6px; background: var(--brand-primary); transform: rotate(45deg); opacity: 0.5; }
+    .db-divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--spark-sky), transparent); opacity: 0.5; }
+    .db-divider-diamond { width: 6px; height: 6px; background: var(--spark-coral); transform: rotate(45deg); opacity: 0.8; }
 
     .db-change-path {
       font-family: 'Lato', sans-serif; font-size: 0.75rem; font-weight: 700;
@@ -295,18 +260,14 @@
       font-family: 'Lato', sans-serif; font-size: 0.75rem; font-weight: 700;
       letter-spacing: 0.04em; text-transform: uppercase;
       color: var(--text-muted); background: transparent;
-      border: 1.5px solid var(--gold-border); border-radius: 8px;
+      border: 1.5px solid rgba(92, 200, 255, 0.36); border-radius: 8px;
       cursor: pointer; transition: color 0.2s, border-color 0.2s, background 0.2s;
       animation: fadeIn 0.6s ease 0.85s both;
     }
-    .btn-reset-progress:hover { color: var(--text-dark); border-color: var(--gold); background: var(--gold-faint); }
+    .btn-reset-progress:hover { color: var(--text-dark); border-color: var(--spark-sky); background: var(--surface-tint); }
 
     /* streak fixed top-right */
     .home-streak { position: fixed; top: 16px; right: 20px; z-index: 100; animation: fadeIn 0.6s ease 0.9s both; }
-
-    @keyframes fadeDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes fadeUp   { from { opacity:0; transform:translateY(16px);  } to { opacity:1; transform:translateY(0); } }
-    @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
 
     @media (max-width: 700px) {
       .books-grid { grid-template-columns: 1fr; max-width: 380px; }
@@ -325,7 +286,7 @@
       .choose-label { font-size: 0.58rem; letter-spacing: 0.26em; margin-bottom: 1.2rem; }
       .books-grid { gap: 10px; max-width: 100%; }
       .book-card {
-        display: grid; grid-template-columns: 44px minmax(0, 1fr) auto;
+        display: grid; grid-template-columns: 44px minmax(0, 1fr);
         align-items: center; gap: 8px 12px; padding: 0.85rem;
         border-radius: 10px; text-align: left;
       }
@@ -333,7 +294,7 @@
       .book-label { font-size: 0.5rem; letter-spacing: 0.16em; }
       .book-title-arabic { font-size: 1.15rem; text-align: left; }
       .book-desc { grid-column: 2 / -1; font-size: 0.78rem; line-height: 1.35; text-align: left; }
-      .book-badge { grid-column: 3; grid-row: 1 / span 2; justify-self: end; padding: 3px 8px; font-size: 0.52rem; letter-spacing: 0.08em; }
+      .book-badge { grid-column: 2; grid-row: auto; justify-self: start; padding: 3px 8px; font-size: 0.52rem; letter-spacing: 0.08em; }
       .footer { margin-top: 1.5rem; font-size: 0.76rem; }
       .btn-reset-progress { font-size: 0.65rem; padding: 0.48rem 0.9rem; }
       /* tooltips off on touch devices */

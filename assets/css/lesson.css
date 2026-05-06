@@ -1332,3 +1332,112 @@
     font-size: 1rem;
   }
 }
+
+/* ── Bright app theme refresh ── */
+
+.lesson-eyebrow,
+.step-btn.active .step-label,
+.review-card-type {
+  color: var(--spark-coral);
+}
+
+.step-indicator,
+.vocab-card,
+.vocab-card--compact-known,
+.grammar-block,
+.comprehension-story,
+.comprehension-question,
+.practice-question,
+.quiz-question,
+.quiz-score-card,
+.arabic-keyboard {
+  border-color: rgba(92, 200, 255, 0.3);
+  box-shadow: var(--shadow-soft);
+}
+
+.step-indicator,
+.vocab-card,
+.vocab-card--compact-known,
+.grammar-block,
+.comprehension-story,
+.comprehension-question,
+.practice-question,
+.quiz-question,
+.quiz-score-card,
+.arabic-keyboard {
+  background: var(--bg-card);
+}
+
+.step-btn.active,
+.panel-heading-icon,
+.grammar-rule {
+  background: var(--surface-tint);
+  border-color: rgba(92, 200, 255, 0.36);
+}
+
+.step-icon {
+  background: #e8fff8;
+  border-color: #8af0d5;
+  color: var(--brand-primary);
+}
+
+.step-btn.active .step-icon {
+  background: linear-gradient(135deg, var(--brand-primary), var(--spark-sky));
+  border-color: var(--brand-primary);
+}
+
+.panel-heading,
+.example-table tr,
+.panel-nav {
+  border-color: rgba(92, 200, 255, 0.28);
+}
+
+.vocab-type,
+.grammar-block h3,
+.comprehension-story-title,
+.quiz-score-label {
+  color: var(--brand-primary-dark);
+}
+
+.vocab-lesson,
+.reading-badge {
+  color: #075985;
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+}
+
+.comprehension-option,
+.practice-option,
+.quiz-option,
+.arabic-input,
+.key {
+  border-color: rgba(92, 200, 255, 0.32);
+}
+
+.comprehension-option:hover:not(:disabled),
+.practice-option:hover:not(:disabled),
+.quiz-option:hover:not(:disabled),
+.key:hover {
+  background: var(--surface-tint);
+  border-color: var(--brand-primary);
+}
+
+.arabic-input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(0, 168, 135, 0.14);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--brand-primary), var(--spark-sky));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 168, 135, 0.18);
+}
+
+.btn-secondary {
+  color: var(--brand-primary);
+  border-color: rgba(92, 200, 255, 0.36);
+}
+
+.btn-secondary:hover {
+  background: var(--surface-tint);
+}

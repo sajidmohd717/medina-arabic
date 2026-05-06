@@ -4,7 +4,7 @@
    chips, and animations used across every page.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Nunito:wght@400;700;800;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap');
 @import url('mobile.css');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -12,48 +12,73 @@ html { font-size: 20px; }
 
 /* ── Design tokens ── */
 :root {
-  --brand-primary: #1a5c4a; /* Deep emerald for Kalamo */
-  --brand-accent:  #8a6420; /* Keep gold as secondary accent */
-  --gold:         #8a6420;
-  --gold-light:   #c4a050;
-  --gold-border:  #c4a05060;
-  --gold-faint:   #8a642015;
-  --bg:           #fdf6ec;
-  --bg-card:      #fff9f2;
-  --text-dark:    #1a1208;
-  --text-mid:     #4a3820;
-  --text-muted:   #8a7254;
-  --green:        #1e5c38;
-  --green-bg:     #d4edda;
-  --green-border: #8ac4a0;
-  --amber:        #b45309;
-  --amber-bg:     #fff7ed;
-  --amber-border: #fdba7460;
-  --red:          #9b2c2c;
-  --red-bg:       #fdecec;
-  --red-border:   #e8a8a8;
-  --cta-orange:   #ffbf00;
-  --cta-orange-light: #ffd966;
-  --cta-orange-soft: #ffcc33;
-  --cta-orange-text: #7c4a00;
-  --cta-orange-border: #e6a800;
+  --brand-primary: #00a887;
+  --brand-primary-dark: #00856d;
+  --brand-accent: #2f80ed;
+  --spark-sky: #5cc8ff;
+  --spark-coral: #ff6b6b;
+  --spark-lemon: #ffd84d;
+  --spark-lilac: #8b5cf6;
+  --gold: #ffb800;
+  --gold-light: #ffe07a;
+  --gold-border: #ffd24d80;
+  --gold-faint: #fff4bf;
+  --bg: #f7fbff;
+  --bg-card: #ffffff;
+  --surface-tint: #eef9ff;
+  --text-dark: #172033;
+  --text-mid: #42526b;
+  --text-muted: #7b8aa1;
+  --green: #00a887;
+  --green-bg: #dcfff4;
+  --green-border: #7ce8ca;
+  --amber: #f59e0b;
+  --amber-bg: #fff7d6;
+  --amber-border: #ffd66b;
+  --red: #ef4444;
+  --red-bg: #fff0f0;
+  --red-border: #ffb4b4;
+  --cta-orange: #ffb800;
+  --cta-orange-light: #ffe178;
+  --cta-orange-soft: #ffcf33;
+  --cta-orange-text: #553a00;
+  --cta-orange-border: #f4b000;
+  --shadow-soft: 0 12px 34px rgba(47, 128, 237, 0.11);
+  --shadow-pop: 0 10px 0 rgba(0, 168, 135, 0.18), 0 18px 34px rgba(47, 128, 237, 0.12);
 }
 
 body {
   min-height: 100vh;
-  background: var(--bg);
+  background:
+    linear-gradient(135deg, #ffffff 0%, var(--bg) 44%, #fff8dc 100%);
   color: var(--text-dark);
-  font-family: 'Lato', sans-serif;
+  font-family: 'Nunito', 'Lato', sans-serif;
   overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(120deg, rgba(92, 200, 255, 0.14), transparent 32%),
+    linear-gradient(300deg, rgba(255, 216, 77, 0.14), transparent 38%);
 }
 
 /* ── Geometric background (used on every page) ── */
 .geo-bg {
   position: fixed; inset: 0;
   width: 100%; height: 100%;
-  opacity: 0.04;
+  opacity: 0.06;
   pointer-events: none;
   z-index: 0;
+}
+
+.geo-bg polygon,
+.geo-bg line {
+  stroke: var(--spark-sky) !important;
 }
 
 .arabic-watermark {
@@ -62,8 +87,8 @@ body {
   transform: translate(-50%, -50%);
   font-family: 'Amiri', serif;
   font-size: clamp(160px, 32vw, 380px);
-  color: var(--gold);
-  opacity: 0.04;
+  color: var(--brand-primary);
+  opacity: 0.035;
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
@@ -73,11 +98,12 @@ body {
 /* ── Sticky nav bar ── */
 body > nav:not(.bottom-nav) {
   position: sticky; top: 0; z-index: 100;
-  background: #fdf6ecf0;
-  backdrop-filter: blur(8px);
-  border-bottom: 1.5px solid var(--gold-border);
-  padding: 1rem 2.5rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1.5px solid rgba(92, 200, 255, 0.3);
+  padding: 0.85rem 2.5rem;
   display: flex; align-items: center; gap: 1rem;
+  box-shadow: 0 8px 24px rgba(47, 128, 237, 0.07);
 }
 
 .nav-back {
@@ -86,12 +112,12 @@ body > nav:not(.bottom-nav) {
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--brand-primary);
   text-decoration: none;
   display: flex; align-items: center; gap: 6px;
   transition: color 0.2s;
 }
-.nav-back:hover { color: var(--text-dark); }
+.nav-back:hover { color: var(--brand-primary-dark); }
 .nav-back::before { content: '←'; font-size: 1rem; }
 
 .nav-link {
@@ -102,7 +128,7 @@ body > nav:not(.bottom-nav) {
   text-transform: uppercase;
   color: var(--text-mid);
   text-decoration: none;
-  border: 1.5px solid var(--gold-border);
+  border: 1.5px solid rgba(92, 200, 255, 0.35);
   border-radius: 8px;
   padding: 0.42rem 0.7rem;
   transition: color 0.2s, border-color 0.2s, background 0.2s;
@@ -110,18 +136,18 @@ body > nav:not(.bottom-nav) {
 
 .nav-link:hover,
 .nav-link:focus-visible {
-  color: var(--gold);
-  border-color: var(--gold);
-  background: var(--gold-faint);
+  color: var(--brand-primary);
+  border-color: var(--spark-sky);
+  background: var(--surface-tint);
   outline: none;
 }
 
 .nav-link-reading {
   margin-left: auto;
   color: var(--cta-orange-text);
-  background: linear-gradient(135deg, var(--cta-orange-light) 0%, var(--cta-orange) 55%, var(--cta-orange-soft) 100%);
+  background: linear-gradient(135deg, var(--cta-orange-light) 0%, var(--cta-orange) 55%, var(--spark-coral) 100%);
   border-color: var(--cta-orange-border);
-  box-shadow: 0 3px 10px rgba(255, 191, 0, 0.28);
+  box-shadow: 0 6px 16px rgba(255, 184, 0, 0.25);
 }
 
 .nav-link-reading:hover,
@@ -131,7 +157,7 @@ body > nav:not(.bottom-nav) {
   border-color: var(--cta-orange-border);
 }
 
-.nav-divider { color: var(--gold-light); }
+.nav-divider { color: var(--spark-sky); }
 
 .nav-title {
   font-family: 'Amiri', serif;
@@ -151,11 +177,11 @@ body > nav:not(.bottom-nav) {
 
 .progress-bar-wrap {
   width: 140px; height: 6px;
-  background: var(--gold-border);
+  background: #dcecff;
   border-radius: 99px; overflow: hidden;
 }
 .progress-bar-fill {
-  height: 100%; background: var(--gold);
+  height: 100%; background: linear-gradient(90deg, var(--brand-primary), var(--spark-sky));
   border-radius: 99px; width: 0%;
   transition: width 0.6s ease;
 }
@@ -181,11 +207,11 @@ body > nav:not(.bottom-nav) {
   border-radius: 20px;
   white-space: nowrap;
 }
-.chip-vocab   { color: #0a4a80; background: #dceffe; border: 1.5px solid #90c4f0; }
-.chip-grammar { color: #1e5c38; background: #d4edda; border: 1.5px solid #8ac4a0; }
-.chip-reading { color: #5c1e54; background: #f3e8fd; border: 1.5px solid #c4a0e8; }
-.chip-practice{ color: #1e5c5c; background: #e8fdfd; border: 1.5px solid #a0e8e8; }
-.chip-quiz    { color: #7a3800; background: #fce8cc; border: 1.5px solid #f0b870; }
+.chip-vocab   { color: #075985; background: #e0f2fe; border: 1.5px solid #7dd3fc; }
+.chip-grammar { color: #047857; background: #dcfff4; border: 1.5px solid #7ce8ca; }
+.chip-reading { color: #6d28d9; background: #f0e7ff; border: 1.5px solid #c4b5fd; }
+.chip-practice{ color: #0e7490; background: #e6fbff; border: 1.5px solid #7dd3fc; }
+.chip-quiz    { color: #9a3412; background: #fff0d1; border: 1.5px solid #fdba74; }
 
 /* ── Ornamental divider ── */
 .ornament-divider {
@@ -194,11 +220,11 @@ body > nav:not(.bottom-nav) {
 }
 .ornament-divider-line {
   flex: 1; height: 1px;
-  background: linear-gradient(to right, var(--gold-border), transparent);
+  background: linear-gradient(to right, rgba(92, 200, 255, 0.5), transparent);
 }
 .ornament-divider-diamond {
   width: 8px; height: 8px;
-  background: var(--gold);
+  background: var(--spark-coral);
   transform: rotate(45deg);
   opacity: 0.55;
 }

@@ -1007,3 +1007,149 @@
   /* XP float — avoid overlap with bottom nav */
   .xp-float { bottom: calc(70px + env(safe-area-inset-bottom, 0px)); top: auto; }
 }
+
+/* ── Bright app theme refresh ── */
+
+.streak-widget {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 216, 77, 0.7);
+  color: var(--text-mid);
+  box-shadow: 0 8px 20px rgba(47, 128, 237, 0.08);
+}
+
+.streak-widget--active {
+  border-color: var(--spark-coral);
+  color: #e23b50;
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.16);
+}
+
+.xp-bar-track,
+.fc-progress-track {
+  background: #dcecff;
+  border-color: rgba(92, 200, 255, 0.36);
+}
+
+.xp-bar-fill,
+.fc-progress-fill {
+  background: linear-gradient(90deg, var(--brand-primary), var(--spark-sky), var(--spark-lemon));
+}
+
+.quick-action-btn,
+.review-card-face,
+.drill-card {
+  border-color: rgba(92, 200, 255, 0.3);
+  box-shadow: var(--shadow-soft);
+}
+
+.quick-action-btn::before {
+  background: linear-gradient(135deg, rgba(92, 200, 255, 0.16), rgba(255, 216, 77, 0.13));
+}
+
+.quick-action-btn:hover {
+  border-color: var(--brand-primary);
+  box-shadow: var(--shadow-pop);
+}
+
+.quick-action-label,
+.fc-screen-title,
+.onboarding-title {
+  color: var(--brand-primary-dark);
+}
+
+.onboarding-overlay,
+.fc-page {
+  background: linear-gradient(135deg, #ffffff 0%, var(--bg) 48%, #fff8dc 100%);
+}
+
+.onboarding-btn,
+.fc-btn {
+  background: linear-gradient(135deg, var(--brand-primary), var(--spark-sky));
+  box-shadow: 0 8px 20px rgba(0, 168, 135, 0.18);
+}
+
+.onboarding-btn:hover,
+.fc-btn:hover {
+  background: linear-gradient(135deg, var(--brand-primary-dark), var(--brand-primary));
+}
+
+.onboarding-btn--ghost,
+.fc-btn--ghost,
+.level-card {
+  border-color: rgba(92, 200, 255, 0.36);
+}
+
+.onboarding-btn--ghost,
+.fc-btn--ghost {
+  background: #ffffff;
+  color: var(--brand-primary-dark);
+  box-shadow: none;
+}
+
+.onboarding-btn--ghost:hover,
+.fc-btn--ghost:hover,
+.level-card:hover {
+  background: var(--surface-tint);
+  border-color: var(--spark-sky);
+}
+
+.level-card.selected,
+.fc-screen-xp,
+.review-card-lesson,
+.drill-mode-pill {
+  color: var(--brand-primary-dark);
+  background: #e8fff8;
+  border-color: #8af0d5;
+}
+
+.onboarding-dot {
+  background: #cfe1f4;
+}
+
+.review-card-type {
+  color: var(--spark-coral);
+}
+
+.drill-lesson-tag {
+  color: #075985;
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+}
+
+.drill-option {
+  background: #f8fbff;
+  border-color: rgba(92, 200, 255, 0.28);
+}
+
+.drill-option:hover:not(:disabled) {
+  background: var(--surface-tint);
+  border-color: var(--brand-primary);
+  transform: translateY(-1px);
+}
+
+.build-answer {
+  background: #f8fbff;
+  border-color: rgba(92, 200, 255, 0.44);
+}
+
+.build-tile {
+  border-color: rgba(92, 200, 255, 0.32);
+  box-shadow: 0 3px 0 #bee7ff;
+}
+
+.build-tile:hover:not(:disabled) {
+  border-color: var(--brand-primary);
+  box-shadow: 0 5px 0 #bee7ff;
+}
+
+.build-tile:active:not(:disabled) {
+  box-shadow: 0 1px 0 #bee7ff;
+}
+
+.build-tile--selected {
+  background: #e8fff8;
+  border-color: var(--brand-primary);
+}
+
+.drill-score-pip {
+  border-color: #cfe1f4;
+}
