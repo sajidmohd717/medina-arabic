@@ -24,20 +24,20 @@
   var base = path.includes('/lessons/') ? '../' : '';
 
   var nav = document.createElement('nav');
-  nav.className = 'bottom-nav';
+  nav.className = 'app-nav';
   nav.setAttribute('aria-label', 'Main navigation');
 
   tabs.forEach(function (tab) {
     var a = document.createElement('a');
     a.href = base + tab.href;
-    a.className = 'bottom-nav-tab' + (tab.id === page ? ' bottom-nav-tab--active' : '');
+    a.className = 'app-nav-tab' + (tab.id === page ? ' app-nav-tab--active' : '');
     a.setAttribute('aria-current', tab.id === page ? 'page' : 'false');
     a.innerHTML =
-      '<span class="bottom-nav-icon">' + tab.icon + '</span>' +
-      '<span class="bottom-nav-label">' + tab.label + '</span>';
+      '<span class="app-nav-icon">' + tab.icon + '</span>' +
+      '<span class="app-nav-label">' + tab.label + '</span>';
     nav.appendChild(a);
   });
 
   document.body.appendChild(nav);
-  document.body.classList.add('has-bottom-nav');
+  document.body.classList.add('has-app-nav');
 })();

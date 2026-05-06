@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════
+﻿/* ═══════════════════════════════════════
    MOBILE — Bottom Nav, Touch, Safe Areas
    ═══════════════════════════════════════ */
 
@@ -10,37 +10,106 @@ a, button, [role="button"], label, input, select, textarea {
   touch-action: manipulation;
 }
 
+body.has-app-nav {
+  padding-top: 74px;
+}
+
+/* ── App Nav: desktop top nav, mobile bottom tabs ── */
+.app-nav {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: min(520px, calc(100% - 32px));
+  padding: 6px;
+  border: 1.5px solid rgba(124, 92, 252, 0.1);
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 30px rgba(124, 92, 252, 0.12);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+}
+
+.app-nav-tab {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 0 10px;
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.app-nav-tab:hover,
+.app-nav-tab:focus-visible {
+  color: var(--brand);
+  background: var(--surface-tint);
+  outline: none;
+}
+
+.app-nav-tab--active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand), var(--brand-light));
+  box-shadow: 0 4px 0 var(--brand-dark);
+}
+
+.app-nav-tab--active:hover,
+.app-nav-tab--active:focus-visible {
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-dark), var(--brand));
+}
+
+.app-nav-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.app-nav-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 @media (max-width: 768px) {
-  body.has-bottom-nav {
+  body.has-app-nav {
+    padding-top: 0;
     padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
   }
-}
 
-/* ── Bottom Nav ── */
-.bottom-nav {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .bottom-nav {
+  .app-nav {
     display: flex;
     flex-direction: row;
     position: fixed;
+    top: auto;
     bottom: 0;
     left: 0;
     right: 0;
+    transform: none;
     width: 100%;
     z-index: 500;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(28px) saturate(1.6);
     -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    border: 0;
     border-top: 1.5px solid rgba(124, 92, 252, 0.1);
+    border-radius: 0;
     padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px));
     box-shadow: 0 -4px 24px rgba(124, 92, 252, 0.07);
     box-sizing: border-box;
   }
 
-  .bottom-nav-tab {
+  .app-nav-tab {
     flex: 1 1 0;
     min-width: 0;
     display: flex;
@@ -50,14 +119,15 @@ a, button, [role="button"], label, input, select, textarea {
     gap: 4px;
     padding: 6px 4px;
     min-height: 60px;
-    text-decoration: none;
     color: var(--text-muted);
     transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
-  /* Pill indicator above active tab */
-  .bottom-nav-tab::before {
+  .app-nav-tab::before {
     content: '';
     position: absolute;
     top: 0;
@@ -71,30 +141,30 @@ a, button, [role="button"], label, input, select, textarea {
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .bottom-nav-tab--active {
+  .app-nav-tab--active {
     color: var(--brand);
   }
-  .bottom-nav-tab--active::before {
+  .app-nav-tab--active::before {
     opacity: 1;
     width: 40px;
   }
 
-  .bottom-nav-tab:active {
+  .app-nav-tab:active {
     background: var(--surface-tint);
     border-radius: var(--radius-sm);
     transform: scale(0.9);
   }
 
-  .bottom-nav-icon {
+  .app-nav-icon {
     font-size: 1.35rem;
     line-height: 1;
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .bottom-nav-tab--active .bottom-nav-icon {
+  .app-nav-tab--active .app-nav-icon {
     transform: translateY(-3px) scale(1.1);
   }
 
-  .bottom-nav-label {
+  .app-nav-label {
     font-family: 'Nunito', sans-serif;
     font-size: 0.52rem;
     font-weight: 800;
@@ -104,9 +174,8 @@ a, button, [role="button"], label, input, select, textarea {
     transition: color 0.2s ease;
   }
 }
-
 @supports (padding-top: env(safe-area-inset-top)) {
-  body > nav:not(.bottom-nav) {
+  body > nav:not(.app-nav) {
     padding-top: max(0.7rem, env(safe-area-inset-top));
   }
 }
@@ -152,3 +221,4 @@ button, a, .quiz-option, .practice-option, .comprehension-option,
     transition: transform 0.08s ease !important;
   }
 }
+

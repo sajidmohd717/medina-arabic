@@ -19,10 +19,14 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 
 ### What's built
 - Full single-template lesson architecture — one HTML shell for all 69+ lessons
+- Today-first app dashboard for returning/onboarded users
+- App-wide navigation: Today, Course, Reading, Review. Desktop uses a top pill nav; mobile uses bottom tabs.
 - Book 1 lesson list page with progress tracking, section nav, and lesson cards
 - Lessons 1–13 complete with full content (vocab, grammar, reading, practice, quiz)
 - Hover/tap-translate tooltips on reading comprehension Arabic text
-- Focused reading track with one-story-at-a-time practice, course-progress unlocks, a collapsed vocabulary satchel, and comprehension checks
+- Focused reading comprehension track: one unlocked story, then questions directly below it
+- Collapsible reading progress overview for stories passed, current level, words unlocked, and next-level progress
+- Word Review flow positioned as Anki-style flashcards for vocabulary the learner is still acquiring
 - On-screen Arabic keyboard for typed quiz answers
 - Vocabulary rating system (know / still practising / difficult) with localStorage persistence
 - Progress tracking — sequential lesson locks, completed/in-progress/not-started states
@@ -36,6 +40,19 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 2. Book 1 final quiz content
 3. Book 2 lessons
 4. Book 3 lessons
+5. Upgrade Review into true spaced repetition (due dates, ease, review intervals)
+
+### Product direction
+Kalamo is now an app-like learning product, not just a course library. The intended learner loop is:
+
+1. **Today** — the default home after onboarding. Shows the next lesson, daily quests, progress, and quick links.
+2. **Course** — structured Madinah Arabic lesson path. Lessons teach vocab, grammar, comprehension, practice, and quiz.
+3. **Reading** — the main practice surface. A short Arabic passage appears first, with comprehension questions directly underneath.
+4. **Review** — Anki-like vocabulary flashcards. This should become the memory system for words learned in lessons and reading.
+
+The old standalone Daily Practice/Drill route is not part of the visible product navigation. Keep `drill.html` only as archived/experimental code unless a future decision explicitly revives it.
+
+The UX target is Duolingo-like return momentum with a calmer Arabic-learning identity: cheerful, sticky, clear next action, but not cluttered. Avoid adding new top-level features unless they reinforce the loop above.
 
 ### Development workflow
 Work in sessions, batch related changes, and push to `main` once a meaningful chunk is done. Do not commit every small tweak — keep the git history clean and meaningful.
@@ -65,9 +82,9 @@ This means:
 medina-arabic/
 ├── GUIDELINES.md
 ├── README.md
-├── index.html                     ← Landing page (book selector)
+├── index.html                     ← Today dashboard for returning users + first-time onboarding/book selector
 ├── book1.html                     ← Book 1 lesson list
-├── reading.html                   ← Leveled reading challenge track
+├── reading.html                   ← Reading comprehension track
 ├── book2.html                     ← Book 2 (coming soon placeholder)
 ├── book3.html                     ← Book 3 (coming soon placeholder)
 ├── 404.html                       ← Custom error page
@@ -80,14 +97,14 @@ medina-arabic/
 │   │   ├── shared.css             ← Variables, base reset, nav, chips, animations
 │   │   ├── book-list.css          ← Book lesson-list page styles
 │   │   ├── lesson.css             ← Lesson page styles (panels, quiz, keyboard, tooltips)
-│   │   └── reading.css            ← Reading track styles
+│   │   └── reading.css            ← Reading comprehension styles
 │   │
 │   └── js/
 │       ├── progress.js            ← localStorage progress + vocab rating tracking
 │       ├── book1-lesson-list.js   ← Book 1 section/lesson data + card rendering
 │       ├── lesson-core.js         ← All lesson UI logic (panels, quiz, keyboard, tooltips)
 │       ├── lesson-loader.js       ← Reads URL params, injects data file, calls initLesson()
-│       └── reading.js             ← Reading challenges, satchel, and reading progress
+│       └── reading.js             ← Reading challenges, comprehension checks, and progress overview
 │
 ├── lessons/
 │   ├── lesson.html                ← THE ONLY HTML SHELL for all lessons
@@ -233,6 +250,14 @@ All pages load `shared.css` first, then a page-specific stylesheet.
 - Vocab/Grammar/Quiz chips (`.chip`, `.chip-vocab`, etc.)
 - Global keyframe animations (`fadeDown`, `fadeUp`, `fadeIn`)
 
+### mobile.css
+Loaded globally via `shared.css`. Despite the filename, this owns the app navigation across viewports:
+- Desktop: fixed top pill navigation with Today, Course, Reading, Review
+- Mobile: fixed bottom tab navigation with the same destinations
+- Safe-area padding and touch affordances
+
+Use this file for app-nav behavior and mobile-specific interaction details.
+
 ### book-list.css
 Loaded by book list pages only. Contains:
 - Page header, stats, eyebrow
@@ -251,6 +276,16 @@ Loaded by lesson pages only. Contains:
 - Arabic typing input and on-screen keyboard
 - Score card
 - **Hover/tap-translate tooltip** styles (`.ar-word[data-meaning]`) — dashed underline + dark tooltip for hover, focus, and tap
+
+### reading.css
+Loaded by `reading.html` only. Reading should stay deliberately uncluttered:
+- Short purpose line
+- Optional progress overview opened by a button
+- Story card
+- Comprehension questions directly below the story
+- Result panel and next-story action
+
+Do not reintroduce a large hero, rank ladder, visible satchel, or other always-visible furniture unless the product direction changes.
 
 ### CSS variables (defined in shared.css)
 
@@ -331,19 +366,27 @@ All lesson UI logic. Key functions:
 Reads URL params → builds data file path → injects `<script>` → calls `initLesson()`. Also checks lesson lock state (redirects if locked) and marks lesson in-progress.
 
 ### reading.js
-Runs the optional reading track on `reading.html`.
+Runs the Reading tab on `reading.html`.
 
-- Entry point is the Book 1 navigation CTA, not the home page. The home page stays focused on the three Madinah books.
+- Reading is now the main practice surface of the app.
 - Shows one unlocked story at a time, chosen from the learner's completed Book 1 lessons and unread reading challenges.
-- Keeps the first screen calm: reading level, one story, and visible comprehension questions with no extra start gate.
-- After checking answers, shows pass/retry feedback, reading-level progress, and a frictionless next-story action when another story is available.
-- Uses a visible rank ladder so reading feels like a climb: `Pre-Level One` → `Level One` → `Level Two` → `Level Three`.
-- Current rank threshold is 5 passed stories per level; update `RANKS` and the UI copy together if this methodology changes.
-- Keeps the vocabulary satchel collapsed by default so it supports curiosity without cluttering the main reading flow.
-- Builds the satchel from course words already unlocked plus reading-only reward words.
+- The default screen must remain simple: short purpose line, story, questions.
+- Progress belongs behind the `View Progress` button, not in a large always-visible ladder.
+- After checking answers, shows pass/retry feedback and a next-story action when another story is available.
+- Current rank threshold is 5 passed stories per level; update `RANKS` and the overview copy together if this methodology changes.
+- Builds internal progress from course words already unlocked plus reading-only reward words, but does not show a full satchel by default.
 - Stores reading challenge passes in `kalamo_reading_progress`.
 - Stores reading-only satchel words in `kalamo_reading_satchel`.
 - Keeps levels learner-facing (`Pre-Level One`, `Level One`, `Level Two`) while internally following novice-reader principles: familiar vocabulary, short controlled sentences, clear literal comprehension questions, and gradual grammar expansion.
+
+### bottom-nav.js
+Creates the app-wide navigation.
+
+- Rendered on every app page that imports it.
+- Desktop: top pill nav.
+- Mobile: bottom tab nav.
+- Destinations are fixed: Today (`index.html`), Course (`bookX.html`), Reading (`reading.html`), Review (`review.html`).
+- Do not add Drill/Practice back into this navigation unless the product direction changes.
 
 ---
 
@@ -410,11 +453,21 @@ So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After
 - Max width: `1220px` on book list pages, `900px` on lesson pages
 - Desktop remains the richest layout, designed for 1280px+ at 100% zoom
 - Mobile gets purpose-built compact layouts, not just a squeezed desktop layout
+- Onboarded users should land on the Today dashboard by default. Do not redirect returning users straight to Course.
+- Keep top-level navigation consistent across desktop and mobile: Today, Course, Reading, Review.
 - At phone widths, prefer short rows, tighter padding, fewer decorative chips, and smaller Arabic display sizes where the desktop treatment would create excessive scrolling
 - Vocabulary cards should become compact study rows on mobile: Arabic + meaning remain visible, secondary metadata can be reduced or hidden
 - Lesson/book cards can hide nonessential chips/descriptions on very narrow screens if the primary action and lesson identity remain clear
 - Geometric SVG tile pattern fixed on every page at `opacity: 0.04`
 - Sticky nav on all pages
+
+### Product UX rules
+- Today is the learner's home base and must always answer: "What should I do next?"
+- Course teaches. Reading practices. Review memorizes. Keep those roles distinct.
+- Reading should not feel like a dashboard. It is a comprehension surface.
+- Review should move toward Anki-style spaced repetition, not generic mixed drills.
+- Avoid adding new persistent panels, badges, ladders, or drawers unless they directly improve the learner loop.
+- The app may be playful and colorful, but daily-use screens should stay quick to scan.
 
 ### Accessibility
 - Arabic-Indic numerals (٠١٢٣٤٥٦٧٨٩) for all numbers shown to users — use `toArabicNumeral()`
@@ -503,9 +556,12 @@ All HTML pages have: `<meta name="description">`, Open Graph tags (`og:title`, `
 - Do not hardcode hex colours — use CSS variables
 - Do not add CSS variables outside `shared.css`
 - Do not store anything in localStorage except lesson progress and vocab ratings (keys: `kalamo_book*_progress`, `kalamo_vocab_ratings`; legacy `medina_*` keys are migration-only)
+- Also allowed localStorage keys: onboarding/current-book state, XP/streak state, and reading progress (`kalamo_onboarded`, `kalamo_current_book`, `kalamo_learning_mode`, `kalamo_xp`, `kalamo_streak`, `kalamo_reading_progress`, `kalamo_reading_satchel`)
 - Do not reduce the desktop base font size (`20px`) or max content widths without good reason
 - Do not treat mobile as an afterthought — every new page/component needs a phone-width pass for spacing, type size, and scrolling density
 - Do not use italics on body text or font weights below 400
 - Do not duplicate vocabulary across lessons
 - Do not reference grammar concepts in a lesson's quiz that haven't been taught yet
+- Do not make Daily Practice/Drill visible in the main navigation or dashboard unless the product direction changes
+- Do not make Reading cluttered with a permanent rank ladder, satchel, or large hero
 - Do not commit and push every small change — batch into meaningful commits
