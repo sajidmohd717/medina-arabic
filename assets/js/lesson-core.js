@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    lesson-core.js — Kalamo
    Shared functions for all lesson pages.
    Handles: keyboard, navigation, scoring, normalisation, UI building
@@ -76,6 +76,10 @@ function attachArabicWordMeaningToggles(root = document) {
   }
 }
 
+// ─────────────────────────────────────────────────────────────
+// RENDER HELPERS
+// ─────────────────────────────────────────────────────────────
+
 function normalise(str) {
   return stripDiacritics(str)
     .replace(/ـ/g, '')
@@ -86,6 +90,13 @@ function normalise(str) {
 
 function displayNumber(value) {
   return typeof toArabicNumeral === 'function' ? toArabicNumeral(value) : String(value);
+}
+
+function renderIcon(icon) {
+  if (!icon) return '•';
+  const chars = [...icon];
+  if (chars.length <= 1) return icon;
+  return chars.map(c => `<span>${c}</span>`).join('');
 }
 
 function renderGuidedArabicLine(ar, vocab) {
@@ -312,10 +323,6 @@ function checkComprehension(btn, qNum, isCorrect) {
   }
 }
 
-// ─────────────────────────────────────────────────────────────
-// PRACTICE FUNCTIONS
-// ─────────────────────────────────────────────────────────────
-
 
 // ─────────────────────────────────────────────────────────────
 // QUIZ FUNCTIONS
@@ -495,10 +502,6 @@ function retryQuiz() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ─────────────────────────────────────────────────────────────
-// ON-SCREEN KEYBOARD
-// ─────────────────────────────────────────────────────────────
-
 
 // ─────────────────────────────────────────────────────────────
 // UI BUILDING FUNCTIONS
@@ -639,6 +642,10 @@ function buildVocabRatingLayout(data, slot, hintText) {
   attachArabicWordMeaningToggles(slot);
 }
 
+// ─────────────────────────────────────────────────────────────
+// PANEL BUILDERS
+// ─────────────────────────────────────────────────────────────
+
 function buildVocabularyPanel(data) {
   const slot = document.querySelector('#panel-vocab .vocab-grid');
   if (!slot) return;
@@ -661,7 +668,7 @@ function buildVocabularyPanel(data) {
       const total = data.guidedPages.length;
       const cardsHtml = (page.cards || []).map(item => `
         <article class="guided-sentence-card">
-          <div class="guided-sentence-visual" aria-hidden="true">${item.icon || '•'}</div>
+          <div class="guided-sentence-visual${item.icon && [...item.icon].length > 1 ? ' guided-sentence-visual--multi' : ''}" aria-hidden="true">${renderIcon(item.icon)}</div>
           <div class="guided-sentence-body">
             ${renderGuidedArabicLine(item.ar, data.vocab)}
           </div>
@@ -684,7 +691,7 @@ function buildVocabularyPanel(data) {
 
       const groupsHtml = (page.groups || []).map(group => `
         <article class="guided-qa-card">
-          <div class="guided-sentence-visual" aria-hidden="true">${group.icon || '•'}</div>
+          <div class="guided-sentence-visual${group.icon && [...group.icon].length > 1 ? ' guided-sentence-visual--multi' : ''}" aria-hidden="true">${renderIcon(group.icon)}</div>
           <div class="guided-qa-body">
             ${(group.lines || []).map(line => `
               <div class="guided-qa-line${line.isPrompt ? ' guided-qa-line--prompt' : ''}">
@@ -728,7 +735,7 @@ function buildVocabularyPanel(data) {
         ${exerciseItems.length ? '' : `
           <div class="guided-lesson-intro">
             ${page.titleArabic ? `<div class="guided-page-title-arabic">${page.titleArabic}</div>` : ''}
-            <div class="guided-page-title">${page.title}</div>
+            ${page.title ? `<div class="guided-page-title">${page.title}</div>` : ''}
             ${page.pattern ? `<div class="guided-pattern">${page.pattern}</div>` : ''}
             ${page.intro ? `<p>${page.intro}</p>` : ''}
           </div>
@@ -809,7 +816,7 @@ function buildVocabularyPanel(data) {
       const card = document.createElement('article');
       card.className = 'guided-sentence-card';
       card.innerHTML = `
-        <div class="guided-sentence-visual" aria-hidden="true">${item.icon || '•'}</div>
+        <div class="guided-sentence-visual${item.icon && [...item.icon].length > 1 ? ' guided-sentence-visual--multi' : ''}" aria-hidden="true">${renderIcon(item.icon)}</div>
         <div class="guided-sentence-body">
           <div class="guided-sentence-arabic">${annotateArabicText(item.ar, data.vocab)}</div>
           <div class="guided-sentence-trans">${item.trans}</div>
@@ -1025,6 +1032,10 @@ function initLesson() {
   }
 }
 
+// ─────────────────────────────────────────────────────────────
+// GUIDED PAGES — EXERCISE LOGIC
+// ─────────────────────────────────────────────────────────────
+
 function checkGuidedExercise(eid, accepts, totalInPage) {
   const input = document.getElementById(eid);
   const feedback = document.getElementById(`fb_${eid}`);
@@ -1209,6 +1220,10 @@ function updateGuidedExerciseLock(totalInPage) {
   if (hint) hint.style.display = '';
 }
 
+// ─────────────────────────────────────────────────────────────
+// GUIDED PAGES — STATE (localStorage)
+// ─────────────────────────────────────────────────────────────
+
 function guidedPageKey() {
   if (!CURRENT_LESSON_DATA) return '';
   return `guided_page_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}`;
@@ -1248,8 +1263,11 @@ function loadGuidedPage() {
 
 function shouldSkipLessonIntro() {
   const resumeKey = guidedResumeKey();
-  if (!resumeKey) return false;
-  return localStorage.getItem(resumeKey) === 'active';
+  if (!resumeKey || localStorage.getItem(resumeKey) !== 'active') return false;
+  const savedPage = loadGuidedPage();
+  if (savedPage > 0) return true;
+  const savedStep = localStorage.getItem(lessonStepKey()) || 'vocab';
+  return savedStep !== 'vocab';
 }
 
 function restoreLessonResume() {

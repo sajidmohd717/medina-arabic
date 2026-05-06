@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    b1-lesson1.js — Lesson 1 Data
    ============================================================ */
 
@@ -327,20 +327,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'مَا هٰذَا؟', trans: 'mā hādhā?', meaning: 'What is this?' },
-    { ar: 'هٰذَا بَيْتٌ.', trans: 'hādhā baytun', meaning: 'This is a house.' },
-    { ar: 'أَهٰذَا بَيْتٌ؟', trans: 'a-hādhā baytun?', meaning: 'Is this a house?' },
-    { ar: 'نَعَمْ، هٰذَا بَيْتٌ.', trans: 'naʿam, hādhā baytun', meaning: 'Yes, this is a house.' },
-    { ar: 'مَا هٰذَا؟', trans: 'mā hādhā?', meaning: 'What is this?' },
-    { ar: 'هٰذَا قَمِيصٌ.', trans: 'hādhā qamīṣun', meaning: 'This is a shirt.' },
-    { ar: 'أَهٰذَا سَرِيرٌ؟', trans: 'a-hādhā sarīrun?', meaning: 'Is this a bed?' },
-    { ar: 'لا، هٰذَا كُرْسِيٌّ.', trans: 'lā, hādhā kursiyyun', meaning: 'No, this is a chair.' },
-    { ar: 'أَهٰذَا مِفْتَاحٌ؟', trans: 'a-hādhā miftāḥun?', meaning: 'Is this a key?' },
-    { ar: 'لا، هٰذَا قَلَمٌ.', trans: 'lā, hādhā qalamun', meaning: 'No, this is a pen.' },
-    { ar: 'مَا هٰذَا؟', trans: 'mā hādhā?', meaning: 'What is this?' },
-    { ar: 'هٰذَا نَجْمٌ.', trans: 'hādhā najmun', meaning: 'This is a star.' }
-  ],
 
   // ============================================================
   // READING COMPREHENSION
@@ -371,14 +357,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'هٰذَا كِتَابٌ', correct: 'This is a book.', options: ['This is a pen.', 'This is a book.', 'This is a house.', 'This is a door.'] },
-    { arabic: 'هٰذَا مَسْجِدٌ', correct: 'This is a mosque.', options: ['This is a chair.', 'This is a book.', 'This is a mosque.', 'This is a bed.'] },
-    { text: 'Which word means "a pen"?', correct: 'قَلَمٌ', options: ['كِتَابٌ', 'بَيْتٌ', 'قَلَمٌ', 'بَابٌ'] },
-    { text: 'What does مَا هٰذَا؟ mean?', correct: 'What is this?', options: ['What is this?', 'Is this a house?', 'This is a key.', 'Yes.'] },
-    { text: 'How do you ask "Is this a key?"', correct: 'أَهٰذَا مِفْتَاحٌ؟', options: ['مَا هٰذَا؟', 'أَهٰذَا مِفْتَاحٌ؟', 'نَعَمْ، هٰذَا مِفْتَاحٌ.', 'لا، هٰذَا قَلَمٌ.'] },
-    { text: 'How do you say "No" in Arabic?', correct: 'لا', options: ['نَعَمْ', 'لا', 'مَا', 'هٰذَا'] }
-  ],
 
   // ============================================================
   // QUIZ QUESTIONS

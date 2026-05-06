@@ -1,4 +1,4 @@
-# Kalamo — The Clear Path to Arabic
+﻿# Kalamo — The Clear Path to Arabic
 
 A modern, interactive platform for learning the Arabic language, built on the foundation of the world-renowned Madinah Arabic Course. Fully static — no backend, no build tools, no accounts required.
 
@@ -22,12 +22,11 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 - Today-first app dashboard for returning/onboarded users
 - App-wide navigation: Today, Course, Reading, Review. Desktop uses a top pill nav; mobile uses bottom tabs.
 - Book 1 lesson list page with progress tracking, section nav, and lesson cards
-- Lessons 1–13 complete with full content; Lesson 1 is the pilot for the newer intro-first, pattern-first Madinah-style lesson flow
+- Lessons 1–13 complete with full content; Lessons 1–3 use the newer guided-pages format (Madinah-style pattern-first flow)
 - Hover/tap-translate tooltips on reading comprehension Arabic text
 - Focused reading comprehension track: one unlocked story, then questions directly below it
 - Collapsible reading progress overview for stories passed, current level, words unlocked, and next-level progress
 - Word Review flow positioned as Anki-style flashcards for vocabulary the learner is still acquiring
-- On-screen Arabic keyboard for typed quiz answers
 - Vocabulary rating system (know / still practising / difficult) with localStorage persistence
 - Progress tracking — sequential lesson locks, completed/in-progress/not-started states
 - SEO: meta descriptions, Open Graph tags, canonical URLs on all pages
@@ -55,15 +54,18 @@ The old standalone Daily Practice/Drill route is not part of the visible product
 The UX target is Duolingo-like return momentum with a calmer Arabic-learning identity: cheerful, sticky, clear next action, but not cluttered. The app should feel premium and focused, with lesson screens that introduce the goal first and then get out of the learner's way. Avoid adding new top-level features unless they reinforce the loop above.
 
 ### Lesson content direction
-Kalamo should follow the Madinah Arabic Books more closely in pacing. Do not start beginner lessons with a large vocabulary dump. The preferred flow for new or revised lessons is:
+Kalamo should follow the Madinah Arabic Books more closely in pacing. Do not start beginner lessons with a large vocabulary dump. The lesson flow is four steps:
 
-1. **Learn** — introduce one sentence pattern with a small set of concrete examples, ideally with simple visual cues.
-2. **Questions** — show how the pattern becomes basic questions and answers.
-3. **Reading** — use a short controlled passage made only from known or newly introduced material.
-4. **Review Words** — only after context, let learners rate words as easy, still practising, or difficult.
-5. **Quiz** — test the pattern and the most important new words.
+1. **Learn** — guided pages that introduce one sentence pattern at a time with concrete examples and visual cues. Uses the `guidedPages` format (see data structure). This is the main teaching surface.
+2. **Concepts** — grammar reference blocks only. No example sentences that duplicate what was just taught in Learn.
+3. **Reading** — a short controlled comprehension passage with MCQ questions. Arabic text has hover/tap-translate on vocab words.
+4. **Quiz** — MC + typing questions. Pass mark is roughly 75% (`passMark: 6` for an 8-question quiz). No on-screen keyboard — learners use their device keyboard.
 
-Lesson 1 now models this direction with a dedicated animated lesson intro, `guidedPages`, and `reviewVocabAtEnd`. Use that shape when gradually revising later lessons. The lesson intro should give the learner a short heads-up about what they are about to learn, then transition into the lesson with one clear premium primary button. After the intro, keep the working lesson surface uncluttered: step controls, the active panel, and only the context needed for the current task.
+The Practice panel has been removed. Learn already contains interactive exercises via the `exercise` sub-format in `guidedPages`.
+
+Lessons 1–3 model this direction. Use those as the reference when revising later lessons. The lesson intro popup should give the learner a short heads-up about what they are about to learn, then transition into the lesson with one clear primary button. If the learner has already progressed past page 1, skip the intro on return.
+
+After the intro, keep the working lesson surface uncluttered: step controls, the active panel, and only the context needed for the current task. Do not show lesson titles or pattern headers on pages where the intro already oriented the learner — go straight to the content.
 
 Do not duplicate lesson summaries inside the active lesson view after the intro. The intro explains the lesson; the lesson body should teach and test it.
 
@@ -109,13 +111,13 @@ medina-arabic/
 │   ├── css/
 │   │   ├── shared.css             ← Variables, base reset, nav, chips, animations
 │   │   ├── book-list.css          ← Book lesson-list page styles
-│   │   ├── lesson.css             ← Lesson page styles (panels, quiz, keyboard, tooltips)
+│   │   ├── lesson.css             ← Lesson page styles (guided pages, quiz, tooltips)
 │   │   └── reading.css            ← Reading comprehension styles
 │   │
 │   └── js/
 │       ├── progress.js            ← localStorage progress + vocab rating tracking
 │       ├── book1-lesson-list.js   ← Book 1 section/lesson data + card rendering
-│       ├── lesson-core.js         ← All lesson UI logic (panels, quiz, keyboard, tooltips)
+│       ├── lesson-core.js         ← All lesson UI logic (guided pages, quiz, tooltips)
 │       ├── lesson-loader.js       ← Reads URL params, injects data file, calls initLesson()
 │       └── reading.js             ← Reading challenges, comprehension checks, and progress overview
 │
@@ -149,42 +151,72 @@ Each file in `lessons/data/` exports a single `LESSON_DATA` object:
 const LESSON_DATA = {
   book: 'book1',                    // 'book1', 'book2', or 'book3'
   lessonNum: 5,                     // integer, matches filename
-  titleArabic: 'مُضَافٌ وَمُضَافٌ إِلَيْهِ',
-  titleEnglish: 'The Possessive Construction',
-  summary: 'One or two sentences shown at the top of the lesson page.',
+  titleArabic: 'Arabic title',
+  titleEnglish: 'English title',
+  summary: 'One or two sentences shown in the lesson intro popup.',
   nextLesson: 'b1-lesson6.html',    // used to build the Next Lesson button
-  passMark: 8,                      // correct answers needed to pass
-  totalQuestions: 12,               // must equal MC + typing question counts
+  passMark: 6,                      // correct answers needed to pass (~75% of totalQuestions)
+  totalQuestions: 8,                // must equal multipleChoice.length + typing.length
 
-  guidedPages: [                         // optional: enables bite-sized Madinah-style lesson pages
+  // optional: enables bite-sized guided pages in the Learn step
+  // title, titleArabic, and pattern are all optional on each page.
+  // Each page uses ONE of three formats: cards, groups, or exercise.
+  guidedPages: [
+
+    // FORMAT 1: cards — individual vocab/pattern items (word + icon)
     {
-      titleArabic: 'الدَّرْسُ الأَوَّلُ',
-      title: 'Lesson One',
-      pattern: 'هٰذَا',
+      title: 'Page title',
       intro: 'Short learner-facing intro.',
       cards: [
-        { icon: '📘', ar: 'هٰذَا كِتَابٌ' }
+        { icon: 'emoji', ar: 'Arabic word or phrase' }
       ],
-      keyPoints: ['هٰذَا + nounٌ']
+      keyPoints: ['key takeaway']
+    },
+
+    // FORMAT 2: groups — Q&A dialogue lines (one group = one exchange with a shared icon)
+    {
+      intro: 'Watch how questions work.',
+      groups: [
+        {
+          icon: 'emoji',
+          lines: [
+            { ar: 'question', isPrompt: true },  // isPrompt styles this as a question line
+            { ar: 'answer' }
+          ]
+        }
+      ],
+      keyPoints: ['key takeaway']
+    },
+
+    // FORMAT 3: exercise — fill-in-the-blank typing (in-lesson practice)
+    {
+      titleArabic: 'Arabic exercise title',
+      title: 'Exercise One',
+      intro: 'Instruction text.',
+      tip: 'Tip shown above the inputs.',
+      exercise: [
+        {
+          icon: 'emoji',          // visual prompt (used when there is no text prompt)
+          prompt: 'optional Arabic text prompt (for copy exercises)',
+          ideal: 'model answer with full vowels shown after checking',
+          accepts: ['bare', 'bare.', 'vowelled', 'vowelled.']
+        }
+      ]
     }
   ],
-  reviewVocabAtEnd: true,              // optional: moves vocab rating to the Review Words step
+  reviewVocabAtEnd: true,   // optional: moves vocab rating to the end of Learn (after guided pages)
 
   vocab: [
-    // NEW words only — do not repeat vocab from previous lessons
-    { ar: 'كِتَابٌ', trans: 'kitābun', meaning: 'Book', type: 'Noun' },
+    // NEW words introduced in this lesson only — do not repeat from earlier lessons
+    { ar: 'word', trans: 'transliteration', meaning: 'English', type: 'Noun' },
   ],
 
   grammarBlocks: [
     {
       title: 'Block title',
-      content: '<p>HTML content — use <strong>, <ul>, <li> etc.</strong></p>',
-      rule: 'The key rule, shown in a highlighted box.'
+      content: '<p>HTML — use strong, ul, li etc.</p>',
+      rule: 'Key rule shown in a highlighted box.'
     },
-  ],
-
-  examples: [
-    { ar: 'هَذَا كِتَابُ الطَّالِبِ', trans: 'hādhā kitābu l-ṭālibi', meaning: 'This is the student\'s book.' },
   ],
 
   comprehension: {
@@ -195,30 +227,21 @@ const LESSON_DATA = {
       {
         text: 'Question about the story?',
         options: ['A', 'B', 'C', 'D'],
-        correct: 'B'           // exact string matching one of the options
+        correct: 'B'   // exact string matching one option (not an index)
       },
     ]
   },
 
-  practiceQuestions: [
-    // Show Arabic word → pick meaning
-    { arabic: 'هَذَا بَيْتٌ', correct: 'This is a house.', options: ['...', '...', '...', '...'] },
-    // Or show a text question → pick answer
-    { text: 'What does هَذَا mean?', correct: 'This (masc.)', options: ['...', '...', '...', '...'] },
-  ],
-
   quizQuestions: {
     multipleChoice: [
       // correct is the 0-based index of the right option
-      { prompt: 'Translate: "His book"', options: ['كِتَابِي', 'كِتَابُكَ', 'كِتَابُهُ', 'كِتَابُهَا'], correct: 2 },
-      // optionally include an Arabic display above the options
-      { prompt: 'What does this mean?', arabic: 'هَذَا بَيْتٌ', options: ['...'], correct: 0 },
+      { prompt: 'Translate: X', options: ['A', 'B', 'C', 'D'], correct: 2 },
     ],
     typing: [
       {
-        prompt: 'Type in Arabic: "His book"',
-        ideal: 'كِتَابُهُ',
-        accepts: ['كتابه', 'كِتَابُهُ', 'كتابهُ']   // all accepted without diacritics
+        prompt: 'Type in Arabic: ...',
+        ideal: 'vowelled ideal answer',
+        accepts: ['bare', 'bare.', 'vowelled', 'vowelled.']
       },
     ]
   }
@@ -227,15 +250,14 @@ const LESSON_DATA = {
 
 **Key rules for lesson data:**
 - `totalQuestions` must equal `multipleChoice.length + typing.length`
-- `passMark` should be roughly 65–70% of `totalQuestions`
+- `passMark` should be roughly 75% of `totalQuestions` (e.g. 6 for an 8-question quiz)
 - Comprehension question `correct` is the **exact string** of the right option (not an index)
 - Quiz `correct` is a **0-based index** into the options array
-- Vocab is **new words only** — words from earlier lessons may appear in examples and practice for reinforcement but must not be listed as new vocab
-- Beginner lessons should avoid front-loading vocabulary. Introduce words inside patterns and examples first, then ask for vocab ratings near the end.
+- Vocab is **new words only** — words from earlier lessons may appear in exercises for reinforcement but must not be listed as new vocab
+- Beginner lessons should avoid front-loading vocabulary — introduce words inside patterns and dialogues first
 - All Arabic text must carry full diacritics (harakat)
-- Transliterations follow academic convention: macrons for long vowels (ā, ī, ū), ʿ for ʿayn
-
----
+- Transliterations follow academic convention: macrons for long vowels (a, i, u), ayn for ayn
+- `practiceQuestions` is a legacy field — do not use it in new lessons; the Practice panel has been removed
 
 ## File Naming Rules
 
@@ -261,7 +283,7 @@ const LESSON_DATA = {
    { lessonNum: 12, section: 'section-3', slug: 'b1-lesson12', available: true, ar: 'الَّذِي — الَّتِي', title: 'Relative Pronouns', desc: 'Short description for the card.' }
    ```
 4. Run `node scripts/validate-lessons.js`
-5. Open the lesson in the browser via `lessons/lesson.html?book=1&lesson=12` and test all five steps
+5. Open the lesson in the browser via `lessons/lesson.html?book=1&lesson=12` and test all four steps (Learn, Concepts, Reading, Quiz)
 6. Update the **Progress** table in this file
 
 ---
@@ -298,11 +320,11 @@ Loaded by book list pages only. Contains:
 Loaded by lesson pages only. Contains:
 - Animated lesson intro screen and transition into the active lesson
 - Step indicator bar
-- All five lesson panels (vocab, lesson, comprehension, practice, quiz)
+- Four lesson panels (Learn/guided pages, Concepts, Reading, Quiz)
 - Vocabulary layout: active grid + "Words you know well" collapsible bucket
 - Grammar blocks and example tables
-- Practice and quiz question styles
-- Arabic typing input and on-screen keyboard
+- Quiz question styles (MC and typing)
+- Arabic typing input
 - Score card
 - **Hover/tap-translate tooltip** styles (`.ar-word[data-meaning]`) — dashed underline + dark tooltip for hover, focus, and tap
 
@@ -383,13 +405,15 @@ All lesson UI logic. Key functions:
 | `buildVocabularyPanel(data)` | Renders guided sentence cards when present; otherwise renders vocab cards with rating buttons and the known-words bucket |
 | `buildLessonPanel(data)` | Renders grammar blocks and example table |
 | `buildComprehensionPanel(data)` | Renders story with hover/tap-translate, MCQ questions |
-| `buildPracticePanel(data)` | Renders practice questions, or the end-of-lesson word rating step when `reviewVocabAtEnd` is true |
-| `buildQuizPanel(data)` | Renders MC + typing quiz questions |
-| `annotateArabicText(text, vocab)` | Splits Arabic text into words, matches against vocab, wraps matched words in `<span class="ar-word" data-meaning="...">` for hover/tap tooltips |
-| `checkComprehension` / `checkPractice` / `checkQuiz` / `checkTyping` | Answer checking |
-| `submitQuiz()` / `retryQuiz()` | Quiz scoring and reset |
-| `attachKeyboard()` | On-screen Arabic keyboard |
-| `stripDiacritics(str)` / `normalise(str)` | Lenient answer matching |
+| uildQuizPanel(data) | Renders MC + typing quiz questions |
+| nnotateArabicText(text, vocab) | Splits Arabic text into words, matches against vocab, wraps matched words in `<span class="ar-word" data-meaning="...">` for hover/tap tooltips |
+| checkComprehension / checkQuiz / checkTyping | Answer checking |
+| submitQuiz() / 
+etryQuiz() | Quiz scoring and reset |
+| stripDiacritics(str) / 
+ormalise(str) | Lenient answer matching |
+| 
+enderIcon(icon) | Splits multi-emoji strings into individual spans for side-by-side display |
 
 ### lesson-loader.js
 Reads URL params → builds data file path → injects `<script>` → calls `initLesson()`. Also checks lesson lock state (redirects if locked) and marks lesson in-progress.

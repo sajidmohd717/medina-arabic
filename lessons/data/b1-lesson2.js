@@ -18,21 +18,43 @@ const LESSON_DATA = {
 
   guidedPages: [
     {
-      titleArabic: 'الدَّرْسُ الثَّانِي',
-      title: 'Lesson Two',
-      pattern: 'ذَلِكَ',
-      intro: 'هٰذَا = this (close). ذَلِكَ = that (far away). Use it the same way — ذَلِكَ + noun.',
-      cards: [
-        { icon: '🏠', ar: 'ذَلِكَ بَيْتٌ' },
-        { icon: '🕌', ar: 'ذَلِكَ مَسْجِدٌ' },
-        { icon: '📘', ar: 'ذَلِكَ كِتَابٌ' },
-        { icon: '✏️', ar: 'ذَلِكَ قَلَمٌ' },
-        { icon: '🔑', ar: 'ذَلِكَ مِفْتَاحٌ' },
-        { icon: '🪑', ar: 'ذَلِكَ كُرْسِيٌّ' },
-        { icon: '🛏️', ar: 'ذَلِكَ سَرِيرٌ' },
-        { icon: '🧾', ar: 'ذَلِكَ مَكْتَبٌ' }
+      intro: 'هٰذَا points at things close to you. ذَلِكَ points at things far away. Watch how it works in each sentence.',
+      groups: [
+        {
+          icon: '⭐',
+          lines: [
+            { ar: 'مَا ذَلِكَ؟', isPrompt: true },
+            { ar: 'ذَلِكَ نَجْمٌ.' }
+          ]
+        },
+        {
+          icon: '🕌🏠',
+          lines: [
+            { ar: 'هٰذَا مَسْجِدٌ وَذَلِكَ بَيْتٌ.' }
+          ]
+        },
+        {
+          icon: '🐎🫏',
+          lines: [
+            { ar: 'هٰذَا حِصَانٌ وَذَلِكَ حِمَارٌ.' }
+          ]
+        },
+        {
+          icon: '🐈',
+          lines: [
+            { ar: 'أَذَلِكَ كَلْبٌ؟', isPrompt: true },
+            { ar: 'لا، ذَلِكَ قِطٌّ.' }
+          ]
+        },
+        {
+          icon: '🛏️',
+          lines: [
+            { ar: 'مَا ذَلِكَ؟', isPrompt: true },
+            { ar: 'ذَلِكَ سَرِيرٌ.' }
+          ]
+        }
       ],
-      keyPoints: ['ذَلِكَ = that (far away)', 'هٰذَا = this (close by)']
+      keyPoints: ['ذَلِكَ = that (far away)', 'هٰذَا = this (close by)', 'وَ joins them in one sentence']
     },
     {
       title: 'Asking About Far Things',

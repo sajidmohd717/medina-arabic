@@ -68,16 +68,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'Ù‡ÙŽØ°ÙŽØ§ Ø·ÙŽØ§Ù„ÙØ¨ÙŒ Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ', trans: 'hÄdhÄ á¹­Älibun jadÄ«dun', meaning: 'This is a new student.' },
-    { ar: 'Ø§Ù„Ù’Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³Ù Ø§Ù„Ù’Ø¬ÙŽØ¯ÙÙŠØ¯Ù ÙÙÙŠ Ø§Ù„Ù’ÙÙŽØµÙ’Ù„Ù', trans: 'al-mudarrisu l-jadÄ«du fÄ« l-faá¹£li', meaning: 'The new teacher is in the classroom.' },
-    { ar: 'Ø§Ù„Ù’Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø©Ù Ù„ÙØºÙŽØ©ÙŒ Ø³ÙŽÙ‡Ù’Ù„ÙŽØ©ÙŒ', trans: 'al-Ê¿arabiyyatu lughatun sahlatun', meaning: 'Arabic is an easy language.' },
-    { ar: 'Ø§Ù„Ù’Ù‚ÙŽØ§Ù‡ÙØ±ÙŽØ©Ù Ù…ÙŽØ¯ÙÙŠÙ†ÙŽØ©ÙŒ ÙƒÙŽØ¨ÙÙŠØ±ÙŽØ©ÙŒ', trans: 'al-qÄhiratu madÄ«natun kabÄ«ratun', meaning: 'Cairo is a large city.' },
-    { ar: 'Ø£ÙŽÙ†ÙŽØ§ Ø·ÙŽØ§Ù„ÙØ¨ÙŒ Ù‚ÙŽØ¯ÙÙŠÙ…ÙŒ', trans: 'ana á¹­Älibun qadÄ«mun', meaning: 'I am an old student.' },
-    { ar: 'Ù„ÙÙ…ÙŽØ§Ø°ÙŽØ§ Ø§Ù„Ù’Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³Ù ØºÙŽØ¶Ù’Ø¨ÙŽØ§Ù†Ù Ø§Ù„Ù’ÙŠÙŽÙˆÙ’Ù…ÙŽØŸ', trans: 'limÄdhÄ l-mudarrisu ghaá¸bÄnu l-yawma?', meaning: 'Why is the teacher angry today?' },
-    { ar: 'Ø§Ù„Ù’ÙƒÙÙˆØ¨Ù Ù…ÙŽÙ„Ù’Ø¢Ù†Ù', trans: 'al-kÅ«bu mal\'Änu', meaning: 'The cup is full.' },
-    { ar: 'Ø§Ù„Ù’Ø¹ÙØµÙ’ÙÙÙˆØ±Ù Ø·ÙŽÙŠÙ’Ø±ÙŒ ØµÙŽØºÙÙŠØ±ÙŒ', trans: 'al-Ê¿uá¹£fÅ«ru á¹­ayrun á¹£aghÄ«run', meaning: 'The sparrow is a small bird.' }
-  ],
   
   // ============================================================
   // READING COMPREHENSION
@@ -113,14 +103,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'Ù„ÙØºÙŽØ©ÙŒ Ø³ÙŽÙ‡Ù’Ù„ÙŽØ©ÙŒ', correct: 'An easy language', options: ['A difficult language', 'An easy language', 'A beautiful language', 'A new language'] },
-    { arabic: 'Ø£ÙŽÙ†ÙŽØ§ Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù', correct: 'I am hungry', options: ['I am thirsty', 'I am hungry', 'I am lazy', 'I am angry'] },
-    { text: 'In "Ø§Ù„Ù’Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³Ù Ø§Ù„Ù’Ø¬ÙŽØ¯ÙÙŠØ¯Ù", why does the adjective have "Ø§Ù„Ù€"?', correct: 'Because the noun it describes is definite', options: ['Because it is feminine', 'Because it is plural', 'Because the noun it describes is definite', 'It is a mistake'] },
-    { text: 'Which word means "Famous"?', correct: 'Ø´ÙŽÙ‡ÙÙŠØ±ÙŒ', options: ['Ø´ÙŽÙ‡ÙÙŠØ±ÙŒ', 'Ù…ÙØ¬Ù’ØªÙŽÙ‡ÙØ¯ÙŒ', 'Ø°ÙŽÙƒÙÙŠÙŒÙ‘', 'Ø³ÙŽÙ‡Ù’Ù„ÙŒ'] },
-    { text: 'What is the correct ending for "ÙƒÙŽØ³Ù’Ù„ÙŽØ§Ù†" (lazy)?', correct: 'Single damma (no tanwÄ«n)', options: ['TanwÄ«n damma', 'Single damma (no tanwÄ«n)', 'Kasra', 'Fatha'] },
-    { text: 'Translate: "The small bird."', correct: 'Ø§Ù„Ø·ÙŽÙ‘ÙŠÙ’Ø±Ù Ø§Ù„ØµÙŽÙ‘ØºÙÙŠØ±Ù', options: ['Ø·ÙŽÙŠÙ’Ø±ÙŒ ØµÙŽØºÙÙŠØ±ÙŒ', 'Ø§Ù„Ø·ÙŽÙ‘ÙŠÙ’Ø±Ù Ø§Ù„ØµÙŽÙ‘ØºÙÙŠØ±Ù', 'Ø·ÙŽÙŠÙ’Ø±ÙŒ Ø§Ù„Ù’ØµÙŽÙ‘ØºÙÙŠØ±Ù', 'Ø§Ù„Ø·ÙŽÙ‘ÙŠÙ’Ø±Ù ØµÙŽØºÙÙŠØ±ÙŒ'] }
-  ],
   
   // ============================================================
   // QUIZ QUESTIONS

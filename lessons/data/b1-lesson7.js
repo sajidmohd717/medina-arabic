@@ -62,15 +62,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'Ù‡ÙŽØ°ÙÙ‡Ù Ø¢Ù…ÙÙ†ÙŽØ©Ù ÙˆÙŽØªÙÙ„Ù’ÙƒÙŽ ÙÙŽØ§Ø·ÙÙ…ÙŽØ©Ù', trans: 'hÄdhihi Äminatu wa-tilka fÄá¹­imatu', meaning: 'This is Aminah and that is Fatimah.' },
-    { ar: 'Ù‡ÙŽØ°ÙÙ‡Ù Ø·ÙŽØ¨ÙÙŠÙ’Ø¨ÙŽØ©ÙŒ ÙˆÙŽØªÙÙ„Ù’ÙƒÙŽ Ù…ÙÙ…ÙŽØ±ÙÙ‘Ø¶ÙŽØ©ÙŒ', trans: 'hÄdhihi á¹­abÄ«batun wa-tilka mumarriá¸atun', meaning: 'This is a doctor and that is a nurse.' },
-    { ar: 'Ù‡ÙŽØ°ÙŽØ§ Ù…ÙÙ†ÙŽ Ø§Ù„Ù’Ù‡ÙÙ†Ù’Ø¯Ù ÙˆÙŽØªÙÙ„Ù’ÙƒÙŽ Ù…ÙÙ†ÙŽ Ø§Ù„Ù’ÙŠÙŽØ§Ø¨ÙŽØ§Ù†Ù', trans: 'hÄdhÄ mina l-hindi wa-tilka mina l-yÄbÄni', meaning: 'This is from India and that is from Japan.' },
-    { ar: 'Ø£ÙŽØªÙÙ„Ù’ÙƒÙŽ Ø¯ÙŽØ¬ÙŽØ§Ø¬ÙŽØ©ÙŒØŸ Ù„Ø§ÙŽØŒ ØªÙÙ„Ù’ÙƒÙŽ Ø¨ÙŽØ·ÙŽÙ‘Ø©ÙŒ', trans: 'a-tilka dajÄjatun? lÄ, tilka baá¹­á¹­atun', meaning: 'Is that a hen? No, that is a duck.' },
-    { ar: 'Ù…ÙŽØ§ ØªÙÙ„Ù’ÙƒÙŽØŸ ØªÙÙ„Ù’ÙƒÙŽ Ø¨ÙŽÙŠÙ’Ø¶ÙŽØ©ÙŒ', trans: 'mÄ tilka? tilka bayá¸atun', meaning: 'What is that? That is an egg.' },
-    { ar: 'Ù‡ÙŽØ°ÙÙ‡Ù Ø·ÙŽÙˆÙÙŠÙ’Ù„ÙŽØ©ÙŒ ÙˆÙŽØªÙÙ„Ù’ÙƒÙŽ Ù‚ÙŽØµÙÙŠÙ’Ø±ÙŽØ©ÙŒ', trans: 'hÄdhihi á¹­awÄ«latun wa-tilka qaá¹£Ä«ratun', meaning: 'This is tall and that is short.' },
-    { ar: 'Ø°ÙŽÙ„ÙÙƒÙŽ Ø¯ÙÙŠÙ’ÙƒÙŒ ÙˆÙŽØªÙÙ„Ù’ÙƒÙŽ Ø¯ÙŽØ¬ÙŽØ§Ø¬ÙŽØ©ÙŒ', trans: 'dhÄlika dÄ«kun wa-tilka dajÄjatun', meaning: 'That is a rooster and that is a hen.' }
-  ],
   
   // ============================================================
   // READING COMPREHENSION
@@ -106,14 +97,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'ØªÙÙ„Ù’ÙƒÙŽ Ù…ÙÙ…ÙŽØ±ÙÙ‘Ø¶ÙŽØ©ÙŒ', correct: 'That is a nurse.', options: ['This is a nurse.', 'That is a nurse.', 'That is a doctor.', 'This is a doctor.'] },
-    { arabic: 'Ø£ÙŽØªÙÙ„Ù’ÙƒÙŽ Ø¨ÙŽØ·ÙŽÙ‘Ø©ÙŒØŸ', correct: 'Is that a duck?', options: ['Is that a hen?', 'Is that a duck?', 'Is this a duck?', 'What is that?'] },
-    { text: 'Which word is the feminine form of "That"?', correct: 'ØªÙÙ„Ù’ÙƒÙŽ', options: ['Ø°ÙŽÙ„ÙÙƒÙŽ', 'ØªÙÙ„Ù’ÙƒÙŽ', 'Ù‡ÙŽØ°ÙÙ‡Ù', 'Ù‡ÙŽØ°ÙŽØ§'] },
-    { text: 'Translate: "That is an egg."', correct: 'ØªÙÙ„Ù’ÙƒÙŽ Ø¨ÙŽÙŠÙ’Ø¶ÙŽØ©ÙŒ', options: ['ØªÙÙ„Ù’ÙƒÙŽ Ø¨ÙŽÙŠÙ’Ø¶ÙŽØ©ÙŒ', 'Ù‡ÙŽØ°ÙÙ‡Ù Ø¨ÙŽÙŠÙ’Ø¶ÙŽØ©ÙŒ', 'Ø°ÙŽÙ„ÙÙƒÙŽ Ø¨ÙŽÙŠÙ’Ø¶ÙŽØ©ÙŒ', 'ØªÙÙ„Ù’ÙƒÙŽ Ø¨ÙŽØ·ÙŽÙ‘Ø©ÙŒ'] },
-    { text: 'Which occupation means "Nurse"?', correct: 'Ù…ÙÙ…ÙŽØ±ÙÙ‘Ø¶ÙŽØ©ÙŒ', options: ['Ø·ÙŽØ¨ÙÙŠÙ’Ø¨ÙŽØ©ÙŒ', 'Ù…ÙÙ…ÙŽØ±ÙÙ‘Ø¶ÙŽØ©ÙŒ', 'Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³ÙŽØ©ÙŒ', 'Ø·ÙŽØ§Ù„ÙØ¨ÙŽØ©ÙŒ'] },
-    { text: 'Translate: "This is tall and that is short." (feminine)', correct: 'Ù‡ÙŽØ°ÙÙ‡Ù Ø·ÙŽÙˆÙÙŠÙ’Ù„ÙŽØ©ÙŒ ÙˆÙŽØªÙÙ„Ù’ÙƒÙŽ Ù‚ÙŽØµÙÙŠÙ’Ø±ÙŽØ©ÙŒ', options: ['Ù‡ÙŽØ°ÙÙ‡Ù Ø·ÙŽÙˆÙÙŠÙ’Ù„ÙŽØ©ÙŒ ÙˆÙŽØªÙÙ„Ù’ÙƒÙŽ Ù‚ÙŽØµÙÙŠÙ’Ø±ÙŽØ©ÙŒ', 'Ù‡ÙŽØ°ÙŽØ§ Ø·ÙŽÙˆÙÙŠÙ’Ù„ÙŒ ÙˆÙŽØ°ÙŽÙ„ÙÙƒÙŽ Ù‚ÙŽØµÙÙŠÙ’Ø±ÙŒ', 'Ù‡ÙŽØ°ÙÙ‡Ù Ù‚ÙŽØµÙÙŠÙ’Ø±ÙŽØ©ÙŒ ÙˆÙŽØªÙÙ„Ù’ÙƒÙŽ Ø·ÙŽÙˆÙÙŠÙ’Ù„ÙŽØ©ÙŒ', 'Ù‡ÙŽØ°ÙŽØ§ Ù‚ÙŽØµÙÙŠÙ’Ø±ÙŒ ÙˆÙŽØ°ÙŽÙ„ÙÙƒÙŽ Ø·ÙŽÙˆÙÙŠÙ’Ù„ÙŒ'] }
-  ],
   
   // ============================================================
   // QUIZ QUESTIONS

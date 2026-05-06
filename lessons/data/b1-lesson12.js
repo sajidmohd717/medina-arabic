@@ -54,16 +54,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'Ø£ÙŽÙŠÙ’Ù†ÙŽ Ø§Ù„Ø·Ù‘ÙŽØ§Ù„ÙØ¨Ù Ø§Ù„Ù‘ÙŽØ°ÙÙŠ ÙÙÙŠ Ø§Ù„Ù’ÙÙŽØµÙ’Ù„ÙØŸ', trans: 'ayna á¹­-á¹­Älibu alladhÄ« fÄ« l-faá¹£li?', meaning: 'Where is the student who is in the classroom?' },
-    { ar: 'Ø§Ù„Ù’ÙƒÙØªÙŽØ§Ø¨Ù Ø§Ù„Ù‘ÙŽØ°ÙÙŠ Ø¹ÙŽÙ„ÙŽÙ‰ Ø§Ù„Ù’Ù…ÙŽÙƒÙ’ØªÙŽØ¨Ù Ù„ÙÙ„Ù’Ù…ÙØ¯ÙŽØ±Ù‘ÙØ³Ù', trans: 'al-kitÄbu alladhÄ« Ê¿alÄ l-maktabi li-l-mudarrisi', meaning: 'The book which is on the desk belongs to the teacher.' },
-    { ar: 'Ø§Ù„Ù’Ù‚ÙŽÙ„ÙŽÙ…Ù Ø§Ù„Ù‘ÙŽØ°ÙÙŠ ÙÙÙŠ Ø§Ù„Ù’Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©Ù Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ', trans: 'al-qalamu alladhÄ« fÄ« l-á¸¥aqÄ«bati jadÄ«dun', meaning: 'The pen which is in the bag is new.' },
-    { ar: 'Ø§Ù„Ù’ØºÙØ±Ù’ÙÙŽØ©Ù Ø§Ù„Ù‘ÙŽØªÙÙŠ ÙÙÙŠÙ‡ÙŽØ§ Ø®ÙŽØ§Ù„ÙØ¯ÙŒ ÙƒÙŽØ¨ÙÙŠØ±ÙŽØ©ÙŒ', trans: 'al-ghurfatu allatÄ« fÄ«hÄ khÄlidun kabÄ«ratun', meaning: 'The room which Khalid is in is large.' },
-    { ar: 'Ø§Ù„Ø·Ù‘ÙŽØ¨ÙÙŠØ¨ÙŽØ©Ù Ø§Ù„Ù‘ÙŽØªÙÙŠ ÙÙÙŠ Ø§Ù„Ù’Ù…ÙØ³Ù’ØªÙŽØ´Ù’ÙÙŽÙ‰ Ù…ÙŽØ´Ù’ØºÙÙˆÙ„ÙŽØ©ÙŒ', trans: 'aá¹­-á¹­abÄ«batu allatÄ« fÄ« l-mustashfÄ mashghÅ«latun', meaning: 'The doctor who is in the hospital is busy.' },
-    { ar: 'Ø§Ù„Ø·Ù‘ÙŽØ§Ù„ÙØ¨Ù Ø§Ù„Ù‘ÙŽØ°ÙÙŠ ØºÙŽØ§Ø¦ÙØ¨ÙŒ Ù…ÙŽØ±ÙÙŠØ¶ÙŒ', trans: 'aá¹­-á¹­Älibu alladhÄ« ghÄÊ¾ibun marÄ«á¸un', meaning: 'The student who is absent is sick.' },
-    { ar: 'Ø§Ù„Ù’Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©Ù Ø§Ù„Ù‘ÙŽØªÙÙŠ Ø¹ÙŽÙ„ÙŽÙ‰ Ø§Ù„Ù’ÙƒÙØ±Ù’Ø³ÙÙŠÙ‘Ù Ø³ÙŽÙˆÙ’Ø¯ÙŽØ§Ø¡Ù', trans: 'al-á¸¥aqÄ«batu allatÄ« Ê¿alÄ l-kursiyyi sawdÄÊ¾u', meaning: 'The bag which is on the chair is black.' },
-    { ar: 'Ù‡ÙŽØ°ÙŽØ§ Ù‡ÙÙˆÙŽ Ø§Ù„Ù’ÙˆÙŽÙ„ÙŽØ¯Ù Ø§Ù„Ù‘ÙŽØ°ÙÙŠ Ù„ÙŽÙ‡Ù Ø£ÙŽØ®ÙŒ ÙˆÙŽØ§Ø­ÙØ¯ÙŒ', trans: 'hÄdhÄ huwa l-waladu alladhÄ« lahu akhun wÄá¸¥idun', meaning: 'This is the boy who has one brother.' }
-  ],
 
   // ============================================================
   // READING COMPREHENSION
@@ -99,14 +89,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'Ø§Ù„Ø·Ù‘ÙŽØ§Ù„ÙØ¨Ù Ø§Ù„Ù‘ÙŽØ°ÙÙŠ ÙÙÙŠ Ø§Ù„Ù’ÙÙŽØµÙ’Ù„Ù', correct: 'The student who is in the classroom', options: ['The student who is in the classroom', 'The student who is absent', 'The teacher who is in the classroom', 'The classroom which is large'] },
-    { arabic: 'Ø§Ù„Ù’Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©Ù Ø§Ù„Ù‘ÙŽØªÙÙŠ Ø¹ÙŽÙ„ÙŽÙ‰ Ø§Ù„Ù’ÙƒÙØ±Ù’Ø³ÙÙŠÙ‘Ù', correct: 'The bag which is on the chair', options: ['The chair which is in the bag', 'The bag which is on the chair', 'The book which is on the chair', 'The bag which is in the room'] },
-    { text: 'Which relative pronoun follows a masculine noun?', correct: 'Ø§Ù„Ù‘ÙŽØ°ÙÙŠ', options: ['Ø§Ù„Ù‘ÙŽØªÙÙŠ', 'Ø§Ù„Ù‘ÙŽØ°ÙÙŠ', 'Ù‡ÙŽØ°ÙÙ‡Ù', 'ØªÙÙ„Ù’ÙƒÙŽ'] },
-    { text: 'Which relative pronoun follows a feminine noun?', correct: 'Ø§Ù„Ù‘ÙŽØªÙÙŠ', options: ['Ø§Ù„Ù‘ÙŽØ°ÙÙŠ', 'Ù‡ÙÙˆÙŽ', 'Ø§Ù„Ù‘ÙŽØªÙÙŠ', 'Ø°ÙŽÙ„ÙÙƒÙŽ'] },
-    { text: 'Complete: Ø§Ù„Ù’ØºÙØ±Ù’ÙÙŽØ©Ù ___ ÙÙÙŠÙ‡ÙŽØ§ Ø®ÙŽØ§Ù„ÙØ¯ÙŒ ÙƒÙŽØ¨ÙÙŠØ±ÙŽØ©ÙŒ.', correct: 'Ø§Ù„Ù‘ÙŽØªÙÙŠ', options: ['Ø§Ù„Ù‘ÙŽØ°ÙÙŠ', 'Ø§Ù„Ù‘ÙŽØªÙÙŠ', 'Ù‡ÙÙˆÙŽ', 'Ù„ÙŽÙ‡Ù'] },
-    { text: 'Why is Ø§Ù„Ù‘ÙŽØªÙÙŠ used in Ø§Ù„Ù’Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©Ù Ø§Ù„Ù‘ÙŽØªÙÙŠ Ø¹ÙŽÙ„ÙŽÙ‰ Ø§Ù„Ù’Ù…ÙŽÙƒÙ’ØªÙŽØ¨Ù?', correct: 'Because Ø§Ù„Ù’Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©Ù is feminine', options: ['Because Ø§Ù„Ù’Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©Ù is feminine', 'Because the desk is masculine', 'Because the sentence is a question', 'Because it means "he"'] }
-  ],
 
   // ============================================================
   // QUIZ QUESTIONS

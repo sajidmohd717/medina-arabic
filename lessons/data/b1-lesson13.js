@@ -54,16 +54,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'Ø°ÙŽÙ‡ÙŽØ¨ÙŽ Ø§Ù„Ø·Ù‘ÙŽØ§Ù„ÙØ¨Ù Ø¥ÙÙ„ÙŽÙ‰ Ø§Ù„Ù’Ù…ÙŽØ³Ù’Ø¬ÙØ¯Ù', trans: 'dhahaba á¹­-á¹­Älibu ilÄ l-masjidi', meaning: 'The student went to the mosque.' },
-    { ar: 'Ø°ÙŽÙ‡ÙŽØ¨ÙŽØªÙ Ø§Ù„Ø·Ù‘ÙŽØ¨ÙÙŠØ¨ÙŽØ©Ù Ø¥ÙÙ„ÙŽÙ‰ Ø§Ù„Ù’Ù…ÙØ³Ù’ØªÙŽØ´Ù’ÙÙŽÙ‰', trans: 'dhahabati á¹­-á¹­abÄ«batu ilÄ l-mustashfÄ', meaning: 'The doctor went to the hospital.' },
-    { ar: 'Ø¯ÙŽØ®ÙŽÙ„ÙŽ Ø§Ù„Ù’Ù…ÙØ¯ÙŽØ±Ù‘ÙØ³Ù Ø§Ù„Ù’ÙÙŽØµÙ’Ù„ÙŽ', trans: 'dakhala l-mudarrisu l-faá¹£la', meaning: 'The teacher entered the classroom.' },
-    { ar: 'Ø¯ÙŽØ®ÙŽÙ„ÙŽØªÙ’ Ø¢Ù…ÙÙ†ÙŽØ©Ù Ø§Ù„Ù’ØºÙØ±Ù’ÙÙŽØ©ÙŽ', trans: 'dakhalat Äminatu l-ghurfata', meaning: 'Aminah entered the room.' },
-    { ar: 'Ø¬ÙŽÙ„ÙŽØ³ÙŽ Ø®ÙŽØ§Ù„ÙØ¯ÙŒ Ø¹ÙŽÙ„ÙŽÙ‰ Ø§Ù„Ù’ÙƒÙØ±Ù’Ø³ÙÙŠÙ‘Ù', trans: 'jalasa khÄlidun Ê¿alÄ l-kursiyyi', meaning: 'Khalid sat on the chair.' },
-    { ar: 'Ø¬ÙŽÙ„ÙŽØ³ÙŽØªÙ Ø§Ù„Ù’Ø¨ÙÙ†Ù’ØªÙ ÙÙÙŠ Ø§Ù„Ù’ØºÙØ±Ù’ÙÙŽØ©Ù', trans: 'jalasati l-bintu fÄ« l-ghurfati', meaning: 'The girl sat in the room.' },
-    { ar: 'ÙƒÙŽØªÙŽØ¨ÙŽ Ø§Ù„Ù’ÙˆÙŽÙ„ÙŽØ¯Ù Ø§Ù„Ø¯Ù‘ÙŽØ±Ù’Ø³ÙŽ', trans: 'kataba l-waladu d-darsa', meaning: 'The boy wrote the lesson.' },
-    { ar: 'Ù‚ÙŽØ±ÙŽØ£ÙŽØªÙ Ø§Ù„Ø·Ù‘ÙŽØ§Ù„ÙØ¨ÙŽØ©Ù Ø§Ù„Ù’ÙƒÙØªÙŽØ§Ø¨ÙŽ', trans: 'qaraÊ¾ati á¹­-á¹­Älibatu l-kitÄba', meaning: 'The female student read the book.' }
-  ],
 
   // ============================================================
   // READING COMPREHENSION
@@ -99,14 +89,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'Ø°ÙŽÙ‡ÙŽØ¨ÙŽ Ø§Ù„Ø·Ù‘ÙŽØ§Ù„ÙØ¨Ù', correct: 'The student went', options: ['The student went', 'The student sat', 'The teacher entered', 'The girl returned'] },
-    { arabic: 'Ø°ÙŽÙ‡ÙŽØ¨ÙŽØªÙ Ø§Ù„Ø·Ù‘ÙŽØ¨ÙÙŠØ¨ÙŽØ©Ù', correct: 'The doctor went', options: ['The doctor went', 'The doctor wrote', 'The student read', 'The teacher sat'] },
-    { text: 'What ending marks "she did" in these past-tense verbs?', correct: 'ØªÙ’', options: ['ØªÙ’', 'Ù‡Ù', 'Ø§Ù„Ù’', 'ÙˆÙ†'] },
-    { text: 'Choose the feminine form of Ø¯ÙŽØ®ÙŽÙ„ÙŽ.', correct: 'Ø¯ÙŽØ®ÙŽÙ„ÙŽØªÙ’', options: ['Ø¯ÙŽØ®ÙŽÙ„ÙŽ', 'Ø¯ÙŽØ®ÙŽÙ„ÙŽØªÙ’', 'Ø¯ÙŽØ®ÙŽÙ„Ù’ØªÙŽ', 'ÙŠÙŽØ¯Ù’Ø®ÙÙ„Ù'] },
-    { text: 'Which means "he read"?', correct: 'Ù‚ÙŽØ±ÙŽØ£ÙŽ', options: ['Ù‚ÙŽØ±ÙŽØ£ÙŽ', 'Ù‚ÙŽØ±ÙŽØ£ÙŽØªÙ’', 'ÙƒÙŽØªÙŽØ¨ÙŽØªÙ’', 'Ø¬ÙŽÙ„ÙŽØ³ÙŽØªÙ’'] },
-    { text: 'Complete: Ø¢Ù…ÙÙ†ÙŽØ©Ù ___ ÙÙÙŠ Ø§Ù„Ø¯Ù‘ÙŽÙÙ’ØªÙŽØ±Ù.', correct: 'ÙƒÙŽØªÙŽØ¨ÙŽØªÙ’', options: ['ÙƒÙŽØªÙŽØ¨ÙŽ', 'ÙƒÙŽØªÙŽØ¨ÙŽØªÙ’', 'Ù‚ÙŽØ±ÙŽØ£ÙŽ', 'Ø¬ÙŽÙ„ÙŽØ³ÙŽ'] }
-  ],
 
   // ============================================================
   // QUIZ QUESTIONS

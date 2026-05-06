@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    b1-lesson4.js — Lesson 4 Data
    ============================================================ */
 
@@ -84,16 +84,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'مُحَمَّدٌ فِي الْغُرْفَةِ', trans: 'muḥammadun fī l-ghurfati', meaning: 'Muhammad is in the room.' },
-    { ar: 'أَيْنَ الْكِتَابُ؟ هُوَ عَلَى الْمَكْتَبِ', trans: 'ayna l-kitābu? huwa ʿalā l-maktabi', meaning: 'Where is the book? It is on the desk.' },
-    { ar: 'آمِنَةُ فِي الْمَطْبَخِ', trans: 'āminatu fī l-maṭbakhi', meaning: 'Aminah is in the kitchen.' },
-    { ar: 'أَيْنَ السَّاعَةُ؟ هِيَ عَلَى السَّرِيرِ', trans: 'ayna s-sāʿatu? hiya ʿalā s-sarīri', meaning: 'Where is the watch? It is on the bed.' },
-    { ar: 'مِنْ أَيْنَ أَنْتَ؟ أَنَا مِنَ الْيَابَانِ', trans: 'min ayna anta? ana mina l-yābāni', meaning: 'Where are you from? I am from Japan.' },
-    { ar: 'عَبَّاسٌ خَرَجَ مِنَ الْمَدْرَسَةِ', trans: 'ʿabbāsun kharaja mina l-madrasati', meaning: 'Abbas left from the school.' },
-    { ar: 'ذَهَبَ الْمُدِيرُ إِلَى الْفَصْلِ', trans: 'dhahaba l-mudīru ilā l-faṣli', meaning: 'The principal went to the classroom.' },
-    { ar: 'أَيْنَ الْمِرْحَاضُ؟', trans: 'ayna l-mirḥāḍu?', meaning: 'Where is the washroom?' }
-  ],
   
   // ============================================================
   // READING COMPREHENSION
@@ -129,14 +119,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'فِي الْمَسْجِدِ', correct: 'In the mosque', options: ['On the mosque', 'In the mosque', 'From the mosque', 'To the mosque'] },
-    { arabic: 'عَلَى السَّرِيرِ', correct: 'On the bed', options: ['In the bed', 'On the bed', 'Near the bed', 'Under the bed'] },
-    { text: 'What is the correct ending for the noun in "فِي الْبَيْت..."?', correct: 'الْبَيْتِ (kasra)', options: ['الْبَيْتُ (damma)', 'الْبَيْتِ (kasra)', 'الْبَيْتَ (fatha)', 'الْبَيْتٌ (tanwin)'] },
-    { text: 'Which pronoun would you use for "The Book" (الْكِتَابُ)?', correct: 'هُوَ', options: ['هُوَ', 'هِيَ', 'أَنَا', 'أَنْتَ'] },
-    { text: 'Translate: "Where is Aminah?"', correct: 'أَيْنَ آمِنَةُ؟', options: ['أَيْنَ آمِنَةُ؟', 'مَنْ آمِنَةُ؟', 'مَا آمِنَةُ؟', 'أَآمِنَةُ هُنَا؟'] },
-    { text: 'What does ذَهَبَ mean?', correct: 'He went', options: ['He left', 'He went', 'He sat', 'He stood'] }
-  ],
   
   // ============================================================
   // QUIZ QUESTIONS

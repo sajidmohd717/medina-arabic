@@ -65,16 +65,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'Ù…ÙŽØ§ Ø§Ø³Ù’Ù…ÙÙƒÙŽØŸ Ø§Ø³Ù’Ù…ÙÙŠ Ù…ÙØ­ÙŽÙ…ÙŽÙ‘Ø¯ÙŒ', trans: 'mÄ smuka? ismÄ« muá¸¥ammadun', meaning: 'What is your name? My name is Muhammad.' },
-    { ar: 'Ø£ÙŽÙŠÙ’Ù†ÙŽ Ø£ÙŽØ¨ÙÙˆÙƒÙŽØŸ Ø£ÙŽØ¨ÙÙŠ ÙÙÙŠ Ø§Ù„Ù’ÙƒÙÙˆÙŽÙŠÙ’ØªÙ', trans: 'ayna abÅ«ka? abÄ« fÄ« l-kuwayti', meaning: 'Where is your father? My father is in Kuwait.' },
-    { ar: 'Ù„ÙÙŠ Ø£ÙŽØ®ÙŒ ÙˆÙŽØ§Ø­ÙØ¯ÙŒ', trans: 'lÄ« akhun wÄá¸¥idun', meaning: 'I have one brother.' },
-    { ar: 'Ø¹ÙÙ†Ù’Ø¯ÙÙŠ Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ', trans: 'Ê¿indÄ« sayyÄratun jamÄ«latun', meaning: 'I have a beautiful car.' },
-    { ar: 'Ù…ÙŽÙ†Ù’ Ù…ÙŽØ¹ÙŽÙƒÙŽØŸ Ù…ÙŽØ¹ÙÙŠ Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ', trans: 'man maÊ¿aka? maÊ¿Ä« zamÄ«lÄ«', meaning: 'Who is with you? With me is my colleague.' },
-    { ar: 'Ø£ÙŽØ­ÙŽÙ‚ÙÙŠØ¨ÙŽØªÙÙƒÙŽ Ù‡ÙŽØ°ÙÙ‡ÙØŸ Ù„Ø§ØŒ Ù‡ÙÙŠÙŽ Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©Ù Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ', trans: 'a-á¸¥aqÄ«batuka hÄdhidi? lÄ, hiya á¸¥aqÄ«batu zamÄ«lÄ«', meaning: 'Is this your bag? No, it is my colleague\'s bag.' },
-    { ar: 'Ø£ÙØ­ÙØ¨ÙÙ‘ Ø£ÙŽØ¨ÙÙŠ ÙˆÙŽØ£ÙÙ…ÙÙ‘ÙŠ', trans: 'uá¸¥ibbu abÄ« wa-ummÄ«', meaning: 'I love my father and my mother.' },
-    { ar: 'Ø²ÙŽÙˆÙ’Ø¬ÙÙ‡ÙŽØ§ ÙÙÙŠ Ø§Ù„Ù’Ù…ÙØ³Ù’ØªÙŽØ´Ù’ÙÙŽÙ‰', trans: 'zawjuhÄ fÄ« l-mustashfÄ', meaning: 'Her husband is in the hospital.' }
-  ],
   
   // ============================================================
   // READING COMPREHENSION
@@ -110,14 +100,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'ÙƒÙØªÙŽØ§Ø¨ÙÙŠ', correct: 'My book', options: ['Your book', 'My book', 'His book', 'Her book'] },
-    { arabic: 'Ø¹ÙÙ†Ù’Ø¯ÙÙŠ Ù‚ÙŽÙ„ÙŽÙ…ÙŒ', correct: 'I have a pen', options: ['I have a brother', 'I have a pen', 'With me is a pen', 'This is a pen'] },
-    { text: 'Which suffix means "His"?', correct: 'Ù€Ù‡Ù', options: ['Ù€ÙƒÙŽ', 'Ù€ÙƒÙ', 'Ù€Ù‡Ù', 'Ù€Ù‡ÙŽØ§'] },
-    { text: 'How do you say "I have a brother"?', correct: 'Ù„ÙÙŠ Ø£ÙŽØ®ÙŒ', options: ['Ø¹ÙÙ†Ù’Ø¯ÙÙŠ Ø£ÙŽØ®ÙŒ', 'Ù„ÙÙŠ Ø£ÙŽØ®ÙŒ', 'Ù…ÙŽØ¹ÙÙŠ Ø£ÙŽØ®ÙŒ', 'Ø£ÙŽÙ†ÙŽØ§ Ø£ÙŽØ®ÙŒ'] },
-    { text: 'What is the feminine form of "Your name"?', correct: 'Ø§Ø³Ù’Ù…ÙÙƒÙ', options: ['Ø§Ø³Ù’Ù…ÙÙƒÙŽ', 'Ø§Ø³Ù’Ù…ÙÙƒÙ', 'Ø§Ø³Ù’Ù…ÙÙ‡Ù', 'Ø§Ø³Ù’Ù…ÙÙŠ'] },
-    { text: 'Translate: "With me is my colleague."', correct: 'Ù…ÙŽØ¹ÙÙŠ Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ', options: ['Ø¹ÙÙ†Ù’Ø¯ÙÙŠ Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ', 'Ù…ÙŽØ¹ÙÙŠ Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ', 'Ù„ÙÙŠ Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ', 'Ø£ÙŽÙ†ÙŽØ§ Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ'] }
-  ],
   
   // ============================================================
   // QUIZ QUESTIONS

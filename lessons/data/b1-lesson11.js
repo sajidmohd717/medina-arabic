@@ -61,16 +61,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'Ø§Ù„Ù’ÙƒÙØªÙŽØ§Ø¨Ù ÙÙÙŠ Ø§Ù„Ù’Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©Ù. Ù‡ÙÙˆÙŽ ÙÙÙŠÙ‡ÙŽØ§', trans: 'al-kitÄbu fÄ« l-á¸¥aqÄ«bati. huwa fÄ«hÄ', meaning: 'The book is in the bag. It is in it.' },
-    { ar: 'Ø§Ù„Ù’Ù‚ÙŽÙ„ÙŽÙ…Ù Ø¹ÙŽÙ„ÙŽÙ‰ Ø§Ù„Ø·ÙŽÙ‘Ø§ÙˆÙÙ„ÙŽØ©Ù. Ù‡ÙÙˆÙŽ Ø¹ÙŽÙ„ÙŽÙŠÙ’Ù‡ÙŽØ§', trans: 'al-qalamu Ê¿alÄ l-á¹­Äwilati. huwa Ê¿alayhÄ', meaning: 'The pen is on the table. It is on it.' },
-    { ar: 'Ø§Ù„Ù’Ù…ÙÙÙ’ØªÙŽØ§Ø­Ù ÙÙÙŠ Ø§Ù„Ù’ØºÙØ±Ù’ÙÙŽØ©Ù. Ù‡ÙÙˆÙŽ ÙÙÙŠÙ‡ÙŽØ§', trans: 'al-miftÄá¸¥u fÄ« l-ghurfati. huwa fÄ«hÄ', meaning: 'The key is in the room. It is in it.' },
-    { ar: 'Ø§Ù„Ù’ÙˆÙŽÙ„ÙŽØ¯Ù ÙÙÙŠ Ø§Ù„Ù’ÙÙŽØµÙ’Ù„Ù. Ù‡ÙÙˆÙŽ ÙÙÙŠÙ‡Ù', trans: 'al-waladu fÄ« l-faá¹£li. huwa fÄ«hi', meaning: 'The boy is in the classroom. He is in it.' },
-    { ar: 'Ù„ÙŽÙ‡Ù ÙƒÙØªÙŽØ§Ø¨ÙŒ Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ ÙˆÙŽÙ‚ÙŽÙ„ÙŽÙ…ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŒ', trans: 'lahu kitÄbun jadÄ«dun wa-qalamun jamÄ«lun', meaning: 'He has a new book and a beautiful pen.' },
-    { ar: 'Ù„ÙŽÙ‡ÙŽØ§ Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©ÙŒ Ø³ÙŽÙˆÙ’Ø¯ÙŽØ§Ø¡Ù', trans: 'lahÄ á¸¥aqÄ«batun sawdÄÊ¾u', meaning: 'She has a black bag.' },
-    { ar: 'Ù‡ÙŽØ°ÙŽØ§ Ø§Ù„Ù’ÙƒÙØªÙŽØ§Ø¨Ù Ù…ÙÙ†ÙŽ Ø§Ù„Ø£ÙØ³Ù’ØªÙŽØ§Ø°Ù. Ù‡ÙÙˆÙŽ Ù…ÙÙ†Ù’Ù‡Ù', trans: 'hÄdhÄ l-kitÄbu mina l-ustÄdhi. huwa minhu', meaning: 'This book is from the teacher. It is from him.' },
-    { ar: 'Ø§Ù„Ø·ÙŽÙ‘Ø§Ù„ÙØ¨Ù ÙÙÙŠ Ø§Ù„Ù’ÙÙŽØµÙ’Ù„Ù. Ø£ÙØ³Ù’ØªÙŽØ§Ø°ÙÙ‡Ù ÙÙÙŠÙ‡Ù Ø£ÙŽÙŠÙ’Ø¶Ù‹Ø§', trans: 'al-á¹­Älibu fÄ« l-faá¹£li. ustÄdhuhu fÄ«hi ayá¸an', meaning: 'The student is in the classroom. His teacher is in it too.' }
-  ],
 
   // ============================================================
   // READING COMPREHENSION
@@ -106,14 +96,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'Ø§Ù„Ù’ÙƒÙØªÙŽØ§Ø¨Ù ÙÙÙŠÙ‡Ù', correct: 'The book is in it (masc.)', options: ['The book is on it', 'The book is in it (masc.)', 'The book is from it', 'The book is for him'] },
-    { arabic: 'Ù„ÙŽÙ‡Ù Ø¨ÙŽÙŠÙ’ØªÙŒ ÙƒÙŽØ¨ÙÙŠØ±ÙŒ', correct: 'He has a large house', options: ['He has a large house', 'She has a large house', 'In a large house', 'A large house is on it'] },
-    { text: 'What is the combined form of Ø¹ÙŽÙ„ÙŽÙ‰ + Ù‡ÙŽØ§?', correct: 'Ø¹ÙŽÙ„ÙŽÙŠÙ’Ù‡ÙŽØ§', options: ['Ø¹ÙŽÙ„ÙŽÙŠÙ’Ù‡Ù', 'Ø¹ÙŽÙ„ÙŽÙŠÙ’Ù‡ÙŽØ§', 'Ø¹ÙŽÙ„ÙŽÙŠÙ’ÙƒÙŽ', 'Ø¹ÙŽÙ„ÙŽÙŠÙŽÙ‘'] },
-    { text: 'Which means "From her / From it (fem.)"?', correct: 'Ù…ÙÙ†Ù’Ù‡ÙŽØ§', options: ['Ù…ÙÙ†Ù’Ù‡Ù', 'Ù…ÙÙ†Ù’Ù‡ÙŽØ§', 'Ø¥ÙÙ„ÙŽÙŠÙ’Ù‡ÙŽØ§', 'Ø¨ÙÙ‡Ù'] },
-    { text: 'Complete: Ø§Ù„Ù’Ù‚ÙŽÙ„ÙŽÙ…Ù ÙÙÙŠ Ø§Ù„Ù’Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©Ù. Ù‡ÙÙˆÙŽ ___.', correct: 'ÙÙÙŠÙ‡ÙŽØ§', options: ['ÙÙÙŠÙ‡Ù', 'ÙÙÙŠÙ‡ÙŽØ§', 'Ø¹ÙŽÙ„ÙŽÙŠÙ’Ù‡ÙŽØ§', 'Ù…ÙÙ†Ù’Ù‡ÙŽØ§'] },
-    { arabic: 'Ø¥ÙÙ„ÙŽÙŠÙ’Ù‡Ù', correct: 'To it / To him', options: ['From it / From him', 'On him', 'To it / To him', 'In him'] }
-  ],
 
   // ============================================================
   // QUIZ QUESTIONS

@@ -66,16 +66,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù Ø¨ÙŽØ¹ÙÙŠØ¯ÙŽØ©ÙŒ', trans: 'ash-shamsu baÊ¿Ä«datun', meaning: 'The sun is far.' },
-    { ar: 'Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù Ø¬ÙŽÙ…ÙÙŠÙ„ÙŒ', trans: 'al-qamaru jamÄ«lun', meaning: 'The moon is beautiful.' },
-    { ar: 'Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù ÙÙÙŠ Ø§Ù„Ø¯ÙŽÙ‘Ø§Ø±Ù', trans: 'ar-rajulu fÄ« d-dÄri', meaning: 'The man is in the house.' },
-    { ar: 'Ø§Ù„Ø³ÙŽÙ‘Ù…ÙŽÙƒÙ ÙÙÙŠ Ø§Ù„Ù’Ù…ÙŽØ§Ø¡Ù', trans: 'as-samaku fÄ« l-mÄ\'i', meaning: 'The fish is in the water.' },
-    { ar: 'Ø§Ù„Ø²ÙŽÙ‘Ù‡Ù’Ø±ÙŽØ©Ù Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ', trans: 'az-zahratu jamÄ«latun', meaning: 'The flower is beautiful.' },
-    { ar: 'Ø§Ù„Ù„ÙŽÙ‘Ø­Ù’Ù…Ù Ù„ÙŽØ°ÙÙŠØ°ÙŒ', trans: 'al-laá¸¥mu ladhÄ«dhun', meaning: 'The meat is delicious.' },
-    { ar: 'Ø§Ù„Ù’Ù‡ÙŽÙˆÙŽØ§Ø¡Ù Ø¨ÙŽØ§Ø±ÙØ¯ÙŒ', trans: 'al-hawÄ\'u bÄridun', meaning: 'The air is cold.' },
-    { ar: 'Ø§Ù„Ø·ÙŽÙ‘Ø§Ù„ÙØ¨Ù Ø¬ÙŽØ§Ù„ÙØ³ÙŒ', trans: 'aá¹­-á¹­Älibu jÄlisun', meaning: 'The student is sitting.' }
-  ],
   
   // ============================================================
   // READING COMPREHENSION
@@ -111,14 +101,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù', correct: 'The sun (L is silent)', options: ['The sun (L is pronounced)', 'The sun (L is silent)', 'The moon (L is pronounced)', 'The moon (L is silent)'] },
-    { arabic: 'Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù', correct: 'The moon (L is pronounced)', options: ['The moon (L is pronounced)', 'The moon (L is silent)', 'The sun (L is pronounced)', 'The sun (L is silent)'] },
-    { text: 'Which letter is a Sun Letter?', correct: 'Ø±', options: ['Ø¨', 'Ø¬', 'Ø±', 'Ù‚'] },
-    { text: 'What happens to the "L" sound before a Sun Letter?', correct: 'It becomes silent', options: ['It is pronounced clearly', 'It becomes silent', 'It becomes a shadda', 'It becomes a fatha'] },
-    { text: 'Translate: "The meat is delicious."', correct: 'Ø§Ù„Ù„ÙŽÙ‘Ø­Ù’Ù…Ù Ù„ÙŽØ°ÙÙŠØ°ÙŒ', options: ['Ø§Ù„Ù„ÙŽÙ‘Ø­Ù’Ù…Ù Ù„ÙŽØ°ÙÙŠØ°ÙŒ', 'Ø§Ù„Ù„ÙŽÙ‘Ø­Ù’Ù…Ù Ø¬ÙŽÙ…ÙÙŠÙ„ÙŒ', 'Ø§Ù„Ù„ÙŽÙ‘Ø­Ù’Ù…Ù Ø¨ÙŽØ§Ø±ÙØ¯ÙŒ', 'Ø§Ù„Ù„ÙŽÙ‘Ø­Ù’Ù…Ù Ø­ÙŽØ§Ø±ÙŒÙ‘'] },
-    { text: 'Which of these is a Moon Letter?', correct: 'Ù‚', options: ['Øª', 'Ø«', 'Ø³', 'Ù‚'] }
-  ],
   
   // ============================================================
   // QUIZ QUESTIONS

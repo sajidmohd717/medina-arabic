@@ -83,16 +83,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'Ù‡ÙŽØ°ÙÙ‡Ù Ø¨ÙÙ†Ù’ØªÙ ÙŠÙŽØ§Ø³ÙØ±Ù', trans: 'hÄdhihi bintu yÄsirin', meaning: 'This is Yasir\'s daughter.' },
-    { ar: 'Ù‡ÙŽØ°ÙÙ‡Ù Ø§Ù„Ø³ÙŽÙ‘ÙŠÙŽÙ‘Ø§Ø±ÙŽØ©Ù Ù„ÙÙ„Ù’Ù…ÙØ¯ÙÙŠØ±Ù', trans: 'hÄdhihi s-sayyÄratu lil-mudÄ«ri', meaning: 'This car belongs to the principal.' },
-    { ar: 'Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡Ù Ø§Ù„Ù’Ù…ÙÙƒÙ’ÙˆÙŽØ§Ø©ÙØŸ', trans: 'li-man hÄdhihi l-mikwÄtu?', meaning: 'Whose iron is this?' },
-    { ar: 'Ø§Ù„Ù’Ù…ÙÙ„Ù’Ø¹ÙŽÙ‚ÙŽØ©Ù ÙÙÙŠ Ø§Ù„Ù’Ù‚ÙØ¯Ù’Ø±Ù', trans: 'al-milÊ¿aqatu fÄ« l-qidri', meaning: 'The spoon is in the pot.' },
-    { ar: 'Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŽØ§Ø¹ÙŽØ©Ù Ø­ÙŽØ§Ù…ÙØ¯Ù. Ù‡ÙÙŠÙŽ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ Ø¬ÙØ¯Ù‹Ù‘Ø§', trans: 'hÄdhihi sÄÊ¿atu á¸¥Ämidin. hiya jamÄ«latun jiddan', meaning: 'This is Hamid\'s watch. It is very beautiful.' },
-    { ar: 'Ù‡ÙŽØ°ÙŽØ§ Ø£ÙŽÙ†Ù’ÙÙŒ ÙˆÙŽÙ‡ÙŽØ°ÙŽØ§ ÙÙŽÙ…ÙŒ', trans: 'hÄdhÄ anfun wa-hÄdhÄ famun', meaning: 'This is a nose and this is a mouth.' },
-    { ar: 'Ù‡ÙŽØ°ÙÙ‡Ù Ø¹ÙŽÙŠÙ’Ù†ÙŒ ÙˆÙŽÙ‡ÙŽØ°ÙÙ‡Ù Ø£ÙØ°ÙÙ†ÙŒ', trans: 'hÄdhihi Ê¿aynun wa-hÄdhihi udhunun', meaning: 'This is an eye and this is an ear.' },
-    { ar: 'Ø§Ù„Ø¯ÙŽÙ‘Ø±ÙŽÙ‘Ø§Ø¬ÙŽØ©Ù Ø³ÙŽØ±ÙÙŠØ¹ÙŽØ©ÙŒ', trans: 'ad-darrÄjatu sarÄ«Ê¿atun', meaning: 'The bicycle is fast.' }
-  ],
   
   // ============================================================
   // READING COMPREHENSION
@@ -128,14 +118,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'Ù‡ÙŽØ°ÙÙ‡Ù Ù…ÙÙ„Ù’Ø¹ÙŽÙ‚ÙŽØ©ÙŒ', correct: 'This is a spoon.', options: ['This is a pen.', 'This is a spoon.', 'This is a pot.', 'This is an iron.'] },
-    { arabic: 'Ø§Ù„Ø³ÙŽÙ‘ÙŠÙŽÙ‘Ø§Ø±ÙŽØ©Ù Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ', correct: 'The car is beautiful.', options: ['The house is beautiful.', 'The car is big.', 'The car is beautiful.', 'The car is fast.'] },
-    { text: 'Which word is the feminine form of "This"?', correct: 'Ù‡ÙŽØ°ÙÙ‡Ù', options: ['Ù‡ÙŽØ°ÙŽØ§', 'Ù‡ÙŽØ°ÙÙ‡Ù', 'Ø°ÙŽÙ„ÙÙƒÙŽ', 'ØªÙÙ„Ù’ÙƒÙŽ'] },
-    { text: 'How do you say "Whose is this?" for a feminine object?', correct: 'Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡ÙØŸ', options: ['Ù…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡ÙØŸ', 'Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙŽØ§ØŸ', 'Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡ÙØŸ', 'Ù…ÙŽØ§ Ù‡ÙŽØ°ÙÙ‡ÙØŸ'] },
-    { text: 'Which body part is feminine in Arabic?', correct: 'Ø¹ÙŽÙŠÙ’Ù†ÙŒ (Eye)', options: ['Ø±ÙŽØ£Ù’Ø³ÙŒ (Head)', 'Ø£ÙŽÙ†Ù’ÙÙŒ (Nose)', 'ÙÙŽÙ…ÙŒ (Mouth)', 'Ø¹ÙŽÙŠÙ’Ù†ÙŒ (Eye)'] },
-    { text: 'Translate: "This belongs to Khalid."', correct: 'Ù‡ÙŽØ°ÙÙ‡Ù Ù„ÙØ®ÙŽØ§Ù„ÙØ¯Ù', options: ['Ù‡ÙŽØ°ÙÙ‡Ù Ù„ÙØ®ÙŽØ§Ù„ÙØ¯Ù', 'Ù‡ÙŽØ°ÙŽØ§ Ù„ÙØ®ÙŽØ§Ù„ÙØ¯Ù', 'Ù‡ÙŽØ°ÙÙ‡Ù Ø®ÙŽØ§Ù„ÙØ¯ÙŒ', 'Ù‡ÙŽØ°ÙŽØ§ Ø®ÙŽØ§Ù„ÙØ¯ÙŒ'] }
-  ],
   
   // ============================================================
   // QUIZ QUESTIONS

@@ -73,16 +73,6 @@ const LESSON_DATA = {
   // ============================================================
   // EXAMPLE SENTENCES
   // ============================================================
-  examples: [
-    { ar: 'ÙƒÙØªÙŽØ§Ø¨Ù Ù…ÙØ­ÙŽÙ…ÙŽÙ‘Ø¯Ù Ø¹ÙŽÙ„ÙŽÙ‰ Ø§Ù„Ù’Ù…ÙŽÙƒÙ’ØªÙŽØ¨Ù', trans: 'kitÄbu muá¸¥ammadin Ê¿alÄ l-maktabi', meaning: 'Muhammad\'s book is on the desk.' },
-    { ar: 'Ø£ÙŽÙŠÙ’Ù†ÙŽ Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØ©Ù Ø§Ù„Ù’Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³ÙØŸ', trans: 'ayna á¸¥aqÄ«batu l-mudarrisi?', meaning: 'Where is the teacher\'s bag?' },
-    { ar: 'Ù‡ÙÙŠÙŽ ØªÙŽØ­Ù’ØªÙŽ Ø§Ù„Ù’Ù…ÙŽÙƒÙ’ØªÙŽØ¨Ù', trans: 'hiya taá¸¥ta l-maktabi', meaning: 'It is under the desk.' },
-    { ar: 'Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©Ù Ø§Ù„Ù’Ø¹ÙŽØ¨ÙŽÙ‘Ø§Ø³Ù ÙÙÙŠ Ø§Ù„Ø´ÙŽÙ‘Ø§Ø±ÙØ¹Ù', trans: 'sayyÄratu l-Ê¿abbÄsi fÄ« sh-shÄriÊ¿i', meaning: 'Abbas\'s car is in the street.' },
-    { ar: 'Ø§Ø¨Ù’Ù†Ù Ù…ÙŽÙ†Ù’ Ø£ÙŽÙ†Ù’ØªÙŽØŸ Ø£ÙŽÙ†ÙŽØ§ Ø§Ø¨Ù’Ù†Ù Ø®ÙŽØ§Ù„ÙØ¯Ù', trans: 'ibnu man anta? ana bnu khÄlidin', meaning: 'Whose son are you? I am the son of Khalid.' },
-    { ar: 'ÙŠÙŽØ§ Ø¨ÙÙ„ÙŽØ§Ù„ÙØŒ Ø£ÙŽÙ‡ÙŽØ°ÙŽØ§ ÙƒÙØªÙŽØ§Ø¨Ù Ø­ÙŽØ§Ù…ÙØ¯ÙØŸ', trans: 'yÄ bilÄlu, a-hÄdhÄ kitÄbu á¸¥Ämidin?', meaning: 'O Bilal, is this Hamid\'s book?' },
-    { ar: 'Ø§Ø³Ù’Ù…Ù Ø§Ù„Ù’ÙˆÙŽÙ„ÙŽØ¯Ù Ø³ÙŽØ¹ÙÙŠØ¯ÙŒ ÙˆÙŽØ§Ø³Ù’Ù…Ù Ø§Ù„Ù’Ø¨ÙÙ†Ù’ØªÙ Ø¢Ù…ÙÙ†ÙŽØ©Ù', trans: 'ismu l-waladi saÊ¿Ä«dun wa-smu l-binti Äminatu', meaning: 'The boy\'s name is Saed and the girl\'s name is Aminah.' },
-    { ar: 'Ø¨ÙŽÙŠÙ’ØªÙ Ø§Ù„Ø·ÙŽÙ‘Ø¨ÙÙŠØ¨Ù Ø¨ÙŽØ¹ÙÙŠØ¯ÙŒ', trans: 'baytu á¹­-á¹­abÄ«bi baÊ¿Ä«dun', meaning: 'The doctor\'s house is far.' }
-  ],
   
   // ============================================================
   // READING COMPREHENSION
@@ -118,14 +108,6 @@ const LESSON_DATA = {
   // ============================================================
   // PRACTICE QUESTIONS
   // ============================================================
-  practiceQuestions: [
-    { arabic: 'ÙƒÙØªÙŽØ§Ø¨Ù Ø§Ù„Ù„Ù‡Ù', correct: 'The Book of Allah', options: ['The Book of Allah', 'A book and Allah', 'Allah is a book', 'The house of Allah'] },
-    { arabic: 'ØªÙŽØ­Ù’ØªÙŽ Ø§Ù„Ø³ÙŽÙ‘ÙŠÙŽÙ‘Ø§Ø±ÙŽØ©Ù', correct: 'Under the car', options: ['In the car', 'On the car', 'Under the car', 'Behind the car'] },
-    { text: 'Which is the correct way to say "Hamid\'s pen"?', correct: 'Ù‚ÙŽÙ„ÙŽÙ…Ù Ø­ÙŽØ§Ù…ÙØ¯Ù', options: ['Ø§Ù„Ù’Ù‚ÙŽÙ„ÙŽÙ…Ù Ø­ÙŽØ§Ù…ÙØ¯ÙŒ', 'Ù‚ÙŽÙ„ÙŽÙ…ÙŒ Ø­ÙŽØ§Ù…ÙØ¯Ù', 'Ù‚ÙŽÙ„ÙŽÙ…Ù Ø­ÙŽØ§Ù…ÙØ¯Ù', 'Ù‚ÙŽÙ„ÙŽÙ…Ù Ø­ÙŽØ§Ù…ÙØ¯ÙŒ'] },
-    { text: 'What happens to the word Ù…ÙØ­ÙŽÙ…ÙŽÙ‘Ø¯ÙŒ after "ÙŠÙŽØ§"?', correct: 'It becomes ÙŠÙŽØ§ Ù…ÙØ­ÙŽÙ…ÙŽÙ‘Ø¯Ù (single damma)', options: ['It stays Ù…ÙØ­ÙŽÙ…ÙŽÙ‘Ø¯ÙŒ', 'It becomes ÙŠÙŽØ§ Ù…ÙØ­ÙŽÙ…ÙŽÙ‘Ø¯Ù (single damma)', 'It becomes ÙŠÙŽØ§ Ù…ÙØ­ÙŽÙ…ÙŽÙ‘Ø¯Ù (kasra)', 'It becomes ÙŠÙŽØ§ Ù…ÙØ­ÙŽÙ…ÙŽÙ‘Ø¯ÙŽ (fatha)'] },
-    { text: 'In "ÙƒÙØªÙŽØ§Ø¨Ù Ø§Ù„Ù’Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³Ù", which word is the Muá¸Äf Ilayhi?', correct: 'Ø§Ù„Ù’Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³Ù', options: ['ÙƒÙØªÙŽØ§Ø¨Ù', 'Ø§Ù„Ù’Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³Ù'] },
-    { text: 'Translate: "Whose son is this?"', correct: 'Ø§Ø¨Ù’Ù†Ù Ù…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙŽØ§ØŸ', options: ['Ø§Ø¨Ù’Ù†Ù Ù…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙŽØ§ØŸ', 'Ù…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙŽØ§ Ø§Ù„ÙØ§Ø¨Ù’Ù†ÙØŸ', 'Ø£ÙŽÙŠÙ’Ù†ÙŽ Ø§Ù„ÙØ§Ø¨Ù’Ù†ÙØŸ', 'Ù…ÙŽØ§ Ø§Ø³Ù’Ù…Ù Ø§Ù„ÙØ§Ø¨Ù’Ù†ÙØŸ'] }
-  ],
   
   // ============================================================
   // QUIZ QUESTIONS
