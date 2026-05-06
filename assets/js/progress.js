@@ -192,7 +192,7 @@ function updateLessonCards(book = 'book1') {
 
     const badge = card.querySelector('.lesson-num-badge');
     if (!badge) return;
-    badge.textContent = status === 'complete' ? '✓' : toArabicNumeral(num);
+    badge.textContent = toArabicNumeral(num);
   });
 }
 
