@@ -7,13 +7,11 @@
   <meta name="description" content="Learn Arabic free with Kalamo — an interactive platform built on the world-renowned Madinah Arabic Course. Structured lessons, quizzes, and progress tracking for all levels." />
   <link rel="canonical" href="https://sajidmohd717.github.io/medina-arabic/" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Kalamo" />
   <meta property="og:url" content="https://sajidmohd717.github.io/medina-arabic/" />
   <meta property="og:title" content="Kalamo — The Clear Path to Arabic" />
-  <meta property="og:description" content="Learn Arabic free with Kalamo — an interactive platform built on the world-renowned Madinah Arabic Course. Structured lessons, quizzes, and progress tracking for all levels." />
-  <!-- Twitter -->
+  <meta property="og:description" content="Learn Arabic free with Kalamo — an interactive platform built on the world-renowned Madinah Arabic Course." />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Kalamo — The Clear Path to Arabic" />
   <meta name="twitter:description" content="Learn Arabic free with Kalamo — an interactive platform built on the world-renowned Madinah Arabic Course." />
@@ -60,262 +58,260 @@
     }
 
     .geo-bg {
-      position: fixed; inset: 0;
-      width: 100%; height: 100%;
-      opacity: 0.05;
-      pointer-events: none;
-      z-index: 0;
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      opacity: 0.05; pointer-events: none; z-index: 0;
     }
 
     .arabic-watermark {
-      position: fixed;
-      top: 50%; left: 50%;
+      position: fixed; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       font-family: 'Amiri', serif;
       font-size: clamp(160px, 32vw, 380px);
-      color: var(--brand-primary);
-      opacity: 0.04;
-      pointer-events: none;
-      user-select: none;
-      white-space: nowrap;
-      z-index: 0;
+      color: var(--brand-primary); opacity: 0.04;
+      pointer-events: none; user-select: none; white-space: nowrap; z-index: 0;
     }
 
     main {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 960px;
+      position: relative; z-index: 1;
+      width: 100%; max-width: 960px;
       padding: 5rem 3rem 4rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      display: flex; flex-direction: column; align-items: center;
     }
 
     .top-ornament {
-      font-family: 'Amiri', serif;
-      font-size: 2rem;
-      color: var(--brand-primary);
-      letter-spacing: 0.15em;
-      margin-bottom: 0.8rem;
-      text-align: center;
+      font-family: 'Amiri', serif; font-size: 2rem;
+      color: var(--brand-primary); letter-spacing: 0.15em;
+      margin-bottom: 0.8rem; text-align: center;
       animation: fadeDown 0.7s ease both;
     }
-
     .eyebrow {
-      font-family: 'Cinzel', serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.42em;
-      text-transform: uppercase;
-      color: var(--brand-primary);
-      margin-bottom: 0.7rem;
-      text-align: center;
+      font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.42em; text-transform: uppercase;
+      color: var(--brand-primary); margin-bottom: 0.7rem; text-align: center;
       animation: fadeDown 0.7s ease 0.1s both;
     }
-
     .main-title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(3rem, 7vw, 4.5rem);
-      font-weight: 700;
-      color: var(--brand-primary);
-      text-align: center;
-      margin-bottom: 0.8rem;
-      line-height: 1.2;
-      animation: fadeDown 0.7s ease 0.15s both;
-      letter-spacing: 0.1em;
+      font-size: clamp(3rem, 7vw, 4.5rem); font-weight: 700;
+      color: var(--brand-primary); text-align: center;
+      margin-bottom: 0.8rem; line-height: 1.2;
+      animation: fadeDown 0.7s ease 0.15s both; letter-spacing: 0.1em;
     }
-
     .subtitle {
-      font-family: 'Lato', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 400;
-      color: var(--text-mid);
-      text-align: center;
-      margin-bottom: 2.8rem;
-      line-height: 1.7;
-      animation: fadeDown 0.7s ease 0.2s both;
-      max-width: 600px;
+      font-family: 'Lato', sans-serif; font-size: 1.15rem; font-weight: 400;
+      color: var(--text-mid); text-align: center;
+      margin-bottom: 2.8rem; line-height: 1.7;
+      animation: fadeDown 0.7s ease 0.2s both; max-width: 600px;
     }
 
     .divider {
       display: flex; align-items: center; gap: 16px;
-      width: 100%; max-width: 560px;
-      margin-bottom: 2.2rem;
+      width: 100%; max-width: 560px; margin-bottom: 2.2rem;
       animation: fadeIn 0.7s ease 0.3s both;
     }
     .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--brand-primary), transparent); opacity: 0.3; }
     .divider-diamond { width: 8px; height: 8px; background: var(--brand-primary); transform: rotate(45deg); opacity: 0.6; }
 
-    .choose-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.38em;
-      text-transform: uppercase;
-      color: var(--text-mid);
-      margin-bottom: 2rem;
-      animation: fadeIn 0.5s ease 0.35s both;
-    }
-
-    .books-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      width: 100%;
-      max-width: 900px;
-    }
-
-    .book-card {
-      background: var(--bg-card);
-      border: 1.5px solid var(--gold-border);
-      border-radius: 16px;
-      padding: 2.6rem 1.8rem 2.2rem;
-      cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
+    /* ── Tooltip on quick-action buttons ── */
+    .quick-action-btn {
       position: relative;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
     }
-
-    .book-card::before {
+    .quick-action-btn::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: var(--text-dark);
+      color: #fff;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      line-height: 1.4;
+      white-space: nowrap;
+      padding: 7px 12px;
+      border-radius: 8px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 20;
+      max-width: 200px;
+      white-space: normal;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .quick-action-btn::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      bottom: calc(100% + 4px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      border: 5px solid transparent;
+      border-top-color: var(--text-dark);
+      pointer-events: none;
       opacity: 0;
-      transition: opacity 0.25s;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 20;
+    }
+    .quick-action-btn:hover::after,
+    .quick-action-btn:focus-visible::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .quick-action-btn:hover::before,
+    .quick-action-btn:focus-visible::before {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
-    .book-card:hover {
-      border-color: var(--gold);
-      transform: translateY(-6px);
-      box-shadow: 0 14px 36px #8a642018;
+    /* ── Selector section (pre-onboarding) ── */
+    .choose-label {
+      font-family: 'Cinzel', serif; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.38em; text-transform: uppercase;
+      color: var(--text-mid); margin-bottom: 2rem;
+      animation: fadeIn 0.5s ease 0.35s both;
     }
+    .books-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; width: 100%; max-width: 900px;
+    }
+    .book-card {
+      background: var(--bg-card); border: 1.5px solid var(--gold-border);
+      border-radius: 16px; padding: 2.6rem 1.8rem 2.2rem;
+      cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 12px; position: relative; overflow: hidden;
+      text-decoration: none; color: inherit;
+    }
+    .book-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .book-card:hover { border-color: var(--gold); transform: translateY(-6px); box-shadow: 0 14px 36px #8a642018; }
     .book-card:hover::before { opacity: 1; }
-
-    .book-number-arabic {
-      font-family: 'Amiri', serif;
-      font-size: 4rem;
-      font-weight: 700;
-      color: var(--gold);
-      line-height: 1;
-    }
-
-    .book-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    .book-title-arabic {
-      font-family: 'Amiri', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      text-align: center;
-    }
-
-    .book-desc {
-      font-family: 'Lato', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 400;
-      color: var(--text-mid);
-      text-align: center;
-      line-height: 1.6;
-    }
-
-    .book-badge {
-      font-family: 'Lato', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-      background: var(--gold-faint);
-      border: 1.5px solid var(--gold-border);
-      border-radius: 20px;
-      padding: 4px 16px;
-      margin-top: 4px;
-    }
-
+    .book-number-arabic { font-family: 'Amiri', serif; font-size: 4rem; font-weight: 700; color: var(--gold); line-height: 1; }
+    .book-label { font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+    .book-title-arabic { font-family: 'Amiri', serif; font-size: 1.5rem; font-weight: 700; color: var(--text-dark); text-align: center; }
+    .book-desc { font-family: 'Lato', sans-serif; font-size: 0.88rem; font-weight: 400; color: var(--text-mid); text-align: center; line-height: 1.6; }
+    .book-badge { font-family: 'Lato', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); background: var(--gold-faint); border: 1.5px solid var(--gold-border); border-radius: 20px; padding: 4px 16px; margin-top: 4px; }
     .book-card { opacity: 0; animation: fadeUp 0.55s ease forwards; }
     .book-card:nth-child(1) { animation-delay: 0.4s; }
     .book-card:nth-child(2) { animation-delay: 0.52s; }
     .book-card:nth-child(3) { animation-delay: 0.64s; }
 
-    .footer {
-      margin-top: 3rem;
-      font-family: 'Lato', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 400;
+    /* ── Dashboard section (post-onboarding) ── */
+    .dashboard-section {
+      width: 100%; max-width: 560px;
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+      animation: fadeUp 0.55s ease 0.3s both;
+    }
+
+    .db-book-badge {
+      font-family: 'Cinzel', serif; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--brand-primary);
+      background: #1a5c4a12;
+      border: 1.5px solid #1a5c4a40;
+      border-radius: 20px; padding: 5px 18px;
+      margin-bottom: 1.4rem;
+    }
+
+    .db-progress-wrap {
+      width: 100%; margin-bottom: 0.5rem;
+    }
+    .db-progress-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px;
+      font-family: 'Lato', sans-serif; font-size: 0.75rem; font-weight: 700;
       color: var(--text-muted);
-      text-align: center;
+    }
+    .db-progress-track {
+      height: 8px; background: var(--gold-faint);
+      border: 1px solid var(--gold-border); border-radius: 99px; overflow: hidden;
+      margin-bottom: 1.8rem;
+    }
+    .db-progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--brand-primary), var(--gold-light));
+      border-radius: 99px; transition: width 0.6s ease; width: 0%;
+    }
+
+    .db-continue-btn {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      width: 100%;
+      background: var(--brand-primary);
+      border-radius: 14px; padding: 1.1rem 1.4rem;
+      text-decoration: none; color: #fff;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px #1a5c4a25;
+      margin-bottom: 1rem;
+    }
+    .db-continue-btn:hover { background: #143d30; transform: translateY(-2px); box-shadow: 0 8px 28px #1a5c4a30; }
+    .db-continue-eyebrow {
+      font-family: 'Cinzel', serif; font-size: 0.55rem; font-weight: 700;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(255,255,255,0.65); margin-bottom: 0.3rem;
+    }
+    .db-continue-label {
+      font-family: 'Lato', sans-serif; font-size: 1rem; font-weight: 700; color: #fff;
+    }
+    .db-continue-arrow { font-size: 1.4rem; flex-shrink: 0; opacity: 0.85; }
+
+    .db-all-lessons-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Lato', sans-serif; font-size: 0.78rem; font-weight: 700;
+      color: var(--brand-primary); text-decoration: none;
+      border: 1.5px solid var(--gold-border); border-radius: 10px;
+      padding: 0.6rem 1.2rem; margin-bottom: 2rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .db-all-lessons-btn:hover { background: var(--gold-faint); border-color: var(--gold); }
+
+    .db-divider {
+      display: flex; align-items: center; gap: 16px;
+      width: 100%; margin-bottom: 1.6rem;
+    }
+    .db-divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--brand-primary), transparent); opacity: 0.25; }
+    .db-divider-diamond { width: 6px; height: 6px; background: var(--brand-primary); transform: rotate(45deg); opacity: 0.5; }
+
+    .db-change-path {
+      font-family: 'Lato', sans-serif; font-size: 0.75rem; font-weight: 700;
+      color: var(--text-muted); text-decoration: none;
+      border: none; background: none; cursor: pointer;
+      letter-spacing: 0.03em; margin-top: 0.5rem;
+      transition: color 0.2s;
+    }
+    .db-change-path:hover { color: var(--brand-primary); }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 3rem; font-family: 'Lato', sans-serif; font-size: 0.85rem;
+      font-weight: 400; color: var(--text-muted); text-align: center;
       animation: fadeIn 0.6s ease 0.8s both;
     }
-
     .btn-reset-progress {
-      display: block;
-      margin: 1rem auto 0;
-      padding: 0.55rem 1.25rem;
-      font-family: 'Lato', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      background: transparent;
-      border: 1.5px solid var(--gold-border);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      display: block; margin: 1rem auto 0; padding: 0.55rem 1.25rem;
+      font-family: 'Lato', sans-serif; font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--text-muted); background: transparent;
+      border: 1.5px solid var(--gold-border); border-radius: 8px;
+      cursor: pointer; transition: color 0.2s, border-color 0.2s, background 0.2s;
       animation: fadeIn 0.6s ease 0.85s both;
     }
+    .btn-reset-progress:hover { color: var(--text-dark); border-color: var(--gold); background: var(--gold-faint); }
 
-    .btn-reset-progress:hover {
-      color: var(--text-dark);
-      border-color: var(--gold);
-      background: var(--gold-faint);
-    }
+    /* streak fixed top-right */
+    .home-streak { position: fixed; top: 16px; right: 20px; z-index: 100; animation: fadeIn 0.6s ease 0.9s both; }
 
-    .btn-reset-progress:focus-visible {
-      outline: 2px solid var(--gold);
-      outline-offset: 3px;
-    }
-
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    /* streak widget fixed top-right */
-    .home-streak {
-      position: fixed; top: 16px; right: 20px; z-index: 100;
-      animation: fadeIn 0.6s ease 0.9s both;
-    }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(16px);  } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
 
     @media (max-width: 700px) {
       .books-grid { grid-template-columns: 1fr; max-width: 380px; }
       main { padding: 3.5rem 1.5rem 3rem; }
     }
-
     @media (max-width: 480px) {
       html { font-size: 16px; }
       body { justify-content: flex-start; }
@@ -329,28 +325,20 @@
       .choose-label { font-size: 0.58rem; letter-spacing: 0.26em; margin-bottom: 1.2rem; }
       .books-grid { gap: 10px; max-width: 100%; }
       .book-card {
-        display: grid;
-        grid-template-columns: 44px minmax(0, 1fr) auto;
-        align-items: center;
-        gap: 8px 12px;
-        padding: 0.85rem;
-        border-radius: 10px;
-        text-align: left;
+        display: grid; grid-template-columns: 44px minmax(0, 1fr) auto;
+        align-items: center; gap: 8px 12px; padding: 0.85rem;
+        border-radius: 10px; text-align: left;
       }
       .book-number-arabic { font-size: 2.2rem; grid-row: 1 / span 3; }
       .book-label { font-size: 0.5rem; letter-spacing: 0.16em; }
       .book-title-arabic { font-size: 1.15rem; text-align: left; }
       .book-desc { grid-column: 2 / -1; font-size: 0.78rem; line-height: 1.35; text-align: left; }
-      .book-badge {
-        grid-column: 3;
-        grid-row: 1 / span 2;
-        justify-self: end;
-        padding: 3px 8px;
-        font-size: 0.52rem;
-        letter-spacing: 0.08em;
-      }
+      .book-badge { grid-column: 3; grid-row: 1 / span 2; justify-self: end; padding: 3px 8px; font-size: 0.52rem; letter-spacing: 0.08em; }
       .footer { margin-top: 1.5rem; font-size: 0.76rem; }
       .btn-reset-progress { font-size: 0.65rem; padding: 0.48rem 0.9rem; }
+      /* tooltips off on touch devices */
+      .quick-action-btn::after,
+      .quick-action-btn::before { display: none; }
     }
   </style>
 </head>
@@ -374,7 +362,6 @@
 
   <div class="arabic-watermark" aria-hidden="true">الكلام</div>
 
-  <!-- Streak widget fixed top-right -->
   <div class="home-streak">
     <div id="streak-widget" class="streak-widget" title="Your daily streak"></div>
   </div>
@@ -383,10 +370,10 @@
     <div class="top-ornament">✦ بِسْمِ اللهِ ✦</div>
     <div class="eyebrow">The Clear Path</div>
     <h1 class="main-title">KALAMO</h1>
-    <p class="subtitle">Master the Arabic language through the world's most proven curriculum.</p>
+    <p class="subtitle" id="home-subtitle">Master the Arabic language through the world's most proven curriculum.</p>
 
-    <!-- XP bar -->
-    <div class="xp-bar-wrap">
+    <!-- XP bar (always shown when onboarded) -->
+    <div class="xp-bar-wrap" id="xp-bar-wrap" style="display:none;">
       <div class="xp-bar-meta">
         <span id="xp-level">Level 1</span>
         <span id="xp-label">0 / 500 XP</span>
@@ -394,112 +381,222 @@
       <div class="xp-bar-track"><div class="xp-bar-fill" id="xp-bar-fill"></div></div>
     </div>
 
-    <!-- Quick actions: daily drill + review -->
-    <div class="quick-actions">
-      <a href="drill.html" class="quick-action-btn" id="drill-btn">
+    <!-- Quick actions (always shown when onboarded) -->
+    <div class="quick-actions" id="quick-actions" style="display:none;">
+      <a href="drill.html" class="quick-action-btn" id="drill-btn"
+         data-tooltip="10 quick questions from your completed lessons — done in under 5 minutes.">
         <span class="quick-action-icon">⚡</span>
         <span class="quick-action-label">Daily Drill</span>
         <span class="quick-action-sub">10 words · 5 min</span>
       </a>
-      <a href="review.html" class="quick-action-btn">
+      <a href="review.html" class="quick-action-btn"
+         data-tooltip="Flashcard review of words you marked as hard — spaced repetition in action.">
         <span class="quick-action-icon">🔁</span>
         <span class="quick-action-label">Review</span>
         <span class="quick-action-sub">Hard words first</span>
       </a>
     </div>
 
-    <div class="divider" aria-hidden="true">
-      <div class="divider-line"></div>
-      <div class="divider-diamond"></div>
-      <div class="divider-line"></div>
-    </div>
+    <!-- ── DASHBOARD (post-onboarding) ── -->
+    <div class="dashboard-section" id="dashboard-section" style="display:none;">
 
-    <div id="continue-banner" style="display:none; width:100%; max-width:560px; margin-bottom:2rem; animation: fadeUp 0.5s ease both;">
-      <a id="continue-link" href="book1.html" style="
-        display:flex; align-items:center; justify-content:space-between; gap:1rem;
-        background:var(--bg-card); border:1.5px solid var(--gold-border); border-radius:14px;
-        padding:1rem 1.4rem; text-decoration:none; color:inherit;
-        transition:border-color 0.2s, box-shadow 0.2s;
-        box-shadow: 0 2px 12px #8a642010;
-      " onmouseover="this.style.borderColor='var(--gold)';this.style.boxShadow='0 4px 20px #8a642020'"
-         onmouseout="this.style.borderColor='var(--gold-border)';this.style.boxShadow='0 2px 12px #8a642010'">
-        <div>
-          <div style="font-family:'Cinzel',serif;font-size:0.6rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--brand-primary);margin-bottom:0.3rem;">Continue learning</div>
-          <div id="continue-label" style="font-family:'Lato',sans-serif;font-size:1rem;font-weight:700;color:var(--text-dark);">Book 1 — Lesson 1</div>
+      <div class="db-book-badge" id="db-book-badge">Book 1 · Foundation</div>
+
+      <div class="db-progress-wrap">
+        <div class="db-progress-meta">
+          <span id="db-progress-label">0 of 23 lessons complete</span>
+          <span id="db-progress-pct">0%</span>
         </div>
-        <div style="font-size:1.4rem;color:var(--gold);flex-shrink:0;">→</div>
+        <div class="db-progress-track">
+          <div class="db-progress-fill" id="db-progress-fill"></div>
+        </div>
+      </div>
+
+      <a id="db-continue-btn" href="book1.html" class="db-continue-btn">
+        <div>
+          <div class="db-continue-eyebrow">Continue learning</div>
+          <div class="db-continue-label" id="db-continue-label">Go to Book 1</div>
+        </div>
+        <div class="db-continue-arrow">→</div>
       </a>
+
+      <a id="db-all-btn" href="book1.html" class="db-all-lessons-btn">
+        📖 All lessons
+      </a>
+
+      <div class="db-divider" aria-hidden="true">
+        <div class="db-divider-line"></div>
+        <div class="db-divider-diamond"></div>
+        <div class="db-divider-line"></div>
+      </div>
+
     </div>
 
-    <div class="choose-label">Choose your book</div>
+    <!-- ── SELECTOR (pre-onboarding / not yet set up) ── -->
+    <div id="selector-section">
+      <div class="divider" aria-hidden="true">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+      </div>
 
-    <div class="books-grid">
-      <a class="book-card" href="book1.html" aria-label="Medina Book 1 — Beginner">
-        <div class="book-number-arabic">١</div>
-        <div class="book-label">Book One</div>
-        <div class="book-title-arabic">الكتاب الأول</div>
-        <div class="book-desc">Foundations of Arabic grammar and vocabulary</div>
-        <div class="book-badge">Beginner</div>
-      </a>
+      <div class="choose-label">Choose your book</div>
 
-      <a class="book-card" href="book2.html" aria-label="Medina Book 2 — Intermediate">
-        <div class="book-number-arabic">٢</div>
-        <div class="book-label">Book Two</div>
-        <div class="book-title-arabic">الكتاب الثاني</div>
-        <div class="book-desc">Expanding grammar and Quranic patterns</div>
-        <div class="book-badge">Intermediate</div>
-      </a>
-
-      <a class="book-card" href="book3.html" aria-label="Medina Book 3 — Advanced">
-        <div class="book-number-arabic">٣</div>
-        <div class="book-label">Book Three</div>
-        <div class="book-title-arabic">الكتاب الثالث</div>
-        <div class="book-desc">Advanced structures and classical texts</div>
-        <div class="book-badge">Advanced</div>
-      </a>
+      <div class="books-grid">
+        <a class="book-card" href="book1.html" aria-label="Medina Book 1 — Beginner">
+          <div class="book-number-arabic">١</div>
+          <div class="book-label">Book One</div>
+          <div class="book-title-arabic">الكتاب الأول</div>
+          <div class="book-desc">Foundations of Arabic grammar and vocabulary</div>
+          <div class="book-badge">Beginner</div>
+        </a>
+        <a class="book-card" href="book2.html" aria-label="Medina Book 2 — Intermediate">
+          <div class="book-number-arabic">٢</div>
+          <div class="book-label">Book Two</div>
+          <div class="book-title-arabic">الكتاب الثاني</div>
+          <div class="book-desc">Expanding grammar and Quranic patterns</div>
+          <div class="book-badge">Intermediate</div>
+        </a>
+        <a class="book-card" href="book3.html" aria-label="Medina Book 3 — Advanced">
+          <div class="book-number-arabic">٣</div>
+          <div class="book-label">Book Three</div>
+          <div class="book-title-arabic">الكتاب الثالث</div>
+          <div class="book-desc">Advanced structures and classical texts</div>
+          <div class="book-badge">Advanced</div>
+        </a>
+      </div>
     </div>
 
     <p class="footer">Your progress is saved locally in your browser</p>
+    <button type="button" class="db-change-path" id="change-path-btn" style="display:none;" onclick="obChangePath()">
+      ↺ Change learning path
+    </button>
     <button type="button" class="btn-reset-progress" onclick="confirmAndResetAllKalamoProgress()">
       Reset all progress…
     </button>
   </main>
 
-  <!-- Onboarding overlay (shown on first visit) -->
+  <!-- ════════════════════════════════════════════
+       ONBOARDING OVERLAY — 5 steps
+       ════════════════════════════════════════════ -->
   <div class="onboarding-overlay" id="onboarding-overlay" style="display:none;" aria-modal="true" role="dialog">
 
-    <!-- Step dots -->
     <div class="onboarding-dots" id="onboarding-dots">
-      <div class="onboarding-dot active" data-step="0"></div>
-      <div class="onboarding-dot" data-step="1"></div>
-      <div class="onboarding-dot" data-step="2"></div>
+      <div class="onboarding-dot active"></div>
+      <div class="onboarding-dot"></div>
+      <div class="onboarding-dot"></div>
+      <div class="onboarding-dot"></div>
+      <div class="onboarding-dot"></div>
     </div>
 
-    <!-- Step 1: Welcome -->
+    <!-- Step 0: Welcome -->
     <div class="onboarding-step active" id="ob-step-0">
       <div class="onboarding-arabic">الكلام</div>
       <div class="onboarding-title">Welcome to Kalamo</div>
-      <p class="onboarding-sub">Learn Arabic, one lesson at a time — structured, interactive, and completely free.</p>
-      <button class="onboarding-btn" onclick="obNext()">Get Started →</button>
+      <p class="onboarding-sub">A free, structured path through the world's most renowned Arabic curriculum — the Madinah Arabic Books.</p>
+      <button class="onboarding-btn" onclick="obNext()">Let's begin →</button>
     </div>
 
-    <!-- Step 2: Level picker -->
-    <div class="onboarding-step" id="ob-step-1">
-      <div class="onboarding-title">Where are you starting?</div>
-      <p class="onboarding-sub">We'll set you up at the right place.</p>
-      <div class="level-cards">
+    <!-- Step 1: What is Kalamo / The 3 books -->
+    <div class="onboarding-step" id="ob-step-1" style="max-width:520px; width:100%;">
+      <div class="onboarding-title" style="margin-bottom:0.5rem;">Built on the Madinah Arabic Course</div>
+      <p class="onboarding-sub" style="margin-bottom:1.4rem;">Three books. Each one unlocks the next level of the language.</p>
+      <div style="display:flex; flex-direction:column; gap:10px; width:100%; max-width:440px; margin-bottom:1.8rem;">
+        <div style="display:flex; align-items:flex-start; gap:14px; background:var(--bg-card); border:1.5px solid var(--gold-border); border-radius:12px; padding:1rem 1.1rem;">
+          <div style="font-family:'Amiri',serif; font-size:1.8rem; color:var(--gold); line-height:1; flex-shrink:0;">١</div>
+          <div>
+            <div style="font-family:'Cinzel',serif; font-size:0.62rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--brand-primary); margin-bottom:3px;">Book One · Beginner</div>
+            <div style="font-family:'Lato',sans-serif; font-size:0.84rem; color:var(--text-mid); line-height:1.5;">Nouns, pronouns, basic sentence structure, gender, numbers, and adjectives. The complete foundation.</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:14px; background:var(--bg-card); border:1.5px solid var(--gold-border); border-radius:12px; padding:1rem 1.1rem;">
+          <div style="font-family:'Amiri',serif; font-size:1.8rem; color:var(--gold); line-height:1; flex-shrink:0;">٢</div>
+          <div>
+            <div style="font-family:'Cinzel',serif; font-size:0.62rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--brand-primary); margin-bottom:3px;">Book Two · Intermediate</div>
+            <div style="font-family:'Lato',sans-serif; font-size:0.84rem; color:var(--text-mid); line-height:1.5;">Verbs, verb conjugation, plural forms, and Quranic grammatical patterns.</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:14px; background:var(--bg-card); border:1.5px solid var(--gold-border); border-radius:12px; padding:1rem 1.1rem;">
+          <div style="font-family:'Amiri',serif; font-size:1.8rem; color:var(--gold); line-height:1; flex-shrink:0;">٣</div>
+          <div>
+            <div style="font-family:'Cinzel',serif; font-size:0.62rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--brand-primary); margin-bottom:3px;">Book Three · Advanced</div>
+            <div style="font-family:'Lato',sans-serif; font-size:0.84rem; color:var(--text-mid); line-height:1.5;">Advanced grammar, classical Arabic structures, and deeper Quranic analysis.</div>
+          </div>
+        </div>
+      </div>
+      <button class="onboarding-btn" onclick="obNext()">Got it →</button>
+    </div>
+
+    <!-- Step 2: Path picker -->
+    <div class="onboarding-step" id="ob-step-2">
+      <div class="onboarding-title">How are you using Kalamo?</div>
+      <p class="onboarding-sub">This helps us set you up in the right place.</p>
+      <div class="level-cards" style="margin-bottom:1.8rem;">
+        <div class="level-card selected" data-mode="companion" onclick="obSelectMode(this)">
+          <span class="level-card-icon">📚</span>
+          <div>
+            <div class="level-card-name">Companion to the book</div>
+            <div class="level-card-desc">I'm studying the physical Madinah Arabic books and want a digital companion</div>
+          </div>
+        </div>
+        <div class="level-card" data-mode="standalone" onclick="obSelectMode(this)">
+          <span class="level-card-icon">🌍</span>
+          <div>
+            <div class="level-card-name">Learning independently</div>
+            <div class="level-card-desc">I'm using Kalamo as my main way to learn Arabic</div>
+          </div>
+        </div>
+      </div>
+      <button class="onboarding-btn" onclick="obNext()">Continue →</button>
+    </div>
+
+    <!-- Step 3a: Companion — pick which book -->
+    <div class="onboarding-step" id="ob-step-3a">
+      <div class="onboarding-title">Which book are you on?</div>
+      <p class="onboarding-sub">We'll take you straight to the right place.</p>
+      <div class="level-cards" style="margin-bottom:1.8rem;">
+        <div class="level-card selected" data-book="book1" onclick="obSelectBook(this)">
+          <span class="level-card-icon">١</span>
+          <div>
+            <div class="level-card-name">Book 1 — Beginner</div>
+            <div class="level-card-desc">Nouns, pronouns, sentence structure, adjectives</div>
+          </div>
+        </div>
+        <div class="level-card" data-book="book2" onclick="obSelectBook(this)">
+          <span class="level-card-icon">٢</span>
+          <div>
+            <div class="level-card-name">Book 2 — Intermediate</div>
+            <div class="level-card-desc">Verbs, plurals, Quranic patterns</div>
+          </div>
+        </div>
+        <div class="level-card" data-book="book3" onclick="obSelectBook(this)">
+          <span class="level-card-icon">٣</span>
+          <div>
+            <div class="level-card-name">Book 3 — Advanced</div>
+            <div class="level-card-desc">Classical Arabic and advanced grammar</div>
+          </div>
+        </div>
+      </div>
+      <button class="onboarding-btn" onclick="obNext()">Continue →</button>
+    </div>
+
+    <!-- Step 3b: Standalone — pick level -->
+    <div class="onboarding-step" id="ob-step-3b">
+      <div class="onboarding-title">Where are you starting from?</div>
+      <p class="onboarding-sub">Be honest — you can always change this later.</p>
+      <div class="level-cards" style="margin-bottom:1.8rem;">
         <div class="level-card selected" data-level="0" onclick="obSelectLevel(this)">
           <span class="level-card-icon">🌱</span>
           <div>
             <div class="level-card-name">Complete beginner</div>
-            <div class="level-card-desc">I'm new to Arabic — start me from Lesson 1</div>
+            <div class="level-card-desc">New to Arabic — start me from Lesson 1</div>
           </div>
         </div>
         <div class="level-card" data-level="4" onclick="obSelectLevel(this)">
           <span class="level-card-icon">📖</span>
           <div>
             <div class="level-card-name">Know some basics</div>
-            <div class="level-card-desc">I know letters and simple words — skip to Lesson 5</div>
+            <div class="level-card-desc">I know the letters and simple words — skip to Lesson 5</div>
           </div>
         </div>
         <div class="level-card" data-level="7" onclick="obSelectLevel(this)">
@@ -513,12 +610,12 @@
       <button class="onboarding-btn" onclick="obNext()">Continue →</button>
     </div>
 
-    <!-- Step 3: Ready -->
-    <div class="onboarding-step" id="ob-step-2">
+    <!-- Step 4: Ready -->
+    <div class="onboarding-step" id="ob-step-4">
       <div class="onboarding-arabic">بِسْمِ اللهِ</div>
       <div class="onboarding-title">You're all set!</div>
-      <p class="onboarding-sub">Start with a lesson, do a quick drill, or review vocabulary you've already learned.</p>
-      <a href="book1.html" class="onboarding-btn" onclick="obFinish()">Start Learning →</a>
+      <p class="onboarding-sub" id="ob-ready-sub">Let's get started. Do lessons to earn XP, keep your daily streak going, and use Drill + Review to reinforce what you learn.</p>
+      <button class="onboarding-btn" onclick="obFinish()">Start Learning →</button>
     </div>
 
   </div>
@@ -527,71 +624,158 @@
   <script src="assets/js/gamification.js"></script>
   <script src="assets/js/bottom-nav.js"></script>
   <script>
-    /* ── Continue banner ── */
-    (function () {
-      const books = ['book1', 'book2', 'book3'];
-      const bookNames = { book1: 'Book 1', book2: 'Book 2', book3: 'Book 3' };
-      const bookTotals = { book1: 23, book2: 23, book3: 23 };
+    /* ══════════════════════════════════════════════
+       Onboarding state
+       ══════════════════════════════════════════════ */
+    var _obStep   = 0;
+    var _obMode   = 'companion'; // 'companion' | 'standalone'
+    var _obBook   = 'book1';
+    var _obLevel  = 0;
 
-      for (const book of books) {
-        const progress = readJsonStorage(PROGRESS_KEYS[book]);
-        const keys = Object.keys(progress);
-        if (!keys.length) continue;
-
-        const total = bookTotals[book];
-        let nextLesson = null;
-        for (let i = 1; i <= total; i++) {
-          if (!isCompleteValue(progress[String(i)])) { nextLesson = i; break; }
-        }
-        if (!nextLesson) continue;
-
-        const completed = keys.filter(k => isCompleteValue(progress[k])).length;
-        const href = `lessons/lesson.html?book=${book.replace('book','')}&lesson=${nextLesson}`;
-        document.getElementById('continue-label').textContent =
-          `${bookNames[book]} — Lesson ${nextLesson}  (${completed} of ${total} complete)`;
-        document.getElementById('continue-link').href = href;
-        document.getElementById('continue-banner').style.display = 'block';
-        break;
-      }
-    })();
-
-    /* ── Onboarding ── */
-    var _obLevel = 0;
-    var _obStep  = 0;
-
-    (function initOnboarding() {
-      if (localStorage.getItem('kalamo_onboarded')) return;
-      document.getElementById('onboarding-overlay').style.display = 'flex';
-    })();
-
-    function obSelectLevel(card) {
-      document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      _obLevel = parseInt(card.dataset.level, 10);
+    /* Step sequence depends on path chosen */
+    function _obStepIds() {
+      return _obMode === 'companion'
+        ? ['ob-step-0','ob-step-1','ob-step-2','ob-step-3a','ob-step-4']
+        : ['ob-step-0','ob-step-1','ob-step-2','ob-step-3b','ob-step-4'];
     }
 
     function obNext() {
       _obStep++;
-      document.querySelectorAll('.onboarding-step').forEach((el, i) => {
-        el.classList.toggle('active', i === _obStep);
+      _syncObView();
+    }
+
+    function _syncObView() {
+      var ids = _obStepIds();
+      /* show the right step card */
+      ['ob-step-0','ob-step-1','ob-step-2','ob-step-3a','ob-step-3b','ob-step-4'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.remove('active');
       });
-      document.querySelectorAll('.onboarding-dot').forEach((dot, i) => {
+      var current = ids[_obStep];
+      if (current) {
+        var el = document.getElementById(current);
+        if (el) el.classList.add('active');
+      }
+      /* sync dots */
+      document.querySelectorAll('.onboarding-dot').forEach(function(dot, i) {
         dot.classList.toggle('active', i === _obStep);
       });
     }
 
+    function obSelectMode(card) {
+      document.querySelectorAll('#ob-step-2 .level-card').forEach(function(c) { c.classList.remove('selected'); });
+      card.classList.add('selected');
+      _obMode = card.dataset.mode;
+      /* reset book/level selection to first item of next step */
+      _obBook  = 'book1';
+      _obLevel = 0;
+    }
+
+    function obSelectBook(card) {
+      document.querySelectorAll('#ob-step-3a .level-card').forEach(function(c) { c.classList.remove('selected'); });
+      card.classList.add('selected');
+      _obBook = card.dataset.book;
+    }
+
+    function obSelectLevel(card) {
+      document.querySelectorAll('#ob-step-3b .level-card').forEach(function(c) { c.classList.remove('selected'); });
+      card.classList.add('selected');
+      _obLevel = parseInt(card.dataset.level, 10);
+    }
+
     function obFinish() {
-      // Pre-mark lessons as complete based on chosen level
-      if (_obLevel > 0) {
-        const progress = {};
-        for (let i = 1; i <= _obLevel; i++) progress[String(i)] = true;
+      /* Save chosen book */
+      var chosenBook = (_obMode === 'companion') ? _obBook : 'book1';
+      localStorage.setItem('kalamo_current_book', chosenBook);
+      localStorage.setItem('kalamo_learning_mode', _obMode);
+
+      /* Pre-unlock lessons for standalone learners */
+      if (_obMode === 'standalone' && _obLevel > 0) {
+        var progress = {};
+        for (var i = 1; i <= _obLevel; i++) progress[String(i)] = true;
         localStorage.setItem('kalamo_book1_progress', JSON.stringify(progress));
       }
       localStorage.setItem('kalamo_onboarded', '1');
-      const overlay = document.getElementById('onboarding-overlay');
+
+      var overlay = document.getElementById('onboarding-overlay');
       overlay.classList.add('fade-out');
-      setTimeout(() => { overlay.style.display = 'none'; }, 420);
+      setTimeout(function() {
+        overlay.style.display = 'none';
+        showDashboard();
+      }, 420);
     }
+
+    function obChangePath() {
+      var ok = window.confirm('Reset your learning path? Your lesson progress and XP will be kept.');
+      if (!ok) return;
+      localStorage.removeItem('kalamo_onboarded');
+      localStorage.removeItem('kalamo_current_book');
+      localStorage.removeItem('kalamo_learning_mode');
+      window.location.reload();
+    }
+
+    /* ══════════════════════════════════════════════
+       Dashboard
+       ══════════════════════════════════════════════ */
+    var BOOK_HREFS  = { book1: 'book1.html', book2: 'book2.html', book3: 'book3.html' };
+    var BOOK_LABELS = { book1: 'Book 1 · Foundation', book2: 'Book 2 · Intermediate', book3: 'Book 3 · Advanced' };
+    var BOOK_NAMES  = { book1: 'Book 1', book2: 'Book 2', book3: 'Book 3' };
+    var BOOK_TOTALS = { book1: 23, book2: 23, book3: 23 };
+
+    function showDashboard() {
+      var book     = localStorage.getItem('kalamo_current_book') || 'book1';
+      var progress = readJsonStorage(PROGRESS_KEYS[book]);
+      var total    = BOOK_TOTALS[book];
+      var completed = Object.values(progress).filter(isCompleteValue).length;
+      var pct       = total ? Math.round(completed / total * 100) : 0;
+
+      /* Find next lesson */
+      var nextLesson = null;
+      for (var i = 1; i <= total; i++) {
+        if (!isCompleteValue(progress[String(i)])) { nextLesson = i; break; }
+      }
+
+      /* Update subtitle */
+      document.getElementById('home-subtitle').textContent = 'Keep going — every lesson brings you closer.';
+
+      /* Book badge */
+      document.getElementById('db-book-badge').textContent = BOOK_LABELS[book];
+
+      /* Progress */
+      document.getElementById('db-progress-label').textContent = completed + ' of ' + total + ' lessons complete';
+      document.getElementById('db-progress-pct').textContent   = pct + '%';
+      document.getElementById('db-progress-fill').style.width  = pct + '%';
+
+      /* Continue button */
+      var continueLabel = nextLesson
+        ? (BOOK_NAMES[book] + ' — Lesson ' + nextLesson)
+        : ('All lessons complete 🎉');
+      var continueHref = nextLesson
+        ? ('lessons/lesson.html?book=' + book.replace('book','') + '&lesson=' + nextLesson)
+        : BOOK_HREFS[book];
+      document.getElementById('db-continue-label').textContent = continueLabel;
+      document.getElementById('db-continue-btn').href = continueHref;
+      document.getElementById('db-all-btn').href = BOOK_HREFS[book];
+
+      /* Show dashboard, hide selector */
+      document.getElementById('dashboard-section').style.display = 'flex';
+      document.getElementById('selector-section').style.display  = 'none';
+      document.getElementById('xp-bar-wrap').style.display       = 'block';
+      document.getElementById('quick-actions').style.display     = 'flex';
+      document.getElementById('change-path-btn').style.display   = 'inline-block';
+    }
+
+    /* ══════════════════════════════════════════════
+       Init
+       ══════════════════════════════════════════════ */
+    (function init() {
+      var onboarded = localStorage.getItem('kalamo_onboarded');
+      if (onboarded) {
+        showDashboard();
+      } else {
+        document.getElementById('onboarding-overlay').style.display = 'flex';
+      }
+    })();
   </script>
 </body>
 </html>
