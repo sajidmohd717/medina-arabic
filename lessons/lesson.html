@@ -19,8 +19,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('../sw.js');</script>
-  <link rel="stylesheet" href="../assets/css/shared.css?v=revamp-1" />
-  <link rel="stylesheet" href="../assets/css/lesson.css?v=revamp-1" />
+  <link rel="stylesheet" href="../assets/css/shared.css?v=revamp-2" />
+  <link rel="stylesheet" href="../assets/css/lesson.css?v=revamp-2" />
 </head>
 <body>
 
@@ -61,6 +61,13 @@
       <div class="lesson-eyebrow"></div>
       <h1></h1>
       <p class="lesson-summary"></p>
+      <div class="step-progress" id="stepProgress" aria-label="Lesson progress">
+        <span class="step-dot step-dot--current" data-step="0"></span>
+        <span class="step-dot" data-step="1"></span>
+        <span class="step-dot" data-step="2"></span>
+        <span class="step-dot" data-step="3"></span>
+        <span class="step-dot" data-step="4"></span>
+      </div>
     </header>
 
     <!-- Step indicator -->

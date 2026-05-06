@@ -15,8 +15,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
-  <link rel="stylesheet" href="assets/css/shared.css?v=revamp-1" />
-  <link rel="stylesheet" href="assets/css/gamification.css?v=revamp-1" />
+  <link rel="stylesheet" href="assets/css/shared.css?v=revamp-2" />
+  <link rel="stylesheet" href="assets/css/gamification.css?v=revamp-2" />
 </head>
 <body>
 
@@ -563,11 +563,23 @@ function endDrill() {
   document.getElementById('fc-progress').style.width = '100%';
 
   const pct  = _correct / _questions.length;
-  const icon = pct >= 0.8 ? '🎉' : pct >= 0.5 ? '👍' : '💪';
   const reward = _isBonusRound ? BONUS_XP_REWARD : XP_REWARD;
-  document.getElementById('end-icon').textContent = icon;
-  document.getElementById('end-sub').textContent  =
-    `You got ${_correct} out of ${_questions.length} correct. ${pct >= 0.8 ? 'Excellent work!' : 'Keep practising!'}`;
+
+  if (pct >= 0.8) {
+    document.getElementById('end-icon').textContent = '🎉';
+    document.getElementById('end-sub').textContent  =
+      `You got ${_correct} out of ${_questions.length} correct! Excellent work! 🌟`;
+    if (typeof celebrate === 'function') celebrate('pass');
+  } else if (pct >= 0.5) {
+    document.getElementById('end-icon').textContent = '👍';
+    document.getElementById('end-sub').textContent  =
+      `You got ${_correct} out of ${_questions.length} correct. Good effort, keep practising!`;
+    if (typeof celebrate === 'function') celebrate('fail');
+  } else {
+    document.getElementById('end-icon').textContent = '💪';
+    document.getElementById('end-sub').textContent  =
+      `You got ${_correct} out of ${_questions.length} correct. Every mistake is a chance to learn — try again!`;
+  }
   document.getElementById('end-xp').textContent  = `+${reward} XP earned`;
 
   if (typeof awardXP === 'function') awardXP(reward);

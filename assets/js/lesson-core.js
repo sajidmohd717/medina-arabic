@@ -94,20 +94,28 @@ function displayNumber(value) {
 
 function goToStep(step) {
   if (!UNLOCKED_STEPS[step]) return;
-  
-  const steps = ['vocab', 'lesson', 'comprehension', 'practice', 'quiz'];
-  steps.forEach(s => {
+
+  const stepOrder = ['vocab', 'lesson', 'comprehension', 'practice', 'quiz'];
+  const stepIndex = stepOrder.indexOf(step);
+
+  stepOrder.forEach(s => {
     const panel = document.getElementById(`panel-${s}`);
     const btn = document.getElementById(`step-${s}`);
     if (panel) panel.classList.remove('active');
     if (btn) btn.classList.remove('active');
   });
-  
+
   const targetPanel = document.getElementById(`panel-${step}`);
   const targetBtn = document.getElementById(`step-${step}`);
   if (targetPanel) targetPanel.classList.add('active');
   if (targetBtn) targetBtn.classList.add('active');
-  
+
+  const dots = document.querySelectorAll('.step-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('step-dot--done', i < stepIndex);
+    dot.classList.toggle('step-dot--current', i === stepIndex);
+  });
+
   CURRENT_STEP = step;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -117,14 +125,25 @@ function unlockAndGo(step) {
   const btn = document.getElementById(`step-${step}`);
   if (btn) btn.classList.remove('locked');
 
-  // Mark the current step as completed before moving on
   const prevBtn = document.getElementById(`step-${CURRENT_STEP}`);
   if (prevBtn && CURRENT_STEP !== step) {
     prevBtn.classList.remove('active');
     prevBtn.classList.add('completed');
+    prevBtn.style.animation = 'bounceIn 0.3s ease';
+  }
+
+  if (btn && CURRENT_STEP !== step) {
+    btn.style.animation = 'bounceIn 0.4s ease';
   }
 
   goToStep(step);
+
+  const icon = document.getElementById(`step-${CURRENT_STEP}`)?.querySelector('.step-icon');
+  if (icon) {
+    icon.style.animation = 'none';
+    void icon.offsetHeight;
+    icon.style.animation = 'bounceIn 0.35s ease';
+  }
 }
 
 /** Open all steps and go straight to the quiz (used with ?step=quiz from the book list). */
@@ -278,17 +297,19 @@ function submitQuiz() {
   const scoreCard = document.getElementById('scoreCard');
   const submitBtn = document.getElementById('submitQuizBtn');
   const nextBtn = document.getElementById('nextLessonBtn');
-  
-  if (scoreNumber) scoreNumber.textContent = `${displayNumber(score)} / ${displayNumber(total)}`;
+
+  if (scoreNumber) animateNumber(scoreNumber, score, ` / ${displayNumber(total)}`);
   if (scoreLabel) {
-    scoreLabel.textContent = passed
-      ? '🎉 Great work! Lesson marked as complete.'
-      : `You need at least ${displayNumber(CURRENT_LESSON_DATA.passMark)} out of ${displayNumber(total)} to pass. Review the lesson and try again.`;
+    scoreLabel.innerHTML = passed
+      ? `<span style="font-size:2.5rem;display:block;margin-bottom:0.5rem;">🎉</span>Great work! You've mastered this lesson.`
+      : `You need at least ${displayNumber(CURRENT_LESSON_DATA.passMark)} out of ${displayNumber(total)} to pass. Review the lesson and try again — you've got this!`;
   }
   if (scoreCard) {
     scoreCard.style.display = 'block';
     scoreCard.classList.toggle('passed', passed);
     scoreCard.classList.toggle('failed', !passed);
+    if (passed) celebrate('pass');
+    else celebrate('fail');
   }
   if (submitBtn) submitBtn.style.display = 'none';
   
