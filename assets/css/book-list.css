@@ -318,8 +318,9 @@
 }
 
 .lesson-card--complete {
-  border-color: var(--green-border);
-  background: var(--green-bg);
+  border-color: rgba(125, 211, 168, 0.35);
+  background: var(--surface-card);
+  border-left: 4px solid var(--brand);
 }
 
 .lesson-card--complete .lesson-arabic,
@@ -332,26 +333,27 @@
 }
 
 .lesson-card--complete .lesson-num-badge {
-  background: var(--surface-card);
-  border-color: var(--green);
-  color: var(--green);
+  background: #d1fae5;
+  border-color: var(--brand);
+  color: #5ec896;
 }
 
 .lesson-card--complete .lesson-card-quiz {
-  color: var(--green);
-  background: var(--green-bg);
-  border-left-color: var(--green-border);
+  color: #5ec896;
+  background: #d1fae5;
+  border-left-color: rgba(125, 211, 168, 0.25);
 }
 
 .lesson-card--in-progress {
-  border-color: var(--amber-border);
-  background: var(--amber-bg);
+  border-color: rgba(251, 191, 36, 0.35);
+  background: var(--surface-card);
+  border-left: 4px solid var(--amber);
 }
 
 .lesson-card--in-progress .lesson-num-badge {
-  background: var(--surface-card);
+  background: var(--amber-bg);
   border-color: var(--amber);
-  color: var(--amber);
+  color: #d97706;
 }
 
 .lesson-num-badge {
