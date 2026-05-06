@@ -88,7 +88,7 @@ function lessonHtmlRelPath(book, lessonNum) {
 
 /**
  * Sequential locks on book list: grey row, ✕ badge, no navigation until previous quizzes passed.
- * Expects .lesson-card with data-lesson, .lesson-card-main, .lesson-card-quiz.
+ * Expects .lesson-card with data-lesson and .lesson-card-main.
  */
 function updateLessonSequentialLocks(book = 'book1') {
   document.querySelectorAll('.lesson-card').forEach(card => {
@@ -96,7 +96,6 @@ function updateLessonSequentialLocks(book = 'book1') {
     if (Number.isNaN(n)) return;
 
     const main = card.querySelector('.lesson-card-main');
-    const quiz = card.querySelector('.lesson-card-quiz');
     const badge = card.querySelector('.lesson-num-badge');
     const unlocked = isLessonUnlocked(n, book);
     const available = card.dataset.available !== 'false';
@@ -111,13 +110,6 @@ function updateLessonSequentialLocks(book = 'book1') {
         main.removeAttribute('tabindex');
         main.removeAttribute('title');
       }
-      if (quiz) {
-        quiz.setAttribute('href', `${base}&step=quiz`);
-        quiz.removeAttribute('aria-disabled');
-        quiz.removeAttribute('tabindex');
-        quiz.removeAttribute('title');
-        quiz.textContent = 'Quiz only';
-      }
       return;
     }
 
@@ -131,13 +123,6 @@ function updateLessonSequentialLocks(book = 'book1') {
       main.setAttribute('aria-disabled', 'true');
       main.setAttribute('tabindex', '-1');
       main.setAttribute('title', available ? 'Complete the previous lesson quiz to unlock this one.' : 'This lesson is coming soon.');
-    }
-    if (quiz) {
-      quiz.setAttribute('href', '#');
-      quiz.setAttribute('aria-disabled', 'true');
-      quiz.setAttribute('tabindex', '-1');
-      quiz.setAttribute('title', available ? 'Complete the previous lesson quiz to unlock.' : 'This lesson is coming soon.');
-      quiz.textContent = available ? 'Locked' : 'Soon';
     }
   });
 }

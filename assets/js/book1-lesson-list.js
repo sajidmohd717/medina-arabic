@@ -158,14 +158,7 @@
     }
 
     main.append(badge, textWrap);
-
-    const quiz = document.createElement('a');
-    quiz.className = 'lesson-card-quiz';
-    quiz.href = quizHref(lesson.lessonNum);
-    quiz.setAttribute('aria-label', `Jump straight to the quiz for lesson ${lesson.lessonNum}`);
-    quiz.textContent = 'Quiz only';
-
-    card.append(main, quiz);
+    card.append(main);
     return card;
   }
 
