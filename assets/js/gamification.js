@@ -192,8 +192,8 @@ function celebrate(type = 'pass') {
   document.body.appendChild(container);
 
   const colors = type === 'pass'
-    ? ['#7dd3a8', '#f9a8d4', '#93c5fd', '#c4b5fd', '#fde047', '#fca5a5']
-    : ['#fbbf24', '#93c5fd', '#c4b5fd'];
+    ? ['#b8a3f5', '#f9a8d4', '#93c5fd', '#fde047', '#fca5a5', '#a18ae8']
+    : ['#fbbf24', '#93c5fd', '#f9a8d4'];
 
   for (let i = 0; i < 60; i++) {
     const piece = document.createElement('div');

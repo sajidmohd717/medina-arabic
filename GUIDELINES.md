@@ -398,10 +398,10 @@ So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After
 - Mobile may use smaller component-level type and tighter spacing when needed for scanability; do not blindly preserve desktop scale on phones
 
 ### Colour
-- Palette is a soft pastel dream: mint green (#7dd3a8), baby blue (#93c5fd), bubblegum pink (#f9a8d4), lavender (#c4b5fd), sunny yellow (#fde047)
+- Palette is a soft pastel dream: lavender purple (#b8a3f5), baby blue (#93c5fd), bubblegum pink (#f9a8d4), sunny yellow (#fde047)
 - Background is a dreamy lavender-to-pink gradient (#faf8ff → #fff5f8 → #f0f9ff)
-- Brand mint green → primary buttons, links, active states
-- Success green → completed / correct
+- Brand lavender → primary buttons, links, active states
+- Mint green → completed / correct (subtle, not dominant)
 - Gold/amber → in-progress, streaks, warm accents
 - Soft rose → errors / wrong answers (never colour alone)
 - All colours are defined as CSS custom properties in `shared.css` — never hardcode hex values

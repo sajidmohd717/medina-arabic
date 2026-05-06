@@ -5,9 +5,9 @@
 html { font-size: 20px; }
 
 :root {
-  --brand: #7dd3a8;
-  --brand-dark: #5ec896;
-  --brand-deeper: #4fb584;
+  --brand: #b8a3f5;
+  --brand-dark: #a18ae8;
+  --brand-deeper: #8b74e0;
   --accent-blue: #93c5fd;
   --accent-purple: #c4b5fd;
   --accent-coral: #fca5a5;
@@ -21,12 +21,12 @@ html { font-size: 20px; }
   --gold-faint: #fef3c7;
   --surface-bg: #faf8ff;
   --surface-card: #ffffff;
-  --surface-tint: #ecfdf5;
-  --surface-tint-blue: #eff8ff;
+  --surface-tint: #f0ecfe;
+  --surface-tint-blue: #eff4ff;
   --text-dark: #3e2723;
   --text-mid: #78716c;
   --text-muted: #a8a29e;
-  --green: #7dd3a8;
+  --green: #93e0b8;
   --green-bg: #d1fae5;
   --green-border: #a7e5c0;
   --amber: #fbbf24;
@@ -43,7 +43,7 @@ html { font-size: 20px; }
   --shadow-sm: 0 2px 12px rgba(125, 124, 160, 0.06);
   --shadow-md: 0 8px 28px rgba(125, 124, 160, 0.08);
   --shadow-lg: 0 16px 48px rgba(125, 124, 160, 0.1);
-  --shadow-pop: 0 8px 0 rgba(125, 211, 168, 0.2), 0 12px 32px rgba(125, 211, 168, 0.1);
+  --shadow-pop: 0 8px 0 rgba(168, 147, 247, 0.2), 0 12px 32px rgba(168, 147, 247, 0.1);
 
   --bg-card: var(--surface-card);
   --bg: var(--surface-bg);
