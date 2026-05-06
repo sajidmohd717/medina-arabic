@@ -19,12 +19,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Nunito:wght@400;700;800;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#7C5CFC" />
+  <meta name="theme-color" content="#0CC0A0" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <link rel="stylesheet" href="assets/css/shared.css?v=playful-1" />
-  <link rel="stylesheet" href="assets/css/gamification.css?v=playful-1" />
+  <link rel="stylesheet" href="assets/css/shared.css?v=teal-1" />
+  <link rel="stylesheet" href="assets/css/gamification.css?v=teal-1" />
   <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
   <style>
     html { font-size: 18px; }
@@ -34,7 +34,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(160deg, #FEFEFE 0%, #F8F4FF 35%, #FFF5F8 60%, #F0F9FF 85%, #FEFEFE 100%);
+      background: linear-gradient(160deg, #F7FFFE 0%, #EDFAF6 30%, #FFF5F8 65%, #F0F9FF 85%, #F7FFFE 100%);
     }
 
     main {
@@ -44,26 +44,30 @@
       display: flex; flex-direction: column; align-items: center;
     }
 
+    /* ── Hero badge ── */
     .top-ornament {
-      font-family: 'Amiri', serif; font-size: 2.2rem;
-      background: linear-gradient(135deg, var(--brand), var(--accent-purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: 0.15em;
-      margin-bottom: 0.6rem; text-align: center;
+      font-family: 'Amiri', serif; font-size: 2rem;
+      color: var(--brand);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem; text-align: center;
       animation: fadeDown 0.7s ease both;
+      opacity: 0.85;
     }
     .eyebrow {
-      font-family: 'Nunito', sans-serif; font-size: 0.74rem; font-weight: 800;
-      letter-spacing: 0.28em; text-transform: uppercase;
-      color: var(--accent-coral); margin-bottom: 0.8rem; text-align: center;
+      font-family: 'Nunito', sans-serif; font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--brand-dark); margin-bottom: 0.75rem; text-align: center;
       animation: fadeDown 0.7s ease 0.1s both;
+      background: var(--surface-tint);
+      border: 1.5px solid var(--brand-light);
+      border-radius: var(--radius-full);
+      padding: 5px 18px;
+      display: inline-block;
     }
     .main-title {
       font-family: 'Nunito', sans-serif;
       font-size: clamp(3rem, 7vw, 5rem); font-weight: 900;
-      background: linear-gradient(135deg, var(--brand), var(--brand-light), var(--accent-purple));
+      background: linear-gradient(135deg, var(--brand), var(--brand-light), var(--accent-mint));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -72,15 +76,16 @@
       animation: fadeDown 0.7s ease 0.15s both; letter-spacing: 0.06em;
     }
     .subtitle {
-      font-family: 'Nunito', sans-serif; font-size: 1.15rem; font-weight: 600;
+      font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 600;
       color: var(--text-mid); text-align: center;
       margin-bottom: 2.8rem; line-height: 1.7;
-      animation: fadeDown 0.7s ease 0.2s both; max-width: 600px;
+      animation: fadeDown 0.7s ease 0.2s both; max-width: 560px;
     }
 
+    /* ── Divider ── */
     .divider {
       display: flex; align-items: center; gap: 16px;
-      width: 100%; max-width: 560px; margin-bottom: 2.2rem;
+      width: 100%; max-width: 560px; margin-bottom: 2rem;
       animation: fadeIn 0.7s ease 0.3s both;
     }
     .divider-line { flex: 1; height: 2px; background: linear-gradient(to right, transparent, var(--brand-light), transparent); opacity: 0.5; border-radius: 1px; }
@@ -88,97 +93,130 @@
 
     .choose-label {
       font-family: 'Nunito', sans-serif; font-size: 0.68rem; font-weight: 800;
-      letter-spacing: 0.28em; text-transform: uppercase;
+      letter-spacing: 0.24em; text-transform: uppercase;
       color: var(--text-mid); margin-bottom: 2rem;
       animation: fadeIn 0.5s ease 0.35s both;
       padding: 6px 20px;
-      border: 1.5px solid rgba(31, 24, 51, 0.08);
+      border: 1.5px solid rgba(12, 192, 160, 0.12);
       border-radius: var(--radius-full);
-      background: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.7);
     }
 
+    /* ── Book Grid ── */
     .books-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 24px; width: 100%; max-width: 900px;
+      gap: 22px; width: 100%; max-width: 900px;
     }
+
+    /* Base card */
     .book-card {
       background: var(--surface-card);
-      border: 2px solid rgba(31, 24, 51, 0.06);
+      border: 2.5px solid rgba(12, 192, 160, 0.1);
       border-radius: var(--radius-xl);
-      padding: 2.6rem 1.8rem 2.2rem;
+      padding: 2.4rem 1.6rem 2rem;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: flex; flex-direction: column; align-items: center;
-      gap: 14px; position: relative; overflow: hidden;
+      gap: 12px; position: relative; overflow: hidden;
       text-decoration: none; color: inherit;
-      box-shadow: var(--shadow-xs);
+      box-shadow: 0 6px 0 rgba(12, 192, 160, 0.08), var(--shadow-sm);
     }
+
+    /* Top color bar — unique per book */
     .book-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, var(--brand-light), var(--accent-coral), var(--accent-gold));
-      opacity: 0; transition: opacity 0.3s;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+      opacity: 0.9; transition: opacity 0.3s, height 0.25s;
     }
+    .book-card--1::before { background: linear-gradient(90deg, #0CC0A0, #2DDCBC, #34D399); }
+    .book-card--2::before { background: linear-gradient(90deg, #3B82F6, #60A5FA, #818CF8); }
+    .book-card--3::before { background: linear-gradient(90deg, #F59E0B, #FBBF24, #F97316); }
+
+    /* Glow overlay */
     .book-card::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, var(--surface-tint), transparent 60%);
       opacity: 0; transition: opacity 0.3s;
     }
+    .book-card--1::after { background: linear-gradient(135deg, rgba(12, 192, 160, 0.06), transparent 60%); }
+    .book-card--2::after { background: linear-gradient(135deg, rgba(59, 130, 246, 0.06), transparent 60%); }
+    .book-card--3::after { background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), transparent 60%); }
+
     .book-card > * { position: relative; z-index: 1; }
+
     .book-card:hover {
-      border-color: var(--brand-light);
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-pop-hover);
+      transform: translateY(-10px);
+      border-color: rgba(12, 192, 160, 0.25);
+      box-shadow: 0 14px 0 rgba(12, 192, 160, 0.08), var(--shadow-lg);
     }
-    .book-card:hover::before { opacity: 1; }
+    .book-card--1:hover { border-color: rgba(12, 192, 160, 0.3); }
+    .book-card--2:hover { border-color: rgba(59, 130, 246, 0.3); box-shadow: 0 14px 0 rgba(59, 130, 246, 0.08), var(--shadow-lg); }
+    .book-card--3:hover { border-color: rgba(245, 158, 11, 0.3); box-shadow: 0 14px 0 rgba(245, 158, 11, 0.08), var(--shadow-lg); }
+    .book-card:hover::before { opacity: 1; height: 6px; }
     .book-card:hover::after { opacity: 1; }
+
+    .book-card:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 rgba(12, 192, 160, 0.06), var(--shadow-xs);
+    }
+
+    /* Arabic numeral */
     .book-number-arabic {
-      font-family: 'Amiri', serif; font-size: 4.5rem; font-weight: 700;
-      background: linear-gradient(135deg, var(--brand), var(--accent-purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-family: 'Amiri', serif; font-size: 4.8rem; font-weight: 700;
       line-height: 1;
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .book-card:hover .book-number-arabic { transform: scale(1.08); }
+    .book-card--1 .book-number-arabic { background: linear-gradient(135deg, #0CC0A0, #34D399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .book-card--2 .book-number-arabic { background: linear-gradient(135deg, #3B82F6, #818CF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .book-card--3 .book-number-arabic { background: linear-gradient(135deg, #F59E0B, #F97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .book-card:hover .book-number-arabic { transform: scale(1.1) rotate(-3deg); }
+
+    /* "Book One" label */
     .book-label {
-      font-family: 'Nunito', sans-serif; font-size: 0.62rem; font-weight: 800;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--accent-coral);
-      background: rgba(255, 107, 122, 0.08);
-      border: 1px solid rgba(255, 107, 122, 0.15);
+      font-family: 'Nunito', sans-serif; font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.2em; text-transform: uppercase;
       padding: 4px 14px; border-radius: var(--radius-full);
     }
-    .book-title-arabic { font-family: 'Amiri', serif; font-size: 1.5rem; font-weight: 700; color: var(--text-dark); text-align: center; }
-    .book-desc { font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 400; color: var(--text-mid); text-align: center; line-height: 1.6; }
+    .book-card--1 .book-label { color: #0A7A6E; background: #CCFBF1; border: 1.5px solid #99F6E4; }
+    .book-card--2 .book-label { color: #1E40AF; background: #DBEAFE; border: 1.5px solid #93C5FD; }
+    .book-card--3 .book-label { color: #92400E; background: #FEF3C7; border: 1.5px solid #FDE68A; }
+
+    .book-title-arabic { font-family: 'Amiri', serif; font-size: 1.45rem; font-weight: 700; color: var(--text-dark); text-align: center; }
+    .book-desc { font-family: 'Nunito', sans-serif; font-size: 0.86rem; font-weight: 400; color: var(--text-mid); text-align: center; line-height: 1.55; }
+
+    /* Level badge */
     .book-badge {
       font-family: 'Nunito', sans-serif; font-size: 0.6rem; font-weight: 800;
       letter-spacing: 0.1em; text-transform: uppercase;
-      color: #0369A1; background: #E0F2FE;
-      border: 1.5px solid #7DD3FC; border-radius: var(--radius-full);
-      padding: 5px 18px; margin-top: 4px;
+      border-radius: var(--radius-full);
+      padding: 5px 16px; margin-top: 2px;
     }
-    .book-card { opacity: 0; animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-    .book-card:nth-child(1) { animation-delay: 0.4s; }
-    .book-card:nth-child(2) { animation-delay: 0.55s; }
-    .book-card:nth-child(3) { animation-delay: 0.7s; }
+    .book-card--1 .book-badge { color: #065F46; background: #D1FAE5; border: 1.5px solid #6EE7B7; }
+    .book-card--2 .book-badge { color: #1E40AF; background: #DBEAFE; border: 1.5px solid #93C5FD; }
+    .book-card--3 .book-badge { color: #78350F; background: #FEF3C7; border: 1.5px solid #FDE68A; }
 
+    /* staggered entrance */
+    .book-card { opacity: 0; animation: springIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .book-card:nth-child(1) { animation-delay: 0.38s; }
+    .book-card:nth-child(2) { animation-delay: 0.52s; }
+    .book-card:nth-child(3) { animation-delay: 0.66s; }
+
+    /* ── Footer ── */
     .footer {
-      margin-top: 3rem; font-family: 'Nunito', sans-serif; font-size: 0.85rem;
+      margin-top: 2.8rem; font-family: 'Nunito', sans-serif; font-size: 0.84rem;
       font-weight: 400; color: var(--text-muted); text-align: center;
       animation: fadeIn 0.6s ease 0.85s both;
     }
     .btn-reset-progress {
       display: block; margin: 1rem auto 0; padding: 0.6rem 1.5rem;
-      font-family: 'Nunito', sans-serif; font-size: 0.74rem; font-weight: 700;
+      font-family: 'Nunito', sans-serif; font-size: 0.72rem; font-weight: 700;
       letter-spacing: 0.04em; text-transform: uppercase;
       color: var(--text-muted); background: transparent;
-      border: 1.5px solid rgba(31, 24, 51, 0.08); border-radius: var(--radius-full);
+      border: 1.5px solid rgba(14, 36, 32, 0.08); border-radius: var(--radius-full);
       cursor: pointer; transition: all 0.2s ease;
       animation: fadeIn 0.6s ease 0.9s both;
     }
     .btn-reset-progress:hover { color: var(--brand); border-color: var(--brand-light); background: var(--surface-tint); }
 
+    /* ── Responsive ── */
     @media (max-width: 700px) {
       .books-grid { grid-template-columns: 1fr; max-width: 400px; }
       main { padding: 3.5rem 1.5rem 3rem; }
@@ -188,21 +226,22 @@
       body { justify-content: flex-start; }
       .arabic-watermark { font-size: clamp(110px, 42vw, 180px); }
       main { padding: 2.6rem 0.85rem 2.5rem; }
-      .top-ornament { font-size: 1.5rem; margin-bottom: 0.5rem; }
-      .eyebrow { font-size: 0.62rem; letter-spacing: 0.2em; }
+      .top-ornament { font-size: 1.4rem; margin-bottom: 0.4rem; }
+      .eyebrow { font-size: 0.6rem; letter-spacing: 0.18em; }
       .main-title { font-size: 2.6rem; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
-      .subtitle { font-size: 0.95rem; line-height: 1.55; margin-bottom: 1.6rem; }
+      .subtitle { font-size: 0.92rem; line-height: 1.55; margin-bottom: 1.6rem; }
       .divider { margin-bottom: 1.4rem; }
-      .choose-label { font-size: 0.6rem; letter-spacing: 0.2em; margin-bottom: 1.4rem; padding: 5px 15px; }
+      .choose-label { font-size: 0.58rem; letter-spacing: 0.18em; margin-bottom: 1.4rem; padding: 5px 14px; }
       .books-grid { gap: 10px; max-width: 100%; }
       .book-card {
-        display: grid; grid-template-columns: 50px minmax(0, 1fr);
-        align-items: center; gap: 8px 14px; padding: 1rem;
+        display: grid; grid-template-columns: 52px minmax(0, 1fr);
+        align-items: center; gap: 8px 14px; padding: 1rem 1rem;
         border-radius: var(--radius-md); text-align: left;
       }
+      .book-card:hover { transform: translateY(-5px); }
       .book-number-arabic { font-size: 2.4rem; grid-row: 1 / span 3; }
-      .book-label { font-size: 0.52rem; letter-spacing: 0.14em; padding: 3px 8px; }
-      .book-title-arabic { font-size: 1.15rem; text-align: left; }
+      .book-label { font-size: 0.52rem; letter-spacing: 0.12em; padding: 3px 10px; }
+      .book-title-arabic { font-size: 1.1rem; text-align: left; }
       .book-desc { grid-column: 2 / -1; font-size: 0.78rem; line-height: 1.35; text-align: left; }
       .book-badge { grid-column: 2; grid-row: auto; justify-self: start; padding: 3px 10px; font-size: 0.54rem; letter-spacing: 0.06em; }
       .footer { margin-top: 1.8rem; font-size: 0.76rem; }
@@ -215,14 +254,14 @@
   <svg class="geo-bg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <pattern id="geo" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
-        <polygon points="40,5 75,22 75,57 40,74 5,57 5,22" fill="none" stroke="#9B8ABF" stroke-width="1"/>
-        <polygon points="40,18 62,29 62,51 40,62 18,51 18,29" fill="none" stroke="#9B8ABF" stroke-width="0.5"/>
-        <line x1="40" y1="5"  x2="40" y2="18" stroke="#9B8ABF" stroke-width="0.5"/>
-        <line x1="75" y1="22" x2="62" y2="29" stroke="#9B8ABF" stroke-width="0.5"/>
-        <line x1="75" y1="57" x2="62" y2="51" stroke="#9B8ABF" stroke-width="0.5"/>
-        <line x1="40" y1="74" x2="40" y2="62" stroke="#9B8ABF" stroke-width="0.5"/>
-        <line x1="5"  y1="57" x2="18" y2="51" stroke="#9B8ABF" stroke-width="0.5"/>
-        <line x1="5"  y1="22" x2="18" y2="29" stroke="#9B8ABF" stroke-width="0.5"/>
+        <polygon points="40,5 75,22 75,57 40,74 5,57 5,22" fill="none" stroke="#0CC0A0" stroke-width="1"/>
+        <polygon points="40,18 62,29 62,51 40,62 18,51 18,29" fill="none" stroke="#0CC0A0" stroke-width="0.5"/>
+        <line x1="40" y1="5"  x2="40" y2="18" stroke="#0CC0A0" stroke-width="0.5"/>
+        <line x1="75" y1="22" x2="62" y2="29" stroke="#0CC0A0" stroke-width="0.5"/>
+        <line x1="75" y1="57" x2="62" y2="51" stroke="#0CC0A0" stroke-width="0.5"/>
+        <line x1="40" y1="74" x2="40" y2="62" stroke="#0CC0A0" stroke-width="0.5"/>
+        <line x1="5"  y1="57" x2="18" y2="51" stroke="#0CC0A0" stroke-width="0.5"/>
+        <line x1="5"  y1="22" x2="18" y2="29" stroke="#0CC0A0" stroke-width="0.5"/>
       </pattern>
     </defs>
     <rect width="800" height="600" fill="url(#geo)"/>
@@ -232,9 +271,9 @@
 
   <main>
     <div class="top-ornament">✦ بِسْمِ اللهِ ✦</div>
-    <div class="eyebrow">The Clear Path</div>
+    <div class="eyebrow">Free Arabic Learning</div>
     <h1 class="main-title">KALAMO</h1>
-    <p class="subtitle">Master the Arabic language through the world's most proven curriculum.</p>
+    <p class="subtitle">Master Arabic through the world's most trusted curriculum — structured, interactive, and totally free.</p>
 
     <div id="selector-section">
       <div class="divider" aria-hidden="true">
@@ -243,34 +282,34 @@
         <div class="divider-line"></div>
       </div>
 
-      <div class="choose-label">Choose your book</div>
+      <div class="choose-label">Choose your level</div>
 
       <div class="books-grid">
-        <button class="book-card" onclick="startOnboarding('book1')" aria-label="Medina Book 1 — Beginner">
+        <button class="book-card book-card--1" onclick="startOnboarding('book1')" aria-label="Medina Book 1 — Beginner">
           <div class="book-number-arabic">١</div>
           <div class="book-label">Book One</div>
           <div class="book-title-arabic">الكتاب الأول</div>
-          <div class="book-desc">Foundations of Arabic grammar and vocabulary</div>
-          <div class="book-badge">Beginner</div>
+          <div class="book-desc">Nouns, pronouns, sentence structure, and essential grammar</div>
+          <div class="book-badge">🌱 Beginner</div>
         </button>
-        <button class="book-card" onclick="startOnboarding('book2')" aria-label="Medina Book 2 — Intermediate">
+        <button class="book-card book-card--2" onclick="startOnboarding('book2')" aria-label="Medina Book 2 — Intermediate">
           <div class="book-number-arabic">٢</div>
           <div class="book-label">Book Two</div>
           <div class="book-title-arabic">الكتاب الثاني</div>
-          <div class="book-desc">Expanding grammar and Quranic patterns</div>
-          <div class="book-badge">Intermediate</div>
+          <div class="book-desc">Verbs, conjugation, plurals, and Quranic patterns</div>
+          <div class="book-badge">📖 Intermediate</div>
         </button>
-        <button class="book-card" onclick="startOnboarding('book3')" aria-label="Medina Book 3 — Advanced">
+        <button class="book-card book-card--3" onclick="startOnboarding('book3')" aria-label="Medina Book 3 — Advanced">
           <div class="book-number-arabic">٣</div>
           <div class="book-label">Book Three</div>
           <div class="book-title-arabic">الكتاب الثالث</div>
-          <div class="book-desc">Advanced structures and classical texts</div>
-          <div class="book-badge">Advanced</div>
+          <div class="book-desc">Advanced grammar, classical structures, deep Quranic analysis</div>
+          <div class="book-badge">⚡ Advanced</div>
         </button>
       </div>
     </div>
 
-    <p class="footer">Your progress is saved locally in your browser</p>
+    <p class="footer">Your progress is saved locally — no account needed</p>
   </main>
 
   <!-- ════════════════════════════════════════════
@@ -289,39 +328,39 @@
     <!-- Step 0: Welcome -->
     <div class="onboarding-step active" id="ob-step-0">
       <div class="onboarding-arabic">الكلام</div>
-      <div class="onboarding-title">Welcome to Kalamo</div>
-      <p class="onboarding-sub">A free, structured path through the world's most renowned Arabic curriculum — the Madinah Arabic Books.</p>
+      <div class="onboarding-title">Welcome to Kalamo 👋</div>
+      <p class="onboarding-sub">A free, structured journey through the world's most renowned Arabic curriculum — the Madinah Arabic Books.</p>
       <button class="onboarding-btn" onclick="obNext()">Let's begin →</button>
     </div>
 
-    <!-- Step 1: What is Kalamo / The 3 books -->
+    <!-- Step 1: The 3 books -->
     <div class="onboarding-step" id="ob-step-1" style="max-width:520px; width:100%;">
-      <div class="onboarding-title" style="margin-bottom:0.5rem;">Built on the Madinah Arabic Course</div>
-      <p class="onboarding-sub" style="margin-bottom:1.4rem;">Three books. Each one unlocks the next level of the language.</p>
-      <div style="display:flex; flex-direction:column; gap:10px; width:100%; max-width:440px; margin-bottom:1.8rem;">
-        <div style="display:flex; align-items:flex-start; gap:14px; background:var(--surface-card); border:1.5px solid var(--gold-border); border-radius:12px; padding:1rem 1.1rem;">
-          <div style="font-family:'Amiri',serif; font-size:1.8rem; color:var(--gold); line-height:1; flex-shrink:0;">١</div>
+      <div class="onboarding-title" style="margin-bottom:0.5rem;">Three books. One clear path.</div>
+      <p class="onboarding-sub" style="margin-bottom:1.3rem;">Each book unlocks the next level of the language.</p>
+      <div style="display:flex; flex-direction:column; gap:10px; width:100%; max-width:440px; margin-bottom:1.6rem;">
+        <div style="display:flex; align-items:flex-start; gap:14px; background:#fff; border:2px solid #CCFBF1; border-radius:14px; padding:1rem 1.1rem;">
+          <div style="font-family:'Amiri',serif; font-size:1.8rem; background:linear-gradient(135deg,#0CC0A0,#34D399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; flex-shrink:0;">١</div>
           <div>
-            <div style="font-family:'Cinzel',serif; font-size:0.62rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--brand); margin-bottom:3px;">Book One · Beginner</div>
-            <div style="font-family:'Lato',sans-serif; font-size:0.84rem; color:var(--text-mid); line-height:1.5;">Nouns, pronouns, basic sentence structure, gender, numbers, and adjectives. The complete foundation.</div>
+            <div style="font-family:'Nunito',sans-serif; font-size:0.62rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; color:#0A7A6E; margin-bottom:4px;">Book One · Beginner</div>
+            <div style="font-family:'Nunito',sans-serif; font-size:0.84rem; color:var(--text-mid); line-height:1.5;">Nouns, pronouns, sentence structure, gender, numbers, adjectives — the complete foundation.</div>
           </div>
         </div>
-        <div style="display:flex; align-items:flex-start; gap:14px; background:var(--surface-card); border:1.5px solid var(--gold-border); border-radius:12px; padding:1rem 1.1rem;">
-          <div style="font-family:'Amiri',serif; font-size:1.8rem; color:var(--gold); line-height:1; flex-shrink:0;">٢</div>
+        <div style="display:flex; align-items:flex-start; gap:14px; background:#fff; border:2px solid #DBEAFE; border-radius:14px; padding:1rem 1.1rem;">
+          <div style="font-family:'Amiri',serif; font-size:1.8rem; background:linear-gradient(135deg,#3B82F6,#818CF8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; flex-shrink:0;">٢</div>
           <div>
-            <div style="font-family:'Cinzel',serif; font-size:0.62rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--brand); margin-bottom:3px;">Book Two · Intermediate</div>
-            <div style="font-family:'Lato',sans-serif; font-size:0.84rem; color:var(--text-mid); line-height:1.5;">Verbs, verb conjugation, plural forms, and Quranic grammatical patterns.</div>
+            <div style="font-family:'Nunito',sans-serif; font-size:0.62rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; color:#1E40AF; margin-bottom:4px;">Book Two · Intermediate</div>
+            <div style="font-family:'Nunito',sans-serif; font-size:0.84rem; color:var(--text-mid); line-height:1.5;">Verbs, conjugation, plural forms, and Quranic grammatical patterns.</div>
           </div>
         </div>
-        <div style="display:flex; align-items:flex-start; gap:14px; background:var(--surface-card); border:1.5px solid var(--gold-border); border-radius:12px; padding:1rem 1.1rem;">
-          <div style="font-family:'Amiri',serif; font-size:1.8rem; color:var(--gold); line-height:1; flex-shrink:0;">٣</div>
+        <div style="display:flex; align-items:flex-start; gap:14px; background:#fff; border:2px solid #FEF3C7; border-radius:14px; padding:1rem 1.1rem;">
+          <div style="font-family:'Amiri',serif; font-size:1.8rem; background:linear-gradient(135deg,#F59E0B,#F97316); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; flex-shrink:0;">٣</div>
           <div>
-            <div style="font-family:'Cinzel',serif; font-size:0.62rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--brand); margin-bottom:3px;">Book Three · Advanced</div>
-            <div style="font-family:'Lato',sans-serif; font-size:0.84rem; color:var(--text-mid); line-height:1.5;">Advanced grammar, classical Arabic structures, and deeper Quranic analysis.</div>
+            <div style="font-family:'Nunito',sans-serif; font-size:0.62rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; color:#92400E; margin-bottom:4px;">Book Three · Advanced</div>
+            <div style="font-family:'Nunito',sans-serif; font-size:0.84rem; color:var(--text-mid); line-height:1.5;">Advanced grammar, classical Arabic structures, and deeper Quranic analysis.</div>
           </div>
         </div>
       </div>
-      <div style="margin-top:0.5rem;"><a href="#" onclick="obBack();return false" style="font-family:Lato;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Back</a></div>
+      <div style="margin-bottom:1rem;"><a href="#" onclick="obBack();return false" style="font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;color:var(--text-muted);text-decoration:none;padding:0.3rem 0.5rem;border-radius:8px;transition:all 0.2s;">← Back</a></div>
       <button class="onboarding-btn" onclick="obNext()">Got it →</button>
     </div>
 
@@ -329,7 +368,14 @@
     <div class="onboarding-step" id="ob-step-2">
       <div class="onboarding-title">How are you using Kalamo?</div>
       <p class="onboarding-sub">This helps us set you up in the right place.</p>
-      <div class="level-cards" style="margin-bottom:1.8rem;">
+      <div class="level-cards" style="margin-bottom:1.6rem;">
+        <div class="level-card selected" data-mode="standalone" onclick="obSelectMode(this)">
+          <span class="level-card-icon">🌍</span>
+          <div>
+            <div class="level-card-name">Learning from scratch <span style="display:inline-block;margin-left:6px;font-size:0.54rem;background:var(--surface-tint);color:var(--brand);border:1.5px solid var(--brand-light);padding:2px 8px;border-radius:99px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;">Recommended</span></div>
+            <div class="level-card-desc">No textbooks needed — Kalamo is your teacher.</div>
+          </div>
+        </div>
         <div class="level-card" data-mode="companion" onclick="obSelectMode(this)">
           <span class="level-card-icon">📚</span>
           <div>
@@ -337,15 +383,8 @@
             <div class="level-card-desc">I own the Madinah Arabic books — pick which one you're on.</div>
           </div>
         </div>
-        <div class="level-card selected" data-mode="standalone" onclick="obSelectMode(this)">
-          <span class="level-card-icon">🌍</span>
-          <div>
-            <div class="level-card-name">Learning from scratch <span style="display:inline-block;margin-left:6px;font-size:0.58rem;background:var(--green-bg);color:#5ec896;padding:2px 8px;border-radius:99px;">Recommended</span></div>
-            <div class="level-card-desc">No textbooks needed — Kalamo is your teacher.</div>
-          </div>
-        </div>
       </div>
-      <div style="margin-top:0.5rem;"><a href="#" onclick="obBack();return false" style="font-family:Lato;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Back</a></div>
+      <div style="margin-bottom:1rem;"><a href="#" onclick="obBack();return false" style="font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;color:var(--text-muted);text-decoration:none;padding:0.3rem 0.5rem;border-radius:8px;">← Back</a></div>
       <button class="onboarding-btn" onclick="obNext()">Continue →</button>
     </div>
 
@@ -353,7 +392,7 @@
     <div class="onboarding-step" id="ob-step-3a">
       <div class="onboarding-title">Which book are you on?</div>
       <p class="onboarding-sub">We'll take you straight to the right place.</p>
-      <div class="level-cards" style="margin-bottom:1.8rem;">
+      <div class="level-cards" style="margin-bottom:1.6rem;">
         <div class="level-card selected" data-book="book1" onclick="obSelectBook(this)">
           <span class="level-card-icon">١</span>
           <div>
@@ -376,7 +415,7 @@
           </div>
         </div>
       </div>
-      <div style="margin-top:0.5rem;"><a href="#" onclick="obBack();return false" style="font-family:Lato;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Back</a></div>
+      <div style="margin-bottom:1rem;"><a href="#" onclick="obBack();return false" style="font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;color:var(--text-muted);text-decoration:none;padding:0.3rem 0.5rem;border-radius:8px;">← Back</a></div>
       <button class="onboarding-btn" onclick="obNext()">Continue →</button>
     </div>
 
@@ -384,7 +423,7 @@
     <div class="onboarding-step" id="ob-step-3b">
       <div class="onboarding-title">Where are you starting from?</div>
       <p class="onboarding-sub">Be honest — you can always change this later.</p>
-      <div class="level-cards" style="margin-bottom:1.8rem;">
+      <div class="level-cards" style="margin-bottom:1.6rem;">
         <div class="level-card selected" data-level="0" onclick="obSelectLevel(this)">
           <span class="level-card-icon">🌱</span>
           <div>
@@ -407,16 +446,16 @@
           </div>
         </div>
       </div>
-      <div style="margin-top:0.5rem;"><a href="#" onclick="obBack();return false" style="font-family:Lato;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Back</a></div>
+      <div style="margin-bottom:1rem;"><a href="#" onclick="obBack();return false" style="font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;color:var(--text-muted);text-decoration:none;padding:0.3rem 0.5rem;border-radius:8px;">← Back</a></div>
       <button class="onboarding-btn" onclick="obNext()">Continue →</button>
     </div>
 
     <!-- Step 4: Ready -->
     <div class="onboarding-step" id="ob-step-4">
-      <div class="onboarding-arabic">بِسْمِ اللهِ</div>
-      <div class="onboarding-title">You're all set!</div>
-      <p class="onboarding-sub" id="ob-ready-sub">Let's get started. Do lessons to earn XP, keep your daily streak going, and use Drill + Review to reinforce what you learn.</p>
-      <div style="margin-top:0.5rem;"><a href="#" onclick="obBack();return false" style="font-family:Lato;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Back</a></div>
+      <div class="onboarding-arabic" style="font-size:3rem;">بِسْمِ اللهِ</div>
+      <div class="onboarding-title">You're all set! 🎉</div>
+      <p class="onboarding-sub" id="ob-ready-sub">Let's get started. Complete lessons to earn XP, keep your daily streak alive, and use Drill + Review to lock in what you learn.</p>
+      <div style="margin-bottom:1rem;"><a href="#" onclick="obBack();return false" style="font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;color:var(--text-muted);text-decoration:none;padding:0.3rem 0.5rem;border-radius:8px;">← Back</a></div>
       <button class="onboarding-btn" onclick="obFinish()">Start Learning →</button>
     </div>
 
@@ -440,7 +479,6 @@
       document.getElementById('selector-section').style.display = 'none';
     }
 
-    /* Step sequence depends on path chosen */
     function _obStepIds() {
       return _obMode === 'companion'
         ? ['ob-step-0','ob-step-1','ob-step-2','ob-step-3a','ob-step-4']
@@ -458,7 +496,6 @@
 
     function _syncObView() {
       var ids = _obStepIds();
-      /* show the right step card */
       ['ob-step-0','ob-step-1','ob-step-2','ob-step-3a','ob-step-3b','ob-step-4'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) el.classList.remove('active');
@@ -468,7 +505,6 @@
         var el = document.getElementById(current);
         if (el) el.classList.add('active');
       }
-      /* sync dots */
       document.querySelectorAll('.onboarding-dot').forEach(function(dot, i) {
         dot.classList.toggle('active', i === _obStep);
       });
@@ -478,7 +514,6 @@
       document.querySelectorAll('#ob-step-2 .level-card').forEach(function(c) { c.classList.remove('selected'); });
       card.classList.add('selected');
       _obMode = card.dataset.mode;
-      /* reset book/level selection to first item of next step */
       _obBook  = 'book1';
       _obLevel = 0;
     }
