@@ -79,7 +79,8 @@ function attachArabicWordMeaningToggles(root = document) {
 
 function normalise(str) {
   return stripDiacritics(str)
-    .replace(/[.،؟?!,،.]/g, '')
+    .replace(/ـ/g, '')
+    .replace(/[.,،;؛:؟?!()[\]{}"'`´‘’“”«»]/g, '')
     .replace(/\s+/g, '')
     .toLowerCase();
 }
@@ -90,6 +91,55 @@ function displayNumber(value) {
 
 function renderGuidedArabicLine(ar, vocab) {
   return `<div class="guided-sentence-arabic">${annotateArabicText(ar, vocab)}</div>`;
+}
+
+function encodeExercisePayload(value) {
+  return encodeURIComponent(JSON.stringify(value || []));
+}
+
+function decodeExercisePayload(value) {
+  try {
+    return JSON.parse(decodeURIComponent(value || '%5B%5D'));
+  } catch {
+    return [];
+  }
+}
+
+function attachGuidedExerciseHandlers(root = document) {
+  root.querySelectorAll('.guided-exercise-input').forEach(input => {
+    input.addEventListener('input', () => {
+      const card = input.closest('.guided-exercise-card');
+      if (!card || input.disabled) return;
+      saveGuidedExerciseState(card, { status: 'draft', value: input.value });
+    });
+
+    input.addEventListener('keydown', event => {
+      if (event.key !== 'Enter') return;
+      const card = input.closest('.guided-exercise-card');
+      if (!card) return;
+      checkGuidedExercise(
+        card.dataset.exerciseId,
+        decodeExercisePayload(card.dataset.accepts),
+        Number(card.dataset.total || 0)
+      );
+    });
+  });
+
+  root.querySelectorAll('.guided-exercise-check').forEach(button => {
+    button.addEventListener('click', () => {
+      const card = button.closest('.guided-exercise-card');
+      if (!card) return;
+      checkGuidedExercise(
+        card.dataset.exerciseId,
+        decodeExercisePayload(card.dataset.accepts),
+        Number(card.dataset.total || 0)
+      );
+    });
+  });
+
+  root.querySelectorAll('.guided-exercise-redo').forEach(button => {
+    button.addEventListener('click', () => resetGuidedExercise(button.closest('.guided-exercise-card')));
+  });
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -115,6 +165,7 @@ function goToStep(step) {
   if (targetBtn) targetBtn.classList.add('active');
 
   CURRENT_STEP = step;
+  saveLessonStep(step);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -169,6 +220,12 @@ function setupLessonIntro() {
     return;
   }
 
+  if (shouldSkipLessonIntro()) {
+    intro.hidden = true;
+    page.classList.remove('is-waiting');
+    return;
+  }
+
   const bookNum = CURRENT_BOOK.replace('book', '');
   const eyebrow = document.getElementById('lessonIntroEyebrow');
   const title = document.getElementById('lessonIntroTitle');
@@ -194,6 +251,8 @@ function setupLessonIntro() {
         intro.classList.remove('is-leaving');
         page.classList.remove('is-waiting');
         page.classList.add('is-entering');
+        saveGuidedPage(0);
+        saveLessonStep('vocab');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         window.setTimeout(() => page.classList.remove('is-entering'), 480);
       }, 320);
@@ -361,6 +420,7 @@ function submitQuiz() {
   if (passed) {
     if (typeof markComplete === 'function') {
       markComplete(CURRENT_LESSON_NUM, CURRENT_BOOK);
+      clearGuidedResume();
       if (typeof updateProgressBar === 'function') updateProgressBar(CURRENT_BOOK);
       if (typeof updateCompletedCount === 'function') updateCompletedCount(CURRENT_BOOK);
     }
@@ -670,19 +730,20 @@ function buildVocabularyPanel(data) {
         const eid = `ex_${pageIndex}_${i}`;
         const promptText = item.prompt || 'مَا هٰذَا؟';
         const placeholder = promptText.includes('أَهٰذَا') ? 'نَعَمْ / لا ...' : 'هٰذَا ...';
+        const acceptsPayload = encodeExercisePayload(item.accepts);
         return `
-          <article class="guided-exercise-card" id="card_${eid}">
+          <article class="guided-exercise-card" id="card_${eid}" data-exercise-id="${eid}" data-accepts="${acceptsPayload}" data-total="${exerciseItems.length}">
             <div class="guided-exercise-icon" aria-hidden="true">${item.icon}</div>
             <div class="guided-exercise-prompt">${annotateArabicText(promptText, data.vocab)}</div>
             <div class="guided-exercise-input-row">
               <input class="arabic-input guided-exercise-input" type="text" id="${eid}"
                 placeholder="${placeholder}"
-                autocomplete="off" dir="rtl"
-                onkeydown="if(event.key==='Enter') checkGuidedExercise('${eid}', ${JSON.stringify(item.accepts)}, ${exerciseItems.length})" />
-              <button class="btn btn-secondary guided-exercise-check" onclick="checkGuidedExercise('${eid}', ${JSON.stringify(item.accepts)}, ${exerciseItems.length})">Check</button>
+                autocomplete="off" dir="rtl" />
+              <button class="btn btn-secondary guided-exercise-check" type="button">Check</button>
             </div>
             <div class="guided-exercise-feedback" id="fb_${eid}"></div>
             <div class="guided-exercise-reveal" id="rv_${eid}" style="display:none">${annotateArabicText(item.ideal, data.vocab)}</div>
+            <button class="guided-exercise-redo" type="button" hidden>Redo</button>
           </article>
         `;
       }).join('');
@@ -695,12 +756,14 @@ function buildVocabularyPanel(data) {
 
       pager.innerHTML = `
         <div class="guided-page-status">Page ${displayNumber(pageIndex + 1)} of ${displayNumber(total)}</div>
-        <div class="guided-lesson-intro">
-          ${page.titleArabic ? `<div class="guided-page-title-arabic">${page.titleArabic}</div>` : ''}
-          <div class="guided-page-title">${page.title}</div>
-          ${page.pattern ? `<div class="guided-pattern">${page.pattern}</div>` : ''}
-          ${page.intro ? `<p>${page.intro}</p>` : ''}
-        </div>
+        ${exerciseItems.length ? '' : `
+          <div class="guided-lesson-intro">
+            ${page.titleArabic ? `<div class="guided-page-title-arabic">${page.titleArabic}</div>` : ''}
+            <div class="guided-page-title">${page.title}</div>
+            ${page.pattern ? `<div class="guided-pattern">${page.pattern}</div>` : ''}
+            ${page.intro ? `<p>${page.intro}</p>` : ''}
+          </div>
+        `}
         ${cardsHtml ? `<div class="guided-sentence-grid">${cardsHtml}</div>` : ''}
         ${groupsHtml ? `<div class="guided-qa-stack">${groupsHtml}</div>` : ''}
         ${linesHtml ? `<div class="guided-line-stack">${linesHtml}</div>` : ''}
@@ -719,6 +782,8 @@ function buildVocabularyPanel(data) {
       `;
 
       attachArabicWordMeaningToggles(pager);
+      attachGuidedExerciseHandlers(pager);
+      restoreGuidedExerciseStates(pager);
 
       // Save current page to localStorage
       saveGuidedPage(pageIndex);
@@ -1033,6 +1098,7 @@ function initLesson() {
   buildComprehensionPanel(CURRENT_LESSON_DATA);
   buildPracticePanel(CURRENT_LESSON_DATA);
   buildQuizPanel(CURRENT_LESSON_DATA);
+  restoreLessonResume();
   
   // Set next lesson link
   const nextBtn = document.getElementById('nextLessonBtn');
@@ -1062,7 +1128,9 @@ function checkGuidedExercise(eid, accepts, totalInPage) {
   const feedback = document.getElementById(`fb_${eid}`);
   const reveal = document.getElementById(`rv_${eid}`);
   const card = document.getElementById(`card_${eid}`);
+  if (!input || !feedback || !reveal || !card) return;
   const btn = card.querySelector('.guided-exercise-check');
+  const redoBtn = card.querySelector('.guided-exercise-redo');
 
   if (input.disabled) return; // already checked
 
@@ -1074,45 +1142,248 @@ function checkGuidedExercise(eid, accepts, totalInPage) {
   }
 
   const isCorrect = accepts.some(a => normalise(a) === normalise(userRaw));
-
-  input.disabled = true;
-  btn.disabled = true;
+  const isIncompleteAnswer = !isCorrect && isGuidedIncompleteAnswer(userRaw, reveal.textContent);
 
   if (isCorrect) {
+    input.disabled = true;
+    if (btn) btn.disabled = true;
+    reveal.style.display = 'block';
+    if (redoBtn) redoBtn.hidden = false;
     feedback.textContent = '✓ Correct!';
     feedback.className = 'guided-exercise-feedback correct';
     card.classList.add('is-correct');
+    saveGuidedExerciseState(card, { status: 'correct', value: userRaw });
+  } else if (isIncompleteAnswer) {
+    feedback.textContent = 'Good start. Complete the sentence.';
+    feedback.className = 'guided-exercise-feedback hint';
+    card.classList.remove('is-correct', 'is-wrong');
+    reveal.style.display = 'none';
+    if (redoBtn) redoBtn.hidden = true;
+    saveGuidedExerciseState(card, { status: 'draft', value: userRaw });
+    window.setTimeout(() => {
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }, 0);
+    return;
   } else {
+    input.disabled = true;
+    if (btn) btn.disabled = true;
+    reveal.style.display = 'block';
+    if (redoBtn) redoBtn.hidden = false;
     feedback.textContent = '✗ Not quite — here is the answer:';
     feedback.className = 'guided-exercise-feedback wrong';
     card.classList.add('is-wrong');
-    reveal.style.display = 'block';
+    saveGuidedExerciseState(card, { status: 'wrong', value: userRaw });
   }
 
-  // Check if all exercises on this page are now answered
+  updateGuidedExerciseLock(totalInPage);
+}
+
+function arabicLettersOnly(value) {
+  return stripDiacritics(value || '').replace(/[^\u0621-\u064A]/g, '');
+}
+
+function isGuidedIncompleteAnswer(userRaw, idealRaw) {
+  const userLetters = arabicLettersOnly(userRaw);
+  if (userLetters !== 'نعم' && userLetters !== 'لا') return false;
+  return arabicLettersOnly(idealRaw).startsWith(userLetters);
+}
+
+function resetGuidedExercise(card) {
+  if (!card) return;
+  const input = card.querySelector('.guided-exercise-input');
+  const checkBtn = card.querySelector('.guided-exercise-check');
+  const redoBtn = card.querySelector('.guided-exercise-redo');
+  const feedback = card.querySelector('.guided-exercise-feedback');
+  const reveal = card.querySelector('.guided-exercise-reveal');
+
+  card.classList.remove('is-correct', 'is-wrong');
+  if (input) {
+    input.disabled = false;
+    input.value = '';
+    window.setTimeout(() => input.focus(), 0);
+  }
+  if (checkBtn) checkBtn.disabled = false;
+  if (redoBtn) redoBtn.hidden = true;
+  if (feedback) {
+    feedback.textContent = '';
+    feedback.className = 'guided-exercise-feedback';
+  }
+  if (reveal) reveal.style.display = 'none';
+  clearGuidedExerciseState(card);
+  updateGuidedExerciseLock(Number(card.dataset.total || 0));
+}
+
+function guidedExerciseStateKey(card) {
+  if (!CURRENT_LESSON_DATA || !card?.dataset?.exerciseId) return '';
+  return `guided_exercise_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}_${card.dataset.exerciseId}`;
+}
+
+function saveGuidedExerciseState(card, state) {
+  const key = guidedExerciseStateKey(card);
+  if (!key) return;
+  localStorage.setItem(key, JSON.stringify({
+    status: state.status || 'draft',
+    value: state.value || ''
+  }));
+}
+
+function loadGuidedExerciseState(card) {
+  const key = guidedExerciseStateKey(card);
+  if (!key) return null;
+  try {
+    return JSON.parse(localStorage.getItem(key) || 'null');
+  } catch {
+    return null;
+  }
+}
+
+function clearGuidedExerciseState(card) {
+  const key = guidedExerciseStateKey(card);
+  if (key) localStorage.removeItem(key);
+}
+
+function restoreGuidedExerciseStates(root = document) {
+  root.querySelectorAll('.guided-exercise-card').forEach(card => {
+    const state = loadGuidedExerciseState(card);
+    if (!state?.value) return;
+
+    const input = card.querySelector('.guided-exercise-input');
+    const checkBtn = card.querySelector('.guided-exercise-check');
+    const redoBtn = card.querySelector('.guided-exercise-redo');
+    const feedback = card.querySelector('.guided-exercise-feedback');
+    const reveal = card.querySelector('.guided-exercise-reveal');
+    if (!input || !feedback || !reveal) return;
+
+    input.value = state.value;
+    card.classList.remove('is-correct', 'is-wrong');
+    feedback.className = 'guided-exercise-feedback';
+    reveal.style.display = 'none';
+    if (redoBtn) redoBtn.hidden = true;
+    if (checkBtn) checkBtn.disabled = false;
+    input.disabled = false;
+
+    if (state.status === 'correct' || state.status === 'wrong') {
+      input.disabled = true;
+      if (checkBtn) checkBtn.disabled = true;
+      if (redoBtn) redoBtn.hidden = false;
+      reveal.style.display = 'block';
+      if (state.status === 'correct') {
+        feedback.textContent = '✓ Correct!';
+        feedback.className = 'guided-exercise-feedback correct';
+        card.classList.add('is-correct');
+      } else {
+        feedback.textContent = '✗ Not quite — here is the answer:';
+        feedback.className = 'guided-exercise-feedback wrong';
+        card.classList.add('is-wrong');
+      }
+    }
+  });
+
+  const total = Number(root.querySelector('.guided-exercise-card')?.dataset.total || 0);
+  updateGuidedExerciseLock(total);
+}
+
+function updateGuidedExerciseLock(totalInPage) {
+  if (!totalInPage) return;
   const allCards = document.querySelectorAll('.guided-exercise-card');
   const doneCount = [...allCards].filter(c => c.querySelector('.guided-exercise-input:disabled')).length;
+  const nextBtn = document.querySelector('[data-guided-next]');
+  const hint = document.querySelector('.guided-exercise-lock-hint');
+
   if (doneCount >= totalInPage) {
-    const nextBtn = document.querySelector('[data-guided-next][data-exercise-locked]');
-    const hint = document.querySelector('.guided-exercise-lock-hint');
     if (nextBtn) {
       nextBtn.disabled = false;
       nextBtn.removeAttribute('data-exercise-locked');
     }
     if (hint) hint.style.display = 'none';
+    return;
   }
+
+  if (nextBtn && allCards.length) {
+    nextBtn.disabled = true;
+    nextBtn.setAttribute('data-exercise-locked', 'true');
+  }
+  if (hint) hint.style.display = '';
+}
+
+function guidedPageKey() {
+  if (!CURRENT_LESSON_DATA) return '';
+  return `guided_page_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}`;
+}
+
+function guidedResumeKey() {
+  if (!CURRENT_LESSON_DATA) return '';
+  return `guided_resume_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}`;
+}
+
+function lessonStepKey() {
+  if (!CURRENT_LESSON_DATA) return '';
+  return `lesson_step_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}`;
 }
 
 function saveGuidedPage(pageIndex) {
-  if (!CURRENT_LESSON_DATA) return;
-  const key = `guided_page_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}`;
-  localStorage.setItem(key, String(pageIndex));
+  const pageKey = guidedPageKey();
+  const resumeKey = guidedResumeKey();
+  if (!pageKey || !resumeKey) return;
+  localStorage.setItem(pageKey, String(pageIndex));
+  localStorage.setItem(resumeKey, 'active');
+}
+
+function saveLessonStep(step) {
+  const stepKey = lessonStepKey();
+  const resumeKey = guidedResumeKey();
+  if (!stepKey || !resumeKey || !step) return;
+  localStorage.setItem(stepKey, step);
+  localStorage.setItem(resumeKey, 'active');
 }
 
 function loadGuidedPage() {
-  if (!CURRENT_LESSON_DATA) return 0;
-  const key = `guided_page_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}`;
+  const key = guidedPageKey();
+  if (!key) return 0;
   return parseInt(localStorage.getItem(key) || '0', 10);
+}
+
+function shouldSkipLessonIntro() {
+  const resumeKey = guidedResumeKey();
+  if (!resumeKey) return false;
+  return localStorage.getItem(resumeKey) === 'active';
+}
+
+function restoreLessonResume() {
+  const resumeKey = guidedResumeKey();
+  const stepKey = lessonStepKey();
+  if (!resumeKey || localStorage.getItem(resumeKey) !== 'active') return;
+
+  const savedStep = localStorage.getItem(stepKey) || 'vocab';
+  const stepOrder = ['vocab', 'lesson', 'comprehension', 'practice', 'quiz'];
+  const targetIndex = stepOrder.indexOf(savedStep);
+  if (targetIndex <= 0) return;
+
+  stepOrder.slice(0, targetIndex + 1).forEach(step => {
+    UNLOCKED_STEPS[step] = true;
+    const btn = document.getElementById(`step-${step}`);
+    if (btn) btn.classList.remove('locked');
+    if (stepOrder.indexOf(step) < targetIndex) btn?.classList.add('completed');
+  });
+  goToStep(savedStep);
+}
+
+function clearGuidedResume() {
+  const pageKey = guidedPageKey();
+  const resumeKey = guidedResumeKey();
+  const stepKey = lessonStepKey();
+  const exercisePrefix = CURRENT_LESSON_DATA
+    ? `guided_exercise_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}_`
+    : '';
+  if (pageKey) localStorage.removeItem(pageKey);
+  if (resumeKey) localStorage.removeItem(resumeKey);
+  if (stepKey) localStorage.removeItem(stepKey);
+  if (exercisePrefix) {
+    Object.keys(localStorage)
+      .filter(key => key.startsWith(exercisePrefix))
+      .forEach(key => localStorage.removeItem(key));
+  }
 }
 
 function updateGuidedProgress(pageIndex, total) {

@@ -64,6 +64,48 @@
       padding: 5px 18px;
       display: inline-block;
     }
+    .brand-lockup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.8rem;
+      animation: fadeDown 0.7s ease 0.15s both;
+    }
+
+    .brand-mark {
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      border-radius: 21px;
+      background: linear-gradient(135deg, #B9A7F5, #A7B7F6 58%, #8FC7F5);
+      box-shadow: 0 12px 30px rgba(124, 92, 252, 0.14);
+      color: #fff;
+      font-family: 'Amiri', serif;
+      font-size: 2.45rem;
+      font-weight: 700;
+      line-height: 1;
+      direction: rtl;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-mark::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border-radius: 17px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.22), rgba(255,255,255,0.04));
+      pointer-events: none;
+    }
+
+    .brand-mark span {
+      position: relative;
+      z-index: 1;
+      transform: translateY(1px);
+    }
+
     .main-title {
       font-family: 'Nunito', sans-serif;
       font-size: clamp(3rem, 7vw, 5rem); font-weight: 900;
@@ -72,8 +114,8 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-align: center;
-      margin-bottom: 0.8rem; line-height: 1.15;
-      animation: fadeDown 0.7s ease 0.15s both; letter-spacing: 0.06em;
+      margin-bottom: 0; line-height: 1.15;
+      letter-spacing: 0.06em;
     }
     .subtitle {
       font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 600;
@@ -617,10 +659,29 @@
     body.dashboard-mode .main-title {
       font-size: 1.35rem;
       letter-spacing: 0.08em;
-      margin-bottom: 1rem;
       -webkit-text-fill-color: currentColor;
       background: none;
       color: var(--brand);
+    }
+
+    body.dashboard-mode .brand-lockup {
+      flex-direction: row;
+      justify-content: center;
+      gap: 0.45rem;
+      margin-bottom: 1rem;
+    }
+
+    body.dashboard-mode .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      font-size: 1.16rem;
+      box-shadow: 0 7px 16px rgba(124, 92, 252, 0.13);
+    }
+
+    body.dashboard-mode .brand-mark::before {
+      inset: 4px;
+      border-radius: 8px;
     }
 
     /* ── Responsive ── */
@@ -635,6 +696,8 @@
       main { padding: 2.6rem 0.85rem 2.5rem; }
       .top-ornament { font-size: 1.4rem; margin-bottom: 0.4rem; }
       .eyebrow { font-size: 0.6rem; letter-spacing: 0.18em; }
+      .brand-lockup { gap: 0.55rem; margin-bottom: 0.5rem; }
+      .brand-mark { width: 60px; height: 60px; border-radius: 18px; font-size: 2rem; box-shadow: 0 10px 24px rgba(124, 92, 252, 0.13); }
       .main-title { font-size: 2.6rem; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
       .subtitle { font-size: 0.92rem; line-height: 1.55; margin-bottom: 1.6rem; }
       .divider { margin-bottom: 1.4rem; }
@@ -676,7 +739,8 @@
       }
       .dashboard-action-icon { margin-bottom: 0; }
       body.dashboard-mode main { padding-top: 1rem; }
-      body.dashboard-mode .main-title { font-size: 1.05rem; margin-bottom: 0.75rem; }
+      body.dashboard-mode .brand-lockup { margin-bottom: 0.75rem; }
+      body.dashboard-mode .main-title { font-size: 1.05rem; margin-bottom: 0; }
     }
   </style>
 </head>
@@ -703,7 +767,10 @@
   <main>
     <div class="top-ornament">✦ بِسْمِ اللهِ ✦</div>
     <div class="eyebrow">Free Arabic Learning</div>
-    <h1 class="main-title">KALAMO</h1>
+    <div class="brand-lockup">
+      <div class="brand-mark" aria-hidden="true"><span>ك</span></div>
+      <h1 class="main-title">KALAMO</h1>
+    </div>
     <p class="subtitle">Master Arabic through the world's most trusted curriculum — structured, interactive, and totally free.</p>
 
     <div id="selector-section">
