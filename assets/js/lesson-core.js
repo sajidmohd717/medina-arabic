@@ -767,6 +767,7 @@ function buildVocabularyPanel(data) {
         ${cardsHtml ? `<div class="guided-sentence-grid">${cardsHtml}</div>` : ''}
         ${groupsHtml ? `<div class="guided-qa-stack">${groupsHtml}</div>` : ''}
         ${linesHtml ? `<div class="guided-line-stack">${linesHtml}</div>` : ''}
+        ${page.tip ? `<p class="guided-exercise-tip">${page.tip}</p>` : ''}
         ${exerciseHtml ? `<div class="guided-exercise-grid">${exerciseHtml}</div>` : ''}
         ${keyHtml}
         <div class="guided-page-controls">

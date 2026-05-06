@@ -85,6 +85,7 @@ const LESSON_DATA = {
       title: 'Exercise One',
       pattern: 'مَا هٰذَا؟',
       intro: 'Look at each picture. Type the Arabic answer for مَا هٰذَا؟',
+      tip: '💡 Tip: You can type without vowels to speed things up — e.g. هذا بيت instead of هٰذَا بَيْتٌ',
       exercise: [
         {
           icon: '🔑',
@@ -123,6 +124,7 @@ const LESSON_DATA = {
       title: 'Exercise Two',
       pattern: 'أَهٰذَا ...؟',
       intro: 'Read the question and type the correct Arabic answer.',
+      tip: '💡 Tip: You can type without vowels to speed things up — e.g. نعم هذا مسجد instead of نَعَمْ، هٰذَا مَسْجِدٌ',
       exercise: [
         {
           icon: '🕌',
