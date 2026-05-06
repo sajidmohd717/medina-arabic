@@ -689,6 +689,35 @@
   animation: fadeUp 0.35s ease both;
 }
 
+.drill-mode-pill,
+.drill-lesson-tag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 99px;
+}
+
+.drill-mode-pill {
+  color: var(--brand-primary);
+  background: #1a5c4a12;
+  border: 1px solid #1a5c4a35;
+  padding: 4px 10px;
+  margin-bottom: 0.8rem;
+}
+
+.drill-lesson-tag {
+  color: var(--gold);
+  background: var(--gold-faint);
+  border: 1px solid var(--gold-border);
+  padding: 3px 9px;
+  margin-top: 0.35rem;
+}
+
 .drill-prompt-label {
   font-family: 'Cinzel', serif;
   font-size: 0.6rem;
@@ -751,6 +780,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.drill-option:disabled {
+  cursor: default;
 }
 
 .drill-option:hover:not(:disabled) {

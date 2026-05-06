@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daily Drill — Kalamo</title>
+  <title>Daily Practice — Kalamo</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
   <style>
@@ -49,7 +49,7 @@
 
   <nav class="fc-nav">
     <a href="index.html" class="fc-back">← Home</a>
-    <span class="fc-title">Daily Drill</span>
+    <span class="fc-title">Daily Practice</span>
     <div class="fc-streak-wrap">
       <div id="streak-widget" class="streak-widget"></div>
     </div>
@@ -71,21 +71,21 @@
   <!-- No lessons yet -->
   <div class="fc-screen" id="state-empty" style="display:none;">
     <div class="fc-screen-icon">📖</div>
-    <div class="fc-screen-title">No lessons yet</div>
-    <p class="fc-screen-sub">Complete at least one lesson to unlock the daily drill.</p>
+    <div class="fc-screen-title">Practice is warming up</div>
+    <p class="fc-screen-sub">Open Book 1 once and Kalamo will prepare a quick starter session for you.</p>
     <div class="fc-btn-row" style="margin-top:1.4rem;">
       <a href="book1.html" class="fc-btn">Go to Lessons</a>
       <a href="index.html" class="fc-btn fc-btn--ghost">Home</a>
     </div>
   </div>
 
-  <!-- Already done today -->
+  <!-- Daily goal complete -->
   <div class="fc-screen" id="state-done" style="display:none;">
     <div class="fc-screen-icon">✅</div>
-    <div class="fc-screen-title">Done for today!</div>
-    <p class="fc-screen-sub">You've already completed today's drill. Come back tomorrow to keep your streak going.</p>
+    <div class="fc-screen-title">Daily goal complete</div>
+    <p class="fc-screen-sub">You've already finished today's practice. You can still play a quick bonus round.</p>
     <div class="fc-btn-row" style="margin-top:1.4rem;">
-      <a href="review.html" class="fc-btn">Review Words</a>
+      <button class="fc-btn" onclick="startPractice(true)">Bonus round</button>
       <a href="index.html" class="fc-btn fc-btn--ghost">Home</a>
     </div>
   </div>
@@ -93,10 +93,10 @@
   <!-- Start screen -->
   <div class="fc-screen" id="state-start" style="display:none;">
     <div class="fc-screen-icon">⚡</div>
-    <div class="fc-screen-title">Daily Drill</div>
-    <p class="fc-screen-sub">10 quick questions from your completed lessons. Tap the correct answer!</p>
+    <div class="fc-screen-title">Daily Practice</div>
+    <p class="fc-screen-sub" id="start-sub">A quick mixed session: words, sentences, and tiny grammar checks. Tap your way through.</p>
     <div class="fc-btn-row" style="margin-top:1.4rem;">
-      <button class="fc-btn" onclick="startDrill()">Let's go →</button>
+      <button class="fc-btn" onclick="startPractice(false)">Start practice →</button>
       <a href="index.html" class="fc-btn fc-btn--ghost">Not now</a>
     </div>
   </div>
@@ -104,10 +104,12 @@
   <!-- Question card -->
   <div id="state-question" style="display:none; width:100%; max-width:480px; flex-direction:column; align-items:center;">
     <div class="drill-card" id="drill-card">
+      <div class="drill-mode-pill" id="q-mode">Practice</div>
       <div class="drill-prompt-label" id="q-label">What does this mean?</div>
       <div class="drill-prompt-arabic" id="q-arabic" style="display:none;"></div>
       <div class="drill-prompt-text"   id="q-text"   style="display:none;"></div>
       <div class="drill-prompt-sub"    id="q-sub"    style="display:none;"></div>
+      <div class="drill-lesson-tag" id="q-lesson" style="display:none;"></div>
       <div class="drill-options" id="drill-options"></div>
     </div>
   </div>
@@ -115,9 +117,9 @@
   <!-- End screen -->
   <div class="fc-screen" id="state-end" style="display:none;">
     <div class="fc-screen-icon" id="end-icon">🎉</div>
-    <div class="fc-screen-title">Drill complete!</div>
+    <div class="fc-screen-title">Practice complete!</div>
     <p class="fc-screen-sub" id="end-sub"></p>
-    <div class="fc-screen-xp" id="end-xp">+20 XP earned</div>
+    <div class="fc-screen-xp" id="end-xp">+25 XP earned</div>
     <div class="fc-btn-row">
       <a href="review.html" class="fc-btn">Review Words</a>
       <a href="index.html" class="fc-btn fc-btn--ghost">Home</a>
@@ -132,16 +134,19 @@
 <script>
 /* ── Config ── */
 const AVAILABLE_LESSONS = 13;
-const DRILL_SIZE        = 10;
-const XP_REWARD         = 20;
-const LETTERS           = ['A', 'B', 'C'];
+const PRACTICE_SIZE     = 8;
+const XP_REWARD         = 25;
+const BONUS_XP_REWARD   = 5;
+const LETTERS           = ['A', 'B', 'C', 'D'];
 
 /* ── State ── */
 var _questions  = [];
 var _qIndex     = 0;
 var _correct    = 0;
-var _allVocab   = [];
+var _contentPool = null;
 var _answered   = false;
+var _isBonusRound = false;
+var _starterMode = false;
 
 /* ── Seeded random (reproducible per day) ── */
 function dateSeed() {
@@ -166,7 +171,7 @@ function seededShuffle(arr, rng) {
   return a;
 }
 
-/* ── Load vocab ── */
+/* ── Load lesson content ── */
 
 async function loadLessonData(lessonNum) {
   try {
@@ -177,20 +182,30 @@ async function loadLessonData(lessonNum) {
   } catch { return null; }
 }
 
-async function buildVocabPool() {
+function completedLessonNumbers() {
   const progress = JSON.parse(localStorage.getItem('kalamo_book1_progress') || '{}');
   const completed = [];
   for (let i = 1; i <= AVAILABLE_LESSONS; i++) {
     const v = progress[String(i)];
     if (v === true || v === 'complete') completed.push(i);
   }
-  if (!completed.length) return [];
+  return completed;
+}
 
-  const pool = [];
-  for (const n of completed) {
+async function buildContentPool() {
+  let lessons = completedLessonNumbers();
+  _starterMode = lessons.length === 0;
+  if (_starterMode) lessons = [1];
+
+  const pool = { vocab: [], examples: [], practice: [], quiz: [] };
+  for (const n of lessons) {
     const data = await loadLessonData(n);
-    if (data && data.vocab) {
-      data.vocab.forEach(w => pool.push({ ...w, lessonNum: n }));
+    if (!data) continue;
+    if (data.vocab) data.vocab.forEach((w, idx) => pool.vocab.push({ ...w, lessonNum: n, idx }));
+    if (data.examples) data.examples.forEach(ex => pool.examples.push({ ...ex, lessonNum: n }));
+    if (data.practiceQuestions) data.practiceQuestions.forEach(q => pool.practice.push({ ...q, lessonNum: n }));
+    if (data.quizQuestions && data.quizQuestions.multipleChoice) {
+      data.quizQuestions.multipleChoice.forEach(q => pool.quiz.push({ ...q, lessonNum: n }));
     }
   }
   return pool;
@@ -198,21 +213,41 @@ async function buildVocabPool() {
 
 /* ── Build questions ── */
 
-function buildQuestions(vocab, rng) {
-  const shuffled = seededShuffle(vocab, rng).slice(0, DRILL_SIZE);
-  return shuffled.map((word, i) => {
-    // Alternate direction: even = Arabic→English, odd = English→Arabic
-    const arabicFirst = (i % 2 === 0);
-    const distractors = getDistractors(word, vocab, rng, arabicFirst);
-    const options     = seededShuffle([
-      { text: arabicFirst ? word.meaning : word.ar, correct: true, isArabic: !arabicFirst },
-      ...distractors
-    ], rng);
-    return { word, arabicFirst, options };
+function buildQuestions(pool, rng) {
+  const candidates = [];
+
+  seededShuffle(pool.vocab, rng).forEach((word, idx) => {
+    candidates.push(buildVocabQuestion(word, pool.vocab, rng, idx % 2 === 0));
   });
+  seededShuffle(pool.examples, rng).forEach((example, idx) => {
+    candidates.push(idx % 2 === 0
+      ? buildSentenceQuestion(example, pool.examples, rng)
+      : buildBuildQuestion(example, pool.examples, rng));
+  });
+  seededShuffle(pool.practice, rng).forEach(item => candidates.push(buildPracticeQuestion(item)));
+  seededShuffle(pool.quiz, rng).forEach(item => candidates.push(buildQuizQuestion(item)));
+
+  return seededShuffle(candidates.filter(Boolean), rng).slice(0, PRACTICE_SIZE);
 }
 
-function getDistractors(word, vocab, rng, arabicFirst) {
+function buildVocabQuestion(word, vocab, rng, arabicFirst) {
+  const options = seededShuffle([
+    { text: arabicFirst ? word.meaning : word.ar, correct: true, isArabic: !arabicFirst },
+    ...getVocabDistractors(word, vocab, rng, arabicFirst)
+  ], rng);
+
+  return {
+    mode: 'Word',
+    promptLabel: arabicFirst ? 'What does this mean?' : 'How do you say this in Arabic?',
+    promptArabic: arabicFirst ? word.ar : '',
+    promptText: arabicFirst ? '' : word.meaning,
+    promptSub: arabicFirst ? word.trans : '',
+    lessonNum: word.lessonNum,
+    options
+  };
+}
+
+function getVocabDistractors(word, vocab, rng, arabicFirst) {
   const others = vocab.filter(w => w.ar !== word.ar);
   const picked = seededShuffle(others, rng).slice(0, 2);
   return picked.map(w => ({
@@ -220,6 +255,76 @@ function getDistractors(word, vocab, rng, arabicFirst) {
     correct: false,
     isArabic: !arabicFirst
   }));
+}
+
+function buildSentenceQuestion(example, examples, rng) {
+  const others = examples.filter(ex => ex.ar !== example.ar);
+  const options = seededShuffle([
+    { text: example.meaning, correct: true, isArabic: false },
+    ...seededShuffle(others, rng).slice(0, 3).map(ex => ({ text: ex.meaning, correct: false, isArabic: false }))
+  ], rng);
+
+  return {
+    mode: 'Sentence',
+    promptLabel: 'Read the sentence',
+    promptArabic: example.ar,
+    promptText: '',
+    promptSub: example.trans,
+    lessonNum: example.lessonNum,
+    options
+  };
+}
+
+function buildBuildQuestion(example, examples, rng) {
+  const others = examples.filter(ex => ex.ar !== example.ar);
+  const options = seededShuffle([
+    { text: example.ar, correct: true, isArabic: true },
+    ...seededShuffle(others, rng).slice(0, 3).map(ex => ({ text: ex.ar, correct: false, isArabic: true }))
+  ], rng);
+
+  return {
+    mode: 'Build',
+    promptLabel: 'Choose the Arabic sentence',
+    promptArabic: '',
+    promptText: example.meaning,
+    promptSub: '',
+    lessonNum: example.lessonNum,
+    options
+  };
+}
+
+function buildPracticeQuestion(item) {
+  if (!item.options || !item.options.length) return null;
+  return {
+    mode: 'Check',
+    promptLabel: item.text ? 'Quick check' : 'Choose the translation',
+    promptArabic: item.arabic || '',
+    promptText: item.text || '',
+    promptSub: '',
+    lessonNum: item.lessonNum,
+    options: item.options.map(opt => ({
+      text: opt,
+      correct: opt === item.correct,
+      isArabic: /[\u0600-\u06FF]/.test(opt)
+    }))
+  };
+}
+
+function buildQuizQuestion(item) {
+  if (!item.options || !item.options.length) return null;
+  return {
+    mode: 'Quiz',
+    promptLabel: item.prompt || 'Choose the answer',
+    promptArabic: item.arabic || '',
+    promptText: '',
+    promptSub: '',
+    lessonNum: item.lessonNum,
+    options: item.options.map((opt, idx) => ({
+      text: opt,
+      correct: idx === item.correct,
+      isArabic: /[\u0600-\u06FF]/.test(opt)
+    }))
+  };
 }
 
 /* ── UI ── */
@@ -236,7 +341,7 @@ function show(id) {
 function buildPips() {
   const row = document.getElementById('score-pips');
   row.innerHTML = '';
-  for (let i = 0; i < DRILL_SIZE; i++) {
+  for (let i = 0; i < _questions.length; i++) {
     const pip = document.createElement('div');
     pip.className = 'drill-score-pip';
     pip.id = `pip-${i}`;
@@ -246,24 +351,31 @@ function buildPips() {
 
 async function init() {
   show('state-loading');
+  _contentPool = await buildContentPool();
+  const totalItems = _contentPool.vocab.length + _contentPool.examples.length + _contentPool.practice.length + _contentPool.quiz.length;
+  if (!totalItems) { show('state-empty'); return; }
+
+  const startSub = document.getElementById('start-sub');
+  if (startSub && _starterMode) {
+    startSub.textContent = 'New here? Try a tiny Lesson 1 warmup. No completed lessons required.';
+  }
 
   if (isDrillDoneToday && isDrillDoneToday()) {
     show('state-done');
     return;
   }
 
-  _allVocab = await buildVocabPool();
-  if (!_allVocab.length) { show('state-empty'); return; }
-
   show('state-start');
 }
 
-function startDrill() {
-  const rng = makeRng(dateSeed());
-  _questions = buildQuestions(_allVocab, rng);
+function startPractice(isBonus) {
+  _isBonusRound = Boolean(isBonus);
+  const rng = makeRng(dateSeed() + (_isBonusRound ? 99 : 0));
+  _questions = buildQuestions(_contentPool, rng);
   _qIndex    = 0;
   _correct   = 0;
   _answered  = false;
+  if (!_questions.length) { show('state-empty'); return; }
   buildPips();
   document.getElementById('score-pips').style.display = 'flex';
   showQuestion();
@@ -282,21 +394,19 @@ function showQuestion() {
   const textEl   = document.getElementById('q-text');
   const subEl    = document.getElementById('q-sub');
   const labelEl  = document.getElementById('q-label');
+  const modeEl   = document.getElementById('q-mode');
+  const lessonEl = document.getElementById('q-lesson');
 
-  if (q.arabicFirst) {
-    labelEl.textContent       = 'What does this mean?';
-    arabicEl.textContent      = q.word.ar;
-    arabicEl.style.display    = 'block';
-    textEl.style.display      = 'none';
-    subEl.textContent         = q.word.trans || '';
-    subEl.style.display       = q.word.trans ? 'block' : 'none';
-  } else {
-    labelEl.textContent    = 'How do you say this in Arabic?';
-    textEl.textContent     = q.word.meaning;
-    textEl.style.display   = 'block';
-    arabicEl.style.display = 'none';
-    subEl.style.display    = 'none';
-  }
+  modeEl.textContent = q.mode;
+  labelEl.textContent = q.promptLabel;
+  arabicEl.textContent = q.promptArabic || '';
+  arabicEl.style.display = q.promptArabic ? 'block' : 'none';
+  textEl.textContent = q.promptText || '';
+  textEl.style.display = q.promptText ? 'block' : 'none';
+  subEl.textContent = q.promptSub || '';
+  subEl.style.display = q.promptSub ? 'block' : 'none';
+  lessonEl.textContent = q.lessonNum ? `Lesson ${q.lessonNum}` : '';
+  lessonEl.style.display = q.lessonNum ? 'inline-flex' : 'none';
 
   // Options
   const container = document.getElementById('drill-options');
@@ -341,9 +451,7 @@ function selectOption(btn, correct, idx) {
   } else {
     btn.classList.add('wrong');
     document.getElementById(`pip-${_qIndex}`).classList.add('wrong');
-    // Highlight correct
     all.forEach(b => {
-      const letterEl = b.querySelector('.drill-option-letter');
       const li = Array.from(all).indexOf(b);
       if (_questions[_qIndex].options[li].correct) b.classList.add('correct');
     });
@@ -360,14 +468,17 @@ function endDrill() {
 
   const pct  = _correct / _questions.length;
   const icon = pct >= 0.8 ? '🎉' : pct >= 0.5 ? '👍' : '💪';
+  const reward = _isBonusRound ? BONUS_XP_REWARD : XP_REWARD;
   document.getElementById('end-icon').textContent = icon;
   document.getElementById('end-sub').textContent  =
     `You got ${_correct} out of ${_questions.length} correct. ${pct >= 0.8 ? 'Excellent work!' : 'Keep practising!'}`;
-  document.getElementById('end-xp').textContent  = `+${XP_REWARD} XP earned`;
+  document.getElementById('end-xp').textContent  = `+${reward} XP earned`;
 
-  if (typeof awardXP === 'function')         awardXP(XP_REWARD);
-  if (typeof updateStreak === 'function')    updateStreak();
-  if (typeof markDrillDoneToday === 'function') markDrillDoneToday();
+  if (typeof awardXP === 'function') awardXP(reward);
+  if (!_isBonusRound) {
+    if (typeof updateStreak === 'function') updateStreak();
+    if (typeof markDrillDoneToday === 'function') markDrillDoneToday();
+  }
 
   show('state-end');
 }

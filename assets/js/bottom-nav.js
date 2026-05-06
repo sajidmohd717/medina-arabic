@@ -17,7 +17,7 @@
   var tabs = [
     { id: 'home',    href: 'index.html',   icon: '🏠', label: 'Home'    },
     { id: 'lessons', href: 'book1.html',   icon: '📖', label: 'Lessons' },
-    { id: 'drill',   href: 'drill.html',   icon: '⚡', label: 'Drill'   },
+    { id: 'drill',   href: 'drill.html',   icon: '⚡', label: 'Practice' },
     { id: 'review',  href: 'review.html',  icon: '🔁', label: 'Review'  },
   ];
 

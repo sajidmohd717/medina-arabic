@@ -19,10 +19,10 @@
   ],
   "shortcuts": [
     {
-      "name": "Daily Drill",
-      "short_name": "Drill",
+      "name": "Daily Practice",
+      "short_name": "Practice",
       "url": "/medina-arabic/drill.html",
-      "description": "Quick 10-word vocabulary drill"
+      "description": "Quick mixed Arabic practice"
     },
     {
       "name": "Review Words",

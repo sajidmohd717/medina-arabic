@@ -53,7 +53,7 @@ function updateStreak() {
   return streak;
 }
 
-/* ── Daily drill state ── */
+/* ── Daily practice state ── */
 
 function isDrillDoneToday() {
   return localStorage.getItem(DRILL_DATE_KEY) === _todayStr();
@@ -124,7 +124,7 @@ function _updateDrillButton() {
   if (!btn) return;
   if (isDrillDoneToday()) {
     btn.classList.add('drill-btn--done');
-    btn.innerHTML = '<span>✓</span> Done for today';
+    btn.innerHTML = '<span>✓</span> Practice done';
   }
 }
 
