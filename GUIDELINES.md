@@ -398,12 +398,12 @@ So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After
 - Mobile may use smaller component-level type and tighter spacing when needed for scanability; do not blindly preserve desktop scale on phones
 
 ### Colour
-- Palette is bright, poppy, and fun: Duolingo-inspired green (#58cc02), warm orange (#ff9600), sky blue (#1cb0f6), coral (#ff4b4b), purple (#ce82ff)
-- Background is a warm cream (#fffcde) — never use pure white or cool grey backgrounds
-- Brand green → primary accent, buttons, links, active states
+- Palette is a soft pastel dream: mint green (#7dd3a8), baby blue (#93c5fd), bubblegum pink (#f9a8d4), lavender (#c4b5fd), sunny yellow (#fde047)
+- Background is a dreamy lavender-to-pink gradient (#faf8ff → #fff5f8 → #f0f9ff)
+- Brand mint green → primary buttons, links, active states
 - Success green → completed / correct
-- Gold/orange → in-progress, streaks, hover states
-- Red → wrong / difficult (always paired with icon + text, never colour alone)
+- Gold/amber → in-progress, streaks, warm accents
+- Soft rose → errors / wrong answers (never colour alone)
 - All colours are defined as CSS custom properties in `shared.css` — never hardcode hex values
 
 ### Layout
