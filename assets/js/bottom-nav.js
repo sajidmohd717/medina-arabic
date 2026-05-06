@@ -1,5 +1,8 @@
 (function () {
   var path = location.pathname;
+
+  if (path.includes('lesson')) return;
+
   var currentBook = (function() {
     try {
       return localStorage.getItem('kalamo_current_book') || 'book1';
@@ -11,8 +14,7 @@
     path.includes('review')  ? 'review'  :
     path.includes('reading') ? 'reading' :
     path.includes('book')    ? 'lessons' :
-    path.includes('lesson')  ? 'lessons' :
-    'home';
+    '';
 
   var tabs = [
     { id: 'home',    href: 'index.html',       icon: '🏠', label: 'Today' },
@@ -27,6 +29,9 @@
   nav.className = 'app-nav';
   nav.setAttribute('aria-label', 'Main navigation');
 
+  var inner = document.createElement('div');
+  inner.className = 'app-nav-inner';
+
   tabs.forEach(function (tab) {
     var a = document.createElement('a');
     a.href = base + tab.href;
@@ -35,9 +40,10 @@
     a.innerHTML =
       '<span class="app-nav-icon">' + tab.icon + '</span>' +
       '<span class="app-nav-label">' + tab.label + '</span>';
-    nav.appendChild(a);
+    inner.appendChild(a);
   });
 
+  nav.appendChild(inner);
   document.body.appendChild(nav);
   document.body.classList.add('has-app-nav');
 })();

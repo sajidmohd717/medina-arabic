@@ -168,53 +168,41 @@
     .settings-danger:hover { opacity: 0.7; }
   </style>
 
-  <!-- Nav -->
-  <nav>
-    <span class="nav-title">الكتاب الأول — Book One</span>
-    <div id="streak-widget" class="streak-widget" style="margin-left:auto;margin-right:0.5rem;"></div>
-    <button class="settings-btn" onclick="toggleSettings()" title="Settings" aria-label="Settings">⚙️</button>
-    <div class="nav-progress" style="margin-left:0;">
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" id="progressFill"></div>
-      </div>
-      <span class="progress-label" id="progressLabel">0 / 23</span>
-    </div>
-  </nav>
-
   <!-- Page header -->
   <header class="page-header">
+    <button class="settings-btn" style="position:absolute; top:1.2rem; right:1.5rem; z-index:10;" onclick="toggleSettings()" title="Settings" aria-label="Settings">⚙️</button>
     <div class="book-header-main">
       <div class="book-header-copy">
     <div class="book-eyebrow">Foundation · Book One</div>
     <h1>الكتاب الأوّل<span>The First Book</span></h1>
     <p class="page-intro">
-      <span class="intro-full">23 ordered lessons. Pass each quiz to unlock the next lesson. Use <strong>Quiz only</strong> when you want to test out of a lesson quickly.</span>
+      <span class="intro-full">23 ordered lessons. Pass each quiz to unlock the next lesson.</span>
       <span class="intro-mobile">23 ordered lessons. Pass each quiz to unlock the next.</span>
     </p>
       </div>
-    <div class="header-stats">
-      <div class="stat">
-        <span class="stat-number">٢٣</span>
-        <span class="stat-label">Lessons</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number">٥</span>
-        <span class="stat-label">Sections</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number" id="completedCount">٠</span>
-        <span class="stat-label">Completed</span>
-      </div>
     </div>
-    </div>
+    <div class="header-meta">
     <div class="lesson-status-legend">
       <span class="legend-item"><span class="legend-dot legend-dot--muted"></span>Not started</span>
       <span class="legend-item"><span class="legend-dot legend-dot--progress"></span>In progress</span>
       <span class="legend-item"><span class="legend-dot legend-dot--complete"></span>Complete</span>
       <span class="legend-item"><span class="legend-lock-icon">✕</span>Locked</span>
     </div>
-    <!-- Quick actions -->
-    <div class="quick-actions" style="max-width:420px; margin: 0.5rem 0 1rem;">
+    <div class="header-stats">
+      <div class="stat">
+        <span class="stat-number">23</span>
+        <span class="stat-label">Lessons</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">5</span>
+        <span class="stat-label">Sections</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" id="completedCount">0</span>
+        <span class="stat-label">Completed</span>
+      </div>
+    </div>
+    <div class="quick-actions">
       <a href="reading.html" class="quick-action-btn">
         <span class="quick-action-icon">ق</span>
         <span class="quick-action-label">Reading</span>
@@ -224,7 +212,7 @@
         <span class="quick-action-label">Review</span>
       </a>
     </div>
-
+    </div>
     <hr class="header-rule" />
   </header>
 

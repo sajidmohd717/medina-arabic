@@ -59,8 +59,8 @@
     const navBackLink = document.getElementById('navBackLink');
     const panelVocabBackLink = document.getElementById('panelVocabBackLink');
     if (navBackLink) {
-      navBackLink.href = `../book${bookNum}.html`;
-      navBackLink.textContent = `Book ${bookNum}`;
+      navBackLink.href = '../index.html';
+      navBackLink.textContent = 'Home';
     }
     if (panelVocabBackLink) {
       panelVocabBackLink.href = `../book${bookNum}.html`;

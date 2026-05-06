@@ -10,28 +10,42 @@ a, button, [role="button"], label, input, select, textarea {
   touch-action: manipulation;
 }
 
+/* ── App Nav: fixed bottom bar on ALL viewports ── */
 body.has-app-nav {
-  padding-top: 74px;
+  padding-top: 0;
+  padding-bottom: 56px;
 }
 
-/* ── App Nav: desktop top nav, mobile bottom tabs ── */
 .app-nav {
   position: fixed;
-  top: 14px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateZ(0);
   z-index: 500;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 5px 16px;
+  border: 0;
+  border-top: 2px solid rgba(124, 92, 252, 0.1);
+  border-radius: 0;
+  background: #FFFFFF;
+  box-shadow: 0 -4px 24px rgba(124, 92, 252, 0.07);
+  box-sizing: border-box;
+}
+
+/* Inner wrapper centres tabs at desktop width */
+.app-nav-inner {
   display: flex;
   align-items: center;
   gap: 6px;
-  width: min(520px, calc(100% - 32px));
-  padding: 6px;
-  border: 1.5px solid rgba(124, 92, 252, 0.1);
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 10px 30px rgba(124, 92, 252, 0.12);
-  backdrop-filter: blur(24px) saturate(1.5);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  width: 100%;
+  max-width: 480px;
 }
 
 .app-nav-tab {
@@ -41,7 +55,7 @@ body.has-app-nav {
   align-items: center;
   justify-content: center;
   gap: 7px;
-  min-height: 42px;
+  min-height: 44px;
   padding: 0 10px;
   border-radius: var(--radius-full);
   color: var(--text-muted);
@@ -81,6 +95,18 @@ body.has-app-nav {
   text-transform: uppercase;
 }
 
+/* ── Desktop refinements ── */
+@media (min-width: 769px) {
+  .app-nav-inner {
+    max-width: 520px;
+  }
+
+  .app-nav-tab {
+    min-height: 44px;
+  }
+}
+
+/* ── Mobile: taller, touch-optimised bottom nav ── */
 @media (max-width: 768px) {
   body.has-app-nav {
     padding-top: 0;
@@ -88,25 +114,8 @@ body.has-app-nav {
   }
 
   .app-nav {
-    display: flex;
-    flex-direction: row;
-    position: fixed;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    transform: none;
-    width: 100%;
-    z-index: 500;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(28px) saturate(1.6);
-    -webkit-backdrop-filter: blur(28px) saturate(1.6);
-    border: 0;
-    border-top: 1.5px solid rgba(124, 92, 252, 0.1);
-    border-radius: 0;
     padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px));
-    box-shadow: 0 -4px 24px rgba(124, 92, 252, 0.07);
-    box-sizing: border-box;
+    background: #FFFFFF;
   }
 
   .app-nav-tab {
@@ -174,6 +183,7 @@ body.has-app-nav {
     transition: color 0.2s ease;
   }
 }
+
 @supports (padding-top: env(safe-area-inset-top)) {
   body > nav:not(.app-nav) {
     padding-top: max(0.7rem, env(safe-area-inset-top));
@@ -221,4 +231,3 @@ button, a, .quiz-option, .practice-option, .comprehension-option,
     transition: transform 0.08s ease !important;
   }
 }
-

@@ -304,7 +304,7 @@
     if (!mount) return;
     const words = satchelWords();
     if (!words.length) {
-      mount.innerHTML = '<p class="empty-note">Complete Book One Lesson ١ to unlock your first reading words.</p>';
+      mount.innerHTML = '<p class="empty-note">Complete Book One Lesson 1 to unlock your first reading words.</p>';
       return;
     }
     mount.innerHTML = words.map(word => `
@@ -348,7 +348,7 @@
       mount.innerHTML = `
         <div class="reader-empty">
           <div class="reader-title">Your first story is waiting.</div>
-          <p class="empty-note">Pass Book One Lesson ١, then come back here for a short reading challenge.</p>
+          <p class="empty-note">Pass Book One Lesson 1, then come back here for a short reading challenge.</p>
         </div>
       `;
       return;

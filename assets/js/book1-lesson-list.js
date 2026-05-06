@@ -12,7 +12,7 @@
     {
       id: 'section-1',
       navLabel: 'Nouns & Pointing',
-      numberArabic: '١',
+      numberArabic: '1',
       title: 'Nouns & Pointing',
       desc: 'Your first Arabic words — how to point at things and name them. The building blocks of every sentence.',
       tag: 'Lessons 1–5',
@@ -20,7 +20,7 @@
     {
       id: 'section-2',
       navLabel: 'Gender & Definiteness',
-      numberArabic: '٢',
+      numberArabic: '2',
       title: 'Gender & Definiteness',
       desc: 'Arabic has two genders. Learn to identify feminine nouns, point at them correctly, and understand sun and moon letters.',
       tag: 'Lessons 6–9',
@@ -28,7 +28,7 @@
     {
       id: 'section-3',
       navLabel: 'Pronouns & Verbs',
-      numberArabic: '٣',
+      numberArabic: '3',
       title: 'Pronouns & Verbs',
       desc: 'Introduce yourself and others. Your first verbs and the pronouns that attach to them.',
       tag: 'Lessons 10–14',
@@ -36,7 +36,7 @@
     {
       id: 'section-4',
       navLabel: 'Verbs & Adverbs',
-      numberArabic: '٤',
+      numberArabic: '4',
       title: 'Verbs, Adverbs & Key Particles',
       desc: 'Building richer sentences — full verb conjugation, describing location, and important grammar particles.',
       tag: 'Lessons 15–19',
@@ -44,7 +44,7 @@
     {
       id: 'section-5',
       navLabel: 'Plurals & Numbers',
-      numberArabic: '٥',
+      numberArabic: '5',
       title: 'Plurals, Duals & Numbers',
       desc: 'Mastering how Arabic handles more than one — sound plurals, broken plurals, duals, and counting.',
       tag: 'Lessons 20–23',
@@ -84,19 +84,6 @@
 
   function quizHref(lessonNum) {
     return `${lessonHref(lessonNum)}&step=quiz`;
-  }
-
-  function buildChips() {
-    const chips = document.createElement('div');
-    chips.className = 'chips';
-    ['Vocab', 'Grammar', 'Reading', 'Practice', 'Quiz'].forEach((label, i) => {
-      const cls = ['chip-vocab', 'chip-grammar', 'chip-reading', 'chip-practice', 'chip-quiz'][i];
-      const span = document.createElement('span');
-      span.className = `chip ${cls}`;
-      span.textContent = label;
-      chips.appendChild(span);
-    });
-    return chips;
   }
 
   function getCurrentLessonNumber() {
@@ -146,15 +133,24 @@
     desc.className = 'lesson-desc';
     desc.textContent = lesson.desc;
 
-    // Add skip button for current lesson
+    textWrap.append(ar, title, desc);
+
     if (isCurrent && isAvailable) {
+      const btns = document.createElement('div');
+      btns.className = 'lesson-card-btns';
+
+      const continueBtn = document.createElement('a');
+      continueBtn.className = 'lesson-continue-btn';
+      continueBtn.href = href;
+      continueBtn.textContent = 'Continue here →';
+
       const skipBtn = document.createElement('a');
       skipBtn.className = 'lesson-skip-btn';
       skipBtn.href = quizHref(lesson.lessonNum);
-      skipBtn.textContent = 'Skip this lesson — take quiz now';
-      textWrap.append(ar, title, desc, buildChips(), skipBtn);
-    } else {
-      textWrap.append(ar, title, desc, buildChips());
+      skipBtn.textContent = 'Quiz to skip';
+
+      btns.append(continueBtn, skipBtn);
+      textWrap.appendChild(btns);
     }
 
     main.append(badge, textWrap);

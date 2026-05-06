@@ -25,9 +25,8 @@ const LEGACY_VOCAB_RATINGS_KEY = 'medina_vocab_ratings';
 /** Stored while the learner has opened a lesson but not yet passed its quiz */
 const LESSON_IN_PROGRESS = 'in_progress';
 
-/** Convert a Western digit string to Arabic-Indic numerals (٠١٢...) */
 function toArabicNumeral(n) {
-  return String(n).split('').map(d => '٠١٢٣٤٥٦٧٨٩'[+d]).join('');
+  return String(n);
 }
 
 function isCompleteValue(v) {
