@@ -1859,13 +1859,12 @@
   position: fixed;
   inset: 0;
   z-index: 900;
-  background: rgba(8, 6, 22, 0.93);
+  background: var(--surface-bg);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 1.5rem;
   overflow-y: auto;
-  animation: milestoneOverlayIn 0.4s ease both;
+  animation: milestoneOverlayIn 0.35s ease both;
 }
 
 @keyframes milestoneOverlayIn {
@@ -1884,50 +1883,45 @@
   position: relative;
   z-index: 902;
   background: var(--surface-bg);
-  border-radius: 24px;
-  padding: 2.5rem 2rem 2rem;
-  max-width: 500px;
   width: 100%;
+  max-width: 580px;
   text-align: center;
-  box-shadow:
-    0 0 0 1px rgba(124, 92, 252, 0.14),
-    0 24px 80px rgba(124, 92, 252, 0.22),
-    0 4px 24px rgba(0, 0, 0, 0.3);
-  animation: milestoneCardIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+  padding: 3rem 2rem 2.5rem;
+  animation: milestoneCardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
 }
 
 @keyframes milestoneCardIn {
-  from { opacity: 0; transform: scale(0.72) translateY(24px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .milestone-ornament {
   display: block;
   font-size: 2.2rem;
   color: var(--brand);
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
   animation: milestonePulse 1.8s ease-in-out infinite 0.6s both;
 }
 
 @keyframes milestonePulse {
-  0%, 100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+  0%, 100% { transform: scale(1) rotate(0deg);     opacity: 1; }
   50%       { transform: scale(1.25) rotate(15deg); opacity: 0.7; }
 }
 
 .milestone-heading {
   font-family: 'Amiri', serif;
-  font-size: clamp(1.9rem, 5vw, 2.5rem);
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
   color: var(--text-dark);
-  margin: 0 0 0.4rem;
-  animation: milestoneFadeUp 0.5s ease 0.4s both;
+  margin: 0 0 0.35rem;
+  animation: milestoneFadeUp 0.5s ease 0.35s both;
 }
 
 .milestone-sub {
   font-family: 'Nunito', sans-serif;
   font-size: 0.95rem;
   color: var(--text-mid);
-  margin: 0 0 1.4rem;
-  animation: milestoneFadeUp 0.5s ease 0.6s both;
+  margin: 0 0 1.2rem;
+  animation: milestoneFadeUp 0.5s ease 0.55s both;
 }
 
 .milestone-sub strong {
@@ -1937,55 +1931,60 @@
 }
 
 @keyframes milestoneFadeUp {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 .milestone-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: 0.4rem;
   justify-content: center;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.2rem;
   min-height: 2rem;
 }
 
 .milestone-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
   background: rgba(124, 92, 252, 0.06);
   border: 1.5px solid rgba(124, 92, 252, 0.15);
   border-radius: var(--radius-full);
-  padding: 0.28rem 0.7rem;
+  padding: 0.25rem 0.65rem;
   cursor: default;
   will-change: transform, opacity;
 }
 
 .chip-ar {
   font-family: 'Amiri', serif;
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--text-dark);
   line-height: 1.9;
 }
 
 .chip-en {
   font-family: 'Nunito', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
 }
 
+.milestone-pack-btn {
+  margin-bottom: 1.2rem;
+  will-change: transform, opacity;
+}
+
 .milestone-satchel-wrap {
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.2rem;
 }
 
 .milestone-satchel-label {
   font-family: 'Nunito', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
 }
 
 .milestone-satchel {
@@ -1994,10 +1993,9 @@
 }
 
 .satchel-svg {
-  width: 76px;
-  height: 92px;
-  filter: drop-shadow(0 8px 20px rgba(160, 98, 42, 0.45));
-  transition: transform 0.1s ease;
+  width: 72px;
+  height: 86px;
+  filter: drop-shadow(0 6px 16px rgba(160, 98, 42, 0.4));
 }
 
 .milestone-satchel--jiggle .satchel-svg {
@@ -2017,6 +2015,21 @@
   min-width: 160px;
   font-size: 0.95rem;
   will-change: transform, opacity;
+}
+
+@media (max-width: 700px) {
+  .milestone-card {
+    padding: 2rem 1rem 1.5rem;
+    min-height: 100dvh;
+  }
+  .milestone-heading { font-size: 1.7rem; }
+  .milestone-sub     { font-size: 0.88rem; margin-bottom: 1rem; }
+  .milestone-chips   { gap: 0.35rem; margin-bottom: 1rem; }
+  .milestone-chip    { padding: 0.22rem 0.55rem; }
+  .chip-ar           { font-size: 0.95rem; }
+  .chip-en           { font-size: 0.65rem; }
+  .milestone-satchel-wrap { margin-bottom: 1rem; }
+  .satchel-svg       { width: 60px; height: 72px; }
 }
 
 /* ═══════════════════════════════════

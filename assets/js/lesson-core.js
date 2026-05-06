@@ -1495,31 +1495,29 @@ function showGuidedMilestone(data, onContinue) {
       <h2 class="milestone-heading">Amazing work!</h2>
       <p class="milestone-sub">You've already learned <strong>${totalWords}</strong> new words</p>
       <div class="milestone-chips" id="milestoneChips"></div>
-      <div class="milestone-satchel-wrap" id="milestoneSatchelWrap">
-        <p class="milestone-satchel-label">All packed into your word satchel</p>
+      <button type="button" class="btn btn-secondary milestone-pack-btn" id="milestonePackBtn" style="opacity:0;transform:translateY(10px)">Pack words into satchel 🎒</button>
+      <div class="milestone-satchel-wrap" id="milestoneSatchelWrap" style="opacity:0">
+        <p class="milestone-satchel-label">Words packed into your satchel</p>
         <div class="milestone-satchel" id="milestoneSatchel">${buildSatchelSVG()}</div>
       </div>
-      <button type="button" class="btn btn-primary milestone-btn" id="milestoneContinueBtn">Keep going →</button>
+      <button type="button" class="btn btn-primary milestone-btn" id="milestoneContinueBtn" style="opacity:0;transform:translateY(10px)">Keep going →</button>
     </div>
   `;
   document.body.appendChild(overlay);
   launchMilestoneConfetti();
 
   const chipsContainer = document.getElementById('milestoneChips');
+  const packBtn        = document.getElementById('milestonePackBtn');
   const satchelWrap    = document.getElementById('milestoneSatchelWrap');
   const satchelEl      = document.getElementById('milestoneSatchel');
   const continueBtn    = document.getElementById('milestoneContinueBtn');
-
-  satchelWrap.style.opacity = '0';
-  continueBtn.style.opacity = '0';
-  continueBtn.style.transform = 'translateY(14px)';
 
   // Build chips hidden
   displayWords.forEach(w => {
     const chip = document.createElement('span');
     chip.className = 'milestone-chip';
     chip.innerHTML = `<span class="chip-ar" dir="rtl">${w.ar}</span><span class="chip-en">${w.meaning}</span>`;
-    chip.style.cssText = 'opacity:0; transform:translateY(10px)';
+    chip.style.cssText = 'opacity:0;transform:translateY(10px)';
     chipsContainer.appendChild(chip);
   });
 
@@ -1531,50 +1529,61 @@ function showGuidedMilestone(data, onContinue) {
       chip.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
       chip.style.opacity = '1';
       chip.style.transform = 'translateY(0)';
-    }, 650 + i * 75);
+    }, 600 + i * 70);
   });
 
-  // Show satchel
-  const afterChips = 650 + chips.length * 75 + 250;
+  // Reveal "Pack" button after all chips are visible
+  const afterChips = 600 + chips.length * 70 + 200;
   setTimeout(() => {
-    satchelWrap.style.transition = 'opacity 0.5s ease';
-    satchelWrap.style.opacity = '1';
+    packBtn.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    packBtn.style.opacity = '1';
+    packBtn.style.transform = 'translateY(0)';
   }, afterChips);
 
-  // Fly chips into satchel
-  setTimeout(() => {
-    const satchelRect = satchelEl.getBoundingClientRect();
-    const tx = satchelRect.left + satchelRect.width / 2;
-    const ty = satchelRect.top + satchelRect.height / 2;
+  // Pack button click → fly chips into satchel
+  packBtn.addEventListener('click', () => {
+    packBtn.disabled = true;
+    packBtn.style.transition = 'opacity 0.2s ease';
+    packBtn.style.opacity = '0';
 
-    chips.forEach((chip, i) => {
-      setTimeout(() => {
-        const r = chip.getBoundingClientRect();
-        const dx = tx - (r.left + r.width / 2);
-        const dy = ty - (r.top + r.height / 2);
-        chip.style.transition = 'all 0.45s cubic-bezier(0.55, 0, 1, 0.45)';
-        chip.style.transform  = `translate(${dx}px, ${dy}px) scale(0.05)`;
-        chip.style.opacity    = '0';
-        setTimeout(() => {
-          satchelEl.classList.add('milestone-satchel--jiggle');
-          setTimeout(() => satchelEl.classList.remove('milestone-satchel--jiggle'), 420);
-        }, 420);
-      }, i * 55);
-    });
+    // Show satchel first
+    satchelWrap.style.transition = 'opacity 0.4s ease';
+    satchelWrap.style.opacity = '1';
 
-    // Show continue button after all chips land
     setTimeout(() => {
-      continueBtn.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      continueBtn.style.opacity    = '1';
-      continueBtn.style.transform  = 'translateY(0)';
-    }, chips.length * 55 + 600);
+      const satchelRect = satchelEl.getBoundingClientRect();
+      const tx = satchelRect.left + satchelRect.width / 2;
+      const ty = satchelRect.top + satchelRect.height / 2;
 
-  }, afterChips + 550);
+      chips.forEach((chip, i) => {
+        setTimeout(() => {
+          const r = chip.getBoundingClientRect();
+          const dx = tx - (r.left + r.width / 2);
+          const dy = ty - (r.top + r.height / 2);
+          chip.style.transition = 'all 0.42s cubic-bezier(0.55, 0, 1, 0.45)';
+          chip.style.transform  = `translate(${dx}px, ${dy}px) scale(0.05)`;
+          chip.style.opacity    = '0';
+          setTimeout(() => {
+            satchelEl.classList.add('milestone-satchel--jiggle');
+            setTimeout(() => satchelEl.classList.remove('milestone-satchel--jiggle'), 420);
+          }, 400);
+        }, i * 50);
+      });
+
+      // Show continue button after all chips land
+      setTimeout(() => {
+        continueBtn.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+        continueBtn.style.opacity    = '1';
+        continueBtn.style.transform  = 'translateY(0)';
+      }, chips.length * 50 + 550);
+
+    }, 350);
+  });
 
   continueBtn.addEventListener('click', () => {
-    overlay.style.transition = 'opacity 0.35s ease';
+    overlay.style.transition = 'opacity 0.3s ease';
     overlay.style.opacity = '0';
-    setTimeout(() => { overlay.remove(); onContinue(); }, 360);
+    setTimeout(() => { overlay.remove(); onContinue(); }, 320);
   });
 }
 
