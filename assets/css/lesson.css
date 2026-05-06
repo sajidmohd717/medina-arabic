@@ -226,6 +226,231 @@
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }
 
+.guided-page-shell {
+  display: block;
+}
+
+.guided-page-status {
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto 0.85rem;
+  padding: 0.32rem 0.75rem;
+  border-radius: var(--radius-full);
+  background: var(--surface-tint);
+  border: 2px solid var(--brand-light);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--brand);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.guided-lesson-intro {
+  background: var(--surface-card);
+  border: 2px solid rgba(124, 92, 252, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1.35rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 3px 0 rgba(124, 92, 252, 0.06), var(--shadow-xs);
+}
+
+.guided-page-title-arabic {
+  direction: rtl;
+  font-family: 'Amiri', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 0.15rem;
+}
+
+.guided-page-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--brand);
+  text-align: center;
+  margin-bottom: 0.35rem;
+}
+
+.guided-pattern {
+  direction: rtl;
+  font-family: 'Amiri', serif;
+  font-size: clamp(2rem, 7vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 0.45rem;
+}
+
+.guided-lesson-intro p {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.92rem;
+  color: var(--text-mid);
+  line-height: 1.6;
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.guided-sentence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-bottom: 1.35rem;
+}
+
+.guided-sentence-card {
+  background: linear-gradient(180deg, var(--surface-card), var(--surface-bg));
+  border: 2px solid rgba(124, 92, 252, 0.1);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1rem 1.15rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  align-items: center;
+  justify-items: center;
+  min-height: 178px;
+  box-shadow: 0 5px 0 rgba(124, 92, 252, 0.07), var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.guided-sentence-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--brand-light);
+  box-shadow: 0 8px 0 rgba(124, 92, 252, 0.08), var(--shadow-md);
+}
+
+.guided-line-stack {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 1.2rem;
+}
+
+.guided-line-card {
+  background: var(--surface-card);
+  border: 2px solid rgba(124, 92, 252, 0.07);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: center;
+  box-shadow: 0 3px 0 rgba(124, 92, 252, 0.05), var(--shadow-xs);
+}
+
+.guided-line-card:not(:has(.guided-sentence-visual)) {
+  grid-template-columns: 1fr;
+}
+
+.guided-line-card--prompt {
+  background: var(--surface-tint);
+  border-color: var(--brand-light);
+}
+
+.guided-sentence-visual {
+  width: 68px;
+  height: 68px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-tint);
+  border: 2px solid var(--brand-light);
+  font-size: 1.85rem;
+  line-height: 1;
+  box-shadow: inset 0 -3px 0 rgba(124, 92, 252, 0.06);
+}
+
+.guided-sentence-body {
+  min-width: 0;
+  width: 100%;
+}
+
+.guided-sentence-arabic {
+  direction: rtl;
+  font-family: 'Amiri', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.guided-sentence-card .guided-sentence-arabic {
+  white-space: nowrap;
+}
+
+.guided-line-card .guided-sentence-arabic {
+  text-align: right;
+  white-space: normal;
+}
+
+.guided-sentence-trans {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.guided-sentence-meaning {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-mid);
+  margin-top: 0.2rem;
+}
+
+.guided-key-points {
+  display: grid;
+  gap: 8px;
+  margin: 1rem 0 1.2rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: var(--surface-tint);
+  border: 2px solid var(--brand-light);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.65;
+}
+
+.guided-page-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.guided-page-controls .btn {
+  min-width: 150px;
+}
+
+.vocab-review-lead {
+  margin: 1.35rem 0 0.75rem;
+}
+
+.vocab-review-lead h3 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.25rem;
+}
+
+.vocab-review-lead p {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.86rem;
+  color: var(--text-mid);
+  line-height: 1.55;
+}
+
 .vocab-rating-hint {
   font-family: 'Nunito', sans-serif;
   font-size: 0.84rem;
@@ -1165,6 +1390,10 @@
   border-top: 2px solid rgba(12, 192, 160, 0.07);
 }
 
+.panel-nav[hidden] {
+  display: none !important;
+}
+
 .btn {
   font-family: 'Nunito', sans-serif;
   font-size: 0.88rem;
@@ -1239,6 +1468,55 @@
   .step-indicator { position: static; margin-bottom: 1.4rem; padding: 0.35rem; border-radius: var(--radius-md); }
   .vocab-grid { gap: 10px; }
   .vocab-grid-active { grid-template-columns: 1fr; }
+  .guided-lesson-intro {
+    padding: 1rem 0.9rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 0.9rem;
+  }
+  .guided-page-title-arabic { font-size: 1.45rem; }
+  .guided-pattern { font-size: 2.15rem; line-height: 1.3; }
+  .guided-lesson-intro p { font-size: 0.82rem; line-height: 1.55; }
+  .guided-sentence-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .guided-sentence-card {
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: stretch;
+    min-height: 0;
+    padding: 0.9rem 1rem;
+    gap: 0.95rem;
+  }
+  .guided-sentence-card .guided-sentence-arabic {
+    text-align: right;
+    white-space: nowrap;
+    font-size: 1.9rem;
+  }
+  .guided-sentence-visual {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    font-size: 1.55rem;
+  }
+  .guided-line-card {
+    padding: 0.85rem 0.9rem;
+    border-radius: var(--radius-md);
+  }
+  .guided-line-card .guided-sentence-arabic {
+    font-size: 1.65rem;
+    line-height: 1.55;
+  }
+  .guided-key-points {
+    padding: 0.85rem;
+    font-size: 0.82rem;
+  }
+  .guided-page-controls {
+    flex-direction: column-reverse;
+  }
+  .guided-page-controls .btn {
+    width: 100%;
+    text-align: center;
+  }
   .vocab-rating-hint { font-size: 0.76rem; line-height: 1.45; padding: 0.6rem 0.75rem; }
   .vocab-known-summary { padding: 0.6rem 0.8rem; font-size: 0.78rem; }
   .vocab-grid-known { padding: 0 0.6rem 0.7rem; }
@@ -1353,6 +1631,20 @@
   .step-btn { padding: 0.55rem 0.2rem; border-radius: var(--radius-xs); min-height: 50px; }
   .panel-heading-icon { width: 44px; height: 44px; font-size: 1.2rem; border-radius: var(--radius-sm); }
   .panel-heading-text h2 { font-size: 0.95rem; }
+  .guided-sentence-card {
+    padding: 0.8rem 0.85rem;
+    gap: 0.75rem;
+  }
+  .guided-sentence-card .guided-sentence-arabic {
+    font-size: 1.7rem;
+    line-height: 1.35;
+  }
+  .guided-sentence-visual {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    font-size: 1.4rem;
+  }
   .quiz-score-card { padding: 1.4rem 1rem; border-radius: var(--radius-lg); }
   .quiz-score-arabic { font-size: 1.3rem; }
   .quiz-score-number { font-size: 3rem; }

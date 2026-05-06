@@ -22,7 +22,7 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 - Today-first app dashboard for returning/onboarded users
 - App-wide navigation: Today, Course, Reading, Review. Desktop uses a top pill nav; mobile uses bottom tabs.
 - Book 1 lesson list page with progress tracking, section nav, and lesson cards
-- Lessons 1–13 complete with full content (vocab, grammar, reading, practice, quiz)
+- Lessons 1–13 complete with full content; Lesson 1 is the pilot for the newer pattern-first Madinah-style lesson flow
 - Hover/tap-translate tooltips on reading comprehension Arabic text
 - Focused reading comprehension track: one unlocked story, then questions directly below it
 - Collapsible reading progress overview for stories passed, current level, words unlocked, and next-level progress
@@ -46,13 +46,24 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 Kalamo is now an app-like learning product, not just a course library. The intended learner loop is:
 
 1. **Today** — the default home after onboarding. Shows the next lesson, daily quests, progress, and quick links.
-2. **Course** — structured Madinah Arabic lesson path. Lessons teach vocab, grammar, comprehension, practice, and quiz.
+2. **Course** — structured Madinah Arabic lesson path. New and revised lessons should teach through simple sentence patterns first, then reading, word review, and quiz.
 3. **Reading** — the main practice surface. A short Arabic passage appears first, with comprehension questions directly underneath.
 4. **Review** — Anki-like vocabulary flashcards. This should become the memory system for words learned in lessons and reading.
 
 The old standalone Daily Practice/Drill route is not part of the visible product navigation. Keep `drill.html` only as archived/experimental code unless a future decision explicitly revives it.
 
 The UX target is Duolingo-like return momentum with a calmer Arabic-learning identity: cheerful, sticky, clear next action, but not cluttered. Avoid adding new top-level features unless they reinforce the loop above.
+
+### Lesson content direction
+Kalamo should follow the Madinah Arabic Books more closely in pacing. Do not start beginner lessons with a large vocabulary dump. The preferred flow for new or revised lessons is:
+
+1. **Learn** — introduce one sentence pattern with a small set of concrete examples, ideally with simple visual cues.
+2. **Questions** — show how the pattern becomes basic questions and answers.
+3. **Reading** — use a short controlled passage made only from known or newly introduced material.
+4. **Review Words** — only after context, let learners rate words as easy, still practising, or difficult.
+5. **Quiz** — test the pattern and the most important new words.
+
+Lesson 1 now models this direction with `guidedPages` and `reviewVocabAtEnd`. Use that shape when gradually revising later lessons. Keep beginner cards visually light: picture cue + Arabic sentence, with meaning available through tap/hover tooltips instead of always-visible translations.
 
 ### Development workflow
 Work in sessions, batch related changes, and push to `main` once a meaningful chunk is done. Do not commit every small tweak — keep the git history clean and meaningful.
@@ -143,6 +154,20 @@ const LESSON_DATA = {
   passMark: 8,                      // correct answers needed to pass
   totalQuestions: 12,               // must equal MC + typing question counts
 
+  guidedPages: [                         // optional: enables bite-sized Madinah-style lesson pages
+    {
+      titleArabic: 'الدَّرْسُ الأَوَّلُ',
+      title: 'Lesson One',
+      pattern: 'هٰذَا',
+      intro: 'Short learner-facing intro.',
+      cards: [
+        { icon: '📘', ar: 'هٰذَا كِتَابٌ' }
+      ],
+      keyPoints: ['هٰذَا + nounٌ']
+    }
+  ],
+  reviewVocabAtEnd: true,              // optional: moves vocab rating to the Review Words step
+
   vocab: [
     // NEW words only — do not repeat vocab from previous lessons
     { ar: 'كِتَابٌ', trans: 'kitābun', meaning: 'Book', type: 'Noun' },
@@ -204,6 +229,7 @@ const LESSON_DATA = {
 - Comprehension question `correct` is the **exact string** of the right option (not an index)
 - Quiz `correct` is a **0-based index** into the options array
 - Vocab is **new words only** — words from earlier lessons may appear in examples and practice for reinforcement but must not be listed as new vocab
+- Beginner lessons should avoid front-loading vocabulary. Introduce words inside patterns and examples first, then ask for vocab ratings near the end.
 - All Arabic text must carry full diacritics (harakat)
 - Transliterations follow academic convention: macrons for long vowels (ā, ī, ū), ʿ for ʿayn
 
@@ -351,10 +377,10 @@ All lesson UI logic. Key functions:
 | `initLesson()` | Entry point — populates header, builds all panels |
 | `goToStep(step)` / `unlockAndGo(step)` | Panel navigation |
 | `applyQuizJumpMode()` | Unlocks all steps, jumps to quiz (`?step=quiz`) |
-| `buildVocabularyPanel(data)` | Renders vocab cards with rating buttons and the known-words bucket |
+| `buildVocabularyPanel(data)` | Renders guided sentence cards when present; otherwise renders vocab cards with rating buttons and the known-words bucket |
 | `buildLessonPanel(data)` | Renders grammar blocks and example table |
 | `buildComprehensionPanel(data)` | Renders story with hover/tap-translate, MCQ questions |
-| `buildPracticePanel(data)` | Renders practice questions |
+| `buildPracticePanel(data)` | Renders practice questions, or the end-of-lesson word rating step when `reviewVocabAtEnd` is true |
 | `buildQuizPanel(data)` | Renders MC + typing quiz questions |
 | `annotateArabicText(text, vocab)` | Splits Arabic text into words, matches against vocab, wraps matched words in `<span class="ar-word" data-meaning="...">` for hover/tap tooltips |
 | `checkComprehension` / `checkPractice` / `checkQuiz` / `checkTyping` | Answer checking |

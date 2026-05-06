@@ -88,6 +88,10 @@ function displayNumber(value) {
   return typeof toArabicNumeral === 'function' ? toArabicNumeral(value) : String(value);
 }
 
+function renderGuidedArabicLine(ar, vocab) {
+  return `<div class="guided-sentence-arabic">${annotateArabicText(ar, vocab)}</div>`;
+}
+
 // ─────────────────────────────────────────────────────────────
 // STEP NAVIGATION
 // ─────────────────────────────────────────────────────────────
@@ -478,17 +482,15 @@ function placeVocabCardInBucket(card, layoutEl) {
   refreshVocabKnownBucket(ctx);
 }
 
-function buildVocabularyPanel(data) {
-  const slot = document.querySelector('#panel-vocab .vocab-grid');
+function buildVocabRatingLayout(data, slot, hintText) {
   if (!slot) return;
 
   slot.className = 'vocab-layout';
-  slot.innerHTML = '';
   slot._vocabCtx = null;
 
   const hint = document.createElement('p');
   hint.className = 'vocab-rating-hint';
-  hint.textContent = 'Rate each word: ✓ know it well · ≈ still practising · ✗ new or difficult. Rated words are saved for later review.';
+  hint.textContent = hintText || 'Rate each word: ✓ know it well · ≈ still practising · ✗ new or difficult. Rated words are saved for later review.';
 
   const activeGrid = document.createElement('div');
   activeGrid.className = 'vocab-grid vocab-grid-active';
@@ -568,6 +570,128 @@ function buildVocabularyPanel(data) {
   });
 
   refreshVocabKnownBucket(ctx);
+  attachArabicWordMeaningToggles(slot);
+}
+
+function buildVocabularyPanel(data) {
+  const slot = document.querySelector('#panel-vocab .vocab-grid');
+  if (!slot) return;
+
+  slot.className = 'vocab-layout';
+  slot.innerHTML = '';
+  slot._vocabCtx = null;
+
+  if (data.guidedPages && data.guidedPages.length) {
+    const panelNav = document.querySelector('#panel-vocab > .panel-nav');
+    if (panelNav) panelNav.hidden = true;
+
+    const pager = document.createElement('section');
+    pager.className = 'guided-page-shell';
+    pager.dataset.pageIndex = '0';
+    slot.appendChild(pager);
+
+    const renderPage = pageIndex => {
+      const page = data.guidedPages[pageIndex];
+      const total = data.guidedPages.length;
+      const cardsHtml = (page.cards || []).map(item => `
+        <article class="guided-sentence-card">
+          <div class="guided-sentence-visual" aria-hidden="true">${item.icon || '•'}</div>
+          <div class="guided-sentence-body">
+            ${renderGuidedArabicLine(item.ar, data.vocab)}
+          </div>
+        </article>
+      `).join('');
+
+      const linesHtml = (page.lines || []).map(item => `
+        <article class="guided-line-card${item.isPrompt ? ' guided-line-card--prompt' : ''}">
+          ${item.icon ? `<div class="guided-sentence-visual" aria-hidden="true">${item.icon}</div>` : ''}
+          <div class="guided-sentence-body">
+            ${renderGuidedArabicLine(item.ar, data.vocab)}
+          </div>
+        </article>
+      `).join('');
+
+      const keyHtml = (page.keyPoints || []).length ? `
+        <div class="guided-key-points">
+          ${(page.keyPoints || []).map(point => `<div>${annotateArabicText(point, data.vocab)}</div>`).join('')}
+        </div>
+      ` : '';
+
+      pager.innerHTML = `
+        <div class="guided-page-status">Page ${displayNumber(pageIndex + 1)} of ${displayNumber(total)}</div>
+        <div class="guided-lesson-intro">
+          ${page.titleArabic ? `<div class="guided-page-title-arabic">${page.titleArabic}</div>` : ''}
+          <div class="guided-page-title">${page.title}</div>
+          ${page.pattern ? `<div class="guided-pattern">${page.pattern}</div>` : ''}
+          ${page.intro ? `<p>${page.intro}</p>` : ''}
+        </div>
+        ${cardsHtml ? `<div class="guided-sentence-grid">${cardsHtml}</div>` : ''}
+        ${linesHtml ? `<div class="guided-line-stack">${linesHtml}</div>` : ''}
+        ${keyHtml}
+        <div class="guided-page-controls">
+          ${pageIndex === 0
+            ? '<a class="btn btn-secondary" href="../book1.html">← Back to Book</a>'
+            : '<button type="button" class="btn btn-secondary" data-guided-prev>← Back</button>'}
+          <button type="button" class="btn btn-primary" data-guided-next>${pageIndex === total - 1 ? 'Next: Reading →' : 'Next →'}</button>
+        </div>
+      `;
+
+      attachArabicWordMeaningToggles(pager);
+
+      const prevBtn = pager.querySelector('[data-guided-prev]');
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => renderPage(pageIndex - 1));
+      }
+
+      const nextBtn = pager.querySelector('[data-guided-next]');
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          if (pageIndex < total - 1) {
+            renderPage(pageIndex + 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+          }
+          unlockAndGo('comprehension');
+        });
+      }
+    };
+
+    renderPage(0);
+    return;
+  }
+
+  if (data.guidedSentences && data.guidedSentences.length) {
+    const intro = document.createElement('div');
+    intro.className = 'guided-lesson-intro';
+    intro.innerHTML = `
+      <div class="guided-pattern">${data.guidedPattern || ''}</div>
+      <p>${data.guidedIntro || 'Start with the sentence pattern, then tap Arabic words to see what they mean.'}</p>
+    `;
+    slot.appendChild(intro);
+
+    const sentenceGrid = document.createElement('div');
+    sentenceGrid.className = 'guided-sentence-grid';
+
+    data.guidedSentences.forEach(item => {
+      const card = document.createElement('article');
+      card.className = 'guided-sentence-card';
+      card.innerHTML = `
+        <div class="guided-sentence-visual" aria-hidden="true">${item.icon || '•'}</div>
+        <div class="guided-sentence-body">
+          <div class="guided-sentence-arabic">${annotateArabicText(item.ar, data.vocab)}</div>
+          <div class="guided-sentence-trans">${item.trans}</div>
+          <div class="guided-sentence-meaning">${item.meaning}</div>
+        </div>
+      `;
+      sentenceGrid.appendChild(card);
+    });
+
+    slot.appendChild(sentenceGrid);
+    attachArabicWordMeaningToggles(slot);
+    if (data.reviewVocabAtEnd) return;
+  }
+
+  buildVocabRatingLayout(data, slot);
 }
 
 function buildLessonPanel(data) {
@@ -663,6 +787,23 @@ function buildComprehensionPanel(data) {
 function buildPracticePanel(data) {
   const practiceContainer = document.querySelector('#panel-practice .practice-container');
   if (!practiceContainer) return;
+
+  if (data.reviewVocabAtEnd) {
+    const panel = document.getElementById('panel-practice');
+    const heading = panel && panel.querySelector('.panel-heading-text');
+    if (heading) {
+      heading.innerHTML = `
+        <h2>Review Words</h2>
+        <p>Now that you have seen the words in sentences and reading, choose what should come back in Review.</p>
+      `;
+    }
+    buildVocabRatingLayout(
+      data,
+      practiceContainer,
+      'Rate the words from this lesson: ✓ easy · ≈ needs practice · ✗ difficult. Words marked ≈ or ✗ are the most useful ones to review later.'
+    );
+    return;
+  }
   
   let html = '';
   data.practiceQuestions.forEach((q, idx) => {
@@ -775,6 +916,34 @@ function initLesson() {
   if (lessonEyebrow) lessonEyebrow.textContent = `Book ${displayNumber(CURRENT_BOOK.replace('book', ''))} · Lesson ${displayNumber(CURRENT_LESSON_NUM)}`;
   if (lessonH1) lessonH1.innerHTML = `${CURRENT_LESSON_DATA.titleArabic}<span>${CURRENT_LESSON_DATA.titleEnglish}</span>`;
   if (lessonSummary) lessonSummary.textContent = CURRENT_LESSON_DATA.summary;
+
+  if (CURRENT_LESSON_DATA.guidedSentences && CURRENT_LESSON_DATA.guidedSentences.length) {
+    const vocabStepLabel = document.querySelector('#step-vocab .step-label');
+    const lessonStepLabel = document.querySelector('#step-lesson .step-label');
+    if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
+    if (lessonStepLabel) lessonStepLabel.textContent = 'Questions';
+  }
+
+  if (CURRENT_LESSON_DATA.guidedPages && CURRENT_LESSON_DATA.guidedPages.length) {
+    const lessonStep = document.getElementById('step-lesson');
+    const vocabStepLabel = document.querySelector('#step-vocab .step-label');
+    const readingBackBtn = document.querySelector('#panel-comprehension .btn-secondary');
+    if (lessonStep) lessonStep.hidden = true;
+    if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
+    if (readingBackBtn) {
+      readingBackBtn.textContent = '← Learn';
+      readingBackBtn.setAttribute('onclick', "goToStep('vocab')");
+    }
+  }
+
+  if (CURRENT_LESSON_DATA.reviewVocabAtEnd) {
+    const practiceStepLabel = document.querySelector('#step-practice .step-label');
+    const readingNextBtn = document.querySelector('#panel-comprehension .btn-primary');
+    const quizBackBtn = document.querySelector('#panel-quiz .btn-secondary');
+    if (practiceStepLabel) practiceStepLabel.textContent = 'Review Words';
+    if (readingNextBtn) readingNextBtn.textContent = 'Finished — Next: Review Words →';
+    if (quizBackBtn) quizBackBtn.textContent = '← Review Words';
+  }
   
   // Build all panels
   buildVocabularyPanel(CURRENT_LESSON_DATA);
