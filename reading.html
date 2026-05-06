@@ -47,53 +47,39 @@
     <a class="nav-back" href="book1.html">Course Home</a>
     <span class="nav-divider">✦</span>
     <span class="nav-title">Reading Track</span>
-    <div class="nav-progress">
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" id="readingProgressFill"></div>
-      </div>
-      <span class="progress-label" id="readingProgressLabel">٠ / ٠</span>
-    </div>
   </nav>
 
   <main class="reading-page">
-    <header class="reading-hero">
-      <div>
-        <div class="reading-eyebrow">Quick Reading Practice</div>
-        <h1>قِرَاءَةٌ</h1>
-        <p>One short story, a few questions, and a clear reading level. Come here when you want practice without opening a full lesson.</p>
-      </div>
-      <div class="level-card" aria-label="Current reading level">
-        <span class="level-card-label">Reading Level</span>
-        <strong id="readingLevelName">Pre-Level One</strong>
-        <span id="nextUpgradeHint">Pass ٥ stories to reach Level One.</span>
-      </div>
-    </header>
+    <section class="reading-intro" aria-label="Reading practice overview">
+      <p>Reading short Arabic passages helps you recognize familiar words faster and build smoother reading speed.</p>
+      <button class="reading-progress-btn" type="button" onclick="toggleReadingOverview()">View Progress</button>
+    </section>
 
-    <section class="rank-ladder" aria-label="Reading rank progress">
-      <div class="rank-ladder-head">
-        <div>
-          <span class="rank-kicker">Rank Climb</span>
-          <h2 id="rankHeadline">Pre-Level One</h2>
+    <section class="reading-overview" id="readingOverview" aria-label="Reading progress overview">
+      <div class="overview-stat">
+        <strong id="overviewStories">٠</strong>
+        <span>Stories passed</span>
+      </div>
+      <div class="overview-stat">
+        <strong id="overviewLevel">Pre-Level One</strong>
+        <span>Current level</span>
+      </div>
+      <div class="overview-stat">
+        <strong id="overviewWords">٠</strong>
+        <span>Words unlocked</span>
+      </div>
+      <div class="overview-progress">
+        <div class="overview-progress-head">
+          <span id="overviewNextHint">Pass ٥ stories to reach Level One.</span>
+          <strong id="overviewProgressText">٠ / ٥</strong>
         </div>
-        <strong id="rankProgressText" dir="ltr">٠ / ٥</strong>
+        <div class="overview-track" aria-hidden="true">
+          <div class="overview-fill" id="overviewProgressFill"></div>
+        </div>
       </div>
-      <div class="rank-track" aria-hidden="true">
-        <div class="rank-track-fill" id="rankTrackFill"></div>
-      </div>
-      <div class="rank-nodes" id="rankNodes"></div>
-      <p class="rank-note" id="rankNote">Pass ٥ stories to reach Level One.</p>
     </section>
 
     <section class="daily-reader" id="readerCard" aria-live="polite"></section>
-
-    <details class="satchel-drawer">
-      <summary>Vocabulary satchel</summary>
-      <div class="satchel-summary">
-        <span><strong id="satchelCount">٠</strong> words unlocked</span>
-        <span><strong id="passedCount">٠</strong> stories passed</span>
-      </div>
-      <div class="satchel-list" id="satchelList"></div>
-    </details>
   </main>
 
   <script src="assets/js/progress.js"></script>

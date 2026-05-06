@@ -259,22 +259,28 @@
     const rankSpan = Math.max(1, rankEnd - rankStart);
     const rankProgress = Math.min(rankSpan, Math.max(0, passed - rankStart));
     const rankPct = (rankProgress / rankSpan) * 100;
+    const fill = document.getElementById('readingProgressFill');
+    const label = document.getElementById('readingProgressLabel');
+    if (fill) fill.style.width = `${total ? (passed / total) * 100 : 0}%`;
+    if (label) label.textContent = `${toArabicNumeral(passed)} / ${toArabicNumeral(total)}`;
 
-    document.getElementById('readingLevelName').textContent = activeRank;
-    document.getElementById('passedCount').textContent = toArabicNumeral(passed);
-    document.getElementById('satchelCount').textContent = toArabicNumeral(satchelWords().length);
-    document.getElementById('readingProgressFill').style.width = `${total ? (passed / total) * 100 : 0}%`;
-    document.getElementById('readingProgressLabel').textContent = `${toArabicNumeral(passed)} / ${toArabicNumeral(total)}`;
-    document.getElementById('nextUpgradeHint').textContent = targetRank
-      ? `Pass ${toArabicNumeral(targetRank.required - passed)} more stories to reach ${targetRank.name}.`
-      : 'Highest reading rank reached for now.';
-    document.getElementById('rankHeadline').textContent = activeRank;
-    document.getElementById('rankProgressText').textContent = `${toArabicNumeral(rankProgress)} / ${toArabicNumeral(rankSpan)}`;
-    document.getElementById('rankTrackFill').style.width = `${rankPct}%`;
-    document.getElementById('rankNote').textContent = targetRank
-      ? `${toArabicNumeral(targetRank.required - passed)} more passed stories to reach ${targetRank.name}.`
-      : 'You have cleared every reading rank currently available.';
-    renderRankNodes(passed);
+    const storiesEl = document.getElementById('overviewStories');
+    const levelEl = document.getElementById('overviewLevel');
+    const wordsEl = document.getElementById('overviewWords');
+    const nextHintEl = document.getElementById('overviewNextHint');
+    const progressTextEl = document.getElementById('overviewProgressText');
+    const progressFillEl = document.getElementById('overviewProgressFill');
+
+    if (storiesEl) storiesEl.textContent = toArabicNumeral(passed);
+    if (levelEl) levelEl.textContent = activeRank;
+    if (wordsEl) wordsEl.textContent = toArabicNumeral(satchelWords().length);
+    if (nextHintEl) {
+      nextHintEl.textContent = targetRank
+        ? `Pass ${toArabicNumeral(targetRank.required - passed)} more stories to reach ${targetRank.name}.`
+        : 'Highest reading rank reached for now.';
+    }
+    if (progressTextEl) progressTextEl.textContent = `${toArabicNumeral(rankProgress)} / ${toArabicNumeral(rankSpan)}`;
+    if (progressFillEl) progressFillEl.style.width = `${rankPct}%`;
   }
 
   function renderRankNodes(passed) {
@@ -295,6 +301,7 @@
 
   function renderSatchel() {
     const mount = document.getElementById('satchelList');
+    if (!mount) return;
     const words = satchelWords();
     if (!words.length) {
       mount.innerHTML = '<p class="empty-note">Complete Book One Lesson ١ to unlock your first reading words.</p>';
@@ -363,9 +370,6 @@
       `;
     }).join('');
 
-    const newWords = challenge.newWords
-      .map(word => `<strong>${word.ar}</strong> ${word.trans} - ${word.meaning}`)
-      .join(', ');
     const next = nextUnreadChallenge(challenge.id);
     const lockedHint = passedCurrent && !next
       ? '<p class="next-story-hint">No new unlocked story yet. Complete more Book One lessons to unlock the next reading challenge.</p>'
@@ -385,18 +389,11 @@
     mount.innerHTML = `
       <div class="reader-topline">
         <div>
-          <div class="reader-kicker">${challenge.level}</div>
+          <div class="reader-kicker">Reading Comprehension</div>
           <h2 class="reader-title">${challenge.title}</h2>
-          <p class="reader-note">${challenge.target}</p>
         </div>
-        <span class="reader-badge">${state.passed[challenge.id] ? 'Review' : 'Next Story'}</span>
       </div>
       <div class="story-text">${challenge.story}</div>
-      <p class="new-word-note">New word after passing: ${newWords}</p>
-      <details class="story-translation">
-        <summary>Show Translation</summary>
-        <p>${challenge.translation}</p>
-      </details>
       <div class="questions">${questions}</div>
       <div class="reader-actions">
         <button class="reading-btn" type="button" id="submitReading">Check Answers</button>
@@ -452,4 +449,9 @@
   } else {
     init();
   }
+
+  window.toggleReadingOverview = function toggleReadingOverview() {
+    const overview = document.getElementById('readingOverview');
+    if (overview) overview.classList.toggle('open');
+  };
 })();

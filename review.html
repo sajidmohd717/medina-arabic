@@ -24,7 +24,7 @@
 
   <nav class="fc-nav">
     <a href="index.html" class="fc-back">← Home</a>
-    <span class="fc-title">Vocabulary Review</span>
+    <span class="fc-title">Word Review</span>
     <div class="fc-streak-wrap">
       <div id="streak-widget" class="streak-widget"></div>
     </div>
@@ -55,7 +55,7 @@
   <div class="fc-screen" id="state-start" style="display:none;">
     <div class="fc-screen-icon">🔁</div>
     <div class="fc-screen-title">Ready to review?</div>
-    <p class="fc-screen-sub" id="start-sub">You have <strong id="review-count">0</strong> words to review — words you marked as still learning, prioritised first.</p>
+    <p class="fc-screen-sub" id="start-sub">You have <strong id="review-count">0</strong> words to review — flashcards for words you are still learning.</p>
     <div class="fc-btn-row" style="margin-top:1.4rem;">
       <button class="fc-btn" onclick="startSession()">Start Review</button>
       <a href="book1.html" class="fc-btn fc-btn--ghost">Not now</a>
@@ -251,7 +251,7 @@ function endSession() {
     if (typeof celebrate === 'function') celebrate('fail');
   } else {
     document.getElementById('end-sub').textContent =
-      `You mastered ${_mastered} out of ${_cards.length} words. These words need more practice — you'll get them! 💪`;
+      `You mastered ${_mastered} out of ${_cards.length} words. These words need another review — you'll get them! 💪`;
   }
   document.getElementById('end-xp').textContent = `+${XP_REWARD} XP earned`;
   if (typeof awardXP === 'function') awardXP(XP_REWARD);

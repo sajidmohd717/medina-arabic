@@ -7,22 +7,19 @@
   })();
 
   var page =
-    path.includes('drill')   ? 'drill'   :
+    path.endsWith('/') || path.includes('index') ? 'home' :
     path.includes('review')  ? 'review'  :
     path.includes('reading') ? 'reading' :
     path.includes('book')    ? 'lessons' :
     path.includes('lesson')  ? 'lessons' :
-    'lessons';
+    'home';
 
   var tabs = [
+    { id: 'home',    href: 'index.html',       icon: '🏠', label: 'Today' },
     { id: 'lessons', href: currentBook + '.html', icon: '📖', label: 'Course' },
-    { id: 'drill',   href: 'drill.html',   icon: '⚡', label: 'Practice' },
+    { id: 'reading', href: 'reading.html', icon: 'ق', label: 'Reading' },
     { id: 'review',  href: 'review.html',  icon: '🔁', label: 'Review'  },
   ];
-
-  if (path.includes('reading')) {
-    tabs.push({ id: 'reading', href: 'reading.html', icon: '📖', label: 'Reading' });
-  }
 
   var base = path.includes('/lessons/') ? '../' : '';
 

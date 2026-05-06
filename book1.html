@@ -171,10 +171,9 @@
   <!-- Nav -->
   <nav>
     <span class="nav-title">الكتاب الأول — Book One</span>
-    <a class="nav-link nav-link-reading" id="readingNavLink" href="reading.html">Reading Track</a>
     <div id="streak-widget" class="streak-widget" style="margin-left:auto;margin-right:0.5rem;"></div>
     <button class="settings-btn" onclick="toggleSettings()" title="Settings" aria-label="Settings">⚙️</button>
-    <div class="nav-progress">
+    <div class="nav-progress" style="margin-left:0;">
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progressFill"></div>
       </div>
@@ -216,9 +215,9 @@
     </div>
     <!-- Quick actions -->
     <div class="quick-actions" style="max-width:420px; margin: 0.5rem 0 1rem;">
-      <a href="drill.html" class="quick-action-btn" id="drill-btn">
-        <span class="quick-action-icon">⚡</span>
-        <span class="quick-action-label">Daily Practice</span>
+      <a href="reading.html" class="quick-action-btn">
+        <span class="quick-action-icon">ق</span>
+        <span class="quick-action-label">Reading</span>
       </a>
       <a href="review.html" class="quick-action-btn">
         <span class="quick-action-icon">🔁</span>
@@ -296,17 +295,6 @@
     renderBook1LessonList();
     refreshBookListUI('book1');
     initSidebarScroll();
-    (function updateReadingNavLabel() {
-      const el = document.getElementById('readingNavLink');
-      if (!el) return;
-      let passed = 0;
-      try {
-        const progress = JSON.parse(localStorage.getItem('kalamo_reading_progress')) || {};
-        passed = Object.values(progress.passed || {}).filter(Boolean).length;
-      } catch {}
-      const grade = passed >= 5 ? 'Level One' : 'Pre-Level One';
-      el.textContent = `Reading Track (${grade})`;
-    })();
 
     function toggleSettings() {
       const overlay = document.getElementById('settingsOverlay');
