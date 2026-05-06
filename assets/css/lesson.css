@@ -3,35 +3,20 @@
    Vocab, Grammar, Reading, Practice, Quiz
    ═══════════════════════════════════════ */
 
-/* ── Floating home button (replaces full nav) ── */
+/* ── Home link (above step indicator) ── */
 .lesson-home-btn {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 200;
+  display: inline-block;
   font-family: 'Nunito', sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.03em;
   color: var(--brand);
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(124, 92, 252, 0.18);
-  border-radius: var(--radius-full);
-  padding: 0.35rem 0.75rem 0.35rem 0.55rem;
-  box-shadow: 0 2px 10px rgba(124, 92, 252, 0.08);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  transition: all 0.2s ease;
+  opacity: 0.7;
+  margin-bottom: 0.5rem;
+  transition: opacity 0.15s ease;
 }
 .lesson-home-btn:hover {
-  background: var(--surface-tint);
-  border-color: var(--brand-light);
-  transform: translateX(-2px);
-  box-shadow: 0 4px 16px rgba(124, 92, 252, 0.14);
+  opacity: 1;
 }
 
 .lesson-page {
@@ -43,8 +28,8 @@
 .lesson-intro {
   position: relative;
   z-index: 2;
-  min-height: calc(100vh - 84px);
-  min-height: calc(100dvh - 84px);
+  min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   place-items: center;
   padding: 3rem 1.25rem 4rem;
@@ -225,7 +210,7 @@
 /* ── Step Indicator ── */
 .step-indicator {
   position: sticky;
-  top: 84px;
+  top: 1rem;
   z-index: 90;
   display: flex;
   align-items: center;
@@ -236,6 +221,12 @@
   border-radius: var(--radius-lg);
   padding: 0.5rem;
   box-shadow: var(--shadow-sm);
+}
+
+.step-buttons {
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 
 .step-btn {
@@ -2217,6 +2208,7 @@
     width: 100%;
   }
   .step-indicator { position: static; margin-bottom: 1.4rem; padding: 0.35rem; border-radius: var(--radius-md); }
+  .step-buttons { width: 100%; }
   .vocab-grid { gap: 10px; }
   .vocab-grid-active { grid-template-columns: 1fr; }
   .guided-lesson-intro {

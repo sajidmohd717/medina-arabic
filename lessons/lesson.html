@@ -41,9 +41,6 @@
     <rect width="800" height="600" fill="url(#geo)"/>
   </svg>
 
-  <!-- Home pill -->
-  <a class="lesson-home-btn" href="../index.html" aria-label="Back to Home">← Home</a>
-
   <section class="lesson-intro" id="lessonIntro" aria-labelledby="lessonIntroTitle">
     <div class="lesson-intro-card">
       <div class="lesson-intro-glow" aria-hidden="true"></div>
@@ -65,28 +62,28 @@
 
   <div class="lesson-page is-waiting" id="lessonPage">
 
+    <a class="lesson-home-btn" href="../index.html" aria-label="Back to Home">← Home</a>
+
     <!-- Step indicator -->
     <div class="step-indicator">
-      <button class="step-btn active" id="step-vocab" onclick="goToStep('vocab')">
-        <div class="step-icon">📖</div>
-        <span class="step-label">Vocabulary</span>
-      </button>
-      <button class="step-btn locked" id="step-lesson" onclick="goToStep('lesson')">
-        <div class="step-icon">🧠</div>
-        <span class="step-label">Concepts</span>
-      </button>
-      <button class="step-btn locked" id="step-comprehension" onclick="goToStep('comprehension')">
-        <div class="step-icon">📖</div>
-        <span class="step-label">Reading</span>
-      </button>
-      <button class="step-btn locked" id="step-practice" onclick="goToStep('practice')">
-        <div class="step-icon">⚡</div>
-        <span class="step-label">Practice</span>
-      </button>
-      <button class="step-btn locked" id="step-quiz" onclick="goToStep('quiz')">
-        <div class="step-icon">🎯</div>
-        <span class="step-label">Quiz</span>
-      </button>
+      <div class="step-buttons">
+        <button class="step-btn active" id="step-vocab" onclick="goToStep('vocab')">
+          <div class="step-icon">📖</div>
+          <span class="step-label">Vocabulary</span>
+        </button>
+        <button class="step-btn locked" id="step-lesson" onclick="goToStep('lesson')">
+          <div class="step-icon">🧠</div>
+          <span class="step-label">Concepts</span>
+        </button>
+        <button class="step-btn locked" id="step-comprehension" onclick="goToStep('comprehension')">
+          <div class="step-icon">📖</div>
+          <span class="step-label">Reading</span>
+        </button>
+        <button class="step-btn locked" id="step-quiz" onclick="goToStep('quiz')">
+          <div class="step-icon">🎯</div>
+          <span class="step-label">Quiz</span>
+        </button>
+      </div>
     </div>
 
     <!-- PANEL 1 — VOCABULARY -->
@@ -124,74 +121,10 @@
       </div>
     </div>
 
-    <!-- PANEL 3 — PRACTICE -->
-    <div class="lesson-panel" id="panel-practice">
-      <div class="practice-container"></div>
-      <div class="panel-nav">
-        <button class="btn btn-secondary" onclick="goToStep('comprehension')">← Reading</button>
-        <button class="btn btn-primary" onclick="unlockAndGo('quiz')">Ready — Take the Quiz →</button>
-      </div>
-    </div>
-
-    <!-- PANEL 4 — QUIZ -->
+    <!-- PANEL 3 — QUIZ -->
     <div class="lesson-panel" id="panel-quiz">
       <p class="quiz-total-label" id="quizTotalLabel"></p>
       <div class="quiz-container"></div>
-
-      <!-- On-screen Arabic keyboard -->
-      <div class="arabic-keyboard">
-        <div class="keyboard-title">Arabic keyboard — click a letter to type it into the active input</div>
-        <div class="keyboard-row">
-          <button class="key" onclick="typeKey('ض')">ض</button>
-          <button class="key" onclick="typeKey('ص')">ص</button>
-          <button class="key" onclick="typeKey('ث')">ث</button>
-          <button class="key" onclick="typeKey('ق')">ق</button>
-          <button class="key" onclick="typeKey('ف')">ف</button>
-          <button class="key" onclick="typeKey('غ')">غ</button>
-          <button class="key" onclick="typeKey('ع')">ع</button>
-          <button class="key" onclick="typeKey('ه')">ه</button>
-          <button class="key" onclick="typeKey('خ')">خ</button>
-          <button class="key" onclick="typeKey('ح')">ح</button>
-          <button class="key" onclick="typeKey('ج')">ج</button>
-        </div>
-        <div class="keyboard-row">
-          <button class="key" onclick="typeKey('ش')">ش</button>
-          <button class="key" onclick="typeKey('س')">س</button>
-          <button class="key" onclick="typeKey('ي')">ي</button>
-          <button class="key" onclick="typeKey('ب')">ب</button>
-          <button class="key" onclick="typeKey('ل')">ل</button>
-          <button class="key" onclick="typeKey('ا')">ا</button>
-          <button class="key" onclick="typeKey('ت')">ت</button>
-          <button class="key" onclick="typeKey('ن')">ن</button>
-          <button class="key" onclick="typeKey('م')">م</button>
-          <button class="key" onclick="typeKey('ك')">ك</button>
-          <button class="key" onclick="typeKey('د')">د</button>
-        </div>
-        <div class="keyboard-row">
-          <button class="key" onclick="typeKey('ئ')">ئ</button>
-          <button class="key" onclick="typeKey('ء')">ء</button>
-          <button class="key" onclick="typeKey('ؤ')">ؤ</button>
-          <button class="key" onclick="typeKey('ر')">ر</button>
-          <button class="key" onclick="typeKey('ى')">ى</button>
-          <button class="key" onclick="typeKey('ة')">ة</button>
-          <button class="key" onclick="typeKey('و')">و</button>
-          <button class="key" onclick="typeKey('ز')">ز</button>
-          <button class="key" onclick="typeKey('ظ')">ظ</button>
-          <button class="key" onclick="typeKey('ذ')">ذ</button>
-        </div>
-        <div class="keyboard-row">
-          <button class="key" onclick="typeKey('َ')" title="Fatha (a)">فَ</button>
-          <button class="key" onclick="typeKey('ِ')" title="Kasra (i)">فِ</button>
-          <button class="key" onclick="typeKey('ُ')" title="Damma (u)">فُ</button>
-          <button class="key" onclick="typeKey('ً')" title="Tanwin fath">فً</button>
-          <button class="key" onclick="typeKey('ٌ')" title="Tanwin damm">فٌ</button>
-          <button class="key" onclick="typeKey('ٍ')" title="Tanwin kasr">فٍ</button>
-          <button class="key" onclick="typeKey('ّ')" title="Shadda">فّ</button>
-          <button class="key" onclick="typeKey('ْ')" title="Sukun">فْ</button>
-          <button class="key key-wide key-backspace" onclick="deleteKey()">⌫ Del</button>
-          <button class="key key-wide key-clear" onclick="clearInput()">Clear</button>
-        </div>
-      </div>
 
       <!-- Submit + score -->
       <div class="panel-nav">

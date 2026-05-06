@@ -11,10 +11,9 @@
 let CURRENT_LESSON_DATA = null;
 let CURRENT_BOOK = null;
 let CURRENT_LESSON_NUM = null;
-let UNLOCKED_STEPS = { vocab: true, lesson: false, comprehension: false, practice: false, quiz: false };
+let UNLOCKED_STEPS = { vocab: true, lesson: false, comprehension: false, quiz: false };
 let QUIZ_RESULTS = {};
 let COMPREHENSION_RESULTS = {};
-let ACTIVE_INPUT = null;
 let CURRENT_STEP = 'vocab';
 
 // DOM elements (populated after load)
@@ -173,7 +172,7 @@ function attachGuidedExerciseHandlers(root = document) {
 function goToStep(step) {
   if (!UNLOCKED_STEPS[step]) return;
 
-  const stepOrder = ['vocab', 'lesson', 'comprehension', 'practice', 'quiz'];
+  const stepOrder = ['vocab', 'lesson', 'comprehension', 'quiz'];
   const stepIndex = stepOrder.indexOf(step);
 
   stepOrder.forEach(s => {
@@ -221,8 +220,8 @@ function unlockAndGo(step) {
 
 /** Open all steps and go straight to the quiz (used with ?step=quiz from the book list). */
 function applyQuizJumpMode() {
-  UNLOCKED_STEPS = { vocab: true, lesson: true, comprehension: true, practice: true, quiz: true };
-  ['vocab', 'lesson', 'comprehension', 'practice', 'quiz'].forEach(step => {
+  UNLOCKED_STEPS = { vocab: true, lesson: true, comprehension: true, quiz: true };
+  ['vocab', 'lesson', 'comprehension', 'quiz'].forEach(step => {
     const btn = document.getElementById(`step-${step}`);
     if (btn) btn.classList.remove('locked');
   });
@@ -317,28 +316,6 @@ function checkComprehension(btn, qNum, isCorrect) {
 // PRACTICE FUNCTIONS
 // ─────────────────────────────────────────────────────────────
 
-function checkPractice(btn, isCorrect) {
-  const container = btn.closest('.practice-question');
-  const feedback = container.querySelector('.practice-feedback');
-  const options = container.querySelectorAll('.practice-option');
-  
-  options.forEach(o => o.disabled = true);
-  
-  if (isCorrect) {
-    btn.classList.add('correct');
-    feedback.textContent = '✓ Correct!';
-    feedback.className = 'practice-feedback correct';
-  } else {
-    btn.classList.add('wrong');
-    feedback.textContent = '✗ Not quite — the correct answer is highlighted.';
-    feedback.className = 'practice-feedback wrong';
-    options.forEach(o => {
-      if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) {
-        o.classList.add('correct');
-      }
-    });
-  }
-}
 
 // ─────────────────────────────────────────────────────────────
 // QUIZ FUNCTIONS
@@ -522,42 +499,6 @@ function retryQuiz() {
 // ON-SCREEN KEYBOARD
 // ─────────────────────────────────────────────────────────────
 
-function attachKeyboard() {
-  ACTIVE_INPUT = null;
-  
-  document.querySelectorAll('.arabic-input').forEach(input => {
-    input.addEventListener('focus', () => { ACTIVE_INPUT = input; });
-  });
-  
-  window.typeKey = function(char) {
-    if (!ACTIVE_INPUT || ACTIVE_INPUT.disabled) {
-      const inputs = document.querySelectorAll('.arabic-input:not(:disabled)');
-      if (inputs.length) ACTIVE_INPUT = inputs[0];
-      else return;
-    }
-    const pos = ACTIVE_INPUT.selectionStart;
-    const val = ACTIVE_INPUT.value;
-    ACTIVE_INPUT.value = val.slice(0, pos) + char + val.slice(pos);
-    ACTIVE_INPUT.focus();
-    ACTIVE_INPUT.setSelectionRange(pos + 1, pos + 1);
-  };
-  
-  window.deleteKey = function() {
-    if (!ACTIVE_INPUT || ACTIVE_INPUT.disabled) return;
-    const pos = ACTIVE_INPUT.selectionStart;
-    if (pos === 0) return;
-    const val = ACTIVE_INPUT.value;
-    ACTIVE_INPUT.value = val.slice(0, pos - 1) + val.slice(pos);
-    ACTIVE_INPUT.focus();
-    ACTIVE_INPUT.setSelectionRange(pos - 1, pos - 1);
-  };
-  
-  window.clearInput = function() {
-    if (!ACTIVE_INPUT || ACTIVE_INPUT.disabled) return;
-    ACTIVE_INPUT.value = '';
-    ACTIVE_INPUT.focus();
-  };
-}
 
 // ─────────────────────────────────────────────────────────────
 // UI BUILDING FUNCTIONS
@@ -902,28 +843,6 @@ function buildLessonPanel(data) {
     `;
   });
   
-  if (data.examples && data.examples.length) {
-    html += `
-      <div class="grammar-block">
-        <h3>Example sentences</h3>
-        <table class="example-table">
-          <thead>
-            <tr><th>Arabic</th><th>Transliteration</th><th>Meaning</th></tr>
-          </thead>
-          <tbody>
-    `;
-    data.examples.forEach(ex => {
-      html += `
-        <tr>
-          <td class="col-arabic">${ex.ar}</td>
-          <td class="col-trans">${ex.trans}</td>
-          <td class="col-meaning">${ex.meaning}</td>
-        </tr>
-      `;
-    });
-    html += `</tbody></table></div>`;
-  }
-  
   lessonContent.innerHTML = html;
 }
 
@@ -976,48 +895,6 @@ function buildComprehensionPanel(data) {
   attachArabicWordMeaningToggles(comprehensionContent);
 }
 
-function buildPracticePanel(data) {
-  const practiceContainer = document.querySelector('#panel-practice .practice-container');
-  if (!practiceContainer) return;
-
-  if (data.reviewVocabAtEnd) {
-    const panel = document.getElementById('panel-practice');
-    const heading = panel && panel.querySelector('.panel-heading-text');
-    if (heading) {
-      heading.innerHTML = `
-        <h2>Review Words</h2>
-        <p>Now that you have seen the words in sentences and reading, choose what should come back in Review.</p>
-      `;
-    }
-    buildVocabRatingLayout(
-      data,
-      practiceContainer,
-      'Rate the words from this lesson: ✓ easy · ≈ needs practice · ✗ difficult. Words marked ≈ or ✗ are the most useful ones to review later.'
-    );
-    return;
-  }
-  
-  let html = '';
-  data.practiceQuestions.forEach((q, idx) => {
-    const qNum = idx + 1;
-    const optionsHtml = q.options.map((opt, optIdx) => {
-      const isCorrect = opt === q.correct;
-      return `<button class="practice-option" onclick="checkPractice(this, ${isCorrect})">${opt}</button>`;
-    }).join('');
-    
-    html += `
-      <div class="practice-question">
-        <div class="practice-q-label">Question ${displayNumber(qNum)} of ${displayNumber(data.practiceQuestions.length)}</div>
-        ${q.arabic ? `<div class="practice-q-arabic">${q.arabic}</div>` : ''}
-        ${q.text ? `<div class="practice-q-text">${q.text}</div>` : ''}
-        <div class="practice-options">${optionsHtml}</div>
-        <div class="practice-feedback" id="pf${qNum}"></div>
-      </div>
-    `;
-  });
-  
-  practiceContainer.innerHTML = html;
-}
 
 function buildQuizPanel(data) {
   const quizContainer = document.querySelector('#panel-quiz .quiz-container');
@@ -1032,7 +909,7 @@ function buildQuizPanel(data) {
   const total = mcCount + typingCount;
   const quizTotalLabel = document.getElementById('quizTotalLabel');
   if (quizTotalLabel) {
-    quizTotalLabel.textContent = `${displayNumber(total)} questions. Answer all of them to complete this lesson.`;
+    quizTotalLabel.textContent = `${displayNumber(total)} questions. Score ${displayNumber(data.passMark)} or more to pass.`;
   }
   
   let html = '';
@@ -1068,7 +945,7 @@ function buildQuizPanel(data) {
         <div class="arabic-input-wrap">
           <input class="arabic-input" type="text" id="qi${qNum}" placeholder="اكتب هنا..." autocomplete="off" onkeydown="if(event.key==='Enter') checkTyping(${qNum}, CURRENT_LESSON_DATA.quizQuestions.typing[${idx}])" />
         </div>
-        <div class="input-hint">Tip: Use the keyboard below, or your system Arabic keyboard. Vowel marks are optional.</div>
+        <div class="guided-exercise-tip">💡 Pro tip: You don't need to type vowel marks — type bare letters and it will still match.</div>
         <div style="margin-top:0.6rem;">
           <button class="btn btn-secondary" id="checkBtn${qNum}" onclick="checkTyping(${qNum}, CURRENT_LESSON_DATA.quizQuestions.typing[${idx}])">Check Answer</button>
         </div>
@@ -1111,10 +988,8 @@ function initLesson() {
 
   if (CURRENT_LESSON_DATA.guidedPages && CURRENT_LESSON_DATA.guidedPages.length) {
     const lessonStepLabel = document.querySelector('#step-lesson .step-label');
-    const practiceStep = document.getElementById('step-practice');
     const vocabStepLabel = document.querySelector('#step-vocab .step-label');
     const readingBackBtn = document.querySelector('#panel-comprehension .btn-secondary');
-    if (practiceStep) practiceStep.hidden = true;
     if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
     if (lessonStepLabel) lessonStepLabel.textContent = 'Concepts';
     if (readingBackBtn) {
@@ -1127,7 +1002,6 @@ function initLesson() {
   buildVocabularyPanel(CURRENT_LESSON_DATA);
   buildLessonPanel(CURRENT_LESSON_DATA);
   buildComprehensionPanel(CURRENT_LESSON_DATA);
-  buildPracticePanel(CURRENT_LESSON_DATA);
   buildQuizPanel(CURRENT_LESSON_DATA);
   restoreLessonResume();
   
@@ -1144,9 +1018,6 @@ function initLesson() {
     }
     nextBtn.href = nextHref;
   }
-  
-  // Attach keyboard after DOM is ready
-  setTimeout(attachKeyboard, 100);
   
   // Update progress bar if function exists
   if (typeof updateProgressBar === 'function') {
@@ -1387,7 +1258,7 @@ function restoreLessonResume() {
   if (!resumeKey || localStorage.getItem(resumeKey) !== 'active') return;
 
   const savedStep = localStorage.getItem(stepKey) || 'vocab';
-  const stepOrder = ['vocab', 'lesson', 'comprehension', 'practice', 'quiz'];
+  const stepOrder = ['vocab', 'lesson', 'comprehension', 'quiz'];
   const targetIndex = stepOrder.indexOf(savedStep);
   if (targetIndex <= 0) return;
 
@@ -1853,11 +1724,7 @@ window.goToStep = goToStep;
 window.checkGuidedExercise = checkGuidedExercise;
 window.unlockAndGo = unlockAndGo;
 window.applyQuizJumpMode = applyQuizJumpMode;
-window.checkPractice = checkPractice;
 window.checkQuiz = checkQuiz;
 window.checkTyping = checkTyping;
 window.submitQuiz = submitQuiz;
 window.retryQuiz = retryQuiz;
-window.typeKey = null; // will be set by attachKeyboard
-window.deleteKey = null;
-window.clearInput = null;
