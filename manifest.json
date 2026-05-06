@@ -6,8 +6,8 @@
   "scope": "/medina-arabic/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "theme_color": "#1a5c4a",
-  "background_color": "#fdf6ec",
+  "theme_color": "#58cc02",
+  "background_color": "#fffcde",
   "lang": "en",
   "icons": [
     {

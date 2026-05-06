@@ -255,24 +255,33 @@ Loaded by lesson pages only. Contains:
 ### CSS variables (defined in shared.css)
 
 ```
---gold           #8a6420    primary accent — all gold UI elements
---gold-light     #c4a050    lighter gold for borders and dividers
---gold-border    #c4a05060  semi-transparent gold for card borders
---gold-faint     #8a642015  very faint gold for hover backgrounds
---bg             #fdf6ec    warm parchment page background
---bg-card        #fff9f2    slightly lighter card background
---text-dark      #1a1208    near-black — main body text
---text-mid       #4a3820    dark brown — secondary text
---text-muted     #8a7254    muted brown — hints, labels
---green          #1e5c38    success / completed state
---green-bg       #d4edda
---green-border   #8ac4a0
---amber          #b45309    in-progress / practising
---amber-bg       #fff7ed
---amber-border   #fdba7460
---red            #9b2c2c    wrong answers / difficult vocab
---red-bg         #fdecec
---red-border     #e8a8a8
+--brand           #58cc02    Duolingo-style green — primary buttons, links, active states
+--brand-dark      #46a302    darker green — hover/pressed states, 3D button shadow
+--accent-blue     #1cb0f6    sky blue — secondary gradients
+--accent-purple   #ce82ff    purple accent
+--accent-coral    #ff4b4b    coral — eyebrows, highlights
+--accent-pink     #ff69b4    pink accent
+--accent-gold     #ffc800    gold accent
+--accent-lemon    #ffd84d    lemon yellow
+--accent-sky      #5cc8ff    sky blue
+--gold            #ff9600    warm orange — streaks, in-progress states
+--gold-border     #ff960060  semi-transparent orange for card borders
+--gold-faint      #fff3e0    very light orange for hover backgrounds
+--surface-bg      #fffcde    warm cream page background
+--surface-card    #ffffff    white card background
+--surface-tint    #f0fdf4    very light green tint for hover/active surfaces
+--text-dark       #2b2b2b    near-black — main body text
+--text-mid        #777777    grey — secondary text
+--text-muted      #afafaf    light grey — hints, labels
+--green           #58cc02    success / completed state
+--green-bg        #ddf4c8
+--green-border    #a4e065
+--amber           #ff9600    in-progress / practising
+--amber-bg        #fff0d4
+--amber-border    #ffc66d
+--red             #ff4b4b    wrong answers / difficult vocab
+--red-bg          #ffd5d5
+--red-border      #ff9a9a
 ```
 
 **Never hardcode hex values in page CSS — always use these variables.**
@@ -389,12 +398,13 @@ So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After
 - Mobile may use smaller component-level type and tighter spacing when needed for scanability; do not blindly preserve desktop scale on phones
 
 ### Colour
-- Palette is warm and classical: gold, parchment, dark brown
-- Never use cool greys, blues, or white backgrounds — always the warm CSS variables
-- Gold → primary accent throughout
-- Green → completed / correct
-- Amber → in-progress / practising
+- Palette is bright, poppy, and fun: Duolingo-inspired green (#58cc02), warm orange (#ff9600), sky blue (#1cb0f6), coral (#ff4b4b), purple (#ce82ff)
+- Background is a warm cream (#fffcde) — never use pure white or cool grey backgrounds
+- Brand green → primary accent, buttons, links, active states
+- Success green → completed / correct
+- Gold/orange → in-progress, streaks, hover states
 - Red → wrong / difficult (always paired with icon + text, never colour alone)
+- All colours are defined as CSS custom properties in `shared.css` — never hardcode hex values
 
 ### Layout
 - Max width: `1220px` on book list pages, `900px` on lesson pages
