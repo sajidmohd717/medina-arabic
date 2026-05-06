@@ -272,6 +272,7 @@
           </div>
         </div>
       </div>
+      <div style="margin-top:0.5rem;"><a href="#" onclick="obBack();return false" style="font-family:Lato;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Back</a></div>
       <button class="onboarding-btn" onclick="obNext()">Got it →</button>
     </div>
 
@@ -280,21 +281,22 @@
       <div class="onboarding-title">How are you using Kalamo?</div>
       <p class="onboarding-sub">This helps us set you up in the right place.</p>
       <div class="level-cards" style="margin-bottom:1.8rem;">
-        <div class="level-card selected" data-mode="companion" onclick="obSelectMode(this)">
+        <div class="level-card" data-mode="companion" onclick="obSelectMode(this)">
           <span class="level-card-icon">📚</span>
           <div>
-            <div class="level-card-name">Companion to the book</div>
-            <div class="level-card-desc">I'm studying the physical Madinah Arabic books and want a digital companion</div>
+            <div class="level-card-name">I have the textbooks</div>
+            <div class="level-card-desc">I own the Madinah Arabic books — pick which one you're on.</div>
           </div>
         </div>
-        <div class="level-card" data-mode="standalone" onclick="obSelectMode(this)">
+        <div class="level-card selected" data-mode="standalone" onclick="obSelectMode(this)">
           <span class="level-card-icon">🌍</span>
           <div>
-            <div class="level-card-name">Learning independently</div>
-            <div class="level-card-desc">I'm using Kalamo as my main way to learn Arabic</div>
+            <div class="level-card-name">Learning from scratch <span style="display:inline-block;margin-left:6px;font-size:0.58rem;background:var(--green-bg);color:#5ec896;padding:2px 8px;border-radius:99px;">Recommended</span></div>
+            <div class="level-card-desc">No textbooks needed — Kalamo is your teacher.</div>
           </div>
         </div>
       </div>
+      <div style="margin-top:0.5rem;"><a href="#" onclick="obBack();return false" style="font-family:Lato;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Back</a></div>
       <button class="onboarding-btn" onclick="obNext()">Continue →</button>
     </div>
 
@@ -325,6 +327,7 @@
           </div>
         </div>
       </div>
+      <div style="margin-top:0.5rem;"><a href="#" onclick="obBack();return false" style="font-family:Lato;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Back</a></div>
       <button class="onboarding-btn" onclick="obNext()">Continue →</button>
     </div>
 
@@ -355,6 +358,7 @@
           </div>
         </div>
       </div>
+      <div style="margin-top:0.5rem;"><a href="#" onclick="obBack();return false" style="font-family:Lato;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Back</a></div>
       <button class="onboarding-btn" onclick="obNext()">Continue →</button>
     </div>
 
@@ -363,6 +367,7 @@
       <div class="onboarding-arabic">بِسْمِ اللهِ</div>
       <div class="onboarding-title">You're all set!</div>
       <p class="onboarding-sub" id="ob-ready-sub">Let's get started. Do lessons to earn XP, keep your daily streak going, and use Drill + Review to reinforce what you learn.</p>
+      <div style="margin-top:0.5rem;"><a href="#" onclick="obBack();return false" style="font-family:Lato;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Back</a></div>
       <button class="onboarding-btn" onclick="obFinish()">Start Learning →</button>
     </div>
 
@@ -376,7 +381,7 @@
        Onboarding state
        ══════════════════════════════════════════════ */
     var _obStep   = 0;
-    var _obMode   = 'companion';
+    var _obMode   = 'standalone';
     var _obBook   = 'book1';
     var _obLevel  = 0;
 
@@ -396,6 +401,10 @@
     function obNext() {
       _obStep++;
       _syncObView();
+    }
+
+    function obBack() {
+      if (_obStep > 1) { _obStep--; _syncObView(); }
     }
 
     function _syncObView() {
