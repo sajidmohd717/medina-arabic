@@ -801,6 +801,13 @@ function buildVocabularyPanel(data) {
       if (nextBtn) {
         nextBtn.addEventListener('click', () => {
           if (pageIndex < total - 1) {
+            if (pageIndex === 3) {
+              showGuidedMilestone(data, () => {
+                renderPage(pageIndex + 1);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              });
+              return;
+            }
             renderPage(pageIndex + 1);
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
@@ -1396,6 +1403,179 @@ function updateGuidedProgress(pageIndex, total) {
   const pct = Math.round(((pageIndex + 1) / total) * 100);
   bar.style.width = pct + '%';
   if (label) label.textContent = `Page ${pageIndex + 1} of ${total}`;
+}
+
+// ─────────────────────────────────────────────────────────────
+// MILESTONE CELEBRATION (shown after page 4 of guided lesson)
+// ─────────────────────────────────────────────────────────────
+
+function buildSatchelSVG() {
+  return `<svg class="satchel-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M 34 30 Q 50 14 66 30" stroke="#C4904A" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M 16 46 C 12 92 18 112 50 114 C 82 112 88 92 84 46 Z" fill="#A0622A"/>
+    <rect x="13" y="38" width="74" height="15" rx="7.5" fill="#7B4A1E"/>
+    <line x1="50" y1="56" x2="50" y2="108" stroke="#7B4A1E" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.45"/>
+    <rect x="37" y="43" width="26" height="10" rx="5" fill="#D4A030"/>
+    <rect x="43" y="46" width="14" height="4" rx="2" fill="#A0622A"/>
+    <path d="M 24 60 Q 28 50 36 56" stroke="rgba(255,210,130,0.28)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  </svg>`;
+}
+
+function launchMilestoneConfetti() {
+  const canvas = document.getElementById('milestoneCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const COLORS = ['#7C5CFC', '#B5935A', '#FFD166', '#06D6A0', '#EF476F', '#a78bfa', '#ffd700'];
+  const SHAPES = ['✦', '★', '✿', '◆', '✶'];
+  const particles = Array.from({ length: 65 }, () => {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 3.5 + Math.random() * 9;
+    return {
+      x: canvas.width / 2, y: canvas.height * 0.38,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 5,
+      gravity: 0.19 + Math.random() * 0.1,
+      alpha: 1,
+      size: 11 + Math.random() * 16,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+      rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.14,
+      decay: 0.011 + Math.random() * 0.009
+    };
+  });
+
+  let rafId;
+  const animate = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let anyAlive = false;
+    particles.forEach(p => {
+      if (p.alpha <= 0) return;
+      anyAlive = true;
+      p.x += p.vx; p.y += p.vy;
+      p.vy += p.gravity; p.vx *= 0.99;
+      p.rotation += p.rotSpeed;
+      p.alpha -= p.decay;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.font = `${p.size}px serif`;
+      ctx.fillStyle = p.color;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(p.shape, 0, 0);
+      ctx.restore();
+    });
+    if (anyAlive) rafId = requestAnimationFrame(animate);
+  };
+  animate();
+  setTimeout(() => { cancelAnimationFrame(rafId); ctx.clearRect(0, 0, canvas.width, canvas.height); }, 5000);
+}
+
+function showGuidedMilestone(data, onContinue) {
+  const existing = document.getElementById('milestoneOverlay');
+  if (existing) existing.remove();
+
+  const totalWords = data.vocab ? data.vocab.length : 0;
+  const displayWords = (data.vocab || [])
+    .filter(v => ['Noun', 'Person', 'Animal'].includes(v.type))
+    .slice(0, 12);
+
+  const overlay = document.createElement('div');
+  overlay.id = 'milestoneOverlay';
+  overlay.className = 'milestone-overlay';
+  overlay.innerHTML = `
+    <canvas id="milestoneCanvas" class="milestone-canvas"></canvas>
+    <div class="milestone-card" id="milestoneCard">
+      <div class="milestone-ornament" aria-hidden="true">✦</div>
+      <h2 class="milestone-heading">Amazing work!</h2>
+      <p class="milestone-sub">You've already learned <strong>${totalWords}</strong> new words</p>
+      <div class="milestone-chips" id="milestoneChips"></div>
+      <div class="milestone-satchel-wrap" id="milestoneSatchelWrap">
+        <p class="milestone-satchel-label">All packed into your word satchel</p>
+        <div class="milestone-satchel" id="milestoneSatchel">${buildSatchelSVG()}</div>
+      </div>
+      <button type="button" class="btn btn-primary milestone-btn" id="milestoneContinueBtn">Keep going →</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  launchMilestoneConfetti();
+
+  const chipsContainer = document.getElementById('milestoneChips');
+  const satchelWrap    = document.getElementById('milestoneSatchelWrap');
+  const satchelEl      = document.getElementById('milestoneSatchel');
+  const continueBtn    = document.getElementById('milestoneContinueBtn');
+
+  satchelWrap.style.opacity = '0';
+  continueBtn.style.opacity = '0';
+  continueBtn.style.transform = 'translateY(14px)';
+
+  // Build chips hidden
+  displayWords.forEach(w => {
+    const chip = document.createElement('span');
+    chip.className = 'milestone-chip';
+    chip.innerHTML = `<span class="chip-ar" dir="rtl">${w.ar}</span><span class="chip-en">${w.meaning}</span>`;
+    chip.style.cssText = 'opacity:0; transform:translateY(10px)';
+    chipsContainer.appendChild(chip);
+  });
+
+  const chips = Array.from(chipsContainer.querySelectorAll('.milestone-chip'));
+
+  // Stagger chips in
+  chips.forEach((chip, i) => {
+    setTimeout(() => {
+      chip.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+      chip.style.opacity = '1';
+      chip.style.transform = 'translateY(0)';
+    }, 650 + i * 75);
+  });
+
+  // Show satchel
+  const afterChips = 650 + chips.length * 75 + 250;
+  setTimeout(() => {
+    satchelWrap.style.transition = 'opacity 0.5s ease';
+    satchelWrap.style.opacity = '1';
+  }, afterChips);
+
+  // Fly chips into satchel
+  setTimeout(() => {
+    const satchelRect = satchelEl.getBoundingClientRect();
+    const tx = satchelRect.left + satchelRect.width / 2;
+    const ty = satchelRect.top + satchelRect.height / 2;
+
+    chips.forEach((chip, i) => {
+      setTimeout(() => {
+        const r = chip.getBoundingClientRect();
+        const dx = tx - (r.left + r.width / 2);
+        const dy = ty - (r.top + r.height / 2);
+        chip.style.transition = 'all 0.45s cubic-bezier(0.55, 0, 1, 0.45)';
+        chip.style.transform  = `translate(${dx}px, ${dy}px) scale(0.05)`;
+        chip.style.opacity    = '0';
+        setTimeout(() => {
+          satchelEl.classList.add('milestone-satchel--jiggle');
+          setTimeout(() => satchelEl.classList.remove('milestone-satchel--jiggle'), 420);
+        }, 420);
+      }, i * 55);
+    });
+
+    // Show continue button after all chips land
+    setTimeout(() => {
+      continueBtn.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      continueBtn.style.opacity    = '1';
+      continueBtn.style.transform  = 'translateY(0)';
+    }, chips.length * 55 + 600);
+
+  }, afterChips + 550);
+
+  continueBtn.addEventListener('click', () => {
+    overlay.style.transition = 'opacity 0.35s ease';
+    overlay.style.opacity = '0';
+    setTimeout(() => { overlay.remove(); onContinue(); }, 360);
+  });
 }
 
 // Export for global access
