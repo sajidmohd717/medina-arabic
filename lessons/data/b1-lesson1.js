@@ -154,22 +154,38 @@ const LESSON_DATA = {
     },
     {
       titleArabic: 'تَمْرِين (٣)',
-      title: 'Read and Write',
-      pattern: 'اِقْرَأْ وَاكْتُبْ',
-      intro: 'Read these short sentences. This page also introduces مَنْ for people.',
-      lines: [
-        { ar: 'هٰذَا مَكْتَبٌ.' },
-        { ar: 'هٰذَا سَرِيرٌ.' },
-        { ar: 'أَهٰذَا بَيْتٌ؟', isPrompt: true },
-        { ar: 'هٰذَا مَسْجِدٌ.' },
-        { ar: 'مَا هٰذَا؟', isPrompt: true },
-        { ar: 'لا، هٰذَا مَسْجِدٌ.' },
-        { ar: 'مَنْ هٰذَا؟', isPrompt: true },
-        { ar: 'هٰذَا وَلَدٌ.' },
-        { ar: 'مَنْ هٰذَا؟', isPrompt: true },
-        { ar: 'هٰذَا طَبِيبٌ.' },
-        { ar: 'لا، هٰذَا رَجُلٌ.' },
-        { ar: 'هٰذَا طَالِبٌ.' }
+      title: 'Who Is This?',
+      pattern: 'مَنْ هٰذَا؟',
+      intro: 'Now use مَنْ to ask about people. Each group belongs to one person.',
+      groups: [
+        {
+          icon: '👨‍⚕️',
+          lines: [
+            { ar: 'مَنْ هٰذَا؟', isPrompt: true },
+            { ar: 'هٰذَا طَبِيبٌ.' }
+          ]
+        },
+        {
+          icon: '👦',
+          lines: [
+            { ar: 'مَنْ هٰذَا؟', isPrompt: true },
+            { ar: 'هٰذَا وَلَدٌ.' }
+          ]
+        },
+        {
+          icon: '👨‍🎓',
+          lines: [
+            { ar: 'مَنْ هٰذَا؟', isPrompt: true },
+            { ar: 'هٰذَا طَالِبٌ.' }
+          ]
+        },
+        {
+          icon: '🧑‍💼',
+          lines: [
+            { ar: 'أَهٰذَا رَجُلٌ؟', isPrompt: true },
+            { ar: 'لا، هٰذَا تَاجِرٌ.' }
+          ]
+        }
       ],
       keyPoints: ['مَا هٰذَا؟ = for things', 'مَنْ هٰذَا؟ = for people']
     },
@@ -177,36 +193,69 @@ const LESSON_DATA = {
       title: 'Animals and And',
       pattern: 'وَ',
       intro: 'وَ means and. Animals still use مَا هٰذَا؟',
-      lines: [
-        { ar: 'مَا هٰذَا؟ هٰذَا مَسْجِدٌ.' },
-        { ar: 'مَنْ هٰذَا؟ هٰذَا تَاجِرٌ.' },
-        { ar: 'هٰذَا كَلْبٌ.' },
-        { ar: 'أَهٰذَا كَلْبٌ؟', isPrompt: true },
-        { ar: 'لا، هٰذَا قِطٌّ.' },
-        { ar: 'هٰذَا حِمَارٌ.' },
-        { ar: 'أَهٰذَا حِمَارٌ؟', isPrompt: true },
-        { ar: 'لا، هٰذَا حِصَانٌ.' },
-        { ar: 'وَمَا هٰذَا؟', isPrompt: true },
-        { ar: 'هٰذَا جَمَلٌ.' }
+      groups: [
+        {
+          icon: '🐕',
+          lines: [
+            { ar: 'هٰذَا كَلْبٌ.' }
+          ]
+        },
+        {
+          icon: '🐈',
+          lines: [
+            { ar: 'أَهٰذَا كَلْبٌ؟', isPrompt: true },
+            { ar: 'لا، هٰذَا قِطٌّ.' }
+          ]
+        },
+        {
+          icon: '🫏',
+          lines: [
+            { ar: 'هٰذَا حِمَارٌ.' }
+          ]
+        },
+        {
+          icon: '🐎',
+          lines: [
+            { ar: 'أَهٰذَا حِمَارٌ؟', isPrompt: true },
+            { ar: 'لا، هٰذَا حِصَانٌ.' }
+          ]
+        },
+        {
+          icon: '🐪',
+          lines: [
+            { ar: 'وَمَا هٰذَا؟', isPrompt: true },
+            { ar: 'هٰذَا جَمَلٌ.' }
+          ]
+        }
       ],
       keyPoints: ['وَ = and', 'مَا هٰذَا؟ = things and animals', 'مَنْ هٰذَا؟ = people']
     },
     {
       title: 'More Reading Practice',
       pattern: 'مَا، مَنْ، أَ',
-      intro: 'One final page to read through the full Lesson One pattern.',
-      lines: [
-        { ar: 'مَا هٰذَا؟' },
-        { ar: 'هٰذَا دِيكٌ.' },
-        { ar: 'مَنْ هٰذَا؟' },
-        { ar: 'هٰذَا مُدَرِّسٌ.' },
-        { ar: 'أَهٰذَا قَمِيصٌ؟', isPrompt: true },
-        { ar: 'لا، هٰذَا مَنْدِيلٌ.' },
-        { ar: 'مَا هٰذَا؟ هٰذَا قَلَمٌ.' },
-        { ar: 'أَهٰذَا كَلْبٌ؟ لا، هٰذَا قِطٌّ.' },
-        { ar: 'أَهٰذَا دِيكٌ؟ نَعَمْ.' },
-        { ar: 'أَهٰذَا حِصَانٌ؟ لا، هٰذَا حِمَارٌ.' },
-        { ar: 'مَنْ هٰذَا؟ هٰذَا رَجُلٌ.' }
+      intro: 'One final page to reinforce the full Lesson One pattern.',
+      groups: [
+        {
+          icon: '🐓',
+          lines: [
+            { ar: 'مَا هٰذَا؟', isPrompt: true },
+            { ar: 'هٰذَا دِيكٌ.' }
+          ]
+        },
+        {
+          icon: '👨‍🏫',
+          lines: [
+            { ar: 'مَنْ هٰذَا؟', isPrompt: true },
+            { ar: 'هٰذَا مُدَرِّسٌ.' }
+          ]
+        },
+        {
+          icon: '🧻',
+          lines: [
+            { ar: 'أَهٰذَا مَنْدِيلٌ؟', isPrompt: true },
+            { ar: 'نَعَمْ، هٰذَا مَنْدِيلٌ.' }
+          ]
+        }
       ],
       keyPoints: ['مَا هٰذَا؟', 'مَنْ هٰذَا؟', 'أَهٰذَا ...؟']
     }

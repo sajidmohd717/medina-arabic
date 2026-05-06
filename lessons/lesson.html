@@ -58,6 +58,7 @@
         <span>Practice</span>
         <span>Quiz</span>
       </div>
+      <p class="lesson-intro-hint">💡 Tap any Arabic word to see its meaning</p>
       <button class="btn btn-primary lesson-intro-btn" id="lessonIntroContinue" type="button">Continue</button>
     </div>
   </section>
@@ -71,8 +72,8 @@
         <span class="step-label">Vocabulary</span>
       </button>
       <button class="step-btn locked" id="step-lesson" onclick="goToStep('lesson')">
-        <div class="step-icon">📝</div>
-        <span class="step-label">Lesson</span>
+        <div class="step-icon">🧠</div>
+        <span class="step-label">Concepts</span>
       </button>
       <button class="step-btn locked" id="step-comprehension" onclick="goToStep('comprehension')">
         <div class="step-icon">📖</div>
@@ -90,16 +91,11 @@
 
     <!-- PANEL 1 — VOCABULARY -->
     <div class="lesson-panel active" id="panel-vocab">
-      <div class="panel-heading">
-        <div class="panel-heading-icon">📖</div>
-        <div class="panel-heading-text">
-          <h2>Learn</h2>
-          <p>Start with simple sentences. Tap Arabic words to see their meanings.</p>
-        </div>
-      </div>
       <div class="guided-page-progress" id="guidedPageProgress" style="display:none">
         <div class="guided-page-progress-bar">
           <div class="guided-page-progress-fill" id="guidedProgressFill"></div>
+          <div class="guided-milestone-marker" id="guidedMilestoneMarker"></div>
+          <div class="guided-milestone-marker guided-milestone-marker--end" id="guidedMilestoneMarkerEnd"></div>
         </div>
         <span class="guided-page-progress-label" id="guidedProgressLabel"></span>
       </div>
@@ -112,13 +108,6 @@
 
     <!-- PANEL 2 — LESSON CONTENT -->
     <div class="lesson-panel" id="panel-lesson">
-      <div class="panel-heading">
-        <div class="panel-heading-icon">📝</div>
-        <div class="panel-heading-text">
-          <h2>Questions</h2>
-          <p>Learn how the same sentence becomes a question and answer.</p>
-        </div>
-      </div>
       <div class="lesson-content-inner"></div>
       <div class="panel-nav">
         <button class="btn btn-secondary" onclick="goToStep('vocab')">← Learn</button>
@@ -128,29 +117,15 @@
 
     <!-- PANEL 2.5 — COMPREHENSION -->
     <div class="lesson-panel" id="panel-comprehension">
-      <div class="panel-heading">
-        <div class="panel-heading-icon">📖</div>
-        <div class="panel-heading-text">
-          <h2>Reading Comprehension</h2>
-          <p>Read the story below and answer the questions to test your understanding.</p>
-        </div>
-      </div>
       <div class="comprehension-content"></div>
       <div class="panel-nav">
-        <button class="btn btn-secondary" onclick="goToStep('lesson')">← Lesson</button>
-        <button class="btn btn-primary" onclick="unlockAndGo('practice')">Finished — Next: Practice →</button>
+        <button class="btn btn-secondary" onclick="goToStep('vocab')">← Learn</button>
+        <button class="btn btn-primary" onclick="unlockAndGo('quiz')">Finished — Next: Quiz →</button>
       </div>
     </div>
 
     <!-- PANEL 3 — PRACTICE -->
     <div class="lesson-panel" id="panel-practice">
-      <div class="panel-heading">
-        <div class="panel-heading-icon">⚡</div>
-        <div class="panel-heading-text">
-          <h2>Practice</h2>
-          <p>Try these exercises. Mistakes are fine here — this is just practice, not the real quiz.</p>
-        </div>
-      </div>
       <div class="practice-container"></div>
       <div class="panel-nav">
         <button class="btn btn-secondary" onclick="goToStep('comprehension')">← Reading</button>
@@ -160,13 +135,7 @@
 
     <!-- PANEL 4 — QUIZ -->
     <div class="lesson-panel" id="panel-quiz">
-      <div class="panel-heading">
-        <div class="panel-heading-icon">🎯</div>
-        <div class="panel-heading-text">
-          <h2>Quiz</h2>
-          <p id="quizTotalLabel">... questions. Answer all of them to complete this lesson.</p>
-        </div>
-      </div>
+      <p class="quiz-total-label" id="quizTotalLabel"></p>
       <div class="quiz-container"></div>
 
       <!-- On-screen Arabic keyboard -->
@@ -226,7 +195,7 @@
 
       <!-- Submit + score -->
       <div class="panel-nav">
-        <button class="btn btn-secondary" onclick="goToStep('practice')">← Practice</button>
+        <button class="btn btn-secondary" onclick="goToStep('comprehension')">← Reading</button>
         <button class="btn btn-primary" id="submitQuizBtn" onclick="submitQuiz()">Submit Quiz →</button>
       </div>
 

@@ -93,6 +93,30 @@ function renderGuidedArabicLine(ar, vocab) {
   return `<div class="guided-sentence-arabic">${annotateArabicText(ar, vocab)}</div>`;
 }
 
+function getPhraseGloss(ar, vocab) {
+  const lookup = {};
+  vocab.forEach(item => {
+    const key = stripDiacritics(item.ar).replace(/\s+/g, '').trim();
+    if (key) lookup[key] = { trans: item.trans, meaning: item.meaning };
+  });
+
+  const tokens = ar.split(/\s+/);
+  const transParts = [];
+  const meaningParts = [];
+
+  tokens.forEach(token => {
+    const bare = stripDiacritics(token).replace(/[.\u060C\u061F?!,]/g, '').trim();
+    const gloss = lookup[bare];
+    transParts.push(gloss ? gloss.trans : token);
+    meaningParts.push(gloss ? gloss.meaning : token);
+  });
+
+  return {
+    trans: transParts.join(' '),
+    meaning: meaningParts.join(' ')
+  };
+}
+
 function encodeExercisePayload(value) {
   return encodeURIComponent(JSON.stringify(value || []));
 }
@@ -703,14 +727,19 @@ function buildVocabularyPanel(data) {
         </article>
       `).join('');
 
-      const linesHtml = (page.lines || []).map(item => `
-        <article class="guided-line-card${item.isPrompt ? ' guided-line-card--prompt' : ''}">
-          ${item.icon ? `<div class="guided-sentence-visual" aria-hidden="true">${item.icon}</div>` : ''}
-          <div class="guided-sentence-body">
-            ${renderGuidedArabicLine(item.ar, data.vocab)}
-          </div>
-        </article>
-      `).join('');
+      const linesHtml = (page.lines || []).map((item, i) => {
+        const gloss = getPhraseGloss(item.ar, data.vocab);
+        return `
+          <article class="guided-line-card${item.isPrompt ? ' guided-line-card--prompt' : ''}">
+            <div class="guided-line-num">${i + 1}</div>
+            <div class="guided-sentence-body">
+              ${renderGuidedArabicLine(item.ar, data.vocab)}
+              <div class="guided-sentence-trans">${gloss.trans}</div>
+              <div class="guided-sentence-meaning">${gloss.meaning}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
 
       const groupsHtml = (page.groups || []).map(group => `
         <article class="guided-qa-card">
@@ -755,7 +784,6 @@ function buildVocabularyPanel(data) {
       ` : '';
 
       pager.innerHTML = `
-        <div class="guided-page-status">Page ${displayNumber(pageIndex + 1)} of ${displayNumber(total)}</div>
         ${exerciseItems.length ? '' : `
           <div class="guided-lesson-intro">
             ${page.titleArabic ? `<div class="guided-page-title-arabic">${page.titleArabic}</div>` : ''}
@@ -801,7 +829,7 @@ function buildVocabularyPanel(data) {
       if (nextBtn) {
         nextBtn.addEventListener('click', () => {
           if (pageIndex < total - 1) {
-            if (pageIndex === 3) {
+            if (pageIndex === getMilestonePageIndex(total)) {
               showGuidedMilestone(data, () => {
                 renderPage(pageIndex + 1);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -812,7 +840,9 @@ function buildVocabularyPanel(data) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
           }
-          unlockAndGo('comprehension');
+          showGuidedFinalMilestone(data, () => {
+            unlockAndGo('lesson');
+          });
         });
       }
     };
@@ -1080,24 +1110,17 @@ function initLesson() {
   }
 
   if (CURRENT_LESSON_DATA.guidedPages && CURRENT_LESSON_DATA.guidedPages.length) {
-    const lessonStep = document.getElementById('step-lesson');
+    const lessonStepLabel = document.querySelector('#step-lesson .step-label');
+    const practiceStep = document.getElementById('step-practice');
     const vocabStepLabel = document.querySelector('#step-vocab .step-label');
     const readingBackBtn = document.querySelector('#panel-comprehension .btn-secondary');
-    if (lessonStep) lessonStep.hidden = true;
+    if (practiceStep) practiceStep.hidden = true;
     if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
+    if (lessonStepLabel) lessonStepLabel.textContent = 'Concepts';
     if (readingBackBtn) {
-      readingBackBtn.textContent = '← Learn';
-      readingBackBtn.setAttribute('onclick', "goToStep('vocab')");
+      readingBackBtn.textContent = '← Concepts';
+      readingBackBtn.setAttribute('onclick', "goToStep('lesson')");
     }
-  }
-
-  if (CURRENT_LESSON_DATA.reviewVocabAtEnd) {
-    const practiceStepLabel = document.querySelector('#step-practice .step-label');
-    const readingNextBtn = document.querySelector('#panel-comprehension .btn-primary');
-    const quizBackBtn = document.querySelector('#panel-quiz .btn-secondary');
-    if (practiceStepLabel) practiceStepLabel.textContent = 'Review Words';
-    if (readingNextBtn) readingNextBtn.textContent = 'Finished — Next: Review Words →';
-    if (quizBackBtn) quizBackBtn.textContent = '← Review Words';
   }
   
   // Build all panels
@@ -1398,16 +1421,99 @@ function updateGuidedProgress(pageIndex, total) {
   const wrap = document.getElementById('guidedPageProgress');
   const bar = document.getElementById('guidedProgressFill');
   const label = document.getElementById('guidedProgressLabel');
+  const marker = document.getElementById('guidedMilestoneMarker');
+  const markerEnd = document.getElementById('guidedMilestoneMarkerEnd');
   if (!bar) return;
   if (wrap) wrap.style.display = 'flex';
   const pct = Math.round(((pageIndex + 1) / total) * 100);
   bar.style.width = pct + '%';
-  if (label) label.textContent = `Page ${pageIndex + 1} of ${total}`;
+
+  if (marker) {
+    const milestoneIdx = getMilestonePageIndex(total);
+    const milestonePct = ((milestoneIdx + 1) / total) * 100;
+    marker.style.left = milestonePct.toFixed(1) + '%';
+    if (pageIndex > milestoneIdx) {
+      marker.classList.add('milestone-marker--passed');
+    } else {
+      marker.classList.remove('milestone-marker--passed');
+    }
+  }
+
+  if (markerEnd) {
+    markerEnd.style.left = '100%';
+    if (pageIndex >= total - 1) {
+      markerEnd.classList.add('milestone-marker--passed');
+    } else {
+      markerEnd.classList.remove('milestone-marker--passed');
+    }
+  }
+
+  if (label) {
+    const milestoneIdx = getMilestonePageIndex(total);
+    if (pageIndex === total - 1) {
+      label.textContent = `Page ${pageIndex + 1} of ${total}  🏁`;
+    } else if (pageIndex === milestoneIdx) {
+      label.textContent = `Page ${pageIndex + 1} of ${total}  ✨`;
+    } else if (pageIndex > milestoneIdx) {
+      label.textContent = `Page ${pageIndex + 1} of ${total}  💪`;
+    } else {
+      label.textContent = `Page ${pageIndex + 1} of ${total}`;
+    }
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
-// MILESTONE CELEBRATION (shown after page 4 of guided lesson)
+// MILESTONE CELEBRATION (shown mid-way through guided lesson)
 // ─────────────────────────────────────────────────────────────
+
+function getMilestonePageIndex(total) {
+  if (CURRENT_LESSON_DATA && typeof CURRENT_LESSON_DATA.milestoneAfterPage === 'number') {
+    return Math.min(CURRENT_LESSON_DATA.milestoneAfterPage, total - 2);
+  }
+  return Math.max(1, Math.min(Math.ceil(total / 2) - 1, total - 2));
+}
+
+function extractArabicTextFromGuidedPage(page) {
+  const texts = [];
+  (page.cards || []).forEach(c => texts.push(c.ar));
+  (page.groups || []).forEach(g => (g.lines || []).forEach(l => texts.push(l.ar)));
+  (page.exercise || []).forEach(e => {
+    if (e.prompt) texts.push(e.prompt);
+    if (e.ideal) texts.push(e.ideal);
+    (e.accepts || []).forEach(a => texts.push(a));
+  });
+  (page.lines || []).forEach(l => texts.push(l.ar));
+  (page.keyPoints || []).forEach(k => texts.push(k));
+  return texts;
+}
+
+function getSeenVocabWords(data, upToPageIndex) {
+  if (!data.vocab || !data.guidedPages) return [];
+  const seenTexts = [];
+  for (let i = 0; i <= upToPageIndex && i < data.guidedPages.length; i++) {
+    seenTexts.push(...extractArabicTextFromGuidedPage(data.guidedPages[i]));
+  }
+  const allArabic = seenTexts.join(' ');
+  return data.vocab.filter(v => allArabic.includes(v.ar));
+}
+
+function getSeenVocabWordsBetween(data, fromPage, toPage) {
+  if (!data.vocab || !data.guidedPages) return [];
+
+  const newTexts = [];
+  for (let i = fromPage; i <= toPage && i < data.guidedPages.length; i++) {
+    newTexts.push(...extractArabicTextFromGuidedPage(data.guidedPages[i]));
+  }
+  const newArabic = newTexts.join(' ');
+
+  const oldTexts = [];
+  for (let i = 0; i < fromPage && i < data.guidedPages.length; i++) {
+    oldTexts.push(...extractArabicTextFromGuidedPage(data.guidedPages[i]));
+  }
+  const oldArabic = oldTexts.join(' ');
+
+  return data.vocab.filter(v => newArabic.includes(v.ar) && !oldArabic.includes(v.ar));
+}
 
 function buildSatchelSVG() {
   return `<svg class="satchel-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1480,10 +1586,9 @@ function showGuidedMilestone(data, onContinue) {
   const existing = document.getElementById('milestoneOverlay');
   if (existing) existing.remove();
 
-  const totalWords = data.vocab ? data.vocab.length : 0;
-  const displayWords = (data.vocab || [])
-    .filter(v => ['Noun', 'Person', 'Animal'].includes(v.type))
-    .slice(0, 12);
+  const milestonePage = getMilestonePageIndex(data.guidedPages.length);
+  const seenWords = getSeenVocabWords(data, milestonePage);
+  const displayWords = seenWords;
 
   const overlay = document.createElement('div');
   overlay.id = 'milestoneOverlay';
@@ -1493,14 +1598,16 @@ function showGuidedMilestone(data, onContinue) {
     <div class="milestone-card" id="milestoneCard">
       <div class="milestone-ornament" aria-hidden="true">✦</div>
       <h2 class="milestone-heading">Amazing work!</h2>
-      <p class="milestone-sub">You've already learned <strong>${totalWords}</strong> new words</p>
+      <p class="milestone-sub">You've already learned <strong>${seenWords.length}</strong> new words</p>
       <div class="milestone-chips" id="milestoneChips"></div>
       <button type="button" class="btn btn-secondary milestone-pack-btn" id="milestonePackBtn" style="opacity:0;transform:translateY(10px)">Pack words into satchel 🎒</button>
       <div class="milestone-satchel-wrap" id="milestoneSatchelWrap" style="opacity:0">
         <p class="milestone-satchel-label">Words packed into your satchel</p>
         <div class="milestone-satchel" id="milestoneSatchel">${buildSatchelSVG()}</div>
       </div>
-      <button type="button" class="btn btn-primary milestone-btn" id="milestoneContinueBtn" style="opacity:0">Keep going →</button>
+      <div class="milestone-btn-wrap" id="milestoneBtnWrap" style="opacity:0">
+        <button type="button" class="btn btn-primary" id="milestoneContinueBtn">Keep going →</button>
+      </div>
     </div>
   `;
   document.body.appendChild(overlay);
@@ -1510,9 +1617,23 @@ function showGuidedMilestone(data, onContinue) {
   const packBtn        = document.getElementById('milestonePackBtn');
   const satchelWrap    = document.getElementById('milestoneSatchelWrap');
   const satchelEl      = document.getElementById('milestoneSatchel');
+  const btnWrap        = document.getElementById('milestoneBtnWrap');
   const continueBtn    = document.getElementById('milestoneContinueBtn');
 
-  // Build chips hidden
+  continueBtn.addEventListener('click', () => {
+    overlay.style.transition = 'opacity 0.3s ease';
+    overlay.style.opacity = '0';
+    setTimeout(() => { overlay.remove(); onContinue(); }, 320);
+  });
+
+  if (!displayWords.length) {
+    packBtn.style.display = 'none';
+    satchelWrap.style.opacity = '1';
+    btnWrap.style.transition = 'opacity 0.45s ease';
+    btnWrap.style.opacity = '1';
+    return;
+  }
+
   displayWords.forEach(w => {
     const chip = document.createElement('span');
     chip.className = 'milestone-chip';
@@ -1522,8 +1643,8 @@ function showGuidedMilestone(data, onContinue) {
   });
 
   const chips = Array.from(chipsContainer.querySelectorAll('.milestone-chip'));
+  if (!chips.length) return;
 
-  // Stagger chips in
   chips.forEach((chip, i) => {
     setTimeout(() => {
       chip.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
@@ -1532,66 +1653,198 @@ function showGuidedMilestone(data, onContinue) {
     }, 600 + i * 70);
   });
 
-  // Reveal "Pack" button after all chips are visible
-  const afterChips = 600 + chips.length * 70 + 200;
+  const packDelay = 600 + chips.length * 70 + 200;
   setTimeout(() => {
     packBtn.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
     packBtn.style.opacity = '1';
     packBtn.style.transform = 'translateY(0)';
-  }, afterChips);
+  }, packDelay);
 
-  // Pack button click → fly chips into satchel
   packBtn.addEventListener('click', () => {
     packBtn.disabled = true;
     packBtn.style.transition = 'opacity 0.2s ease';
     packBtn.style.opacity = '0';
 
-    // Show satchel first
-    satchelWrap.style.transition = 'opacity 0.4s ease';
+    satchelWrap.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     satchelWrap.style.opacity = '1';
 
     setTimeout(() => {
       const satchelRect = satchelEl.getBoundingClientRect();
       const tx = satchelRect.left + satchelRect.width / 2;
       const ty = satchelRect.top + satchelRect.height / 2;
+      const totalDuration = chips.length * 65 + 520;
+      const collapseAt = chips.length * 65 - 30;
 
       chips.forEach((chip, i) => {
         setTimeout(() => {
           const r = chip.getBoundingClientRect();
           const dx = tx - (r.left + r.width / 2);
           const dy = ty - (r.top + r.height / 2);
-          chip.style.transition = 'all 0.42s cubic-bezier(0.55, 0, 1, 0.45)';
-          chip.style.transform  = `translate(${dx}px, ${dy}px) scale(0.05)`;
+          chip.style.transition = 'all 0.55s cubic-bezier(0.25, 0.1, 0.3, 1)';
+          chip.style.transform  = `translate(${dx}px, ${dy}px) scale(0.06)`;
           chip.style.opacity    = '0';
-          setTimeout(() => {
-            satchelEl.classList.add('milestone-satchel--jiggle');
-            setTimeout(() => satchelEl.classList.remove('milestone-satchel--jiggle'), 420);
-          }, 400);
-        }, i * 50);
+
+          if (i === chips.length - 1) {
+            setTimeout(() => {
+              satchelEl.classList.add('milestone-satchel--jiggle');
+              setTimeout(() => {
+                satchelEl.classList.remove('milestone-satchel--jiggle');
+                satchelEl.classList.add('milestone-satchel--lift');
+                setTimeout(() => satchelEl.classList.remove('milestone-satchel--lift'), 850);
+              }, 520);
+            }, 480);
+          }
+        }, i * 65);
       });
 
-      // Collapse chip area so satchel drifts to centre
       setTimeout(() => {
-        chipsContainer.style.transition = 'max-height 0.4s ease, margin 0.4s ease';
+        chipsContainer.style.transition = 'max-height 0.45s ease, margin 0.45s ease, padding 0.45s ease';
         chipsContainer.style.maxHeight  = '0';
         chipsContainer.style.margin     = '0';
+        chipsContainer.style.padding    = '0';
         chipsContainer.style.overflow   = 'hidden';
-      }, chips.length * 50 + 100);
+      }, collapseAt);
 
-      // Show continue button fixed at bottom
       setTimeout(() => {
-        continueBtn.style.transition = 'opacity 0.45s ease';
-        continueBtn.style.opacity    = '1';
-        continueBtn.classList.add('is-visible');
-      }, chips.length * 50 + 550);
-
+        btnWrap.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        btnWrap.style.opacity    = '1';
+        btnWrap.style.transform  = 'translateY(0)';
+      }, totalDuration);
     }, 350);
   });
+}
+
+function showGuidedFinalMilestone(data, onContinue) {
+  const existing = document.getElementById('milestoneOverlay');
+  if (existing) existing.remove();
+
+  const milestonePage = getMilestonePageIndex(data.guidedPages.length);
+  const newWords = getSeenVocabWordsBetween(data, milestonePage + 1, data.guidedPages.length - 1);
+  const allSeen = getSeenVocabWords(data, data.guidedPages.length - 1);
+
+  const overlay = document.createElement('div');
+  overlay.id = 'milestoneOverlay';
+  overlay.className = 'milestone-overlay';
+  overlay.innerHTML = `
+    <canvas id="milestoneCanvas" class="milestone-canvas"></canvas>
+    <div class="milestone-card" id="milestoneCard">
+      <div class="milestone-ornament" aria-hidden="true">★</div>
+      <h2 class="milestone-heading">Lesson Complete!</h2>
+      <p class="milestone-sub">You've learned <strong>${allSeen.length}</strong> words in this lesson${newWords.length ? ` — ${newWords.length} more since the milestone` : ''}</p>
+      <div class="milestone-chips" id="milestoneChips"></div>
+      <button type="button" class="btn btn-secondary milestone-pack-btn" id="milestonePackBtn" style="opacity:0;transform:translateY(10px)">Pack words into satchel 🎒</button>
+      <div class="milestone-satchel-wrap" id="milestoneSatchelWrap" style="opacity:0">
+        <p class="milestone-satchel-label">Words packed into your satchel</p>
+        <div class="milestone-satchel" id="milestoneSatchel">${buildSatchelSVG()}</div>
+      </div>
+      <div class="milestone-btn-wrap" id="milestoneBtnWrap" style="opacity:0">
+        <button type="button" class="btn btn-primary" id="milestoneContinueBtn">See what you've learned →</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  launchMilestoneConfetti();
+
+  const chipsContainer = document.getElementById('milestoneChips');
+  const packBtn        = document.getElementById('milestonePackBtn');
+  const satchelWrap    = document.getElementById('milestoneSatchelWrap');
+  const satchelEl      = document.getElementById('milestoneSatchel');
+  const btnWrap        = document.getElementById('milestoneBtnWrap');
+  const continueBtn    = document.getElementById('milestoneContinueBtn');
 
   continueBtn.addEventListener('click', () => {
     overlay.style.transition = 'opacity 0.3s ease';
     overlay.style.opacity = '0';
     setTimeout(() => { overlay.remove(); onContinue(); }, 320);
+  });
+
+  const displayWords = newWords.length ? newWords : allSeen;
+
+  if (!displayWords.length) {
+    packBtn.style.display = 'none';
+    satchelWrap.style.opacity = '1';
+    btnWrap.style.transition = 'opacity 0.45s ease';
+    btnWrap.style.opacity = '1';
+    return;
+  }
+
+  displayWords.forEach(w => {
+    const chip = document.createElement('span');
+    chip.className = 'milestone-chip';
+    chip.innerHTML = `<span class="chip-ar" dir="rtl">${w.ar}</span><span class="chip-en">${w.meaning}</span>`;
+    chip.style.cssText = 'opacity:0;transform:translateY(10px)';
+    chipsContainer.appendChild(chip);
+  });
+
+  const chips = Array.from(chipsContainer.querySelectorAll('.milestone-chip'));
+  if (!chips.length) return;
+
+  chips.forEach((chip, i) => {
+    setTimeout(() => {
+      chip.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+      chip.style.opacity = '1';
+      chip.style.transform = 'translateY(0)';
+    }, 600 + i * 70);
+  });
+
+  const packDelay = 600 + chips.length * 70 + 200;
+  setTimeout(() => {
+    packBtn.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    packBtn.style.opacity = '1';
+    packBtn.style.transform = 'translateY(0)';
+  }, packDelay);
+
+  packBtn.addEventListener('click', () => {
+    packBtn.disabled = true;
+    packBtn.style.transition = 'opacity 0.2s ease';
+    packBtn.style.opacity = '0';
+
+    satchelWrap.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    satchelWrap.style.opacity = '1';
+
+    setTimeout(() => {
+      const satchelRect = satchelEl.getBoundingClientRect();
+      const tx = satchelRect.left + satchelRect.width / 2;
+      const ty = satchelRect.top + satchelRect.height / 2;
+      const totalDuration = chips.length * 65 + 520;
+      const collapseAt = chips.length * 65 - 30;
+
+      chips.forEach((chip, i) => {
+        setTimeout(() => {
+          const r = chip.getBoundingClientRect();
+          const dx = tx - (r.left + r.width / 2);
+          const dy = ty - (r.top + r.height / 2);
+          chip.style.transition = 'all 0.55s cubic-bezier(0.25, 0.1, 0.3, 1)';
+          chip.style.transform  = `translate(${dx}px, ${dy}px) scale(0.06)`;
+          chip.style.opacity    = '0';
+
+          if (i === chips.length - 1) {
+            setTimeout(() => {
+              satchelEl.classList.add('milestone-satchel--jiggle');
+              setTimeout(() => {
+                satchelEl.classList.remove('milestone-satchel--jiggle');
+                satchelEl.classList.add('milestone-satchel--lift');
+                setTimeout(() => satchelEl.classList.remove('milestone-satchel--lift'), 850);
+              }, 520);
+            }, 480);
+          }
+        }, i * 65);
+      });
+
+      setTimeout(() => {
+        chipsContainer.style.transition = 'max-height 0.45s ease, margin 0.45s ease, padding 0.45s ease';
+        chipsContainer.style.maxHeight  = '0';
+        chipsContainer.style.margin     = '0';
+        chipsContainer.style.padding    = '0';
+        chipsContainer.style.overflow   = 'hidden';
+      }, collapseAt);
+
+      setTimeout(() => {
+        btnWrap.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        btnWrap.style.opacity    = '1';
+        btnWrap.style.transform  = 'translateY(0)';
+      }, totalDuration);
+    }, 350);
   });
 }
 
