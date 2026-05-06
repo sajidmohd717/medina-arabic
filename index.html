@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Nunito:wght@400;700;800;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0CC0A0" />
+  <meta name="theme-color" content="#7C5CFC" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -34,7 +34,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(160deg, #F7FFFE 0%, #EDFAF6 30%, #FFF5F8 65%, #F0F9FF 85%, #F7FFFE 100%);
+      background: linear-gradient(160deg, #F8F8FC 0%, #F0EFFE 30%, #FFF5F8 65%, #F0F9FF 85%, #F8F8FC 100%);
     }
 
     main {
@@ -97,7 +97,7 @@
       color: var(--text-mid); margin-bottom: 2rem;
       animation: fadeIn 0.5s ease 0.35s both;
       padding: 6px 20px;
-      border: 1.5px solid rgba(12, 192, 160, 0.12);
+      border: 1.5px solid rgba(124, 92, 252, 0.1);
       border-radius: var(--radius-full);
       background: rgba(255,255,255,0.7);
     }
@@ -111,7 +111,7 @@
     /* Base card */
     .book-card {
       background: var(--surface-card);
-      border: 2.5px solid rgba(12, 192, 160, 0.1);
+      border: 2.5px solid rgba(124, 92, 252, 0.08);
       border-radius: var(--radius-xl);
       padding: 2.4rem 1.6rem 2rem;
       cursor: pointer;
@@ -119,7 +119,7 @@
       display: flex; flex-direction: column; align-items: center;
       gap: 12px; position: relative; overflow: hidden;
       text-decoration: none; color: inherit;
-      box-shadow: 0 6px 0 rgba(12, 192, 160, 0.08), var(--shadow-sm);
+      box-shadow: 0 6px 0 rgba(124, 92, 252, 0.07), var(--shadow-sm);
     }
 
     /* Top color bar — unique per book */
@@ -127,7 +127,7 @@
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
       opacity: 0.9; transition: opacity 0.3s, height 0.25s;
     }
-    .book-card--1::before { background: linear-gradient(90deg, #0CC0A0, #2DDCBC, #34D399); }
+    .book-card--1::before { background: linear-gradient(90deg, #7C5CFC, #9B82FD, #34D399); }
     .book-card--2::before { background: linear-gradient(90deg, #3B82F6, #60A5FA, #818CF8); }
     .book-card--3::before { background: linear-gradient(90deg, #F59E0B, #FBBF24, #F97316); }
 
@@ -136,7 +136,7 @@
       content: ''; position: absolute; inset: 0;
       opacity: 0; transition: opacity 0.3s;
     }
-    .book-card--1::after { background: linear-gradient(135deg, rgba(12, 192, 160, 0.06), transparent 60%); }
+    .book-card--1::after { background: linear-gradient(135deg, rgba(124, 92, 252, 0.06), transparent 60%); }
     .book-card--2::after { background: linear-gradient(135deg, rgba(59, 130, 246, 0.06), transparent 60%); }
     .book-card--3::after { background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), transparent 60%); }
 
@@ -145,7 +145,7 @@
     .book-card:hover {
       transform: translateY(-10px);
       border-color: rgba(12, 192, 160, 0.25);
-      box-shadow: 0 14px 0 rgba(12, 192, 160, 0.08), var(--shadow-lg);
+      box-shadow: 0 14px 0 rgba(124, 92, 252, 0.07), var(--shadow-lg);
     }
     .book-card--1:hover { border-color: rgba(12, 192, 160, 0.3); }
     .book-card--2:hover { border-color: rgba(59, 130, 246, 0.3); box-shadow: 0 14px 0 rgba(59, 130, 246, 0.08), var(--shadow-lg); }
@@ -155,7 +155,7 @@
 
     .book-card:active {
       transform: translateY(2px);
-      box-shadow: 0 2px 0 rgba(12, 192, 160, 0.06), var(--shadow-xs);
+      box-shadow: 0 2px 0 rgba(124, 92, 252, 0.06), var(--shadow-xs);
     }
 
     /* Arabic numeral */
@@ -164,7 +164,7 @@
       line-height: 1;
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .book-card--1 .book-number-arabic { background: linear-gradient(135deg, #0CC0A0, #34D399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .book-card--1 .book-number-arabic { background: linear-gradient(135deg, #7C5CFC, #34D399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .book-card--2 .book-number-arabic { background: linear-gradient(135deg, #3B82F6, #818CF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .book-card--3 .book-number-arabic { background: linear-gradient(135deg, #F59E0B, #F97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .book-card:hover .book-number-arabic { transform: scale(1.1) rotate(-3deg); }
@@ -254,14 +254,14 @@
   <svg class="geo-bg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <pattern id="geo" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
-        <polygon points="40,5 75,22 75,57 40,74 5,57 5,22" fill="none" stroke="#0CC0A0" stroke-width="1"/>
-        <polygon points="40,18 62,29 62,51 40,62 18,51 18,29" fill="none" stroke="#0CC0A0" stroke-width="0.5"/>
-        <line x1="40" y1="5"  x2="40" y2="18" stroke="#0CC0A0" stroke-width="0.5"/>
-        <line x1="75" y1="22" x2="62" y2="29" stroke="#0CC0A0" stroke-width="0.5"/>
-        <line x1="75" y1="57" x2="62" y2="51" stroke="#0CC0A0" stroke-width="0.5"/>
-        <line x1="40" y1="74" x2="40" y2="62" stroke="#0CC0A0" stroke-width="0.5"/>
-        <line x1="5"  y1="57" x2="18" y2="51" stroke="#0CC0A0" stroke-width="0.5"/>
-        <line x1="5"  y1="22" x2="18" y2="29" stroke="#0CC0A0" stroke-width="0.5"/>
+        <polygon points="40,5 75,22 75,57 40,74 5,57 5,22" fill="none" stroke="#7C5CFC" stroke-width="1"/>
+        <polygon points="40,18 62,29 62,51 40,62 18,51 18,29" fill="none" stroke="#7C5CFC" stroke-width="0.5"/>
+        <line x1="40" y1="5"  x2="40" y2="18" stroke="#7C5CFC" stroke-width="0.5"/>
+        <line x1="75" y1="22" x2="62" y2="29" stroke="#7C5CFC" stroke-width="0.5"/>
+        <line x1="75" y1="57" x2="62" y2="51" stroke="#7C5CFC" stroke-width="0.5"/>
+        <line x1="40" y1="74" x2="40" y2="62" stroke="#7C5CFC" stroke-width="0.5"/>
+        <line x1="5"  y1="57" x2="18" y2="51" stroke="#7C5CFC" stroke-width="0.5"/>
+        <line x1="5"  y1="22" x2="18" y2="29" stroke="#7C5CFC" stroke-width="0.5"/>
       </pattern>
     </defs>
     <rect width="800" height="600" fill="url(#geo)"/>
@@ -339,7 +339,7 @@
       <p class="onboarding-sub" style="margin-bottom:1.3rem;">Each book unlocks the next level of the language.</p>
       <div style="display:flex; flex-direction:column; gap:10px; width:100%; max-width:440px; margin-bottom:1.6rem;">
         <div style="display:flex; align-items:flex-start; gap:14px; background:#fff; border:2px solid #CCFBF1; border-radius:14px; padding:1rem 1.1rem;">
-          <div style="font-family:'Amiri',serif; font-size:1.8rem; background:linear-gradient(135deg,#0CC0A0,#34D399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; flex-shrink:0;">١</div>
+          <div style="font-family:'Amiri',serif; font-size:1.8rem; background:linear-gradient(135deg,#7C5CFC,#34D399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; flex-shrink:0;">١</div>
           <div>
             <div style="font-family:'Nunito',sans-serif; font-size:0.62rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; color:#0A7A6E; margin-bottom:4px;">Book One · Beginner</div>
             <div style="font-family:'Nunito',sans-serif; font-size:0.84rem; color:var(--text-mid); line-height:1.5;">Nouns, pronouns, sentence structure, gender, numbers, adjectives — the complete foundation.</div>

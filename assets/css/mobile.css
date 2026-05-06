@@ -31,12 +31,12 @@ a, button, [role="button"], label, input, select, textarea {
     right: 0;
     width: 100%;
     z-index: 500;
-    background: rgba(247, 255, 254, 0.94);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(28px) saturate(1.6);
     -webkit-backdrop-filter: blur(28px) saturate(1.6);
-    border-top: 1.5px solid rgba(12, 192, 160, 0.12);
+    border-top: 1.5px solid rgba(124, 92, 252, 0.1);
     padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px));
-    box-shadow: 0 -4px 24px rgba(12, 192, 160, 0.08);
+    box-shadow: 0 -4px 24px rgba(124, 92, 252, 0.07);
     box-sizing: border-box;
   }
 

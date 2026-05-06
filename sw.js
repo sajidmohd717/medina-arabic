@@ -1,9 +1,9 @@
-/* ============================================================
+﻿/* ============================================================
    sw.js — Kalamo Service Worker
    Cache-first strategy for app shell + lesson data.
    ============================================================ */
 
-const CACHE_NAME = 'kalamo-v12';
+const CACHE_NAME = 'kalamo-v13';
 
 const APP_SHELL = [
   '/medina-arabic/',
