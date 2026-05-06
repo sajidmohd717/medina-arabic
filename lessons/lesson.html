@@ -54,21 +54,25 @@
     </div>
   </nav>
 
-  <div class="lesson-page">
-
-    <!-- Lesson header -->
-    <header class="lesson-header">
-      <div class="lesson-eyebrow"></div>
-      <h1></h1>
-      <p class="lesson-summary"></p>
-      <div class="step-progress" id="stepProgress" aria-label="Lesson progress">
-        <span class="step-dot step-dot--current" data-step="0"></span>
-        <span class="step-dot" data-step="1"></span>
-        <span class="step-dot" data-step="2"></span>
-        <span class="step-dot" data-step="3"></span>
-        <span class="step-dot" data-step="4"></span>
+  <section class="lesson-intro" id="lessonIntro" aria-labelledby="lessonIntroTitle">
+    <div class="lesson-intro-card">
+      <div class="lesson-intro-glow" aria-hidden="true"></div>
+      <div class="lesson-intro-mark" aria-hidden="true">هٰذَا</div>
+      <div class="lesson-intro-eyebrow" id="lessonIntroEyebrow"></div>
+      <h1 class="lesson-intro-title" id="lessonIntroTitle"></h1>
+      <div class="lesson-intro-english" id="lessonIntroEnglish"></div>
+      <p class="lesson-intro-summary" id="lessonIntroSummary"></p>
+      <div class="lesson-intro-path" aria-label="Lesson path">
+        <span>Learn</span>
+        <span>Read</span>
+        <span>Practice</span>
+        <span>Quiz</span>
       </div>
-    </header>
+      <button class="btn btn-primary lesson-intro-btn" id="lessonIntroContinue" type="button">Continue</button>
+    </div>
+  </section>
+
+  <div class="lesson-page is-waiting" id="lessonPage">
 
     <!-- Step indicator -->
     <div class="step-indicator">
@@ -102,6 +106,12 @@
           <h2>Learn</h2>
           <p>Start with simple sentences. Tap Arabic words to see their meanings.</p>
         </div>
+      </div>
+      <div class="guided-page-progress" id="guidedPageProgress" style="display:none">
+        <div class="guided-page-progress-bar">
+          <div class="guided-page-progress-fill" id="guidedProgressFill"></div>
+        </div>
+        <span class="guided-page-progress-label" id="guidedProgressLabel"></span>
       </div>
       <div class="vocab-grid"></div>
       <div class="panel-nav">

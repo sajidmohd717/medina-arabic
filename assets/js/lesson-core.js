@@ -114,12 +114,6 @@ function goToStep(step) {
   if (targetPanel) targetPanel.classList.add('active');
   if (targetBtn) targetBtn.classList.add('active');
 
-  const dots = document.querySelectorAll('.step-dot');
-  dots.forEach((dot, i) => {
-    dot.classList.toggle('step-dot--done', i < stepIndex);
-    dot.classList.toggle('step-dot--current', i === stepIndex);
-  });
-
   CURRENT_STEP = step;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -158,6 +152,53 @@ function applyQuizJumpMode() {
     if (btn) btn.classList.remove('locked');
   });
   goToStep('quiz');
+}
+
+function setupLessonIntro() {
+  const intro = document.getElementById('lessonIntro');
+  const page = document.getElementById('lessonPage');
+  if (!intro || !page || !CURRENT_LESSON_DATA) {
+    if (page) page.classList.remove('is-waiting');
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('step') === 'quiz') {
+    intro.hidden = true;
+    page.classList.remove('is-waiting');
+    return;
+  }
+
+  const bookNum = CURRENT_BOOK.replace('book', '');
+  const eyebrow = document.getElementById('lessonIntroEyebrow');
+  const title = document.getElementById('lessonIntroTitle');
+  const english = document.getElementById('lessonIntroEnglish');
+  const summary = document.getElementById('lessonIntroSummary');
+  const mark = intro.querySelector('.lesson-intro-mark');
+  const continueBtn = document.getElementById('lessonIntroContinue');
+
+  if (eyebrow) eyebrow.textContent = `Book ${displayNumber(bookNum)} · Lesson ${displayNumber(CURRENT_LESSON_NUM)}`;
+  if (title) title.textContent = CURRENT_LESSON_DATA.titleArabic;
+  if (english) english.textContent = CURRENT_LESSON_DATA.titleEnglish;
+  if (summary) summary.textContent = CURRENT_LESSON_DATA.summary;
+  if (mark) mark.textContent = CURRENT_LESSON_DATA.titleArabic;
+
+  page.classList.add('is-waiting');
+  intro.hidden = false;
+
+  if (continueBtn) {
+    continueBtn.addEventListener('click', () => {
+      intro.classList.add('is-leaving');
+      window.setTimeout(() => {
+        intro.hidden = true;
+        intro.classList.remove('is-leaving');
+        page.classList.remove('is-waiting');
+        page.classList.add('is-entering');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.setTimeout(() => page.classList.remove('is-entering'), 480);
+      }, 320);
+    }, { once: true });
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -611,6 +652,41 @@ function buildVocabularyPanel(data) {
         </article>
       `).join('');
 
+      const groupsHtml = (page.groups || []).map(group => `
+        <article class="guided-qa-card">
+          <div class="guided-sentence-visual" aria-hidden="true">${group.icon || '•'}</div>
+          <div class="guided-qa-body">
+            ${(group.lines || []).map(line => `
+              <div class="guided-qa-line${line.isPrompt ? ' guided-qa-line--prompt' : ''}">
+                ${renderGuidedArabicLine(line.ar, data.vocab)}
+              </div>
+            `).join('')}
+          </div>
+        </article>
+      `).join('');
+
+      const exerciseItems = page.exercise || [];
+      const exerciseHtml = exerciseItems.map((item, i) => {
+        const eid = `ex_${pageIndex}_${i}`;
+        const promptText = item.prompt || 'مَا هٰذَا؟';
+        const placeholder = promptText.includes('أَهٰذَا') ? 'نَعَمْ / لا ...' : 'هٰذَا ...';
+        return `
+          <article class="guided-exercise-card" id="card_${eid}">
+            <div class="guided-exercise-icon" aria-hidden="true">${item.icon}</div>
+            <div class="guided-exercise-prompt">${annotateArabicText(promptText, data.vocab)}</div>
+            <div class="guided-exercise-input-row">
+              <input class="arabic-input guided-exercise-input" type="text" id="${eid}"
+                placeholder="${placeholder}"
+                autocomplete="off" dir="rtl"
+                onkeydown="if(event.key==='Enter') checkGuidedExercise('${eid}', ${JSON.stringify(item.accepts)}, ${exerciseItems.length})" />
+              <button class="btn btn-secondary guided-exercise-check" onclick="checkGuidedExercise('${eid}', ${JSON.stringify(item.accepts)}, ${exerciseItems.length})">Check</button>
+            </div>
+            <div class="guided-exercise-feedback" id="fb_${eid}"></div>
+            <div class="guided-exercise-reveal" id="rv_${eid}" style="display:none">${annotateArabicText(item.ideal, data.vocab)}</div>
+          </article>
+        `;
+      }).join('');
+
       const keyHtml = (page.keyPoints || []).length ? `
         <div class="guided-key-points">
           ${(page.keyPoints || []).map(point => `<div>${annotateArabicText(point, data.vocab)}</div>`).join('')}
@@ -626,17 +702,29 @@ function buildVocabularyPanel(data) {
           ${page.intro ? `<p>${page.intro}</p>` : ''}
         </div>
         ${cardsHtml ? `<div class="guided-sentence-grid">${cardsHtml}</div>` : ''}
+        ${groupsHtml ? `<div class="guided-qa-stack">${groupsHtml}</div>` : ''}
         ${linesHtml ? `<div class="guided-line-stack">${linesHtml}</div>` : ''}
+        ${exerciseHtml ? `<div class="guided-exercise-grid">${exerciseHtml}</div>` : ''}
         ${keyHtml}
         <div class="guided-page-controls">
           ${pageIndex === 0
             ? '<a class="btn btn-secondary" href="../book1.html">← Back to Book</a>'
             : '<button type="button" class="btn btn-secondary" data-guided-prev>← Back</button>'}
-          <button type="button" class="btn btn-primary" data-guided-next>${pageIndex === total - 1 ? 'Next: Reading →' : 'Next →'}</button>
+          <button type="button" class="btn btn-primary" data-guided-next
+            ${exerciseItems.length ? 'disabled data-exercise-locked="true"' : ''}>
+            ${pageIndex === total - 1 ? 'Next: Reading →' : 'Next →'}
+          </button>
+          ${exerciseItems.length ? '<p class="guided-exercise-lock-hint">Complete all exercises above to continue</p>' : ''}
         </div>
       `;
 
       attachArabicWordMeaningToggles(pager);
+
+      // Save current page to localStorage
+      saveGuidedPage(pageIndex);
+
+      // Update in-lesson progress bar
+      updateGuidedProgress(pageIndex, total);
 
       const prevBtn = pager.querySelector('[data-guided-prev]');
       if (prevBtn) {
@@ -656,7 +744,8 @@ function buildVocabularyPanel(data) {
       }
     };
 
-    renderPage(0);
+    const savedPage = Math.min(loadGuidedPage(), data.guidedPages.length - 1);
+    renderPage(savedPage);
     return;
   }
 
@@ -908,14 +997,7 @@ function initLesson() {
   // Set page title and header
   document.title = `Lesson ${CURRENT_LESSON_NUM} — ${CURRENT_LESSON_DATA.titleArabic} — Kalamo`;
   
-  const lessonEyebrow = document.querySelector('.lesson-eyebrow');
-  const lessonH1 = document.querySelector('.lesson-header h1');
-  const lessonSpan = document.querySelector('.lesson-header h1 span');
-  const lessonSummary = document.querySelector('.lesson-summary');
-  
-  if (lessonEyebrow) lessonEyebrow.textContent = `Book ${displayNumber(CURRENT_BOOK.replace('book', ''))} · Lesson ${displayNumber(CURRENT_LESSON_NUM)}`;
-  if (lessonH1) lessonH1.innerHTML = `${CURRENT_LESSON_DATA.titleArabic}<span>${CURRENT_LESSON_DATA.titleEnglish}</span>`;
-  if (lessonSummary) lessonSummary.textContent = CURRENT_LESSON_DATA.summary;
+  setupLessonIntro();
 
   if (CURRENT_LESSON_DATA.guidedSentences && CURRENT_LESSON_DATA.guidedSentences.length) {
     const vocabStepLabel = document.querySelector('#step-vocab .step-label');
@@ -975,8 +1057,78 @@ function initLesson() {
   }
 }
 
+function checkGuidedExercise(eid, accepts, totalInPage) {
+  const input = document.getElementById(eid);
+  const feedback = document.getElementById(`fb_${eid}`);
+  const reveal = document.getElementById(`rv_${eid}`);
+  const card = document.getElementById(`card_${eid}`);
+  const btn = card.querySelector('.guided-exercise-check');
+
+  if (input.disabled) return; // already checked
+
+  const userRaw = input.value.trim();
+  if (!userRaw) {
+    feedback.textContent = 'Type your answer first.';
+    feedback.className = 'guided-exercise-feedback wrong';
+    return;
+  }
+
+  const isCorrect = accepts.some(a => normalise(a) === normalise(userRaw));
+
+  input.disabled = true;
+  btn.disabled = true;
+
+  if (isCorrect) {
+    feedback.textContent = '✓ Correct!';
+    feedback.className = 'guided-exercise-feedback correct';
+    card.classList.add('is-correct');
+  } else {
+    feedback.textContent = '✗ Not quite — here is the answer:';
+    feedback.className = 'guided-exercise-feedback wrong';
+    card.classList.add('is-wrong');
+    reveal.style.display = 'block';
+  }
+
+  // Check if all exercises on this page are now answered
+  const allCards = document.querySelectorAll('.guided-exercise-card');
+  const doneCount = [...allCards].filter(c => c.querySelector('.guided-exercise-input:disabled')).length;
+  if (doneCount >= totalInPage) {
+    const nextBtn = document.querySelector('[data-guided-next][data-exercise-locked]');
+    const hint = document.querySelector('.guided-exercise-lock-hint');
+    if (nextBtn) {
+      nextBtn.disabled = false;
+      nextBtn.removeAttribute('data-exercise-locked');
+    }
+    if (hint) hint.style.display = 'none';
+  }
+}
+
+function saveGuidedPage(pageIndex) {
+  if (!CURRENT_LESSON_DATA) return;
+  const key = `guided_page_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}`;
+  localStorage.setItem(key, String(pageIndex));
+}
+
+function loadGuidedPage() {
+  if (!CURRENT_LESSON_DATA) return 0;
+  const key = `guided_page_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}`;
+  return parseInt(localStorage.getItem(key) || '0', 10);
+}
+
+function updateGuidedProgress(pageIndex, total) {
+  const wrap = document.getElementById('guidedPageProgress');
+  const bar = document.getElementById('guidedProgressFill');
+  const label = document.getElementById('guidedProgressLabel');
+  if (!bar) return;
+  if (wrap) wrap.style.display = 'flex';
+  const pct = Math.round(((pageIndex + 1) / total) * 100);
+  bar.style.width = pct + '%';
+  if (label) label.textContent = `Page ${pageIndex + 1} of ${total}`;
+}
+
 // Export for global access
 window.goToStep = goToStep;
+window.checkGuidedExercise = checkGuidedExercise;
 window.unlockAndGo = unlockAndGo;
 window.applyQuizJumpMode = applyQuizJumpMode;
 window.checkPractice = checkPractice;

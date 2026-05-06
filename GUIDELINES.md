@@ -22,7 +22,7 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 - Today-first app dashboard for returning/onboarded users
 - App-wide navigation: Today, Course, Reading, Review. Desktop uses a top pill nav; mobile uses bottom tabs.
 - Book 1 lesson list page with progress tracking, section nav, and lesson cards
-- Lessons 1–13 complete with full content; Lesson 1 is the pilot for the newer pattern-first Madinah-style lesson flow
+- Lessons 1–13 complete with full content; Lesson 1 is the pilot for the newer intro-first, pattern-first Madinah-style lesson flow
 - Hover/tap-translate tooltips on reading comprehension Arabic text
 - Focused reading comprehension track: one unlocked story, then questions directly below it
 - Collapsible reading progress overview for stories passed, current level, words unlocked, and next-level progress
@@ -52,7 +52,7 @@ Kalamo is now an app-like learning product, not just a course library. The inten
 
 The old standalone Daily Practice/Drill route is not part of the visible product navigation. Keep `drill.html` only as archived/experimental code unless a future decision explicitly revives it.
 
-The UX target is Duolingo-like return momentum with a calmer Arabic-learning identity: cheerful, sticky, clear next action, but not cluttered. Avoid adding new top-level features unless they reinforce the loop above.
+The UX target is Duolingo-like return momentum with a calmer Arabic-learning identity: cheerful, sticky, clear next action, but not cluttered. The app should feel premium and focused, with lesson screens that introduce the goal first and then get out of the learner's way. Avoid adding new top-level features unless they reinforce the loop above.
 
 ### Lesson content direction
 Kalamo should follow the Madinah Arabic Books more closely in pacing. Do not start beginner lessons with a large vocabulary dump. The preferred flow for new or revised lessons is:
@@ -63,7 +63,9 @@ Kalamo should follow the Madinah Arabic Books more closely in pacing. Do not sta
 4. **Review Words** — only after context, let learners rate words as easy, still practising, or difficult.
 5. **Quiz** — test the pattern and the most important new words.
 
-Lesson 1 now models this direction with `guidedPages` and `reviewVocabAtEnd`. Use that shape when gradually revising later lessons. Keep beginner cards visually light: picture cue + Arabic sentence, with meaning available through tap/hover tooltips instead of always-visible translations.
+Lesson 1 now models this direction with a dedicated animated lesson intro, `guidedPages`, and `reviewVocabAtEnd`. Use that shape when gradually revising later lessons. The lesson intro should give the learner a short heads-up about what they are about to learn, then transition into the lesson with one clear premium primary button. After the intro, keep the working lesson surface uncluttered: step controls, the active panel, and only the context needed for the current task.
+
+Do not duplicate lesson summaries inside the active lesson view after the intro. The intro explains the lesson; the lesson body should teach and test it.
 
 ### Development workflow
 Work in sessions, batch related changes, and push to `main` once a meaningful chunk is done. Do not commit every small tweak — keep the git history clean and meaningful.
@@ -294,6 +296,7 @@ Loaded by book list pages only. Contains:
 
 ### lesson.css
 Loaded by lesson pages only. Contains:
+- Animated lesson intro screen and transition into the active lesson
 - Step indicator bar
 - All five lesson panels (vocab, lesson, comprehension, practice, quiz)
 - Vocabulary layout: active grid + "Words you know well" collapsible bucket
@@ -490,6 +493,8 @@ So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After
 ### Product UX rules
 - Today is the learner's home base and must always answer: "What should I do next?"
 - Course teaches. Reading practices. Review memorizes. Keep those roles distinct.
+- Lesson entry should feel like a focused start screen: short summary, clear lesson identity, one strong Continue action.
+- After the learner continues, lesson pages should avoid repeated headers and summaries. The content area should start with the step controls and active learning task.
 - Reading should not feel like a dashboard. It is a comprehension surface.
 - Review should move toward Anki-style spaced repetition, not generic mixed drills.
 - Avoid adding new persistent panels, badges, ladders, or drawers unless they directly improve the learner loop.

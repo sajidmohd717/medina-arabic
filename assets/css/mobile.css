@@ -13,30 +13,34 @@ a, button, [role="button"], label, input, select, textarea {
 /* ── App Nav: fixed bottom bar on ALL viewports ── */
 body.has-app-nav {
   padding-top: 0;
-  padding-bottom: 56px;
+  padding-bottom: 0;
+  scroll-padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px));
 }
 
 .app-nav {
   position: fixed;
-  top: auto;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: auto 0 0 0;
   transform: translateZ(0);
-  z-index: 500;
+  z-index: 1000;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 6px;
   width: 100%;
+  min-height: calc(56px + env(safe-area-inset-bottom, 0px));
+  margin: 0;
   padding: 5px 16px;
   border: 0;
   border-top: 2px solid rgba(124, 92, 252, 0.1);
   border-radius: 0;
   background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 -4px 24px rgba(124, 92, 252, 0.07);
   box-sizing: border-box;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  overscroll-behavior: contain;
 }
 
 /* Inner wrapper centres tabs at desktop width */
@@ -110,12 +114,13 @@ body.has-app-nav {
 @media (max-width: 768px) {
   body.has-app-nav {
     padding-top: 0;
-    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: 0 !important;
+    scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 
   .app-nav {
-    padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px));
-    background: #FFFFFF;
+    min-height: calc(70px + env(safe-area-inset-bottom, 0px));
+    padding: 4px max(4px, env(safe-area-inset-left, 0px)) calc(4px + env(safe-area-inset-bottom, 0px)) max(4px, env(safe-area-inset-right, 0px));
   }
 
   .app-nav-tab {
@@ -181,6 +186,32 @@ body.has-app-nav {
     text-transform: uppercase;
     line-height: 1;
     transition: color 0.2s ease;
+  }
+}
+
+@media (max-width: 380px) {
+  body.has-app-nav {
+    padding-bottom: 0 !important;
+    scroll-padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .app-nav {
+    min-height: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .app-nav-tab {
+    min-height: 54px;
+    gap: 3px;
+    padding: 5px 2px;
+  }
+
+  .app-nav-icon {
+    font-size: 1.2rem;
+  }
+
+  .app-nav-label {
+    font-size: 0.48rem;
+    letter-spacing: 0;
   }
 }
 

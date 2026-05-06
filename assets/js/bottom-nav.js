@@ -1,7 +1,7 @@
 (function () {
   var path = location.pathname;
 
-  if (path.includes('lesson')) return;
+  if (path.includes('/lessons/')) return;
 
   var currentBook = (function() {
     try {
