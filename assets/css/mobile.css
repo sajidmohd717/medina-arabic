@@ -1,0 +1,144 @@
+/* ============================================================
+   mobile.css — Kalamo
+   Mobile-specific: bottom nav, safe-area insets, touch polish.
+   Imported by shared.css; also linked directly on pages
+   that don't use shared.css (index.html, drill, review).
+   ============================================================ */
+
+/* ── Global touch improvements ── */
+
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a, button, [role="button"], label, input, select, textarea {
+  touch-action: manipulation;
+}
+
+/* ── Body padding when bottom nav is present ── */
+
+@media (max-width: 768px) {
+  body.has-bottom-nav {
+    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+/* ── Bottom tab navigation ── */
+
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 500;
+    background: var(--bg-card, #fff9f2);
+    border-top: 1.5px solid var(--gold-border, #c4a05060);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -4px 24px rgba(26, 92, 74, 0.07);
+  }
+}
+
+.bottom-nav-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 4px;
+  min-height: 56px;
+  text-decoration: none;
+  color: var(--text-muted, #8a7254);
+  transition: color 0.18s ease, background 0.18s ease;
+  position: relative;
+}
+
+.bottom-nav-tab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: var(--brand-primary, #1a5c4a);
+  border-radius: 0 0 3px 3px;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.bottom-nav-tab--active {
+  color: var(--brand-primary, #1a5c4a);
+}
+
+.bottom-nav-tab--active::before {
+  opacity: 1;
+}
+
+.bottom-nav-tab:active {
+  background: var(--gold-faint, #8a642015);
+}
+
+.bottom-nav-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.bottom-nav-label {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ── Safe area for sticky nav ── */
+
+@supports (padding-top: env(safe-area-inset-top)) {
+  nav[class] {
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+  }
+}
+
+/* ── Prevent layout shift from address bar on mobile ── */
+
+@media (max-width: 768px) {
+  .fc-page,
+  .lesson-page,
+  .reading-page {
+    min-height: 100dvh;
+  }
+}
+
+/* ── Smooth momentum scrolling on iOS ── */
+
+@media (max-width: 768px) {
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ── Better focus rings on mobile (less intrusive) ── */
+
+@media (pointer: coarse) {
+  *:focus {
+    outline: none;
+  }
+  *:focus-visible {
+    outline: 2px solid var(--brand-primary, #1a5c4a);
+    outline-offset: 2px;
+  }
+}
+
+/* ── Prevent zoom on double-tap for interactive elements ── */
+
+button, a, .quiz-option, .practice-option, .comprehension-option,
+.drill-option, .review-rate-btn, .vocab-rate-btn, .key {
+  touch-action: manipulation;
+}

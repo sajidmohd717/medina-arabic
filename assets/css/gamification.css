@@ -829,16 +829,38 @@
 
 /* ── Responsive ── */
 
+@media (max-width: 768px) {
+  /* Ensure review/drill pages account for bottom nav */
+  .fc-page { padding-bottom: 0; }
+
+  /* Pull rate buttons to bottom-of-thumb territory */
+  .review-rate-btns {
+    position: sticky;
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    background: var(--bg);
+    padding: 0.75rem 0;
+    z-index: 10;
+  }
+}
+
 @media (max-width: 480px) {
   .quick-actions { gap: 8px; }
-  .quick-action-btn { padding: 0.8rem 0.5rem; }
-  .quick-action-icon { font-size: 1.4rem; }
+  .quick-action-btn { padding: 0.8rem 0.5rem; min-height: 72px; }
+  .quick-action-icon { font-size: 1.5rem; }
   .quick-action-label { font-size: 0.65rem; }
   .quick-action-sub { display: none; }
 
-  .review-card-wrap { height: 220px; }
+  .review-card-wrap { height: 200px; }
   .review-rate-btns { gap: 8px; }
+  .review-rate-btn { min-height: 52px; font-size: 0.9rem; }
 
-  .drill-card { padding: 1.5rem 1.1rem; }
-  .drill-option { font-size: 0.88rem; padding: 0.75rem 1rem; }
+  .drill-card { padding: 1.4rem 1rem; }
+  .drill-option { font-size: 0.9rem; padding: 0.85rem 1rem; min-height: 52px; }
+
+  /* Onboarding level cards — comfortable tap */
+  .level-card { padding: 0.9rem 1rem; min-height: 64px; }
+  .onboarding-btn { min-height: 50px; font-size: 0.85rem; }
+
+  /* XP float — avoid overlap with bottom nav */
+  .xp-float { bottom: calc(70px + env(safe-area-inset-bottom, 0px)); top: auto; }
 }

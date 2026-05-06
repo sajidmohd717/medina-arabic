@@ -34,6 +34,13 @@
       min-height: 100vh;
     }
   </style>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a5c4a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
+  <link rel="stylesheet" href="assets/css/mobile.css" />
   <link rel="stylesheet" href="assets/css/gamification.css" />
 </head>
 <body>
@@ -119,6 +126,7 @@
 
 <script src="assets/js/progress.js"></script>
 <script src="assets/js/gamification.js"></script>
+<script src="assets/js/bottom-nav.js"></script>
 <script>
 /* ── Config ── */
 const AVAILABLE_LESSONS = 13; // lessons with data files

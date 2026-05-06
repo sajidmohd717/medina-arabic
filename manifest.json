@@ -1,0 +1,34 @@
+{
+  "name": "Kalamo — Learn Arabic",
+  "short_name": "Kalamo",
+  "description": "Learn Arabic free with the Madinah Arabic curriculum. Structured lessons, quizzes, and vocabulary practice.",
+  "start_url": "/medina-arabic/",
+  "scope": "/medina-arabic/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1a5c4a",
+  "background_color": "#fdf6ec",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Drill",
+      "short_name": "Drill",
+      "url": "/medina-arabic/drill.html",
+      "description": "Quick 10-word vocabulary drill"
+    },
+    {
+      "name": "Review Words",
+      "short_name": "Review",
+      "url": "/medina-arabic/review.html",
+      "description": "Review struggling vocabulary"
+    }
+  ]
+}

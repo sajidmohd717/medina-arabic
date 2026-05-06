@@ -1296,16 +1296,21 @@
 
 @media (max-width: 480px) {
   .step-btn:not(:last-child)::after { display: none; }
-  .step-icon { width: 30px; height: 30px; font-size: 0.85rem; }
-  .step-btn { padding: 0.45rem 0.2rem; border-radius: 8px; }
+  .step-icon { width: 32px; height: 32px; font-size: 0.85rem; }
+  .step-btn { padding: 0.55rem 0.2rem; border-radius: 8px; min-height: 48px; }
   .panel-heading-icon { width: 38px; height: 38px; font-size: 1.1rem; }
   .panel-heading-text h2 { font-size: 0.95rem; }
   .quiz-score-card { padding: 1.25rem 0.9rem; border-radius: 10px; }
   .quiz-score-arabic { font-size: 1.25rem; }
   .quiz-score-number { font-size: 2.7rem; }
-  .btn { padding: 0.65rem 0.85rem; font-size: 0.68rem; letter-spacing: 0.08em; }
+  .btn { padding: 0.75rem 1rem; font-size: 0.75rem; letter-spacing: 0.08em; min-height: 44px; }
   .panel-nav { flex-direction: column-reverse; align-items: stretch; }
   .panel-nav .btn { width: 100%; text-align: center; }
+  /* Larger keyboard keys on small phones */
+  .key { width: 40px; height: 42px; font-size: 1.05rem; }
+  .key-wide { height: 42px; padding: 0 12px; }
+  .arabic-keyboard { padding: 0.75rem 0.5rem; }
+  .keyboard-row { gap: 4px; justify-content: center; }
 }
 
 @media (max-width: 380px) {
@@ -1320,9 +1325,10 @@
   .vocab-card--compact-known .vocab-meaning { font-size: 0.72rem; }
   .vocab-rate-btn,
   .vocab-card--compact-known .vocab-rate-btn {
-    width: 29px;
-    min-width: 29px;
-    max-width: 29px;
-    min-height: 29px;
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    min-height: 44px;
+    font-size: 1rem;
   }
 }
