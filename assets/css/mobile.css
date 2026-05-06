@@ -1,3 +1,7 @@
+/* ═══════════════════════════════════════
+   MOBILE — Bottom Nav, Touch, Safe Areas
+   ═══════════════════════════════════════ */
+
 *, *::before, *::after {
   -webkit-tap-highlight-color: transparent;
 }
@@ -8,7 +12,7 @@ a, button, [role="button"], label, input, select, textarea {
 
 @media (max-width: 768px) {
   body.has-bottom-nav {
-    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
   }
 }
 
@@ -25,11 +29,12 @@ a, button, [role="button"], label, input, select, textarea {
     left: 0;
     right: 0;
     z-index: 500;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(18px);
-    border-top: 1.5px solid rgba(0, 0, 0, 0.06);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border-top: 1px solid rgba(31, 24, 51, 0.06);
+    padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 -4px 20px rgba(31, 24, 51, 0.06);
   }
 }
 
@@ -38,12 +43,12 @@ a, button, [role="button"], label, input, select, textarea {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  padding: 8px 4px;
+  gap: 4px;
+  padding: 6px 4px;
   min-height: 56px;
   text-decoration: none;
   color: var(--text-muted);
-  transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
 }
 
@@ -51,45 +56,50 @@ a, button, [role="button"], label, input, select, textarea {
   content: '';
   position: absolute;
   top: 0;
-  left: 20%;
-  right: 20%;
-  height: 2px;
+  left: 25%;
+  right: 25%;
+  height: 3px;
   background: var(--brand);
   border-radius: 0 0 6px 6px;
   opacity: 0;
-  transition: opacity 0.18s ease;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .bottom-nav-tab--active {
   color: var(--brand);
 }
-
 .bottom-nav-tab--active::before {
   opacity: 1;
+  left: 15%;
+  right: 15%;
 }
 
 .bottom-nav-tab:active {
   background: var(--surface-tint);
-  transform: translateY(1px);
+  transform: scale(0.92);
 }
 
 .bottom-nav-icon {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   line-height: 1;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.bottom-nav-tab--active .bottom-nav-icon {
+  transform: translateY(-2px);
 }
 
 .bottom-nav-label {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-weight: 800;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   line-height: 1;
 }
 
 @supports (padding-top: env(safe-area-inset-top)) {
   body > nav:not(.bottom-nav) {
-    padding-top: max(0.75rem, env(safe-area-inset-top));
+    padding-top: max(0.7rem, env(safe-area-inset-top));
   }
 }
 
@@ -100,7 +110,7 @@ a, button, [role="button"], label, input, select, textarea {
     min-height: 0;
     align-items: stretch;
     gap: 0;
-    padding: 0 0 env(safe-area-inset-bottom, 0px);
+    padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px));
     border-bottom: 0;
   }
 }
@@ -120,16 +130,29 @@ a, button, [role="button"], label, input, select, textarea {
 }
 
 @media (pointer: coarse) {
-  *:focus {
-    outline: none;
-  }
+  *:focus { outline: none; }
   *:focus-visible {
-    outline: 2px solid var(--brand);
+    outline: 2.5px solid var(--brand);
     outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
 button, a, .quiz-option, .practice-option, .comprehension-option,
 .drill-option, .review-rate-btn, .vocab-rate-btn, .key {
   touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ── Haptic-Active State ── */
+@media (pointer: coarse) {
+  .btn:active,
+  .fc-btn:active,
+  .onboarding-btn:active,
+  .build-tile:active,
+  .key:active {
+    transform: scale(0.94) !important;
+    transition: transform 0.08s ease !important;
+  }
 }
