@@ -17,6 +17,7 @@
   <meta name="twitter:description" content="23 structured Arabic lessons covering the foundations of the language. Free and interactive, based on the Madinah Arabic Course." />
   <link rel="stylesheet" href="assets/css/shared.css?v=reading-track-3" />
   <link rel="stylesheet" href="assets/css/book-list.css?v=reading-track-3" />
+  <link rel="stylesheet" href="assets/css/gamification.css" />
 </head>
 <body>
 
@@ -43,6 +44,7 @@
     <span class="nav-divider">✦</span>
     <span class="nav-title">الكتاب الأول — Book One</span>
     <a class="nav-link nav-link-reading" id="readingNavLink" href="reading.html">Reading Track</a>
+    <div id="streak-widget" class="streak-widget" style="margin-left:auto;margin-right:0.5rem;"></div>
     <div class="nav-progress">
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progressFill"></div>
@@ -83,6 +85,18 @@
       <span class="legend-item"><span class="legend-dot legend-dot--complete"></span>Complete</span>
       <span class="legend-item"><span class="legend-lock-icon">✕</span>Locked</span>
     </div>
+    <!-- Quick actions -->
+    <div class="quick-actions" style="max-width:420px; margin: 0.5rem 0 1rem;">
+      <a href="drill.html" class="quick-action-btn" id="drill-btn">
+        <span class="quick-action-icon">⚡</span>
+        <span class="quick-action-label">Daily Drill</span>
+      </a>
+      <a href="review.html" class="quick-action-btn">
+        <span class="quick-action-icon">🔁</span>
+        <span class="quick-action-label">Review</span>
+      </a>
+    </div>
+
     <hr class="header-rule" />
   </header>
 
@@ -120,6 +134,7 @@
   </div>
 
   <script src="assets/js/progress.js"></script>
+  <script src="assets/js/gamification.js"></script>
   <script src="assets/js/book1-lesson-list.js"></script>
   <script>
     renderBook1LessonList();

@@ -298,6 +298,12 @@ function submitQuiz() {
       if (typeof updateProgressBar === 'function') updateProgressBar(CURRENT_BOOK);
       if (typeof updateCompletedCount === 'function') updateCompletedCount(CURRENT_BOOK);
     }
+    if (typeof awardXP === 'function') {
+      awardXP(score === total ? 100 : 50);
+    }
+    if (typeof updateStreak === 'function') {
+      updateStreak();
+    }
     if (nextBtn) nextBtn.style.display = 'inline-block';
   } else {
     if (nextBtn) nextBtn.style.display = 'none';

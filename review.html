@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review — Kalamo</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 18px; }
+    :root {
+      --brand-primary: #1a5c4a;
+      --gold: #8a6420;
+      --gold-light: #c4a050;
+      --gold-border: #c4a05060;
+      --gold-faint: #8a642015;
+      --bg: #fdf6ec;
+      --bg-card: #fff9f2;
+      --text-dark: #1a1208;
+      --text-mid: #4a3820;
+      --text-muted: #8a7254;
+      --green: #1e5c38;
+      --green-bg: #d4edda;
+      --green-border: #8ac4a0;
+      --amber: #b45309;
+      --amber-bg: #fff7ed;
+      --amber-border: #fdba7460;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-dark);
+      font-family: 'Lato', sans-serif;
+      min-height: 100vh;
+    }
+  </style>
+  <link rel="stylesheet" href="assets/css/gamification.css" />
+</head>
+<body>
+
+<div class="fc-page">
+
+  <nav class="fc-nav">
+    <a href="index.html" class="fc-back">← Home</a>
+    <span class="fc-title">Vocabulary Review</span>
+    <div class="fc-streak-wrap">
+      <div id="streak-widget" class="streak-widget"></div>
+    </div>
+  </nav>
+
+  <div class="fc-progress-track">
+    <div class="fc-progress-fill" id="fc-progress"></div>
+  </div>
+
+  <!-- Loading -->
+  <div class="fc-loading" id="state-loading">
+    <div class="fc-spinner"></div>
+    <span>Loading your vocabulary…</span>
+  </div>
+
+  <!-- No words to review -->
+  <div class="fc-screen" id="state-empty" style="display:none;">
+    <div class="fc-screen-icon">📚</div>
+    <div class="fc-screen-title">Nothing to review</div>
+    <p class="fc-screen-sub">Complete some lessons first — words you mark as "still learning" will appear here.</p>
+    <div class="fc-btn-row" style="margin-top:1.4rem;">
+      <a href="book1.html" class="fc-btn">Go to Lessons</a>
+      <a href="index.html" class="fc-btn fc-btn--ghost">Home</a>
+    </div>
+  </div>
+
+  <!-- Start screen -->
+  <div class="fc-screen" id="state-start" style="display:none;">
+    <div class="fc-screen-icon">🔁</div>
+    <div class="fc-screen-title">Ready to review?</div>
+    <p class="fc-screen-sub" id="start-sub">You have <strong id="review-count">0</strong> words to review — words you marked as still learning, prioritised first.</p>
+    <div class="fc-btn-row" style="margin-top:1.4rem;">
+      <button class="fc-btn" onclick="startSession()">Start Review</button>
+      <a href="index.html" class="fc-btn fc-btn--ghost">Not now</a>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div id="state-card" style="display:none; width:100%; max-width:480px; display:none; flex-direction:column; align-items:center;">
+    <p class="review-counter" id="card-counter">Card 1 of 10</p>
+    <div class="review-card-wrap" id="card-wrap" onclick="flipCard()" role="button" aria-label="Tap to reveal answer">
+      <div class="review-card" id="review-card">
+        <div class="review-card-face">
+          <div class="review-card-type" id="card-type"></div>
+          <div class="review-card-arabic" id="card-arabic"></div>
+          <div class="review-card-tap">Tap to reveal →</div>
+        </div>
+        <div class="review-card-face review-card-back">
+          <div class="review-card-meaning" id="card-meaning"></div>
+          <div class="review-card-trans" id="card-trans"></div>
+          <div class="review-card-lesson" id="card-lesson"></div>
+        </div>
+      </div>
+    </div>
+    <div class="review-rate-btns" id="rate-btns" style="display:none;">
+      <button class="review-rate-btn review-rate-btn--struggle" onclick="rateCard('struggle')">↺ Still learning</button>
+      <button class="review-rate-btn review-rate-btn--know" onclick="rateCard('know')">✓ Got it</button>
+    </div>
+  </div>
+
+  <!-- End screen -->
+  <div class="fc-screen" id="state-end" style="display:none;">
+    <div class="fc-screen-icon">🌟</div>
+    <div class="fc-screen-title">Session complete!</div>
+    <p class="fc-screen-sub" id="end-sub"></p>
+    <div class="fc-screen-xp" id="end-xp">+15 XP earned</div>
+    <div class="fc-btn-row">
+      <button class="fc-btn" onclick="restartSession()">Review again</button>
+      <a href="book1.html" class="fc-btn fc-btn--ghost">Go to Lessons</a>
+    </div>
+  </div>
+
+</div>
+
+<script src="assets/js/progress.js"></script>
+<script src="assets/js/gamification.js"></script>
+<script>
+/* ── Config ── */
+const AVAILABLE_LESSONS = 13; // lessons with data files
+const MAX_SESSION = 20;
+const XP_REWARD = 15;
+
+/* ── State ── */
+var _cards    = [];
+var _index    = 0;
+var _mastered = 0;
+var _flipped  = false;
+
+/* ── Load vocab from completed lessons ── */
+
+async function loadLessonData(lessonNum) {
+  try {
+    const resp = await fetch(`lessons/data/b1-lesson${lessonNum}.js`);
+    if (!resp.ok) return null;
+    const text = await resp.text();
+    const fn = new Function(text + '\nreturn LESSON_DATA;');
+    return fn();
+  } catch {
+    return null;
+  }
+}
+
+async function buildCardPool() {
+  const progress = JSON.parse(localStorage.getItem('kalamo_book1_progress') || '{}');
+  const ratings  = JSON.parse(localStorage.getItem('kalamo_vocab_ratings') || '{}');
+  const completed = [];
+
+  for (let i = 1; i <= AVAILABLE_LESSONS; i++) {
+    const v = progress[String(i)];
+    if (v === true || v === 'complete') completed.push(i);
+  }
+
+  if (!completed.length) return [];
+
+  const struggling = [], unrated = [];
+
+  for (const lessonNum of completed) {
+    const data = await loadLessonData(lessonNum);
+    if (!data || !data.vocab) continue;
+    const lessonRatings = ratings[`book1_${lessonNum}`] || {};
+
+    data.vocab.forEach((word, idx) => {
+      const entry = { ...word, lessonNum, idx };
+      const r = lessonRatings[String(idx)];
+      if (r === 'struggle' || r === 'unknown') struggling.push(entry);
+      else if (!r) unrated.push(entry);
+    });
+  }
+
+  // Prioritise struggling, fill with unrated if needed
+  let pool = [...struggling];
+  if (pool.length < 5) {
+    shuffle(unrated);
+    pool = pool.concat(unrated.slice(0, MAX_SESSION - pool.length));
+  }
+  if (pool.length > MAX_SESSION) pool = pool.slice(0, MAX_SESSION);
+  return pool;
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/* ── Session flow ── */
+
+function show(id) {
+  ['state-loading','state-empty','state-start','state-card','state-end']
+    .forEach(s => {
+      const el = document.getElementById(s);
+      if (el) el.style.display = (s === id) ? (s === 'state-card' ? 'flex' : 'block') : 'none';
+    });
+}
+
+async function init() {
+  show('state-loading');
+  _cards = await buildCardPool();
+  if (!_cards.length) { show('state-empty'); return; }
+  document.getElementById('review-count').textContent = _cards.length;
+  show('state-start');
+}
+
+function startSession() {
+  _index    = 0;
+  _mastered = 0;
+  _flipped  = false;
+  showCard();
+}
+
+function showCard() {
+  if (_index >= _cards.length) { endSession(); return; }
+  const card = _cards[_index];
+  _flipped = false;
+
+  document.getElementById('review-card').classList.remove('flipped');
+  document.getElementById('rate-btns').style.display = 'none';
+  document.getElementById('card-type').textContent    = card.type || '';
+  document.getElementById('card-arabic').textContent  = card.ar;
+  document.getElementById('card-meaning').textContent = card.meaning;
+  document.getElementById('card-trans').textContent   = card.trans || '';
+  document.getElementById('card-lesson').textContent  = `Lesson ${card.lessonNum}`;
+  document.getElementById('card-counter').textContent = `Card ${_index + 1} of ${_cards.length}`;
+
+  const pct = (_index / _cards.length) * 100;
+  document.getElementById('fc-progress').style.width = pct + '%';
+
+  show('state-card');
+}
+
+function flipCard() {
+  if (_flipped) return;
+  _flipped = true;
+  document.getElementById('review-card').classList.add('flipped');
+  setTimeout(() => {
+    document.getElementById('rate-btns').style.display = 'flex';
+  }, 300);
+}
+
+function rateCard(rating) {
+  const card = _cards[_index];
+  if (typeof setVocabWordRating === 'function') {
+    setVocabWordRating('book1', card.lessonNum, card.idx, rating);
+  }
+  if (rating === 'know') _mastered++;
+  _index++;
+  setTimeout(showCard, 120);
+}
+
+function endSession() {
+  document.getElementById('fc-progress').style.width = '100%';
+  document.getElementById('end-sub').textContent =
+    `You mastered ${_mastered} out of ${_cards.length} words. Keep it up!`;
+  document.getElementById('end-xp').textContent = `+${XP_REWARD} XP earned`;
+  if (typeof awardXP === 'function') awardXP(XP_REWARD);
+  if (typeof updateStreak === 'function') updateStreak();
+  show('state-end');
+}
+
+function restartSession() {
+  shuffle(_cards);
+  startSession();
+}
+
+/* ── Boot ── */
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

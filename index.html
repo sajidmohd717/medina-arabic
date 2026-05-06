@@ -20,6 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/gamification.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 18px; }
@@ -297,6 +298,12 @@
       to   { opacity: 1; }
     }
 
+    /* streak widget fixed top-right */
+    .home-streak {
+      position: fixed; top: 16px; right: 20px; z-index: 100;
+      animation: fadeIn 0.6s ease 0.9s both;
+    }
+
     @media (max-width: 700px) {
       .books-grid { grid-template-columns: 1fr; max-width: 380px; }
       main { padding: 3.5rem 1.5rem 3rem; }
@@ -360,11 +367,39 @@
 
   <div class="arabic-watermark" aria-hidden="true">الكلام</div>
 
+  <!-- Streak widget fixed top-right -->
+  <div class="home-streak">
+    <div id="streak-widget" class="streak-widget" title="Your daily streak"></div>
+  </div>
+
   <main>
     <div class="top-ornament">✦ بِسْمِ اللهِ ✦</div>
     <div class="eyebrow">The Clear Path</div>
     <h1 class="main-title">KALAMO</h1>
     <p class="subtitle">Master the Arabic language through the world's most proven curriculum.</p>
+
+    <!-- XP bar -->
+    <div class="xp-bar-wrap">
+      <div class="xp-bar-meta">
+        <span id="xp-level">Level 1</span>
+        <span id="xp-label">0 / 500 XP</span>
+      </div>
+      <div class="xp-bar-track"><div class="xp-bar-fill" id="xp-bar-fill"></div></div>
+    </div>
+
+    <!-- Quick actions: daily drill + review -->
+    <div class="quick-actions">
+      <a href="drill.html" class="quick-action-btn" id="drill-btn">
+        <span class="quick-action-icon">⚡</span>
+        <span class="quick-action-label">Daily Drill</span>
+        <span class="quick-action-sub">10 words · 5 min</span>
+      </a>
+      <a href="review.html" class="quick-action-btn">
+        <span class="quick-action-icon">🔁</span>
+        <span class="quick-action-label">Review</span>
+        <span class="quick-action-sub">Hard words first</span>
+      </a>
+    </div>
 
     <div class="divider" aria-hidden="true">
       <div class="divider-line"></div>
@@ -423,11 +458,70 @@
     </button>
   </main>
 
+  <!-- Onboarding overlay (shown on first visit) -->
+  <div class="onboarding-overlay" id="onboarding-overlay" style="display:none;" aria-modal="true" role="dialog">
+
+    <!-- Step dots -->
+    <div class="onboarding-dots" id="onboarding-dots">
+      <div class="onboarding-dot active" data-step="0"></div>
+      <div class="onboarding-dot" data-step="1"></div>
+      <div class="onboarding-dot" data-step="2"></div>
+    </div>
+
+    <!-- Step 1: Welcome -->
+    <div class="onboarding-step active" id="ob-step-0">
+      <div class="onboarding-arabic">الكلام</div>
+      <div class="onboarding-title">Welcome to Kalamo</div>
+      <p class="onboarding-sub">Learn Arabic, one lesson at a time — structured, interactive, and completely free.</p>
+      <button class="onboarding-btn" onclick="obNext()">Get Started →</button>
+    </div>
+
+    <!-- Step 2: Level picker -->
+    <div class="onboarding-step" id="ob-step-1">
+      <div class="onboarding-title">Where are you starting?</div>
+      <p class="onboarding-sub">We'll set you up at the right place.</p>
+      <div class="level-cards">
+        <div class="level-card selected" data-level="0" onclick="obSelectLevel(this)">
+          <span class="level-card-icon">🌱</span>
+          <div>
+            <div class="level-card-name">Complete beginner</div>
+            <div class="level-card-desc">I'm new to Arabic — start me from Lesson 1</div>
+          </div>
+        </div>
+        <div class="level-card" data-level="4" onclick="obSelectLevel(this)">
+          <span class="level-card-icon">📖</span>
+          <div>
+            <div class="level-card-name">Know some basics</div>
+            <div class="level-card-desc">I know letters and simple words — skip to Lesson 5</div>
+          </div>
+        </div>
+        <div class="level-card" data-level="7" onclick="obSelectLevel(this)">
+          <span class="level-card-icon">⚡</span>
+          <div>
+            <div class="level-card-name">Some experience</div>
+            <div class="level-card-desc">I've studied before — start me at Lesson 8</div>
+          </div>
+        </div>
+      </div>
+      <button class="onboarding-btn" onclick="obNext()">Continue →</button>
+    </div>
+
+    <!-- Step 3: Ready -->
+    <div class="onboarding-step" id="ob-step-2">
+      <div class="onboarding-arabic">بِسْمِ اللهِ</div>
+      <div class="onboarding-title">You're all set!</div>
+      <p class="onboarding-sub">Start with a lesson, do a quick drill, or review vocabulary you've already learned.</p>
+      <a href="book1.html" class="onboarding-btn" onclick="obFinish()">Start Learning →</a>
+    </div>
+
+  </div>
+
   <script src="assets/js/progress.js"></script>
+  <script src="assets/js/gamification.js"></script>
   <script>
+    /* ── Continue banner ── */
     (function () {
       const books = ['book1', 'book2', 'book3'];
-      const bookHrefs = { book1: 'book1.html', book2: 'book2.html', book3: 'book3.html' };
       const bookNames = { book1: 'Book 1', book2: 'Book 2', book3: 'Book 3' };
       const bookTotals = { book1: 23, book2: 23, book3: 23 };
 
@@ -436,27 +530,60 @@
         const keys = Object.keys(progress);
         if (!keys.length) continue;
 
-        // Find next incomplete lesson
         const total = bookTotals[book];
         let nextLesson = null;
         for (let i = 1; i <= total; i++) {
-          const v = progress[String(i)];
-          if (!isCompleteValue(v)) { nextLesson = i; break; }
+          if (!isCompleteValue(progress[String(i)])) { nextLesson = i; break; }
         }
         if (!nextLesson) continue;
 
         const completed = keys.filter(k => isCompleteValue(progress[k])).length;
         const href = `lessons/lesson.html?book=${book.replace('book','')}&lesson=${nextLesson}`;
-        const banner = document.getElementById('continue-banner');
-        const link = document.getElementById('continue-link');
-        const label = document.getElementById('continue-label');
-
-        label.textContent = `${bookNames[book]} — Lesson ${nextLesson}  (${completed} of ${total} complete)`;
-        link.href = href;
-        banner.style.display = 'block';
+        document.getElementById('continue-label').textContent =
+          `${bookNames[book]} — Lesson ${nextLesson}  (${completed} of ${total} complete)`;
+        document.getElementById('continue-link').href = href;
+        document.getElementById('continue-banner').style.display = 'block';
         break;
       }
     })();
+
+    /* ── Onboarding ── */
+    var _obLevel = 0;
+    var _obStep  = 0;
+
+    (function initOnboarding() {
+      if (localStorage.getItem('kalamo_onboarded')) return;
+      document.getElementById('onboarding-overlay').style.display = 'flex';
+    })();
+
+    function obSelectLevel(card) {
+      document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      _obLevel = parseInt(card.dataset.level, 10);
+    }
+
+    function obNext() {
+      _obStep++;
+      document.querySelectorAll('.onboarding-step').forEach((el, i) => {
+        el.classList.toggle('active', i === _obStep);
+      });
+      document.querySelectorAll('.onboarding-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === _obStep);
+      });
+    }
+
+    function obFinish() {
+      // Pre-mark lessons as complete based on chosen level
+      if (_obLevel > 0) {
+        const progress = {};
+        for (let i = 1; i <= _obLevel; i++) progress[String(i)] = true;
+        localStorage.setItem('kalamo_book1_progress', JSON.stringify(progress));
+      }
+      localStorage.setItem('kalamo_onboarded', '1');
+      const overlay = document.getElementById('onboarding-overlay');
+      overlay.classList.add('fade-out');
+      setTimeout(() => { overlay.style.display = 'none'; }, 420);
+    }
   </script>
 </body>
 </html>
