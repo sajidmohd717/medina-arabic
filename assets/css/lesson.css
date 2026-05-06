@@ -2012,9 +2012,19 @@
 }
 
 .milestone-btn {
-  min-width: 160px;
+  position: fixed;
+  bottom: 2.25rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  min-width: 180px;
   font-size: 0.95rem;
+  box-shadow: 0 8px 32px rgba(124, 92, 252, 0.35);
   will-change: transform, opacity;
+  white-space: nowrap;
+  z-index: 910;
+}
+.milestone-btn.is-visible {
+  transform: translateX(-50%) translateY(0);
 }
 
 @media (max-width: 700px) {

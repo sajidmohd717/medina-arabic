@@ -1500,7 +1500,7 @@ function showGuidedMilestone(data, onContinue) {
         <p class="milestone-satchel-label">Words packed into your satchel</p>
         <div class="milestone-satchel" id="milestoneSatchel">${buildSatchelSVG()}</div>
       </div>
-      <button type="button" class="btn btn-primary milestone-btn" id="milestoneContinueBtn" style="opacity:0;transform:translateY(10px)">Keep going →</button>
+      <button type="button" class="btn btn-primary milestone-btn" id="milestoneContinueBtn" style="opacity:0">Keep going →</button>
     </div>
   `;
   document.body.appendChild(overlay);
@@ -1570,11 +1570,19 @@ function showGuidedMilestone(data, onContinue) {
         }, i * 50);
       });
 
-      // Show continue button after all chips land
+      // Collapse chip area so satchel drifts to centre
       setTimeout(() => {
-        continueBtn.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+        chipsContainer.style.transition = 'max-height 0.4s ease, margin 0.4s ease';
+        chipsContainer.style.maxHeight  = '0';
+        chipsContainer.style.margin     = '0';
+        chipsContainer.style.overflow   = 'hidden';
+      }, chips.length * 50 + 100);
+
+      // Show continue button fixed at bottom
+      setTimeout(() => {
+        continueBtn.style.transition = 'opacity 0.45s ease';
         continueBtn.style.opacity    = '1';
-        continueBtn.style.transform  = 'translateY(0)';
+        continueBtn.classList.add('is-visible');
       }, chips.length * 50 + 550);
 
     }, 350);
