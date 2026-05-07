@@ -1638,6 +1638,11 @@ function showGuidedMilestone(data, onContinue) {
     packBtn.style.transition = 'opacity 0.2s ease';
     packBtn.style.opacity = '0';
 
+    // Persist all lesson vocab to SRS satchel
+    if (window.SRS && data.vocab) {
+      SRS.discoverWords(data.book || 'book1', data.lessonNum, data.vocab);
+    }
+
     satchelWrap.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     satchelWrap.style.opacity = '1';
 
@@ -1771,6 +1776,11 @@ function showGuidedFinalMilestone(data, onContinue) {
     packBtn.disabled = true;
     packBtn.style.transition = 'opacity 0.2s ease';
     packBtn.style.opacity = '0';
+
+    // Persist all lesson vocab to SRS satchel
+    if (window.SRS && data.vocab) {
+      SRS.discoverWords(data.book || 'book1', data.lessonNum, data.vocab);
+    }
 
     satchelWrap.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     satchelWrap.style.opacity = '1';

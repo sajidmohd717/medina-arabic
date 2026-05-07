@@ -1,219 +1,639 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Review — Kalamo</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Nunito:wght@400;700;800;900&family=Cinzel:wght@500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    html { font-size: 18px; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Nunito:wght@400;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#7C5CFC" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
-  <link rel="stylesheet" href="assets/css/shared.css?v=purple-1" />
-  <link rel="stylesheet" href="assets/css/gamification.css?v=purple-1" />
+  <link rel="stylesheet" href="assets/css/shared.css?v=srs-1" />
+  <link rel="stylesheet" href="assets/css/gamification.css?v=srs-1" />
+  <style>
+    /* ── Review page layout ── */
+    .rv-page {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Top nav ── */
+    .rv-nav {
+      width: 100%;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(124,92,252,0.1);
+      padding: 0.65rem 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      box-shadow: 0 1px 12px rgba(124,92,252,0.06);
+    }
+    .rv-back {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--brand); text-decoration: none;
+      display: flex; align-items: center; gap: 5px;
+      padding: 0.3rem 0.55rem;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+    .rv-back:hover { background: var(--surface-tint); transform: translateX(-2px); }
+    .rv-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem; font-weight: 800;
+      color: var(--text-dark);
+    }
+    .rv-tab-row {
+      margin-left: auto;
+      display: flex; gap: 6px;
+    }
+    .rv-tab {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.68rem; font-weight: 800;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--text-mid);
+      background: none; border: 1.5px solid rgba(124,92,252,0.15);
+      border-radius: var(--radius-full);
+      padding: 0.3rem 0.75rem;
+      cursor: pointer; transition: all 0.18s ease;
+    }
+    .rv-tab:hover, .rv-tab--active {
+      color: var(--brand);
+      border-color: var(--brand-light);
+      background: var(--surface-tint);
+    }
+
+    /* ── Progress bar ── */
+    .rv-progress-track {
+      width: 100%; height: 5px;
+      background: rgba(124,92,252,0.08);
+    }
+    .rv-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--brand), var(--accent-mint));
+      border-radius: 0 var(--radius-full) var(--radius-full) 0;
+      width: 0%; transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* ── Screen wrapper ── */
+    .rv-screen {
+      width: 100%; max-width: 520px;
+      padding: 2.5rem 1.25rem 5rem;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1rem; flex: 1;
+    }
+
+    /* ── State: loading / empty / start / end ── */
+    .rv-center {
+      width: 100%; text-align: center;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.9rem;
+      padding-top: 3rem;
+      animation: fadeUp 0.5s ease both;
+    }
+    .rv-center-icon { font-size: 3.5rem; line-height: 1; }
+    .rv-center-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.45rem; font-weight: 900;
+      color: var(--text-dark);
+    }
+    .rv-center-sub {
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--text-mid); max-width: 320px; line-height: 1.6;
+    }
+    .rv-btn-row {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      justify-content: center; margin-top: 0.5rem;
+    }
+    .rv-btn {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem; font-weight: 800;
+      color: #fff;
+      background: var(--brand);
+      border: none; border-radius: var(--radius-md);
+      padding: 0.75rem 1.6rem;
+      cursor: pointer;
+      box-shadow: 0 4px 0 var(--brand-dark), var(--shadow-sm);
+      transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-decoration: none; display: inline-block;
+    }
+    .rv-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--brand-dark), var(--shadow-md); }
+    .rv-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--brand-dark); }
+    .rv-btn--ghost {
+      background: none; color: var(--brand);
+      border: 2px solid rgba(124,92,252,0.25);
+      box-shadow: none;
+    }
+    .rv-btn--ghost:hover { background: var(--surface-tint); box-shadow: none; }
+
+    /* ── Spinner ── */
+    .rv-spinner {
+      width: 36px; height: 36px;
+      border: 3px solid rgba(124,92,252,0.15);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Stat bar (start screen) ── */
+    .rv-stat-bar {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      justify-content: center; width: 100%;
+      max-width: 400px; margin: 0.3rem 0;
+    }
+    .rv-stat-pill {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.72rem; font-weight: 800;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid;
+      white-space: nowrap;
+    }
+
+    /* ── Card area ── */
+    .rv-card-area {
+      width: 100%; max-width: 480px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1rem;
+      animation: fadeUp 0.4s ease both;
+    }
+    .rv-counter {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Flip card ── */
+    .rv-card-wrap {
+      width: 100%;
+      perspective: 900px;
+      cursor: pointer;
+    }
+    .rv-card {
+      width: 100%; min-height: 280px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: var(--radius-xl);
+    }
+    .rv-card.flipped { transform: rotateY(180deg); }
+
+    .rv-card-face {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: var(--radius-xl);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 1.5rem;
+      background: var(--surface-card);
+      border: 2px solid rgba(124,92,252,0.1);
+      box-shadow: var(--shadow-md);
+      gap: 0.75rem;
+    }
+    .rv-card-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, #fafafe 0%, #f3f0ff 100%);
+      border-color: rgba(124,92,252,0.18);
+      justify-content: flex-start; padding-top: 1.5rem;
+    }
+
+    .rv-card-type-badge {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--brand); background: var(--surface-tint);
+      border: 1.5px solid rgba(124,92,252,0.2);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+    }
+    .rv-card-arabic {
+      font-family: 'Amiri', serif;
+      font-size: clamp(2rem, 9vw, 3rem);
+      font-weight: 700; line-height: 1.3;
+      color: var(--text-dark);
+      direction: rtl; text-align: center;
+    }
+    .rv-card-tap {
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--text-muted); letter-spacing: 0.03em;
+      margin-top: 0.25rem;
+    }
+
+    /* Back face content */
+    .rv-card-meaning {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.3rem; font-weight: 800;
+      color: var(--text-dark); text-align: center;
+    }
+    .rv-card-trans {
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--text-muted); font-style: italic;
+      letter-spacing: 0.02em;
+    }
+    .rv-card-meta {
+      display: flex; gap: 8px; align-items: center;
+      flex-wrap: wrap; justify-content: center;
+      margin-top: 0.5rem;
+    }
+    .rv-card-lesson-tag {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.62rem; font-weight: 800;
+      color: var(--text-muted); background: rgba(124,92,252,0.08);
+      border-radius: var(--radius-full);
+      padding: 2px 10px;
+    }
+    .rv-level-badge {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.62rem; font-weight: 800;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      border-radius: var(--radius-full);
+      padding: 2px 10px; border: 1.5px solid;
+    }
+
+    /* ── Rating buttons ── */
+    .rv-rate-btns {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; width: 100%;
+      animation: fadeUp 0.35s ease both;
+    }
+    .rv-rate-btn {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem; font-weight: 800;
+      border: none; border-radius: var(--radius-md);
+      padding: 0.9rem 1rem; cursor: pointer;
+      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+      min-height: 58px;
+    }
+    .rv-rate-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .rv-rate-btn:active { transform: translateY(2px); }
+    .rv-rate-forgot {
+      background: var(--red-bg);
+      color: var(--red-dark);
+      border: 2px solid var(--red-border);
+    }
+    .rv-rate-forgot:hover { background: #fee2e2; }
+    .rv-rate-got {
+      background: var(--success-bg);
+      color: var(--success-dark);
+      border: 2px solid var(--success-border);
+      box-shadow: 0 4px 0 rgba(74,222,128,0.2);
+    }
+    .rv-rate-got:hover { background: #d1fae5; }
+
+    /* ── End screen extras ── */
+    .rv-end-score {
+      font-family: 'Nunito', sans-serif;
+      font-size: 2rem; font-weight: 900;
+      color: var(--brand);
+      animation: scorePopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .rv-xp-badge {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem; font-weight: 800;
+      color: var(--gold);
+      background: var(--gold-faint);
+      border: 2px solid var(--gold-border);
+      border-radius: var(--radius-full);
+      padding: 0.4rem 1rem;
+    }
+
+    /* ══════════════════════════════════════
+       SATCHEL BROWSER PANEL
+    ══════════════════════════════════════ */
+    .satchel-panel {
+      width: 100%; max-width: 520px;
+      padding: 1rem 1.25rem 5rem;
+      display: none; flex-direction: column; gap: 1.25rem;
+    }
+    .satchel-panel.active { display: flex; }
+
+    .satchel-header {
+      text-align: center;
+      animation: fadeDown 0.4s ease both;
+    }
+    .satchel-header-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.2rem; font-weight: 900;
+      color: var(--text-dark);
+    }
+    .satchel-header-sub {
+      font-size: 0.78rem; color: var(--text-muted);
+      font-weight: 600; margin-top: 3px;
+    }
+
+    .satchel-levels-row {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .satchel-empty {
+      text-align: center; padding: 3rem 1rem;
+      color: var(--text-muted); font-size: 0.9rem; font-weight: 600;
+    }
+    .satchel-empty-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+    .satchel-lesson-group {
+      background: var(--surface-card);
+      border: 1.5px solid rgba(124,92,252,0.1);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+      animation: fadeUp 0.4s ease both;
+    }
+    .satchel-lesson-head {
+      display: flex; align-items: center;
+      padding: 0.75rem 1rem;
+      background: linear-gradient(135deg, var(--surface-tint), #fff);
+      border-bottom: 1px solid rgba(124,92,252,0.08);
+      gap: 8px; cursor: pointer;
+      user-select: none;
+    }
+    .satchel-lesson-label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem; font-weight: 900;
+      color: var(--brand); letter-spacing: 0.03em;
+    }
+    .satchel-lesson-count {
+      font-size: 0.68rem; font-weight: 700;
+      color: var(--text-muted);
+      background: rgba(124,92,252,0.07);
+      border-radius: var(--radius-full);
+      padding: 2px 8px; margin-left: auto;
+    }
+    .satchel-lesson-chevron {
+      font-size: 0.7rem; color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+    .satchel-lesson-group.collapsed .satchel-lesson-chevron { transform: rotate(-90deg); }
+    .satchel-lesson-words { padding: 0.5rem 0; }
+    .satchel-lesson-group.collapsed .satchel-lesson-words { display: none; }
+
+    .satchel-word-row {
+      display: flex; align-items: center;
+      padding: 0.55rem 1rem; gap: 10px;
+      border-bottom: 1px solid rgba(124,92,252,0.04);
+      transition: background 0.15s ease;
+    }
+    .satchel-word-row:last-child { border-bottom: none; }
+    .satchel-word-row:hover { background: rgba(124,92,252,0.03); }
+
+    .satchel-word-ar {
+      font-family: 'Amiri', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--text-dark); direction: rtl;
+      min-width: 90px; text-align: right;
+    }
+    .satchel-word-info { flex: 1; min-width: 0; }
+    .satchel-word-meaning {
+      font-size: 0.82rem; font-weight: 700;
+      color: var(--text-dark);
+    }
+    .satchel-word-trans {
+      font-size: 0.7rem; color: var(--text-muted);
+      font-style: italic;
+    }
+    .satchel-word-level {
+      font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      border-radius: var(--radius-full); padding: 2px 8px;
+      border: 1.5px solid; white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .rv-card-face { min-height: 240px; padding: 1.6rem 1.25rem; }
+      .rv-card-arabic { font-size: clamp(1.8rem, 11vw, 2.5rem); }
+      .rv-rate-btn { min-height: 52px; font-size: 0.85rem; }
+      .satchel-word-ar { min-width: 70px; font-size: 1.1rem; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="fc-page">
+<div class="rv-page">
 
-  <nav class="fc-nav">
-    <a href="index.html" class="fc-back">← Home</a>
-    <span class="fc-title">Word Review</span>
-    <div class="fc-streak-wrap">
-      <div id="streak-widget" class="streak-widget"></div>
+  <nav class="rv-nav">
+    <a href="index.html" class="rv-back">← Home</a>
+    <span class="rv-title">🎒 Review</span>
+    <div class="rv-tab-row">
+      <button class="rv-tab rv-tab--active" id="tab-review" onclick="switchTab('review')">Review</button>
+      <button class="rv-tab" id="tab-satchel" onclick="switchTab('satchel')">Satchel</button>
     </div>
   </nav>
 
-  <div class="fc-progress-track">
-    <div class="fc-progress-fill" id="fc-progress"></div>
+  <div class="rv-progress-track">
+    <div class="rv-progress-fill" id="rv-progress"></div>
   </div>
 
-  <!-- Loading -->
-  <div class="fc-loading" id="state-loading">
-    <div class="fc-spinner"></div>
-    <span>Loading your vocabulary…</span>
-  </div>
+  <!-- ── REVIEW TAB ── -->
+  <div id="tab-review-panel" class="rv-screen">
 
-  <!-- No words to review -->
-  <div class="fc-screen" id="state-empty" style="display:none;">
-    <div class="fc-screen-icon">📚</div>
-    <div class="fc-screen-title">Nothing to review</div>
-    <p class="fc-screen-sub">Complete some lessons first — words you mark as "still learning" will appear here.</p>
-    <div class="fc-btn-row" style="margin-top:1.4rem;">
-      <a href="book1.html" class="fc-btn">Go to Lessons</a>
-      <a href="book1.html" class="fc-btn fc-btn--ghost">Home</a>
+    <!-- Loading -->
+    <div class="rv-center" id="state-loading">
+      <div class="rv-spinner"></div>
+      <span style="font-size:0.85rem;color:var(--text-muted);font-weight:600;">Loading your vocabulary…</span>
     </div>
-  </div>
 
-  <!-- Start screen -->
-  <div class="fc-screen" id="state-start" style="display:none;">
-    <div class="fc-screen-icon">🔁</div>
-    <div class="fc-screen-title">Ready to review?</div>
-    <p class="fc-screen-sub" id="start-sub">You have <strong id="review-count">0</strong> words to review — flashcards for words you are still learning.</p>
-    <div class="fc-btn-row" style="margin-top:1.4rem;">
-      <button class="fc-btn" onclick="startSession()">Start Review</button>
-      <a href="book1.html" class="fc-btn fc-btn--ghost">Not now</a>
-    </div>
-  </div>
-
-  <!-- Card -->
-  <div id="state-card" style="display:none; width:100%; max-width:480px; display:none; flex-direction:column; align-items:center;">
-    <p class="review-counter" id="card-counter">Card 1 of 10</p>
-    <div class="review-card-wrap" id="card-wrap" onclick="flipCard()" role="button" aria-label="Tap to reveal answer">
-      <div class="review-card" id="review-card">
-        <div class="review-card-face">
-          <div class="review-card-type" id="card-type"></div>
-          <div class="review-card-arabic" id="card-arabic"></div>
-          <div class="review-card-tap">Tap to reveal →</div>
-        </div>
-        <div class="review-card-face review-card-back">
-          <div class="review-card-meaning" id="card-meaning"></div>
-          <div class="review-card-trans" id="card-trans"></div>
-          <div class="review-card-lesson" id="card-lesson"></div>
-        </div>
+    <!-- Empty -->
+    <div class="rv-center" id="state-empty" style="display:none;">
+      <div class="rv-center-icon">📚</div>
+      <div class="rv-center-title">Nothing to review yet</div>
+      <p class="rv-center-sub">Complete some lessons and pack words into your satchel — they'll appear here for spaced repetition review.</p>
+      <div class="rv-btn-row">
+        <a href="book1.html" class="rv-btn">Go to Lessons</a>
       </div>
     </div>
-    <div class="review-rate-btns" id="rate-btns" style="display:none;">
-      <button class="review-rate-btn review-rate-btn--struggle" onclick="rateCard('struggle')">↺ Still learning</button>
-      <button class="review-rate-btn review-rate-btn--know" onclick="rateCard('know')">✓ Got it</button>
+
+    <!-- Start screen -->
+    <div class="rv-center" id="state-start" style="display:none;">
+      <div class="rv-center-icon">🔁</div>
+      <div class="rv-center-title">Ready to review?</div>
+      <p class="rv-center-sub">You have <strong id="due-count">0</strong> words due for review.</p>
+      <div class="rv-stat-bar" id="start-stat-bar"></div>
+      <div class="rv-btn-row">
+        <button class="rv-btn" onclick="startSession()">Start Review</button>
+        <a href="index.html" class="rv-btn rv-btn--ghost">Not now</a>
+      </div>
     </div>
+
+    <!-- Card -->
+    <div class="rv-card-area" id="state-card" style="display:none;">
+      <p class="rv-counter" id="rv-counter">Card 1 of 10</p>
+
+      <div class="rv-card-wrap" onclick="flipCard()" role="button" aria-label="Tap to reveal answer">
+        <div class="rv-card" id="rv-card">
+          <!-- Front -->
+          <div class="rv-card-face">
+            <div class="rv-card-type-badge" id="card-type">Noun</div>
+            <div class="rv-card-arabic" id="card-arabic">—</div>
+            <div class="rv-card-tap">Tap to reveal →</div>
+          </div>
+          <!-- Back -->
+          <div class="rv-card-face rv-card-back">
+            <div class="rv-card-type-badge" id="card-type-back">Noun</div>
+            <div class="rv-card-arabic" id="card-arabic-back" style="font-size:clamp(1.6rem,7vw,2.4rem);margin-bottom:0.25rem;">—</div>
+            <div class="rv-card-meaning" id="card-meaning">—</div>
+            <div class="rv-card-trans" id="card-trans">—</div>
+            <div class="rv-card-meta">
+              <span class="rv-card-lesson-tag" id="card-lesson">Lesson 1</span>
+              <span class="rv-level-badge" id="card-level-badge">Very New</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-rate-btns" id="rate-btns" style="display:none;">
+        <button class="rv-rate-btn rv-rate-forgot" onclick="gradeCard(false)">↺ Forgot it</button>
+        <button class="rv-rate-btn rv-rate-got"    onclick="gradeCard(true)">✓ Got it!</button>
+      </div>
+    </div>
+
+    <!-- End screen -->
+    <div class="rv-center" id="state-end" style="display:none;">
+      <div class="rv-center-icon">🌟</div>
+      <div class="rv-end-score" id="end-score">18 / 20</div>
+      <div class="rv-center-title" id="end-title">Great session!</div>
+      <p class="rv-center-sub" id="end-sub"></p>
+      <div class="rv-xp-badge" id="end-xp">+15 XP earned</div>
+      <div class="rv-btn-row">
+        <button class="rv-btn" onclick="restartSession()">Review again</button>
+        <a href="book1.html" class="rv-btn rv-btn--ghost">Lessons</a>
+      </div>
+    </div>
+
+  </div><!-- /tab-review-panel -->
+
+  <!-- ── SATCHEL TAB ── -->
+  <div id="tab-satchel-panel" class="satchel-panel">
+    <div class="satchel-header">
+      <div class="satchel-header-title">🎒 Your Satchel</div>
+      <div class="satchel-header-sub" id="satchel-sub">All words you've discovered</div>
+    </div>
+    <div class="satchel-levels-row" id="satchel-levels-row"></div>
+    <div id="satchel-content"></div>
   </div>
 
-  <!-- End screen -->
-  <div class="fc-screen" id="state-end" style="display:none;">
-    <div class="fc-screen-icon">🌟</div>
-    <div class="fc-screen-title">Session complete!</div>
-    <p class="fc-screen-sub" id="end-sub"></p>
-    <div class="fc-screen-xp" id="end-xp">+15 XP earned</div>
-    <div class="fc-btn-row">
-      <button class="fc-btn" onclick="restartSession()">Review again</button>
-      <a href="book1.html" class="fc-btn fc-btn--ghost">Go to Lessons</a>
-    </div>
-  </div>
-
-</div>
+</div><!-- /rv-page -->
 
 <script src="assets/js/progress.js"></script>
 <script src="assets/js/gamification.js"></script>
+<script src="assets/js/vocab-srs.js"></script>
 <script src="assets/js/bottom-nav.js"></script>
 <script>
-/* ── Config ── */
-const AVAILABLE_LESSONS = 13; // lessons with data files
+/* ═══════════════════════════════════════
+   REVIEW SESSION
+═══════════════════════════════════════ */
+
 const MAX_SESSION = 20;
-const XP_REWARD = 15;
+const XP_REWARD   = 15;
 
-/* ── State ── */
-var _cards    = [];
-var _index    = 0;
-var _mastered = 0;
-var _flipped  = false;
+var _queue   = [];
+var _index   = 0;
+var _correct = 0;
+var _flipped = false;
+var _activeTab = 'review';
 
-/* ── Load vocab from completed lessons ── */
-
-async function loadLessonData(lessonNum) {
-  try {
-    const resp = await fetch(`lessons/data/b1-lesson${lessonNum}.js`);
-    if (!resp.ok) return null;
-    const text = await resp.text();
-    const fn = new Function(text + '\nreturn LESSON_DATA;');
-    return fn();
-  } catch {
-    return null;
-  }
+/* ── Tab switching ── */
+function switchTab(tab) {
+  _activeTab = tab;
+  document.getElementById('tab-review-panel').style.display  = tab === 'review'  ? 'flex'  : 'none';
+  document.getElementById('tab-satchel-panel').classList.toggle('active', tab === 'satchel');
+  document.getElementById('tab-review').classList.toggle('rv-tab--active',  tab === 'review');
+  document.getElementById('tab-satchel').classList.toggle('rv-tab--active', tab === 'satchel');
+  if (tab === 'satchel') renderSatchel();
 }
 
-async function buildCardPool() {
-  const progress = JSON.parse(localStorage.getItem('kalamo_book1_progress') || '{}');
-  const ratings  = JSON.parse(localStorage.getItem('kalamo_vocab_ratings') || '{}');
-  const completed = [];
-
-  for (let i = 1; i <= AVAILABLE_LESSONS; i++) {
-    const v = progress[String(i)];
-    if (v === true || v === 'complete') completed.push(i);
-  }
-
-  if (!completed.length) return [];
-
-  const struggling = [], unrated = [];
-
-  for (const lessonNum of completed) {
-    const data = await loadLessonData(lessonNum);
-    if (!data || !data.vocab) continue;
-    const lessonRatings = ratings[`book1_${lessonNum}`] || {};
-
-    data.vocab.forEach((word, idx) => {
-      const entry = { ...word, lessonNum, idx };
-      const r = lessonRatings[String(idx)];
-      if (r === 'struggle' || r === 'unknown') struggling.push(entry);
-      else if (!r) unrated.push(entry);
-    });
-  }
-
-  // Prioritise struggling, fill with unrated if needed
-  let pool = [...struggling];
-  if (pool.length < 5) {
-    shuffle(unrated);
-    pool = pool.concat(unrated.slice(0, MAX_SESSION - pool.length));
-  }
-  if (pool.length > MAX_SESSION) pool = pool.slice(0, MAX_SESSION);
-  return pool;
-}
-
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-/* ── Session flow ── */
-
+/* ── Screen control ── */
 function show(id) {
-  ['state-loading','state-empty','state-start','state-card','state-end']
-    .forEach(s => {
-      const el = document.getElementById(s);
-      if (el) el.style.display = (s === id) ? (s === 'state-card' ? 'flex' : 'block') : 'none';
-    });
+  ['state-loading','state-empty','state-start','state-card','state-end'].forEach(s => {
+    const el = document.getElementById(s);
+    if (el) el.style.display = (s === id) ? (s === 'state-card' ? 'flex' : 'block') : 'none';
+  });
 }
 
+/* ── Init ── */
 async function init() {
   show('state-loading');
-  _cards = await buildCardPool();
-  if (!_cards.length) { show('state-empty'); return; }
-  document.getElementById('review-count').textContent = _cards.length;
+  const satchel = SRS.getSatchel();
+
+  if (!satchel.length) { show('state-empty'); return; }
+
+  _queue = SRS.getDueWords(MAX_SESSION);
+
+  if (!_queue.length) {
+    // Nothing due — show everything in satchel as "due" so user can still review
+    _queue = SRS.getDueWords(MAX_SESSION); // will still return least-recently-seen
+  }
+
+  // Build stat bar
+  const stats = SRS.getSatchelStats();
+  document.getElementById('due-count').textContent = stats.dueCount || _queue.length;
+  buildStatBar(stats);
+
   show('state-start');
 }
 
+function buildStatBar(stats) {
+  const row = document.getElementById('start-stat-bar');
+  row.innerHTML = '';
+  SRS.getAllLevels().forEach((lvl, i) => {
+    if (!stats.counts[i]) return;
+    const pill = document.createElement('span');
+    pill.className = 'rv-stat-pill';
+    pill.style.cssText = `color:${lvl.color};background:${lvl.bg};border-color:${lvl.border};`;
+    pill.textContent = `${lvl.emoji} ${lvl.label} · ${stats.counts[i]}`;
+    row.appendChild(pill);
+  });
+}
+
+/* ── Session flow ── */
 function startSession() {
-  _index    = 0;
-  _mastered = 0;
-  _flipped  = false;
+  _index   = 0;
+  _correct = 0;
+  _flipped = false;
   showCard();
 }
 
 function showCard() {
-  if (_index >= _cards.length) { endSession(); return; }
-  const card = _cards[_index];
+  if (_index >= _queue.length) { endSession(); return; }
+  const word = _queue[_index];
   _flipped = false;
 
-  document.getElementById('review-card').classList.remove('flipped');
-  document.getElementById('rate-btns').style.display = 'none';
-  document.getElementById('card-type').textContent    = card.type || '';
-  document.getElementById('card-arabic').textContent  = card.ar;
-  document.getElementById('card-meaning').textContent = card.meaning;
-  document.getElementById('card-trans').textContent   = card.trans || '';
-  document.getElementById('card-lesson').textContent  = `Lesson ${card.lessonNum}`;
-  document.getElementById('card-counter').textContent = `Card ${_index + 1} of ${_cards.length}`;
+  const lvl = SRS.getLevelInfo(word.level || 0);
 
-  const pct = (_index / _cards.length) * 100;
-  document.getElementById('fc-progress').style.width = pct + '%';
+  document.getElementById('rv-card').classList.remove('flipped');
+  document.getElementById('rate-btns').style.display = 'none';
+
+  // Front
+  document.getElementById('card-type').textContent   = word.type || '';
+  document.getElementById('card-arabic').textContent  = word.ar;
+
+  // Back
+  document.getElementById('card-type-back').textContent = word.type || '';
+  document.getElementById('card-arabic-back').textContent = word.ar;
+  document.getElementById('card-meaning').textContent = word.meaning || '';
+  document.getElementById('card-trans').textContent   = word.trans ? `[${word.trans}]` : '';
+  document.getElementById('card-lesson').textContent  = `Lesson ${word.lessonNum}`;
+
+  const badge = document.getElementById('card-level-badge');
+  badge.textContent = `${lvl.emoji} ${lvl.label}`;
+  badge.style.cssText = `color:${lvl.color};background:${lvl.bg};border-color:${lvl.border};`;
+
+  const pct = (_index / _queue.length) * 100;
+  document.getElementById('rv-progress').style.width = pct + '%';
+  document.getElementById('rv-counter').textContent  = `Card ${_index + 1} of ${_queue.length}`;
 
   show('state-card');
 }
@@ -221,47 +641,125 @@ function showCard() {
 function flipCard() {
   if (_flipped) return;
   _flipped = true;
-  document.getElementById('review-card').classList.add('flipped');
+  document.getElementById('rv-card').classList.add('flipped');
   setTimeout(() => {
-    document.getElementById('rate-btns').style.display = 'flex';
-  }, 300);
+    document.getElementById('rate-btns').style.display = 'grid';
+  }, 320);
 }
 
-function rateCard(rating) {
-  const card = _cards[_index];
-  if (typeof setVocabWordRating === 'function') {
-    setVocabWordRating('book1', card.lessonNum, card.idx, rating);
-  }
-  if (rating === 'know') _mastered++;
+function gradeCard(correct) {
+  const word = _queue[_index];
+  SRS.gradeWord(word.key, correct);
+  if (correct) _correct++;
   _index++;
-  setTimeout(showCard, 120);
+  setTimeout(showCard, 100);
 }
 
 function endSession() {
-  document.getElementById('fc-progress').style.width = '100%';
+  document.getElementById('rv-progress').style.width = '100%';
+  const total = _queue.length;
+  const pct   = total ? _correct / total : 0;
 
-  const pct = _mastered / _cards.length;
+  document.getElementById('end-score').textContent = `${_correct} / ${total}`;
+
+  let title, sub;
   if (pct >= 0.8) {
-    document.getElementById('end-sub').textContent =
-      `You mastered ${_mastered} out of ${_cards.length} words! Amazing recall! 🌟`;
+    title = 'Amazing recall! 🌟';
+    sub   = `You got ${_correct} out of ${total} words right. Your levels have been updated — keep it up!`;
     if (typeof celebrate === 'function') celebrate('pass');
   } else if (pct >= 0.5) {
-    document.getElementById('end-sub').textContent =
-      `You mastered ${_mastered} out of ${_cards.length} words. Good progress — keep reviewing!`;
+    title = 'Good progress!';
+    sub   = `You got ${_correct} out of ${total} correct. The ones you missed will come back sooner for extra practice.`;
     if (typeof celebrate === 'function') celebrate('fail');
   } else {
-    document.getElementById('end-sub').textContent =
-      `You mastered ${_mastered} out of ${_cards.length} words. These words need another review — you'll get them! 💪`;
+    title = 'Keep practising!';
+    sub   = `You got ${_correct} out of ${total}. That's okay — these words will come back around soon. You've got this! 💪`;
   }
-  document.getElementById('end-xp').textContent = `+${XP_REWARD} XP earned`;
+
+  document.getElementById('end-title').textContent = title;
+  document.getElementById('end-sub').textContent   = sub;
+  document.getElementById('end-xp').textContent    = `+${XP_REWARD} XP earned`;
+
   if (typeof awardXP === 'function') awardXP(XP_REWARD);
   if (typeof updateStreak === 'function') updateStreak();
+
   show('state-end');
 }
 
 function restartSession() {
-  shuffle(_cards);
+  _queue = SRS.getDueWords(MAX_SESSION);
   startSession();
+}
+
+/* ═══════════════════════════════════════
+   SATCHEL BROWSER
+═══════════════════════════════════════ */
+
+function renderSatchel() {
+  const stats   = SRS.getSatchelStats();
+  const byLesson = SRS.getWordsByLesson();
+
+  // Sub-header
+  document.getElementById('satchel-sub').textContent =
+    `${stats.total} words discovered · ${stats.dueCount} due for review`;
+
+  // Level legend
+  const levRow = document.getElementById('satchel-levels-row');
+  levRow.innerHTML = '';
+  SRS.getAllLevels().forEach((lvl, i) => {
+    const pill = document.createElement('span');
+    pill.className = 'rv-stat-pill';
+    pill.style.cssText = `color:${lvl.color};background:${lvl.bg};border-color:${lvl.border};`;
+    pill.textContent = `${lvl.emoji} ${lvl.label}${stats.counts[i] ? ' · ' + stats.counts[i] : ''}`;
+    levRow.appendChild(pill);
+  });
+
+  // Content
+  const container = document.getElementById('satchel-content');
+  container.innerHTML = '';
+
+  if (!byLesson.length) {
+    container.innerHTML = `<div class="satchel-empty"><div class="satchel-empty-icon">🎒</div>Your satchel is empty.<br>Complete lessons and pack words to fill it up!</div>`;
+    return;
+  }
+
+  byLesson.forEach((group, gi) => {
+    const lvlAll = group.words.map(w => SRS.getLevelInfo(w.level || 0));
+
+    const el = document.createElement('div');
+    el.className = 'satchel-lesson-group';
+    el.style.animationDelay = `${gi * 60}ms`;
+
+    const head = document.createElement('div');
+    head.className = 'satchel-lesson-head';
+    head.innerHTML = `
+      <span class="satchel-lesson-label">Lesson ${group.lessonNum}</span>
+      <span class="satchel-lesson-count">${group.words.length} words</span>
+      <span class="satchel-lesson-chevron">▾</span>
+    `;
+    head.addEventListener('click', () => el.classList.toggle('collapsed'));
+
+    const wordsEl = document.createElement('div');
+    wordsEl.className = 'satchel-lesson-words';
+    group.words.forEach((word, wi) => {
+      const lvl = SRS.getLevelInfo(word.level || 0);
+      const row = document.createElement('div');
+      row.className = 'satchel-word-row';
+      row.innerHTML = `
+        <span class="satchel-word-ar">${word.ar}</span>
+        <div class="satchel-word-info">
+          <div class="satchel-word-meaning">${word.meaning}</div>
+          ${word.trans ? `<div class="satchel-word-trans">${word.trans}</div>` : ''}
+        </div>
+        <span class="satchel-word-level" style="color:${lvl.color};background:${lvl.bg};border-color:${lvl.border};">${lvl.emoji} ${lvl.label}</span>
+      `;
+      wordsEl.appendChild(row);
+    });
+
+    el.appendChild(head);
+    el.appendChild(wordsEl);
+    container.appendChild(el);
+  });
 }
 
 /* ── Boot ── */
