@@ -20,6 +20,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('../sw.js');</script>
   <link rel="stylesheet" href="../assets/css/shared.css?v=purple-1" />
+  <link rel="stylesheet" href="../assets/css/gamification.css?v=purple-1" />
   <link rel="stylesheet" href="../assets/css/lesson.css?v=purple-1" />
 </head>
 <body>
@@ -123,24 +124,27 @@
 
     <!-- PANEL 3 — QUIZ -->
     <div class="lesson-panel" id="panel-quiz">
+      <div class="quiz-intro-card" id="quizIntroCard"></div>
       <p class="quiz-total-label" id="quizTotalLabel"></p>
       <div class="quiz-container"></div>
 
       <!-- Submit + score -->
-      <div class="panel-nav">
+      <div class="panel-nav" id="quizPanelNav">
         <button class="btn btn-secondary" onclick="goToStep('comprehension')">← Reading</button>
         <button class="btn btn-primary" id="submitQuizBtn" onclick="submitQuiz()">Submit Quiz →</button>
       </div>
 
       <!-- Score card (hidden until submit) -->
       <div class="quiz-score-card" id="scoreCard" style="display:none;">
-        <div class="quiz-score-arabic">✦ النَّتِيجَة ✦</div>
-        <div class="quiz-score-title">Your Score</div>
-        <div class="quiz-score-number" id="scoreNumber">0/0</div>
-        <div class="quiz-score-label" id="scoreLabel"></div>
-        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:1rem;">
-          <button class="btn btn-secondary" onclick="retryQuiz()">Try Again</button>
-          <a class="btn btn-success" id="nextLessonBtn" href="#">Next Lesson →</a>
+        <div class="quiz-score-dialog" role="dialog" aria-modal="true" aria-labelledby="scoreDialogTitle" aria-describedby="scoreLabel" tabindex="-1">
+          <div class="quiz-score-arabic">✦ النَّتِيجَة ✦</div>
+          <div class="quiz-score-title" id="scoreDialogTitle">Your Score</div>
+          <div class="quiz-score-number" id="scoreNumber">0/0</div>
+          <div class="quiz-score-label" id="scoreLabel"></div>
+          <div class="quiz-score-actions">
+            <button class="btn btn-secondary" onclick="retryQuiz()">Try Again</button>
+            <a class="btn btn-success" id="nextLessonBtn" href="#">Next Lesson →</a>
+          </div>
         </div>
       </div>
     </div>

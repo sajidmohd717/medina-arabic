@@ -200,6 +200,7 @@ function goToStep(step) {
 
   CURRENT_STEP = step;
   saveLessonStep(step);
+  if (step === 'quiz') showQuizIntro();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -487,13 +488,16 @@ function submitQuiz() {
   if (scoreNumber) animateNumber(scoreNumber, score, ` / ${displayNumber(total)}`);
   if (scoreLabel) {
     scoreLabel.innerHTML = passed
-      ? `<span style="font-size:2.5rem;display:block;margin-bottom:0.5rem;">🎉</span>Great work! You've mastered this lesson.`
+      ? `<span class="quiz-score-icon">🎉</span>Great work! You've mastered this lesson.`
       : `You need at least ${displayNumber(CURRENT_LESSON_DATA.passMark)} out of ${displayNumber(total)} to pass. Review the lesson and try again — you've got this!`;
   }
   if (scoreCard) {
-    scoreCard.style.display = 'block';
+    document.body.appendChild(scoreCard);
+    scoreCard.style.display = 'flex';
     scoreCard.classList.toggle('passed', passed);
     scoreCard.classList.toggle('failed', !passed);
+    document.body.classList.add('quiz-result-open');
+    scoreCard.querySelector('.quiz-score-dialog')?.focus({ preventScroll: true });
     if (passed) celebrate('pass');
     else celebrate('fail');
   }
@@ -518,8 +522,6 @@ function submitQuiz() {
   } else {
     if (nextBtn) nextBtn.style.display = 'none';
   }
-  
-  if (scoreCard) scoreCard.scrollIntoView({ behavior: 'smooth' });
 }
 
 function retryQuiz() {
@@ -573,10 +575,47 @@ function retryQuiz() {
 
   const scoreCard = document.getElementById('scoreCard');
   const submitBtn = document.getElementById('submitQuizBtn');
+  const introCard = document.getElementById('quizIntroCard');
+  const quizContainer = document.querySelector('#panel-quiz .quiz-container');
+  const quizPanelNav = document.getElementById('quizPanelNav');
+  const quizTotalLabel = document.getElementById('quizTotalLabel');
+  if (introCard) introCard.style.display = 'none';
+  if (quizContainer) quizContainer.style.display = 'block';
+  if (quizPanelNav) quizPanelNav.style.display = 'flex';
+  if (quizTotalLabel) quizTotalLabel.style.display = 'none';
   if (scoreCard) scoreCard.style.display = 'none';
+  document.body.classList.remove('quiz-result-open');
   if (submitBtn) submitBtn.style.display = 'inline-block';
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startQuiz() {
+  const introCard = document.getElementById('quizIntroCard');
+  const quizContainer = document.querySelector('#panel-quiz .quiz-container');
+  const quizPanelNav = document.getElementById('quizPanelNav');
+  const quizTotalLabel = document.getElementById('quizTotalLabel');
+
+  if (introCard) introCard.style.display = 'none';
+  if (quizTotalLabel) quizTotalLabel.style.display = 'none';
+  if (quizContainer) quizContainer.style.display = 'block';
+  if (quizPanelNav) quizPanelNav.style.display = 'flex';
+  quizContainer?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showQuizIntro() {
+  const scoreCard = document.getElementById('scoreCard');
+  if (scoreCard && scoreCard.style.display !== 'none') return;
+
+  const introCard = document.getElementById('quizIntroCard');
+  const quizContainer = document.querySelector('#panel-quiz .quiz-container');
+  const quizPanelNav = document.getElementById('quizPanelNav');
+  const quizTotalLabel = document.getElementById('quizTotalLabel');
+
+  if (introCard) introCard.style.display = 'block';
+  if (quizTotalLabel) quizTotalLabel.style.display = 'none';
+  if (quizContainer) quizContainer.style.display = 'none';
+  if (quizPanelNav) quizPanelNav.style.display = 'none';
 }
 
 
@@ -854,7 +893,7 @@ function buildVocabularyPanel(data) {
       if (nextBtn) {
         nextBtn.addEventListener('click', () => {
           if (pageIndex < total - 1) {
-            if (pageIndex === getMilestonePageIndex(total)) {
+            if (!data.skipMidMilestone && pageIndex === getMilestonePageIndex(total)) {
               showGuidedMilestone(data, () => {
                 renderPage(pageIndex + 1);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -993,9 +1032,26 @@ function buildQuizPanel(data) {
   const conceptCount = (data.quizQuestions.conceptCheck || []).length;
   const total = mcCount + typingCount + conceptCount;
   const quizTotalLabel = document.getElementById('quizTotalLabel');
+  const quizIntroCard = document.getElementById('quizIntroCard');
+  const quizPanelNav = document.getElementById('quizPanelNav');
   if (quizTotalLabel) {
     quizTotalLabel.textContent = `${displayNumber(total)} questions. Score ${displayNumber(data.passMark)} or more to pass.`;
+    quizTotalLabel.style.display = 'none';
   }
+  if (quizIntroCard) {
+    quizIntroCard.style.display = 'block';
+    quizIntroCard.innerHTML = `
+      <div class="quiz-intro-eyebrow">Quiz</div>
+      <div class="quiz-intro-title">Ready for the check?</div>
+      <div class="quiz-intro-meta">
+        <span class="quiz-intro-pill">${displayNumber(total)} questions</span>
+        <span class="quiz-intro-pill">Score ${displayNumber(data.passMark)}+ to pass</span>
+      </div>
+      <button type="button" class="btn btn-primary" onclick="startQuiz()">Start Quiz →</button>
+    `;
+  }
+  if (quizPanelNav) quizPanelNav.style.display = 'none';
+  quizContainer.style.display = 'none';
   
   let html = '';
 
@@ -1006,7 +1062,7 @@ function buildQuizPanel(data) {
     html += `
       <div class="quiz-question" id="qq${qNum}">
         <div class="quiz-q-number">
-          <span class="concept-check-tag">Grammar Check</span>
+          <span class="concept-check-tag">Grammar</span>
           Question ${displayNumber(qNum)} of ${displayNumber(total)}
         </div>
         <div class="concept-stmt">${q.statement}</div>
@@ -1709,6 +1765,9 @@ function showGuidedFinalMilestone(data, onContinue) {
   const milestonePage = getMilestonePageIndex(data.guidedPages.length);
   const newWords = getSeenVocabWordsBetween(data, milestonePage + 1, data.guidedPages.length - 1);
   const allSeen = getSeenVocabWords(data, data.guidedPages.length - 1);
+  const finalSub = data.skipMidMilestone
+    ? `You've learned <strong>${allSeen.length}</strong> words in this lesson`
+    : `You've learned <strong>${allSeen.length}</strong> words in this lesson${newWords.length ? ` — ${newWords.length} more since the milestone` : ''}`;
 
   const overlay = document.createElement('div');
   overlay.id = 'milestoneOverlay';
@@ -1718,7 +1777,7 @@ function showGuidedFinalMilestone(data, onContinue) {
     <div class="milestone-card" id="milestoneCard">
       <div class="milestone-ornament" aria-hidden="true">★</div>
       <h2 class="milestone-heading">Lesson Complete!</h2>
-      <p class="milestone-sub">You've learned <strong>${allSeen.length}</strong> words in this lesson${newWords.length ? ` — ${newWords.length} more since the milestone` : ''}</p>
+      <p class="milestone-sub">${finalSub}</p>
       <div class="milestone-chips" id="milestoneChips"></div>
       <button type="button" class="btn btn-secondary milestone-pack-btn" id="milestonePackBtn" style="opacity:0;transform:translateY(10px)">Pack words into satchel 🎒</button>
       <div class="milestone-satchel-wrap" id="milestoneSatchelWrap" style="opacity:0">
@@ -1746,7 +1805,7 @@ function showGuidedFinalMilestone(data, onContinue) {
     setTimeout(() => { overlay.remove(); onContinue(); }, 320);
   });
 
-  const displayWords = newWords.length ? newWords : allSeen;
+  const displayWords = data.skipMidMilestone ? allSeen : (newWords.length ? newWords : allSeen);
 
   if (!displayWords.length) {
     packBtn.style.display = 'none';
@@ -1850,3 +1909,5 @@ window.checkQuiz = checkQuiz;
 window.checkTyping = checkTyping;
 window.submitQuiz = submitQuiz;
 window.retryQuiz = retryQuiz;
+window.startQuiz = startQuiz;
+window.showQuizIntro = showQuizIntro;

@@ -122,10 +122,11 @@ function _renderXPBar() {
 function _showXPFloat(amount) {
   const el = document.createElement('div');
   el.className = 'xp-float';
-  el.innerHTML = `<span style="animation:xpBounce 0.6s ease forwards;">+${amount}</span> <span style="font-weight:400;">XP</span>`;
+  el.innerHTML = `<span class="xp-float-amount">+${amount}</span><span class="xp-float-label">XP</span>`;
   document.body.appendChild(el);
   requestAnimationFrame(() => el.classList.add('xp-float--go'));
-  setTimeout(() => el.remove(), 2000);
+  setTimeout(() => el.classList.add('xp-float--leaving'), 1500);
+  setTimeout(() => el.remove(), 1800);
 
   const prevXP = getXP() - amount;
   const prevLevel = xpLevel(prevXP);

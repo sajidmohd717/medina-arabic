@@ -5,194 +5,89 @@
 const LESSON_DATA = {
   book: 'book1',
   lessonNum: 2,
-  titleArabic: 'ذَلِكَ',
+  titleArabic: 'ذٰلِكَ',
   titleEnglish: 'That is...',
-  summary: 'You already know هٰذَا for things that are close. Now learn ذَلِكَ — the same idea but for things that are far away. One new word, the same pattern.',
+  summary: 'You already know هٰذَا for something close. Now learn ذٰلِكَ for something farther away, using the same simple sentence patterns.',
   nextLesson: 'b1-lesson3.html',
-  passMark: 6,
-  totalQuestions: 8,
+  passMark: 8,
+  totalQuestions: 11,
 
-  guidedPattern: 'ذَلِكَ + اِسْمٌ',
-  guidedIntro: 'هٰذَا points at things near you. ذَلِكَ points at things far away. The sentence works exactly the same way.',
+  guidedPattern: 'هٰذَا / ذٰلِكَ',
+  guidedIntro: 'هٰذَا points to something close. ذٰلِكَ points to something farther away. The questions and answers work just like Lesson 1.',
   reviewVocabAtEnd: true,
+  skipMidMilestone: true,
 
   guidedPages: [
     {
-      intro: 'هٰذَا points at things close to you. ذَلِكَ points at things far away. Watch how it works in each sentence.',
+      titleArabic: 'الدَّرْسُ الثَّانِي',
+      title: 'Lesson Two',
+      pattern: 'ذٰلِكَ',
+      intro: 'Use ذٰلِكَ when the thing you are pointing to is farther away.',
       groups: [
         {
           icon: '⭐',
           lines: [
-            { ar: 'مَا ذَلِكَ؟', isPrompt: true },
-            { ar: 'ذَلِكَ نَجْمٌ.' }
+            { ar: 'مَا ذٰلِكَ؟', isPrompt: true },
+            { ar: 'ذٰلِكَ نَجْمٌ.' }
           ]
         },
         {
           icon: '🕌🏠',
           lines: [
-            { ar: 'هٰذَا مَسْجِدٌ وَذَلِكَ بَيْتٌ.' }
+            { ar: 'هٰذَا مَسْجِدٌ وَذٰلِكَ بَيْتٌ.' }
           ]
         },
         {
           icon: '🐎🫏',
           lines: [
-            { ar: 'هٰذَا حِصَانٌ وَذَلِكَ حِمَارٌ.' }
+            { ar: 'هٰذَا حِصَانٌ وَذٰلِكَ حِمَارٌ.' }
           ]
         },
         {
           icon: '🐈',
           lines: [
-            { ar: 'أَذَلِكَ كَلْبٌ؟', isPrompt: true },
-            { ar: 'لا، ذَلِكَ قِطٌّ.' }
+            { ar: 'أَذٰلِكَ كَلْبٌ؟', isPrompt: true },
+            { ar: 'لا، ذٰلِكَ قِطٌّ.' }
           ]
         },
         {
           icon: '🛏️',
           lines: [
-            { ar: 'مَا ذَلِكَ؟', isPrompt: true },
-            { ar: 'ذَلِكَ سَرِيرٌ.' }
+            { ar: 'مَا ذٰلِكَ؟', isPrompt: true },
+            { ar: 'ذٰلِكَ سَرِيرٌ.' }
           ]
         }
       ],
-      keyPoints: ['ذَلِكَ = that (far away)', 'هٰذَا = this (close by)', 'وَ joins them in one sentence']
+      keyPoints: ['ذٰلِكَ = that', 'هٰذَا = this', 'وَ joins two ideas: this ... and that ...']
     },
     {
-      title: 'Asking About Far Things',
-      pattern: 'مَا ذَلِكَ؟',
-      intro: 'The question words work the same way — just swap هٰذَا for ذَلِكَ.',
+      titleArabic: 'صَفْحَة ١٣',
+      title: 'Who is this and who is that?',
+      pattern: 'مَنْ هٰذَا وَمَنْ ذٰلِكَ؟',
+      intro: 'Now use هٰذَا and ذٰلِكَ with people and a few new words.',
       groups: [
         {
-          icon: '🏠',
+          icon: '🏫🕌',
           lines: [
-            { ar: 'مَا ذَلِكَ؟', isPrompt: true },
-            { ar: 'ذَلِكَ بَيْتٌ.' }
+            { ar: 'مَنْ هٰذَا وَمَنْ ذٰلِكَ؟', isPrompt: true },
+            { ar: 'هٰذَا مُدَرِّسٌ وَذٰلِكَ إِمَامٌ.' }
           ]
-        },
-        {
-          icon: '🕌',
-          lines: [
-            { ar: 'أَذَلِكَ مَسْجِدٌ؟', isPrompt: true },
-            { ar: 'نَعَمْ، ذَلِكَ مَسْجِدٌ.' }
-          ]
-        },
-        {
-          icon: '📘',
-          lines: [
-            { ar: 'أَذَلِكَ قَلَمٌ؟', isPrompt: true },
-            { ar: 'لا، ذَلِكَ كِتَابٌ.' }
-          ]
-        },
-        {
-          icon: '👨‍🏫',
-          lines: [
-            { ar: 'مَنْ ذَلِكَ؟', isPrompt: true },
-            { ar: 'ذَلِكَ مُدَرِّسٌ.' }
-          ]
-        }
-      ],
-      keyPoints: ['مَا ذَلِكَ؟ = What is that?', 'مَنْ ذَلِكَ؟ = Who is that?', 'أَذَلِكَ ...؟ = Is that ...?']
-    },
-    {
-      title: 'This and That Together',
-      pattern: 'هٰذَا ... وَذَلِكَ ...',
-      intro: 'Use وَ (and) to contrast something close with something far in one sentence.',
-      groups: [
-        {
-          icon: '🏠🕌',
-          lines: [
-            { ar: 'هٰذَا بَيْتٌ وَذَلِكَ مَسْجِدٌ.' }
-          ]
-        },
-        {
-          icon: '✏️📘',
-          lines: [
-            { ar: 'هٰذَا قَلَمٌ وَذَلِكَ كِتَابٌ.' }
-          ]
-        },
-        {
-          icon: '🐎🫏',
-          lines: [
-            { ar: 'هٰذَا حِصَانٌ وَذَلِكَ حِمَارٌ.' }
-          ]
-        },
-        {
-          icon: '👨‍🏫🧑‍💼',
-          lines: [
-            { ar: 'هٰذَا مُدَرِّسٌ وَذَلِكَ تَاجِرٌ.' }
-          ]
-        }
-      ],
-      keyPoints: ['وَ attaches directly to the next word', 'هٰذَا = close · ذَلِكَ = far']
-    },
-    {
-      title: 'New Words',
-      pattern: 'ذَلِكَ + كَلِمَة جَدِيدَة',
-      intro: 'Here are some new nouns. They all work with ذَلِكَ the same way.',
-      cards: [
-        { icon: '🥛', ar: 'ذَلِكَ لَبَنٌ' },
-        { icon: '🧂', ar: 'ذَلِكَ سُكَّرٌ' },
-        { icon: '🪨', ar: 'ذَلِكَ حَجَرٌ' },
-        { icon: '🕌', ar: 'ذَلِكَ إِمَامٌ' }
-      ],
-      keyPoints: ['لَبَنٌ = milk', 'سُكَّرٌ = sugar', 'حَجَرٌ = a stone', 'إِمَامٌ = an imam']
-    },
-    {
-      titleArabic: 'تَمْرِين (١)',
-      title: 'Exercise One',
-      pattern: 'مَا ذَلِكَ؟',
-      intro: 'Look at each picture. Type the Arabic answer for مَا ذَلِكَ؟',
-      tip: '💡 Tip: You can type without vowels — e.g. ذلك بيت instead of ذَلِكَ بَيْتٌ',
-      exercise: [
-        {
-          icon: '🏠',
-          ideal: 'ذَلِكَ بَيْتٌ.',
-          accepts: ['ذلك بيت', 'ذلك بيت.', 'ذَلِكَ بَيْتٌ', 'ذَلِكَ بَيْتٌ.', 'ذلك بيتٌ']
-        },
-        {
-          icon: '🕌',
-          ideal: 'ذَلِكَ مَسْجِدٌ.',
-          accepts: ['ذلك مسجد', 'ذلك مسجد.', 'ذَلِكَ مَسْجِدٌ', 'ذَلِكَ مَسْجِدٌ.', 'ذلك مسجدٌ']
-        },
-        {
-          icon: '📘',
-          ideal: 'ذَلِكَ كِتَابٌ.',
-          accepts: ['ذلك كتاب', 'ذلك كتاب.', 'ذَلِكَ كِتَابٌ', 'ذَلِكَ كِتَابٌ.', 'ذلك كتابٌ']
         },
         {
           icon: '🪨',
-          ideal: 'ذَلِكَ حَجَرٌ.',
-          accepts: ['ذلك حجر', 'ذلك حجر.', 'ذَلِكَ حَجَرٌ', 'ذَلِكَ حَجَرٌ.', 'ذلك حجرٌ']
+          lines: [
+            { ar: 'مَا ذٰلِكَ؟', isPrompt: true },
+            { ar: 'ذٰلِكَ حَجَرٌ.' }
+          ]
         },
         {
-          icon: '🥛',
-          ideal: 'ذَلِكَ لَبَنٌ.',
-          accepts: ['ذلك لبن', 'ذلك لبن.', 'ذَلِكَ لَبَنٌ', 'ذَلِكَ لَبَنٌ.', 'ذلك لبنٌ']
+          icon: '🍬🥛',
+          lines: [
+            { ar: 'هٰذَا سُكَّرٌ وَذٰلِكَ لَبَنٌ.' }
+          ]
         }
-      ]
-    },
-    {
-      titleArabic: 'تَمْرِين (٢)',
-      title: 'Exercise Two',
-      pattern: 'هٰذَا أَمْ ذَلِكَ؟',
-      intro: 'Read each sentence. Type it out in full — watch whether it uses هٰذَا or ذَلِكَ.',
-      tip: '💡 Tip: No need to type vowel marks — bare letters will match.',
-      exercise: [
-        {
-          prompt: 'هٰذَا قَلَمٌ وَذَلِكَ كِتَابٌ.',
-          ideal: 'هٰذَا قَلَمٌ وَذَلِكَ كِتَابٌ.',
-          accepts: ['هذا قلم وذلك كتاب', 'هذا قلم وذلك كتاب.', 'هٰذَا قَلَمٌ وَذَلِكَ كِتَابٌ', 'هٰذَا قَلَمٌ وَذَلِكَ كِتَابٌ.']
-        },
-        {
-          prompt: 'مَا ذَلِكَ؟ ذَلِكَ حَجَرٌ.',
-          ideal: 'مَا ذَلِكَ؟ ذَلِكَ حَجَرٌ.',
-          accepts: ['ما ذلك ذلك حجر', 'ما ذلك؟ ذلك حجر', 'ما ذلك؟ ذلك حجر.', 'مَا ذَلِكَ؟ ذَلِكَ حَجَرٌ']
-        },
-        {
-          prompt: 'هٰذَا سُكَّرٌ وَذَلِكَ لَبَنٌ.',
-          ideal: 'هٰذَا سُكَّرٌ وَذَلِكَ لَبَنٌ.',
-          accepts: ['هذا سكر وذلك لبن', 'هذا سكر وذلك لبن.', 'هٰذَا سُكَّرٌ وَذَلِكَ لَبَنٌ', 'هٰذَا سُكَّرٌ وَذَلِكَ لَبَنٌ.']
-        }
-      ]
+      ],
+      keyPoints: ['مَنْ = who?', 'إِمَامٌ = an imam', 'حَجَرٌ = a stone', 'سُكَّرٌ = sugar', 'لَبَنٌ = milk']
     }
   ],
 
@@ -200,60 +95,61 @@ const LESSON_DATA = {
   // VOCABULARY
   // ============================================================
   vocab: [
-    { ar: 'ذَلِكَ', trans: 'dhālika', meaning: 'That (masc., far)', type: 'Demonstrative' },
-    { ar: 'مَا ذَلِكَ؟', trans: 'mā dhālika?', meaning: 'What is that?', type: 'Question' },
-    { ar: 'مَنْ ذَلِكَ؟', trans: 'man dhālika?', meaning: 'Who is that?', type: 'Question' },
-    { ar: 'أَذَلِكَ', trans: 'a-dhālika', meaning: 'Is that...?', type: 'Question' },
-    { ar: 'لَبَنٌ', trans: 'labanun', meaning: 'Milk', type: 'Noun' },
-    { ar: 'سُكَّرٌ', trans: 'sukkarun', meaning: 'Sugar', type: 'Noun' },
-    { ar: 'حَجَرٌ', trans: 'ḥajarun', meaning: 'A stone', type: 'Noun' },
+    { ar: 'ذٰلِكَ', trans: 'dhālika', meaning: 'That', type: 'Demonstrative' },
+    { ar: 'مَا ذٰلِكَ؟', trans: 'mā dhālika?', meaning: 'What is that?', type: 'Question' },
+    { ar: 'مَنْ ذٰلِكَ؟', trans: 'man dhālika?', meaning: 'Who is that?', type: 'Question' },
+    { ar: 'أَذٰلِكَ', trans: 'a-dhālika', meaning: 'Is that...?', type: 'Question prefix' },
     { ar: 'إِمَامٌ', trans: 'imāmun', meaning: 'An imam', type: 'Person' },
-    { ar: 'حِصَانٌ', trans: 'ḥiṣānun', meaning: 'A horse', type: 'Animal' }
+    { ar: 'حَجَرٌ', trans: 'ḥajarun', meaning: 'A stone', type: 'Noun' },
+    { ar: 'سُكَّرٌ', trans: 'sukkarun', meaning: 'Sugar', type: 'Noun' },
+    { ar: 'لَبَنٌ', trans: 'labanun', meaning: 'Milk', type: 'Noun' }
   ],
 
   // ============================================================
-  // GRAMMAR BLOCKS (Concepts tab)
+  // GRAMMAR BLOCKS
   // ============================================================
   grammarBlocks: [
     {
-      title: 'هٰذَا vs ذَلِكَ',
-      content: '<p><strong>هٰذَا</strong> points at something <strong>close</strong> to you. <strong>ذَلِكَ</strong> points at something <strong>far away</strong>. The sentence structure is exactly the same.</p>',
-      rule: 'هٰذَا بَيْتٌ = This is a house. · ذَلِكَ بَيْتٌ = That is a house.'
+      title: 'This and that',
+      content: '<p><strong>هٰذَا</strong> means "this" for something close. <strong>ذٰلِكَ</strong> means "that" for something farther away.</p>',
+      rule: 'هٰذَا مَسْجِدٌ وَذٰلِكَ بَيْتٌ. = This is a mosque and that is a house.'
     },
     {
-      title: 'Questions work the same way',
-      content: '<p>All the question patterns from Lesson 1 work with ذَلِكَ too — just swap هٰذَا for ذَلِكَ.</p>',
-      rule: 'مَا ذَلِكَ؟ = What is that? · مَنْ ذَلِكَ؟ = Who is that?'
+      title: 'Questions with ذٰلِكَ',
+      content: '<p>The Lesson 1 question patterns stay the same. Replace هٰذَا with ذٰلِكَ when asking about something farther away.</p>',
+      rule: 'مَا ذٰلِكَ؟ = What is that?<br>مَنْ ذٰلِكَ؟ = Who is that?'
     },
     {
       title: 'Joining with وَ',
-      content: '<p><strong>وَ</strong> means "and" and attaches directly to the next word. Use it to contrast something close with something far.</p>',
-      rule: 'هٰذَا قَلَمٌ وَذَلِكَ كِتَابٌ. = This is a pen and that is a book.'
+      content: '<p><strong>وَ</strong> means "and". It attaches directly to the next word, so وَ + ذٰلِكَ becomes <strong>وَذٰلِكَ</strong>.</p>',
+      rule: 'هٰذَا سُكَّرٌ وَذٰلِكَ لَبَنٌ. = This is sugar and that is milk.'
     }
   ],
+
+  practiceQuestions: [],
 
   // ============================================================
   // READING COMPREHENSION
   // ============================================================
   comprehension: {
-    title: 'Near and Far',
-    arabic: 'هٰذَا بَيْتٌ وَذَلِكَ مَسْجِدٌ. هٰذَا حِصَانٌ وَذَلِكَ حِمَارٌ. مَا ذَلِكَ؟ ذَلِكَ حَجَرٌ. هٰذَا سُكَّرٌ وَذَلِكَ لَبَنٌ. مَنْ هٰذَا وَمَنْ ذَلِكَ؟ هٰذَا مُدَرِّسٌ وَذَلِكَ إِمَامٌ.',
-    english: 'This is a house and that is a mosque. This is a horse and that is a donkey. What is that? That is a stone. This is sugar and that is milk. Who is this and who is that? This is a teacher and that is an imam.',
+    title: 'This and That',
+    arabic: 'هٰذَا مُدَرِّسٌ وَذٰلِكَ إِمَامٌ. مَا ذٰلِكَ؟ ذٰلِكَ حَجَرٌ. هٰذَا سُكَّرٌ وَذٰلِكَ لَبَنٌ.',
+    english: 'This is a teacher and that is an imam. What is that? That is a stone. This is sugar and that is milk.',
     questions: [
       {
-        text: 'In the first sentence, which is near and which is far?',
-        options: ['The mosque is near, the house is far', 'The house is near, the mosque is far', 'Both are near', 'Both are far'],
-        correct: 'The house is near, the mosque is far'
+        text: 'Who is far away in the first sentence?',
+        options: ['A teacher', 'An imam', 'A doctor', 'A boy'],
+        correct: 'An imam'
       },
       {
-        text: 'What does ذَلِكَ حَجَرٌ mean?',
-        options: ['This is a stone.', 'That is a stone.', 'What is that?', 'That is a key.'],
+        text: 'What does ذٰلِكَ حَجَرٌ mean?',
+        options: ['This is a stone.', 'That is a stone.', 'This is sugar.', 'That is milk.'],
         correct: 'That is a stone.'
       },
       {
-        text: 'Who is the far person (ذَلِكَ) in the last sentence?',
-        options: ['A teacher', 'A student', 'An imam', 'A merchant'],
-        correct: 'An imam'
+        text: 'Which word means milk?',
+        options: ['سُكَّرٌ', 'حَجَرٌ', 'لَبَنٌ', 'إِمَامٌ'],
+        correct: 'لَبَنٌ'
       }
     ]
   },
@@ -263,16 +159,41 @@ const LESSON_DATA = {
   // ============================================================
   quizQuestions: {
     multipleChoice: [
-      { prompt: 'What does ذَلِكَ mean?', options: ['This (close)', 'That (far)', 'What?', 'Who?'], correct: 1 },
-      { prompt: 'Translate: ذَلِكَ كِتَابٌ', options: ['This is a pen.', 'That is a key.', 'That is a book.', 'This is a book.'], correct: 2 },
-      { prompt: 'How do you say "What is that?"', options: ['مَا هٰذَا؟', 'مَنْ هٰذَا؟', 'مَا ذَلِكَ؟', 'أَذَلِكَ بَيْتٌ؟'], correct: 2 },
-      { prompt: 'Which sentence means "This is a pen and that is a book"?', options: ['ذَلِكَ قَلَمٌ وَهٰذَا كِتَابٌ', 'هٰذَا قَلَمٌ وَذَلِكَ كِتَابٌ', 'هٰذَا كِتَابٌ وَذَلِكَ قَلَمٌ', 'ذَلِكَ كِتَابٌ وَهٰذَا قَلَمٌ'], correct: 1 },
-      { prompt: 'What is لَبَنٌ?', options: ['Sugar', 'Stone', 'Milk', 'Key'], correct: 2 },
-      { prompt: 'Which word means "and" in Arabic?', options: ['مَا', 'مَنْ', 'وَ', 'أَ'], correct: 2 }
+      { prompt: 'What does ذٰلِكَ mean?', options: ['This', 'That', 'Who?', 'And'], correct: 1 },
+      { prompt: 'How do you say "What is that?"', options: ['مَا هٰذَا؟', 'مَنْ هٰذَا؟', 'مَا ذٰلِكَ؟', 'أَذٰلِكَ كَلْبٌ؟'], correct: 2 },
+      { prompt: 'Translate: ذٰلِكَ حَجَرٌ.', options: ['This is sugar.', 'That is a stone.', 'That is milk.', 'This is a teacher.'], correct: 1 },
+      { prompt: 'Which sentence means "This is sugar and that is milk"?', options: ['هٰذَا لَبَنٌ وَذٰلِكَ سُكَّرٌ.', 'هٰذَا سُكَّرٌ وَذٰلِكَ لَبَنٌ.', 'ذٰلِكَ سُكَّرٌ وَهٰذَا لَبَنٌ.', 'هٰذَا حَجَرٌ وَذٰلِكَ لَبَنٌ.'], correct: 1 },
+      { prompt: 'What is إِمَامٌ?', options: ['An imam', 'A stone', 'Sugar', 'Milk'], correct: 0 },
+      { prompt: 'What does وَ mean?', options: ['No', 'What?', 'And', 'That'], correct: 2 }
     ],
     typing: [
-      { prompt: 'Type in Arabic: "That is a house."', ideal: 'ذَلِكَ بَيْتٌ', accepts: ['ذلك بيت', 'ذَلِكَ بَيْتٌ', 'ذلك بيتٌ', 'ذَلِكَ بيت'] },
-      { prompt: 'Type in Arabic: "What is that?"', ideal: 'مَا ذَلِكَ؟', accepts: ['ما ذلك', 'مَا ذَلِكَ', 'ما ذلك؟', 'مَا ذَلِكَ؟'] }
+      {
+        prompt: 'Type in Arabic: "That is a stone."',
+        ideal: 'ذٰلِكَ حَجَرٌ.',
+        accepts: ['ذلك حجر', 'ذلك حجر.', 'ذٰلِكَ حَجَرٌ', 'ذٰلِكَ حَجَرٌ.']
+      },
+      {
+        prompt: 'Type in Arabic: "This is sugar and that is milk."',
+        ideal: 'هٰذَا سُكَّرٌ وَذٰلِكَ لَبَنٌ.',
+        accepts: ['هذا سكر وذلك لبن', 'هذا سكر وذلك لبن.', 'هٰذَا سُكَّرٌ وَذٰلِكَ لَبَنٌ', 'هٰذَا سُكَّرٌ وَذٰلِكَ لَبَنٌ.']
+      }
+    ],
+    conceptCheck: [
+      {
+        statement: 'ذٰلِكَ is used for something farther away, while هٰذَا is used for something close.',
+        correct: true,
+        explanation: 'Lesson 2 keeps the same sentence pattern as Lesson 1, but changes the pointing word. هٰذَا means "this"; ذٰلِكَ means "that".'
+      },
+      {
+        statement: 'مَنْ ذٰلِكَ؟ asks about a thing, like a stone or milk.',
+        correct: false,
+        explanation: 'مَنْ asks "who?", so it is used for people. For things, use مَا: مَا ذٰلِكَ؟ means "What is that?"'
+      },
+      {
+        statement: 'In وَذٰلِكَ, the وَ means "and" and attaches directly to ذٰلِكَ.',
+        correct: true,
+        explanation: 'Arabic writes وَ directly onto the next word. So وَ + ذٰلِكَ becomes وَذٰلِكَ, meaning "and that".'
+      }
     ]
   }
 };
