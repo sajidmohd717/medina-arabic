@@ -56,12 +56,13 @@ The old standalone Daily Practice/Drill route is not part of the visible product
 The UX target is Duolingo-like return momentum with a calmer Arabic-learning identity: cheerful, sticky, clear next action, but not cluttered. The app should feel premium and focused, with lesson screens that introduce the goal first and then get out of the learner's way. Premium primary buttons are reserved for the main action on the screen; navigation should feel polished and consistent without competing with the CTA. Avoid adding new top-level features unless they reinforce the loop above.
 
 ### Lesson content direction
-Kalamo should follow the Madinah Arabic Books more closely in pacing. Do not start beginner lessons with a large vocabulary dump. The lesson flow is four steps:
+Kalamo should follow the Madinah Arabic Books more closely in pacing. Do not start beginner lessons with a large vocabulary dump. The lesson flow is three steps:
 
-1. **Learn** — guided pages that introduce one sentence pattern at a time with concrete examples and visual cues. Uses the `guidedPages` format (see data structure). This is the main teaching surface.
+1. **Learn** — guided pages that introduce one sentence pattern at a time with concrete examples and visual cues. Uses the `guidedPages` format (see data structure). This is the main teaching surface and includes interactive exercises.
 2. **Concepts** — grammar reference blocks only. No example sentences that duplicate what was just taught in Learn.
-3. **Reading** — a short controlled comprehension passage with MCQ questions. Arabic text has hover/tap-translate on vocab words.
-4. **Quiz** — a short intro card, then MC, concept-check, and typing questions. Pass mark is roughly 75% (`passMark: 8` for an 11-question quiz). No on-screen keyboard — learners use their device keyboard.
+3. **Quiz** — a short intro card, then MC, concept-check, and typing questions. Pass mark is roughly 75% (`passMark: 8` for an 11-question quiz). No on-screen keyboard — learners use their device keyboard.
+
+The Reading step has been removed from the lesson flow. Reading is a separate app track on `reading.html`.
 
 The Practice panel has been removed. Learn already contains interactive exercises via the `exercise` sub-format in `guidedPages`.
 
@@ -130,6 +131,9 @@ medina-arabic/
 │   │   ├── lesson.css             ← Lesson page styles (guided pages, quiz, tooltips)
 │   │   └── reading.css            ← Reading comprehension styles
 │   │
+│   ├── icons/
+│   │   └── table.svg              ← Custom line-art table icon (no Unicode equivalent)
+│   │
 │   └── js/
 │       ├── progress.js            ← localStorage progress + vocab rating tracking
 │       ├── vocab-srs.js           ← Review/SRS vocabulary state and lesson-word discovery
@@ -179,7 +183,7 @@ const LESSON_DATA = {
 
   // optional: enables bite-sized guided pages in the Learn step
   // title, titleArabic, and pattern are all optional on each page.
-  // Each page uses ONE of three formats: cards, groups, or exercise.
+  // Each page uses ONE of four formats: cards, groups, exercise, or tapFill.
   guidedPages: [
 
     // FORMAT 1: cards — individual vocab/pattern items (word + icon)
@@ -193,14 +197,26 @@ const LESSON_DATA = {
     },
 
     // FORMAT 2: groups — Q&A dialogue lines (one group = one exchange with a shared icon)
+    // Special group types:
+    //   type: 'scene'  — dashed-border scene-setter card (use for dialogue context)
+    //   type: 'callout' — golden left-border footnote with icon/title/body (use for grammar highlights)
+    // Role coloring on regular groups:
+    //   role: 'teacher' — purple tint card
+    //   role: 'student' — green tint card
+    // Lines support a 'label' field for speaker name display.
+    // exerciseIntro adds a section divider before exercises on this page.
     {
       intro: 'Watch how questions work.',
+      exerciseIntro: '📝 Fill in the blanks from memory',  // optional divider before exercise block
       groups: [
+        { type: 'scene', text: 'Scene-setter description (shown in dashed card)' },
+        { type: 'callout', icon: '🎉', title: 'Callout title', body: 'HTML body text' },
         {
           icon: 'emoji',
+          role: 'teacher',   // optional: 'teacher' | 'student'
           lines: [
-            { ar: 'question', isPrompt: true },  // isPrompt styles this as a question line
-            { ar: 'answer' }
+            { label: 'Teacher', ar: 'question', isPrompt: true },
+            { label: 'Student', ar: 'answer' }
           ]
         }
       ],
@@ -221,6 +237,22 @@ const LESSON_DATA = {
           accepts: ['bare', 'bare.', 'vowelled', 'vowelled.']
         }
       ]
+    },
+
+    // FORMAT 4: tapFill — tap-a-chip preposition/word game
+    // wordBank: chips shown to the learner to pick from
+    // tapFill items: each has parts[] (strings + nulls for blanks) and answer/answers
+    //   parts: array of Arabic strings and null placeholders (null = blank)
+    //   answer: string — for single-blank items
+    //   answers: string[] — for multi-blank items (order matches null positions)
+    {
+      titleArabic: 'Arabic page title',
+      title: 'English page title',
+      wordBank: ['فِي', 'عَلَى', 'مِنْ', 'إِلَى'],
+      tapFill: [
+        { parts: ['الكِتَابُ', null, 'المَكْتَبِ.'], answer: 'عَلَى' },
+        { parts: ['ذَهَبَ مُحَمَّدٌ', null, 'الصِّينِ', null, 'اليَابَانِ.'], answers: ['مِنْ', 'إِلَى'] }
+      ]
     }
   ],
   reviewVocabAtEnd: true,   // optional: moves vocab rating to the end of Learn (after guided pages)
@@ -237,19 +269,6 @@ const LESSON_DATA = {
       rule: 'Key rule shown in a highlighted box.'
     },
   ],
-
-  comprehension: {
-    title: 'Story title in English',
-    arabic: 'Full Arabic story text with diacritics...',
-    english: 'English translation shown on demand...',
-    questions: [
-      {
-        text: 'Question about the story?',
-        options: ['A', 'B', 'C', 'D'],
-        correct: 'B'   // exact string matching one option (not an index)
-      },
-    ]
-  },
 
   quizQuestions: {
     conceptCheck: [
@@ -280,13 +299,13 @@ const LESSON_DATA = {
 - `totalQuestions` must equal `conceptCheck.length + multipleChoice.length + typing.length`
 - `passMark` should be roughly 75% of `totalQuestions` (e.g. 8 for an 11-question quiz)
 - Concept checks are for short grammar/meaning decisions that test whether the learner understood the pattern, not extra trivia
-- Comprehension question `correct` is the **exact string** of the right option (not an index)
 - Quiz `correct` is a **0-based index** into the options array
 - Vocab is **new words only** — words from earlier lessons may appear in exercises for reinforcement but must not be listed as new vocab
 - Beginner lessons should avoid front-loading vocabulary — introduce words inside patterns and dialogues first
 - All Arabic text must carry full diacritics (harakat)
 - Transliterations follow academic convention: macrons for long vowels (a, i, u), ayn for ayn
 - `practiceQuestions` is a legacy field — do not use it in new lessons; the Practice panel has been removed
+- `comprehension` is a legacy field — do not use it in new lessons; the Reading step has been removed from the lesson flow
 
 ## File Naming Rules
 
@@ -312,7 +331,7 @@ const LESSON_DATA = {
    { lessonNum: 12, section: 'section-3', slug: 'b1-lesson12', available: true, ar: 'الَّذِي — الَّتِي', title: 'Relative Pronouns', desc: 'Short description for the card.' }
    ```
 4. Run `node scripts/validate-lessons.js`
-5. Open the lesson in the browser via `lessons/lesson.html?book=1&lesson=12` and test all four steps (Learn, Concepts, Reading, Quiz)
+5. Open the lesson in the browser via `lessons/lesson.html?book=1&lesson=12` and test all three steps (Learn, Concepts, Quiz)
 6. Update the **Progress** table in this file
 
 ---
@@ -349,7 +368,7 @@ Loaded by book list pages only. Contains:
 Loaded by lesson pages only. Contains:
 - Animated lesson intro screen and transition into the active lesson
 - Step indicator bar
-- Four lesson panels (Learn/guided pages, Concepts, Reading, Quiz)
+- Three lesson panels (Learn/guided pages, Concepts, Quiz)
 - Vocabulary layout: active grid + "Words you know well" collapsible bucket
 - Grammar blocks and example tables
 - Quiz question styles (MC and typing)
@@ -433,14 +452,16 @@ All lesson UI logic. Key functions:
 | `applyQuizJumpMode()` | Unlocks all steps, jumps to quiz (`?step=quiz`) |
 | `buildVocabularyPanel(data)` | Renders guided sentence cards when present; otherwise renders vocab cards with rating buttons and the known-words bucket |
 | `buildLessonPanel(data)` | Renders grammar blocks and example table |
-| `buildComprehensionPanel(data)` | Renders story with hover/tap-translate, MCQ questions |
 | `buildQuizPanel(data)` | Renders quiz intro, concept checks, MC questions, and typing questions |
 | `annotateArabicText(text, vocab)` | Splits Arabic text into words, matches against vocab, wraps matched words in `<span class="ar-word" data-meaning="...">` for hover/tap tooltips |
-| checkComprehension / checkQuiz / checkTyping | Answer checking |
+| `checkQuiz` / `checkTyping` | Answer checking |
 | `submitQuiz()` / `retryQuiz()` | Quiz scoring result modal and quiz reset |
 | `startQuiz()` / `showQuizIntro()` | Quiz intro entry flow |
+| `tapFillSelect(itemId, btn)` | Handles chip tap in the tap-fill game — fills next blank, auto-checks when all filled |
+| `tapFillCheck(itemId)` | Checks answers for a tap-fill item, shows correct/wrong feedback |
+| `tapFillReset(itemId)` | Resets a tap-fill item to its initial blank state |
 | `stripDiacritics(str)` / `normalise(str)` | Lenient answer matching |
-| `renderIcon(icon)` | Splits multi-emoji strings into individual spans for side-by-side display |
+| `renderIcon(icon)` | Splits multi-emoji strings into spans; passes HTML strings (starting with `<`) through unchanged |
 
 ### vocab-srs.js
 Owns review vocabulary discovery and SRS state.
@@ -481,7 +502,7 @@ Creates the app-wide navigation.
 
 ## Hover/Tap-Translate Feature
 
-Reading comprehension Arabic text is annotated automatically. When `buildComprehensionPanel` renders the Arabic story, it calls `annotateArabicText(text, vocab)` which:
+Arabic text in guided pages and reading is annotated automatically. `annotateArabicText(text, vocab)` is called wherever Arabic text needs tooltips. It:
 
 1. Builds a lookup map from the lesson's `vocab` array (stripping diacritics for matching)
 2. Splits the Arabic text on spaces

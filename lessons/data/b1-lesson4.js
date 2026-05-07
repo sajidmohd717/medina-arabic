@@ -104,18 +104,11 @@ const LESSON_DATA = {
           accepts: ['هي على السرير', 'هِيَ عَلَى السَّرِيرِ', 'هي على السريرِ']
         },
         {
-          icon: '🧑',
+          icon: '👦',
           prompt: 'أَيْنَ يَاسِرٌ؟',
           placeholder: 'هُوَ ...',
           ideal: 'هُوَ فِي الحَمَّامِ',
           accepts: ['هو في الحمام', 'هُوَ فِي الحَمَّامِ', 'هو في الحمامِ']
-        },
-        {
-          icon: '👧',
-          prompt: 'أَيْنَ آمِنَةُ؟',
-          placeholder: 'هِيَ ...',
-          ideal: 'هِيَ فِي المَطْبَخِ',
-          accepts: ['هي في المطبخ', 'هِيَ فِي المَطْبَخِ', 'هي في المطبخِ']
         },
         {
           icon: '🛋️',
@@ -130,6 +123,34 @@ const LESSON_DATA = {
           placeholder: 'لا، هُوَ ...',
           ideal: 'لا، هُوَ فِي الحَمَّامِ',
           accepts: ['لا هو في الحمام', 'لا، هو في الحمام', 'لا، هُوَ فِي الحَمَّامِ']
+        },
+        {
+          icon: '🛋️',
+          prompt: 'مَنْ فِي الغُرْفَةِ؟',
+          placeholder: '... فِي الغُرْفَةِ',
+          ideal: 'مُحَمَّدٌ فِي الغُرْفَةِ',
+          accepts: ['محمد في الغرفة', 'مُحَمَّدٌ فِي الغُرْفَةِ', 'محمد في الغرفةِ']
+        },
+        {
+          icon: '🚿',
+          prompt: 'وَمَنْ فِي الحَمَّامِ؟',
+          placeholder: '... فِي الحَمَّامِ',
+          ideal: 'يَاسِرٌ فِي الحَمَّامِ',
+          accepts: ['ياسر في الحمام', 'يَاسِرٌ فِي الحَمَّامِ', 'ياسر في الحمامِ']
+        },
+        {
+          icon: '<img src="../assets/icons/table.svg" alt="desk" style="width:2.2rem;height:2.2rem;">',
+          prompt: 'مَاذَا عَلَى المَكْتَبِ؟',
+          placeholder: '... عَلَى المَكْتَبِ',
+          ideal: 'الكِتَابُ عَلَى المَكْتَبِ',
+          accepts: ['الكتاب على المكتب', 'الكِتَابُ عَلَى المَكْتَبِ', 'الكتاب على المكتبِ']
+        },
+        {
+          icon: '🛏️',
+          prompt: 'مَاذَا عَلَى السَّرِيرِ؟',
+          placeholder: '... عَلَى السَّرِيرِ',
+          ideal: 'السَّاعَةُ عَلَى السَّرِيرِ',
+          accepts: ['الساعة على السرير', 'السَّاعَةُ عَلَى السَّرِيرِ', 'الساعة على السريرِ']
         }
       ]
     },
@@ -178,6 +199,32 @@ const LESSON_DATA = {
             { ar: 'أَيْنَ الوَرَقُ؟', isPrompt: true },
             { ar: 'هُوَ عَلَى المَكْتَبِ.' }
           ]
+        },
+        {
+          icon: '👨‍🏫',
+          lines: [
+            { ar: 'أَيْنَ المُدَرِّسُ؟', isPrompt: true },
+            { ar: 'هُوَ فِي الفَصْلِ.' }
+          ]
+        },
+        {
+          icon: '🚽',
+          lines: [
+            { ar: 'أَيْنَ يَاسِرٌ؟', isPrompt: true },
+            { ar: 'هُوَ فِي المِرْحَاضِ.' }
+          ]
+        },
+        {
+          icon: '🌞🌙',
+          lines: [
+            { ar: 'الشَّمْسُ وَالقَمَرُ فِي السَّمَاءِ.' }
+          ]
+        },
+        {
+          icon: '🏫',
+          lines: [
+            { ar: 'مَنْ فِي الفَصْلِ؟', isPrompt: true }
+          ]
         }
       ],
       keyPoints: [
@@ -194,8 +241,8 @@ const LESSON_DATA = {
       cards: [
         { icon: '🏠', ar: 'البَيْتُ | مِنَ البَيْتِ' },
         { icon: '🕌', ar: 'المَسْجِدُ | إِلَى المَسْجِدِ' },
-        { icon: '🇯🇵', ar: 'اليَابَانُ | مِنَ اليَابَانِ' },
-        { icon: '🇮🇳', ar: 'الهِنْدُ | مِنَ الهِنْدِ' }
+        { icon: '⛩️', ar: 'اليَابَانُ | مِنَ اليَابَانِ' },
+        { icon: '🪔', ar: 'الهِنْدُ | مِنَ الهِنْدِ' }
       ],
       keyPoints: [
         'مِنْ = from · إِلَى = to',
@@ -203,95 +250,245 @@ const LESSON_DATA = {
       ]
     },
 
-    // ── Page 24b: classroom dialogue ──────────────────────────
+    // ── Page 24–25: classroom story + recall FITB ─────────────
     {
-      title: 'Classroom dialogue',
+      title: 'A Day in the Classroom',
       pattern: 'مِنْ أَيْنَ أَنْتَ؟',
-      intro: 'A teacher asks students where they are from, and where Abbas went.',
+      intro: 'Read this classroom conversation. Then answer questions from memory.',
       groups: [
         {
-          icon: '👨‍🏫👦',
+          type: 'scene',
+          text: '🏫 <strong>The classroom.</strong> The teacher asks Muhammad about his classmates — where they are from, and where the missing ones went.'
+        },
+        {
+          icon: '👨‍🏫',
+          role: 'teacher',
           lines: [
-            { ar: 'مِنْ أَيْنَ أَنْتَ؟', isPrompt: true },
-            { ar: 'أَنَا مِنَ اليَابَانِ.' }
+            { ar: 'مِنْ أَيْنَ أَنْتَ؟', label: 'Teacher', isPrompt: true }
           ]
         },
         {
-          icon: '🇨🇳',
+          icon: '⛩️',
+          role: 'student',
           lines: [
-            { ar: 'وَمِنْ أَيْنَ عَمَّارٌ؟', isPrompt: true },
-            { ar: 'هُوَ مِنَ الصِّينِ.' }
+            { ar: 'أَنَا مِنَ اليَابَانِ.', label: 'Muhammad' }
           ]
         },
         {
-          icon: '🇮🇳',
+          icon: '👨‍🏫',
+          role: 'teacher',
           lines: [
-            { ar: 'وَمِنْ أَيْنَ حَامِدٌ؟', isPrompt: true },
-            { ar: 'هُوَ مِنَ الهِنْدِ.' }
+            { ar: 'وَمِنْ أَيْنَ عَمَّارٌ؟', label: 'Teacher', isPrompt: true }
+          ]
+        },
+        {
+          icon: '🏮',
+          role: 'student',
+          lines: [
+            { ar: 'هُوَ مِنَ الصِّينِ.', label: 'Muhammad' }
+          ]
+        },
+        {
+          icon: '👨‍🏫',
+          role: 'teacher',
+          lines: [
+            { ar: 'وَمِنْ أَيْنَ حَامِدٌ؟', label: 'Teacher', isPrompt: true }
+          ]
+        },
+        {
+          icon: '🪔',
+          role: 'student',
+          lines: [
+            { ar: 'هُوَ مِنَ الهِنْدِ.', label: 'Muhammad' }
+          ]
+        },
+        {
+          icon: '👨‍🏫',
+          role: 'teacher',
+          lines: [
+            { ar: 'أَيْنَ عَبَّاسٌ؟', label: 'Teacher', isPrompt: true }
           ]
         },
         {
           icon: '🚶',
+          role: 'student',
           lines: [
-            { ar: 'أَيْنَ عَبَّاسٌ؟', isPrompt: true },
-            { ar: 'خَرَجَ.' }
+            { ar: 'خَرَجَ.', label: 'Muhammad' }
           ]
         },
         {
-          icon: '🏃',
+          type: 'callout',
+          icon: '🎉',
+          title: 'Your first Arabic verb!',
+          body: '<strong>خَرَجَ</strong> means "he left / went out." In Arabic, a single verb tells you both the action <em>and</em> who did it — no subject pronoun needed!'
+        },
+        {
+          icon: '👨‍🏫',
+          role: 'teacher',
           lines: [
-            { ar: 'أَيْنَ ذَهَبَ؟', isPrompt: true },
-            { ar: 'ذَهَبَ إِلَى المُدِيرِ.' }
+            { ar: 'أَيْنَ ذَهَبَ؟', label: 'Teacher', isPrompt: true }
           ]
         },
         {
-          icon: '🚻',
+          icon: '🏫',
+          role: 'student',
           lines: [
-            { ar: 'وَأَيْنَ ذَهَبَ عَلِيٌّ؟', isPrompt: true },
-            { ar: 'ذَهَبَ إِلَى المِرْحَاضِ.' }
+            { ar: 'ذَهَبَ إِلَى المُدِيرِ.', label: 'Muhammad' }
+          ]
+        },
+        {
+          icon: '👨‍🏫',
+          role: 'teacher',
+          lines: [
+            { ar: 'وَأَيْنَ ذَهَبَ عَلِيٌّ؟', label: 'Teacher', isPrompt: true }
+          ]
+        },
+        {
+          icon: '🚽',
+          role: 'student',
+          lines: [
+            { ar: 'ذَهَبَ إِلَى المِرْحَاضِ.', label: 'Muhammad' }
           ]
         }
       ],
       keyPoints: [
         'مِنْ أَيْنَ أَنْتَ؟ = Where are you from?',
         'خَرَجَ = he left · ذَهَبَ = he went'
-      ]
-    },
-
-    // ── Exercise ───────────────────────────────────────────────
-    {
-      titleArabic: 'تَمارِين',
-      title: 'Practice',
-      pattern: 'فِي | عَلَى | مِنْ | إِلَى',
-      intro: 'Type the Arabic answer. You can type without vowels — the full answer appears after checking.',
-      tip: '💡 Tip: focus on the structure. Harakat can come later.',
+      ],
+      exerciseIntro: '📝 Now recall the dialogue — fill in the blanks from memory',
       exercise: [
         {
-          icon: '🏠',
-          prompt: 'Type in Arabic: "In the house"',
-          ideal: 'فِي البَيْتِ',
-          accepts: ['في البيت', 'فِي البَيْتِ', 'في البيتِ', 'فِي البيت']
+          icon: '👦',
+          prompt: 'مِنْ أَيْنَ أَنْتَ؟',
+          placeholder: 'أَنَا مِنَ ...',
+          ideal: 'أَنَا مِنَ اليَابَانِ',
+          accepts: ['انا من اليابان', 'أنا من اليابان', 'أَنَا مِنَ اليَابَانِ']
         },
         {
-          icon: '🗂️',
-          prompt: 'Type in Arabic: "On the desk"',
-          ideal: 'عَلَى المَكْتَبِ',
-          accepts: ['على المكتب', 'عَلَى المَكْتَبِ', 'على المكتبِ', 'عَلَى المكتب']
+          icon: '⛩️',
+          prompt: 'أَأَنْتَ مِنَ الفِلِبِّينِ؟',
+          placeholder: 'لا، أَنَا مِنَ ...',
+          ideal: 'لا، أَنَا مِنَ اليَابَانِ',
+          accepts: ['لا انا من اليابان', 'لا، أنا من اليابان', 'لا، أَنَا مِنَ اليَابَانِ']
+        },
+        {
+          icon: '🏮',
+          prompt: 'مَنْ مِنَ الصِّينِ؟',
+          placeholder: '... مِنَ الصِّينِ',
+          ideal: 'عَمَّارٌ مِنَ الصِّينِ',
+          accepts: ['عمار من الصين', 'عَمَّارٌ مِنَ الصِّينِ']
         },
         {
           icon: '👦',
-          prompt: 'Type in Arabic: "He is in the room."',
-          ideal: 'هُوَ فِي الغُرْفَةِ',
-          accepts: ['هو في الغرفة', 'هُوَ فِي الغُرْفَةِ', 'هو في الغرفةِ', 'هُوَ في الغرفة']
+          prompt: 'مِنْ أَيْنَ حَامِدٌ؟',
+          placeholder: 'هُوَ مِنَ ...',
+          ideal: 'هُوَ مِنَ الهِنْدِ',
+          accepts: ['هو من الهند', 'هُوَ مِنَ الهِنْدِ']
         },
         {
-          icon: '🏃',
-          prompt: 'Type in Arabic: "He went to the mosque."',
-          ideal: 'ذَهَبَ إِلَى المَسْجِدِ',
-          accepts: ['ذهب إلى المسجد', 'ذَهَبَ إِلَى المَسْجِدِ', 'ذهب إلى المسجدِ']
+          icon: '🚶',
+          prompt: 'أَيْنَ ذَهَبَ عَبَّاسٌ؟',
+          placeholder: 'ذَهَبَ إِلَى ...',
+          ideal: 'ذَهَبَ إِلَى المُدِيرِ',
+          accepts: ['ذهب إلى المدير', 'ذهب الى المدير', 'ذَهَبَ إِلَى المُدِيرِ']
+        },
+        {
+          icon: '🚽',
+          prompt: 'أَذَهَبَ عَلِيٌّ إِلَى المُدِيرِ؟',
+          placeholder: 'لا، ذَهَبَ إِلَى ...',
+          ideal: 'لا، ذَهَبَ إِلَى المِرْحَاضِ',
+          accepts: ['لا ذهب إلى المرحاض', 'لا، ذهب إلى المرحاض', 'لا، ذَهَبَ إِلَى المِرْحَاضِ']
         }
       ]
-    }
+    },
+
+    // ── Page 25: reading sentences ────────────────────────────
+    {
+      title: 'Read and understand',
+      pattern: 'مِنْ | إِلَى | خَرَجَ | ذَهَبَ',
+      intro: 'Read each sentence. Tap any word for its meaning.',
+      groups: [
+        {
+          icon: '👧',
+          lines: [
+            { ar: 'مِنْ أَيْنَ فَاطِمَةُ؟', isPrompt: true },
+            { ar: 'هِيَ مِنَ الهِنْدِ.' }
+          ]
+        },
+        {
+          icon: '👨‍🏫',
+          lines: [
+            { ar: 'خَرَجَ المُدَرِّسُ مِنَ الفَصْلِ وَذَهَبَ إِلَى المُدِيرِ.' }
+          ]
+        },
+        {
+          icon: '🧑‍💼',
+          lines: [
+            { ar: 'ذَهَبَ التَّاجِرُ إِلَى الدُّكَّانِ.' }
+          ]
+        },
+        {
+          icon: '🚶',
+          lines: [
+            { ar: 'خَرَجَ حَامِدٌ مِنَ الغُرْفَةِ وَذَهَبَ إِلَى الحَمَّامِ.' }
+          ]
+        },
+        {
+          icon: '❓',
+          lines: [
+            { ar: 'مَنْ خَرَجَ مِنَ الفَصْلِ؟', isPrompt: true }
+          ]
+        },
+        {
+          icon: '👨‍🎓',
+          lines: [
+            { ar: 'خَرَجَ الطَّالِبُ مِنَ المَدْرَسَةِ وَذَهَبَ إِلَى السُّوقِ.' }
+          ]
+        },
+        {
+          icon: '👫',
+          lines: [
+            { ar: 'خَدِيجَةُ مِنَ الصِّينِ وَخَالِدٌ مِنَ اليَابَانِ.' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'خَرَجَ مِنَ ... وَذَهَبَ إِلَى ... = he left ... and went to ...',
+        'وَ = and (joins two sentences)'
+      ]
+    },
+
+    // ── Page 26: tap-fill preposition game ────────────────────
+    {
+      titleArabic: 'ضَعْ حَرْفَ جَرٍّ',
+      title: 'Pick the preposition',
+      pattern: 'فِي | عَلَى | مِنْ | إِلَى',
+      intro: 'Tap the right preposition to complete each sentence.',
+      wordBank: ['فِي', 'عَلَى', 'مِنْ', 'إِلَى'],
+      tapFill: [
+        {
+          parts: ['الكِتَابُ', null, 'المَكْتَبِ.'],
+          answer: 'عَلَى'
+        },
+        {
+          parts: ['الطَّالِبُ', null, 'الفَصْلِ.'],
+          answer: 'فِي'
+        },
+        {
+          parts: ['ذَهَبَ حَامِدٌ', null, 'الجَامِعَةِ.'],
+          answer: 'إِلَى'
+        },
+        {
+          parts: ['خَرَجَ المُدِيرُ', null, 'المَدْرَسَةِ.'],
+          answer: 'مِنْ'
+        },
+        {
+          parts: ['ذَهَبَ مُحَمَّدٌ', null, 'الصِّينِ', null, 'اليَابَانِ.'],
+          answers: ['مِنْ', 'إِلَى']
+        }
+      ]
+    },
+
   ],
 
   // ============================================================
@@ -328,6 +525,10 @@ const LESSON_DATA = {
     { ar: 'الجَامِعَةُ', trans: 'al-jāmiʿatu', meaning: 'The university', type: 'Noun' },
     { ar: 'السُّوقُ', trans: 'al-sūqu', meaning: 'The market', type: 'Noun' },
     { ar: 'السَّمَاءُ', trans: 'al-samāʾu', meaning: 'The sky', type: 'Noun' },
+    { ar: 'الشَّمْسُ', trans: 'al-shamsu', meaning: 'The sun', type: 'Noun' },
+    { ar: 'القَمَرُ', trans: 'al-qamaru', meaning: 'The moon', type: 'Noun' },
+    { ar: 'الفَصْلُ', trans: 'al-faṣlu', meaning: 'The classroom', type: 'Noun' },
+    { ar: 'المُدَرِّسُ', trans: 'al-mudarrisu', meaning: 'The teacher', type: 'Noun' },
     { ar: 'السَّاعَةُ', trans: 'al-sāʿatu', meaning: 'The watch / clock', type: 'Noun' },
     // Countries
     { ar: 'اليَابَانُ', trans: 'al-yābānu', meaning: 'Japan', type: 'Place' },
@@ -345,7 +546,13 @@ const LESSON_DATA = {
     { ar: 'حَامِدٌ', trans: 'Ḥāmid', meaning: 'Hamid', type: 'Name' },
     { ar: 'عَبَّاسٌ', trans: 'ʿAbbās', meaning: 'Abbas', type: 'Name' },
     { ar: 'زَيْنَبُ', trans: 'Zaynab', meaning: 'Zaynab', type: 'Name' },
-    { ar: 'عَلِيٌّ', trans: 'ʿAlī', meaning: 'Ali', type: 'Name' }
+    { ar: 'عَلِيٌّ', trans: 'ʿAlī', meaning: 'Ali', type: 'Name' },
+    { ar: 'خَالِدٌ', trans: 'Khālid', meaning: 'Khalid', type: 'Name' },
+    { ar: 'خَدِيجَةُ', trans: 'Khadīja', meaning: 'Khadijah', type: 'Name' },
+    { ar: 'التَّاجِرُ', trans: 'al-tājiru', meaning: 'The merchant', type: 'Noun' },
+    { ar: 'الطَّالِبُ', trans: 'al-ṭālibu', meaning: 'The student', type: 'Noun' },
+    { ar: 'الرَّجُلُ', trans: 'al-rajulu', meaning: 'The man', type: 'Noun' },
+    { ar: 'وَ', trans: 'wa', meaning: 'And', type: 'Particle' }
   ],
 
   // ============================================================

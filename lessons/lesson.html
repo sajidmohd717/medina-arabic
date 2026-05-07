@@ -53,8 +53,7 @@
       <p class="lesson-intro-summary" id="lessonIntroSummary"></p>
       <div class="lesson-intro-path" aria-label="Lesson path">
         <span>Learn</span>
-        <span>Read</span>
-        <span>Practice</span>
+        <span>Concepts</span>
         <span>Quiz</span>
       </div>
       <p class="lesson-intro-hint">💡 Tap any Arabic word to see its meaning</p>
@@ -80,11 +79,7 @@
           <div class="step-icon">🧠</div>
           <span class="step-label">Concepts</span>
         </button>
-        <button class="step-btn locked" id="step-comprehension" onclick="goToStep('comprehension')">
-          <div class="step-icon">📖</div>
-          <span class="step-label">Reading</span>
-        </button>
-        <button class="step-btn locked" id="step-quiz" onclick="goToStep('quiz')">
+<button class="step-btn locked" id="step-quiz" onclick="goToStep('quiz')">
           <div class="step-icon">🎯</div>
           <span class="step-label">Quiz</span>
         </button>
@@ -113,20 +108,11 @@
       <div class="lesson-content-inner"></div>
       <div class="panel-nav">
         <button class="btn btn-secondary" onclick="goToStep('learn')">← Learn</button>
-        <button class="btn btn-primary" onclick="unlockAndGo('comprehension')">I understand — Next: Reading →</button>
+        <button class="btn btn-primary" onclick="unlockAndGo('quiz')">I understand — Next: Quiz →</button>
       </div>
     </div>
 
-    <!-- PANEL 2.5 — COMPREHENSION -->
-    <div class="lesson-panel" id="panel-comprehension">
-      <div class="comprehension-content"></div>
-      <div class="panel-nav">
-        <button class="btn btn-secondary" onclick="goToStep('learn')">← Learn</button>
-        <button class="btn btn-primary" onclick="unlockAndGo('quiz')">Finished — Next: Quiz →</button>
-      </div>
-    </div>
-
-    <!-- PANEL 3 — QUIZ -->
+<!-- PANEL 3 — QUIZ -->
     <div class="lesson-panel" id="panel-quiz">
       <div class="quiz-intro-card" id="quizIntroCard"></div>
       <p class="quiz-total-label" id="quizTotalLabel"></p>
@@ -134,7 +120,7 @@
 
       <!-- Submit + score -->
       <div class="panel-nav" id="quizPanelNav">
-        <button class="btn btn-secondary" onclick="goToStep('comprehension')">← Reading</button>
+        <button class="btn btn-secondary" onclick="goToStep('lesson')">← Concepts</button>
         <button class="btn btn-primary" id="submitQuizBtn" onclick="submitQuiz()">Submit Quiz →</button>
       </div>
 

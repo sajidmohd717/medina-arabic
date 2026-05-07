@@ -11,9 +11,8 @@
 let CURRENT_LESSON_DATA = null;
 let CURRENT_BOOK = null;
 let CURRENT_LESSON_NUM = null;
-let UNLOCKED_STEPS = { vocab: true, lesson: false, comprehension: false, quiz: false };
+let UNLOCKED_STEPS = { vocab: true, lesson: false, quiz: false };
 let QUIZ_RESULTS = {};
-let COMPREHENSION_RESULTS = {};
 let CURRENT_STEP = 'learn';
 
 // DOM elements (populated after load)
@@ -190,7 +189,7 @@ function attachGuidedExerciseHandlers(root = document) {
 function goToStep(step) {
   if (!UNLOCKED_STEPS[step]) return;
 
-  const stepOrder = ['learn', 'lesson', 'comprehension', 'quiz'];
+  const stepOrder = ['learn', 'lesson', 'quiz'];
   const stepIndex = stepOrder.indexOf(step);
 
   stepOrder.forEach(s => {
@@ -239,8 +238,8 @@ function unlockAndGo(step) {
 
 /** Open all steps and go straight to the quiz (used with ?step=quiz from the book list). */
 function applyQuizJumpMode() {
-  UNLOCKED_STEPS = { vocab: true, lesson: true, comprehension: true, quiz: true };
-  ['learn', 'lesson', 'comprehension', 'quiz'].forEach(step => {
+  UNLOCKED_STEPS = { vocab: true, lesson: true, quiz: true };
+  ['learn', 'lesson', 'quiz'].forEach(step => {
     const btn = document.getElementById(`step-${step}`);
     if (btn) btn.classList.remove('locked');
   });
@@ -328,36 +327,6 @@ function setupLessonIntro() {
     }, { once: true });
   }
 }
-
-// ─────────────────────────────────────────────────────────────
-// COMPREHENSION FUNCTIONS
-// ─────────────────────────────────────────────────────────────
-
-function checkComprehension(btn, qNum, isCorrect) {
-  const container = btn.closest('.comprehension-question');
-  const feedback = container.querySelector('.comprehension-feedback');
-  const options = container.querySelectorAll('.comprehension-option');
-  
-  options.forEach(o => o.disabled = true);
-  COMPREHENSION_RESULTS[qNum] = isCorrect;
-  
-  if (isCorrect) {
-    btn.classList.add('correct');
-    feedback.textContent = '✓ Correct!';
-    feedback.className = 'comprehension-feedback correct';
-  } else {
-    btn.classList.add('wrong');
-    feedback.textContent = '✗ Not quite — look at the story again.';
-    feedback.className = 'comprehension-feedback wrong';
-    options.forEach(o => {
-      // Find the correct option to highlight it
-      if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) {
-        o.classList.add('correct');
-      }
-    });
-  }
-}
-
 
 // ─────────────────────────────────────────────────────────────
 // QUIZ FUNCTIONS
@@ -494,6 +463,73 @@ function checkConcept(btn, qNum, isCorrect, conceptIdx) {
     ">Learn more ›</button>
     <span class="quiz-concept-explanation" id="${expId}" style="display:none;">${explanation}</span>
   `;
+}
+
+// ─────────────────────────────────────────────────────────────
+// TAP-FILL INTERACTION
+// ─────────────────────────────────────────────────────────────
+
+function tapFillSelect(itemId, btn) {
+  const item = document.getElementById(itemId);
+  if (!item) return;
+  const word = btn.dataset.word;
+  const blanks = item.querySelectorAll('.tap-fill-blank');
+  const firstEmpty = Array.from(blanks).find(b => !b.dataset.filled);
+  if (!firstEmpty) return;
+
+  firstEmpty.textContent = word;
+  firstEmpty.dataset.filled = word;
+  firstEmpty.classList.add('is-filled');
+  btn.classList.add('is-used');
+  btn.disabled = true;
+
+  if (Array.from(blanks).every(b => b.dataset.filled)) {
+    tapFillCheck(itemId);
+  }
+}
+
+function tapFillCheck(itemId) {
+  const item = document.getElementById(itemId);
+  const answers = JSON.parse(decodeURIComponent(item.dataset.answers));
+  const blanks = item.querySelectorAll('.tap-fill-blank');
+  let allCorrect = true;
+
+  blanks.forEach((blank, i) => {
+    const correct = stripDiacritics(answers[i] || '');
+    const given = stripDiacritics(blank.dataset.filled || '');
+    if (given === correct) {
+      blank.classList.add('is-correct');
+    } else {
+      blank.classList.add('is-wrong');
+      allCorrect = false;
+    }
+  });
+
+  const fb = document.getElementById(`${itemId}_fb`);
+  if (!fb) return;
+  if (allCorrect) {
+    fb.innerHTML = '✓ Correct!';
+    fb.className = 'tap-fill-feedback is-correct';
+  } else {
+    fb.innerHTML = `✗ Not quite. <button class="tap-fill-retry-btn" onclick="tapFillReset('${itemId}')">↺ Try again</button>`;
+    fb.className = 'tap-fill-feedback is-wrong';
+  }
+}
+
+function tapFillReset(itemId) {
+  const item = document.getElementById(itemId);
+  if (!item) return;
+  item.querySelectorAll('.tap-fill-blank').forEach(b => {
+    b.textContent = '';
+    b.dataset.filled = '';
+    b.className = 'tap-fill-blank';
+  });
+  item.querySelectorAll('.tap-fill-opt').forEach(b => {
+    b.classList.remove('is-used');
+    b.disabled = false;
+  });
+  const fb = document.getElementById(`${itemId}_fb`);
+  if (fb) { fb.textContent = ''; fb.className = 'tap-fill-feedback'; }
 }
 
 function submitQuiz() {
@@ -839,20 +875,61 @@ function buildVocabularyPanel(data) {
         `;
       }).join('');
 
-      const groupsHtml = (page.groups || []).map(group => `
-        <article class="guided-qa-card">
+      const groupsHtml = (page.groups || []).map(group => {
+        if (group.type === 'scene') {
+          return `<div class="guided-scene-card">${group.text}</div>`;
+        }
+        if (group.type === 'callout') {
+          return `
+            <div class="guided-callout-card">
+              <div class="guided-callout-icon">${group.icon || '💡'}</div>
+              <div class="guided-callout-title">${group.title || ''}</div>
+              <div class="guided-callout-body">${group.body || ''}</div>
+            </div>`;
+        }
+        const roleClass = group.role === 'teacher' ? ' guided-qa-card--teacher' : group.role === 'student' ? ' guided-qa-card--student' : '';
+        return `
+        <article class="guided-qa-card${roleClass}">
           <div class="guided-sentence-visual${group.icon && !group.icon.startsWith('<') && splitGraphemes(group.icon).length > 1 ? ' guided-sentence-visual--multi' : ''}" aria-hidden="true">${renderIcon(group.icon)}</div>
           <div class="guided-qa-body">
-            ${(group.lines || []).map(line => `
+            ${(group.lines || []).filter(line => line.ar || line.label).map(line => `
               <div class="guided-qa-line${line.isPrompt ? ' guided-qa-line--prompt' : ''}">
-                ${renderGuidedArabicLine(line.ar, data.vocab)}
+                ${line.label ? `<div class="guided-qa-speaker">${line.label}</div>` : ''}
+                ${line.ar ? renderGuidedArabicLine(line.ar, data.vocab) : ''}
               </div>
             `).join('')}
           </div>
-        </article>
-      `).join('');
+        </article>`;
+      }).join('');
+
+      const wordBank = page.wordBank || ['فِي', 'عَلَى', 'مِنْ', 'إِلَى'];
+      const tapFillHtml = (page.tapFill || []).map((item, i) => {
+        const tid = `tf_${pageIndex}_${i}`;
+        const answers = Array.isArray(item.answers) ? item.answers : [item.answer];
+        const answersEncoded = encodeURIComponent(JSON.stringify(answers));
+        let blankIdx = 0;
+        const partsHtml = item.parts.map(part => {
+          if (part === null) {
+            const bid = blankIdx++;
+            return `<span class="tap-fill-blank" data-blank-idx="${bid}"></span>`;
+          }
+          return `<span class="tap-fill-part">${annotateArabicText(part, data.vocab)}</span>`;
+        }).join('');
+        return `
+          <div class="tap-fill-item" id="${tid}" data-answers="${answersEncoded}" data-total-blanks="${blankIdx}">
+            <div class="tap-fill-sentence" dir="rtl">${partsHtml}</div>
+            ${item.translation ? `<div class="tap-fill-translation">${item.translation}</div>` : ''}
+            <div class="tap-fill-options">
+              ${wordBank.map(w => `<button class="tap-fill-opt" type="button" data-word="${w}" onclick="tapFillSelect('${tid}',this)" dir="rtl">${w}</button>`).join('')}
+            </div>
+            <div class="tap-fill-feedback" id="${tid}_fb"></div>
+          </div>`;
+      }).join('');
 
       const exerciseItems = page.exercise || [];
+      const exerciseIntroHtml = exerciseItems.length && page.exerciseIntro
+        ? `<div class="guided-exercise-intro">${page.exerciseIntro}</div>`
+        : '';
       const exerciseHtml = exerciseItems.map((item, i) => {
         const eid = `ex_${pageIndex}_${i}`;
         const promptText = item.prompt || 'مَا هٰذَا؟';
@@ -893,7 +970,9 @@ function buildVocabularyPanel(data) {
         ${cardsHtml ? `<div class="guided-sentence-grid">${cardsHtml}</div>` : ''}
         ${groupsHtml ? `<div class="guided-qa-stack">${groupsHtml}</div>` : ''}
         ${linesHtml ? `<div class="guided-line-stack">${linesHtml}</div>` : ''}
+        ${tapFillHtml ? `<div class="tap-fill-list">${tapFillHtml}</div>` : ''}
         ${page.tip ? `<p class="guided-exercise-tip">${page.tip}</p>` : ''}
+        ${exerciseIntroHtml}
         ${exerciseHtml ? `<div class="guided-exercise-grid">${exerciseHtml}</div>` : ''}
         ${keyHtml}
         <div class="guided-page-controls">
@@ -1002,56 +1081,6 @@ function buildLessonPanel(data) {
   
   lessonContent.innerHTML = html;
 }
-
-function buildComprehensionPanel(data) {
-  const comprehensionPanel = document.getElementById('panel-comprehension');
-  if (!comprehensionPanel) return;
-  
-  const comprehensionContent = comprehensionPanel.querySelector('.comprehension-content');
-  if (!comprehensionContent) return;
-  
-  if (!data.comprehension) {
-    // If no comprehension data, hide the step from navigation
-    const stepBtn = document.getElementById('step-comprehension');
-    if (stepBtn) stepBtn.style.display = 'none';
-    return;
-  }
-  
-  let html = `
-    <div class="comprehension-story">
-      <div class="comprehension-story-title">${data.comprehension.title}</div>
-      <div class="comprehension-story-arabic">${annotateArabicText(data.comprehension.arabic, data.vocab)}</div>
-      <details class="comprehension-translation-details">
-        <summary>Show Translation</summary>
-        <div class="comprehension-story-english">${data.comprehension.english}</div>
-      </details>
-    </div>
-    <div class="comprehension-questions">
-  `;
-  
-  data.comprehension.questions.forEach((q, idx) => {
-    const qNum = idx + 1;
-    const optionsHtml = q.options.map((opt, optIdx) => {
-      const isCorrect = opt === q.correct;
-      return `<button class="comprehension-option" onclick="checkComprehension(this, ${qNum}, ${isCorrect})">${opt}</button>`;
-    }).join('');
-    
-    html += `
-      <div class="comprehension-question">
-        <div class="comprehension-q-number">Question ${displayNumber(qNum)}</div>
-        <div class="comprehension-q-text">${q.text}</div>
-        <div class="comprehension-options">${optionsHtml}</div>
-        <div class="comprehension-feedback"></div>
-      </div>
-    `;
-    COMPREHENSION_RESULTS[qNum] = null;
-  });
-  
-  html += `</div>`;
-  comprehensionContent.innerHTML = html;
-  attachArabicWordMeaningToggles(comprehensionContent);
-}
-
 
 function buildQuizPanel(data) {
   const quizContainer = document.querySelector('#panel-quiz .quiz-container');
@@ -1181,7 +1210,7 @@ function initLesson() {
   if (CURRENT_LESSON_DATA.guidedPages && CURRENT_LESSON_DATA.guidedPages.length) {
     const lessonStepLabel = document.querySelector('#step-lesson .step-label');
     const vocabStepLabel = document.querySelector('#step-learn .step-label');
-    const readingBackBtn = document.querySelector('#panel-comprehension .btn-secondary');
+    const readingBackBtn = null;
     if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
     if (lessonStepLabel) lessonStepLabel.textContent = 'Concepts';
     if (readingBackBtn) {
@@ -1193,7 +1222,6 @@ function initLesson() {
   // Build all panels
   buildVocabularyPanel(CURRENT_LESSON_DATA);
   buildLessonPanel(CURRENT_LESSON_DATA);
-  buildComprehensionPanel(CURRENT_LESSON_DATA);
   buildQuizPanel(CURRENT_LESSON_DATA);
   restoreLessonResume();
   
@@ -1461,7 +1489,7 @@ function restoreLessonResume() {
   if (!resumeKey || localStorage.getItem(resumeKey) !== 'active') return;
 
   const savedStep = localStorage.getItem(stepKey) || 'learn';
-  const stepOrder = ['learn', 'lesson', 'comprehension', 'quiz'];
+  const stepOrder = ['learn', 'lesson', 'quiz'];
   const targetIndex = stepOrder.indexOf(savedStep);
   if (targetIndex <= 0) return;
 
