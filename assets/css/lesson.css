@@ -746,6 +746,28 @@
   color: var(--text-muted);
   opacity: 0.7;
   margin-top: 0.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.guided-exercise-hint-dismiss {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(124, 92, 252, 0.08);
+  color: var(--text-muted);
+  font-size: 0.65rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.guided-exercise-hint-dismiss:hover {
+  background: rgba(124, 92, 252, 0.18);
+  color: var(--brand);
 }
 
 .guided-exercise-redo {
@@ -966,6 +988,45 @@
 @keyframes lockHintPulse {
   0%, 100% { opacity: 0.55; }
   50%      { opacity: 1; }
+}
+
+/* ── Page dot indicators ── */
+.guided-page-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: 1.4rem 0 0;
+}
+
+.guided-page-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(124, 92, 252, 0.15);
+  background: var(--surface-card);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: grid;
+  place-items: center;
+}
+
+.guided-page-dot:hover {
+  border-color: var(--brand-light);
+  color: var(--brand);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 92, 252, 0.15);
+}
+
+.guided-page-dot.is-active {
+  background: linear-gradient(135deg, #7C5CFC, #a78bfa);
+  border-color: #7C5CFC;
+  color: #fff;
+  box-shadow: 0 0 14px rgba(124, 92, 252, 0.45);
+  transform: scale(1.12);
 }
 
 /* ── In-lesson guided progress bar ── */

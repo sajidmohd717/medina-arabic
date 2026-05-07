@@ -151,6 +151,7 @@ function attachGuidedExerciseHandlers(root = document) {
       const card = input.closest('.guided-exercise-card');
       if (!card || input.disabled) return;
       saveGuidedExerciseState(card, { status: 'draft', value: input.value });
+      trackExerciseHintDismiss(input);
     });
 
     input.addEventListener('keydown', event => {
@@ -180,6 +181,29 @@ function attachGuidedExerciseHandlers(root = document) {
   root.querySelectorAll('.guided-exercise-redo').forEach(button => {
     button.addEventListener('click', () => resetGuidedExercise(button.closest('.guided-exercise-card')));
   });
+
+  if (isExerciseHintDismissed()) {
+    root.querySelectorAll('.guided-exercise-hint').forEach(h => h.style.display = 'none');
+  }
+}
+
+function exerciseHintKey() { return 'kalamo_exercise_hint_dismissed'; }
+
+function isExerciseHintDismissed() {
+  return localStorage.getItem(exerciseHintKey()) === '1';
+}
+
+function dismissExerciseHint() {
+  localStorage.setItem(exerciseHintKey(), '1');
+  document.querySelectorAll('.guided-exercise-hint').forEach(h => h.style.display = 'none');
+}
+
+window._trackExerciseInputCount = 0;
+function trackExerciseHintDismiss(input) {
+  window._trackExerciseInputCount++;
+  if (window._trackExerciseInputCount >= 3 && !isExerciseHintDismissed()) {
+    dismissExerciseHint();
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -937,6 +961,7 @@ function buildVocabularyPanel(data) {
     slot.appendChild(pager);
 
     const renderPage = pageIndex => {
+      window.renderGuidedPage = renderPage;
       const page = data.guidedPages[pageIndex];
       const total = data.guidedPages.length;
       const cardsHtml = (page.cards || []).map(item => `
@@ -1035,7 +1060,10 @@ function buildVocabularyPanel(data) {
               <button class="btn btn-secondary guided-exercise-check" type="button">Check</button>
             </div>
             <div class="guided-exercise-feedback" id="fb_${eid}"></div>
-            <div class="guided-exercise-hint">💡 You can type without harakāt</div>
+            <div class="guided-exercise-hint" id="hint_${eid}">
+              <span>💡 You can type without harakāt</span>
+              <button class="guided-exercise-hint-dismiss" onclick="document.getElementById('hint_${eid}').style.display='none';dismissExerciseHint()" aria-label="Dismiss hint">✕</button>
+            </div>
             <div class="guided-exercise-reveal" id="rv_${eid}" style="display:none">${annotateArabicText(item.ideal, data.vocab)}</div>
             <button class="guided-exercise-redo" type="button" hidden>Redo</button>
           </article>
@@ -1062,9 +1090,18 @@ function buildVocabularyPanel(data) {
         ${exerciseIntroHtml}
         ${exerciseHtml ? `<div class="guided-exercise-grid">${exerciseHtml}</div>` : ''}
         ${keyHtml}
+        <nav class="guided-page-dots" aria-label="Page navigation">
+          ${Array.from({ length: total }, (_, i) => `
+            <button type="button" class="guided-page-dot${i === pageIndex ? ' is-active' : ''}"
+              onclick="(function(){document.querySelector('.guided-page-shell').style.animation='none';document.querySelector('.guided-page-shell').offsetHeight;document.querySelector('.guided-page-shell').style.animation='';})();renderGuidedPage(${i})"
+              aria-label="Page ${i + 1}" aria-current="${i === pageIndex ? 'page' : 'false'}">
+              ${i + 1}
+            </button>
+          `).join('')}
+        </nav>
         <div class="guided-page-controls">
           ${pageIndex === 0
-            ? '<button type="button" class="btn btn-secondary" onclick="goToStep(\'lesson\')">← Concepts</button>'
+            ? '<button type="button" class="btn btn-secondary" onclick="goToStep(\'lesson\')">← Grammar</button>'
             : '<button type="button" class="btn btn-secondary" data-guided-prev>← Back</button>'}
           <button type="button" class="btn btn-primary" data-guided-next
             ${exerciseItems.length ? 'disabled data-exercise-locked="true"' : ''}>
@@ -1292,14 +1329,14 @@ function initLesson() {
     const vocabStepLabel = document.querySelector('#step-learn .step-label');
     const lessonStepLabel = document.querySelector('#step-lesson .step-label');
     if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
-    if (lessonStepLabel) lessonStepLabel.textContent = 'Concepts';
+    if (lessonStepLabel) lessonStepLabel.textContent = 'Grammar';
   }
 
   if (CURRENT_LESSON_DATA.guidedPages && CURRENT_LESSON_DATA.guidedPages.length) {
     const lessonStepLabel = document.querySelector('#step-lesson .step-label');
     const vocabStepLabel = document.querySelector('#step-learn .step-label');
     if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
-    if (lessonStepLabel) lessonStepLabel.textContent = 'Concepts';
+    if (lessonStepLabel) lessonStepLabel.textContent = 'Grammar';
   }
   
   // Build all panels
