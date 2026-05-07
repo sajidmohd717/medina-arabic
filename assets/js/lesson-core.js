@@ -541,12 +541,13 @@ function tapFillCheck(itemId) {
   const fb = document.getElementById(`${itemId}_fb`);
   if (!fb) return;
   if (allCorrect) {
-    fb.innerHTML = '✓ Correct!';
+    fb.innerHTML = '✓ Perfect!';
     fb.className = 'tap-fill-feedback is-correct';
   } else {
-    fb.innerHTML = `✗ Not quite. <button class="tap-fill-retry-btn" onclick="tapFillReset('${itemId}')">↺ Try again</button>`;
+    fb.innerHTML = `✗ Almost. <button class="tap-fill-retry-btn" onclick="tapFillReset('${itemId}')">↺ Try again</button>`;
     fb.className = 'tap-fill-feedback is-wrong';
   }
+  saveTapFillState(itemId);
 }
 
 function tapFillReset(itemId) {
@@ -563,6 +564,59 @@ function tapFillReset(itemId) {
   });
   const fb = document.getElementById(`${itemId}_fb`);
   if (fb) { fb.textContent = ''; fb.className = 'tap-fill-feedback'; }
+  clearTapFillState(itemId);
+}
+
+function tapFillStateKey(itemId) {
+  if (!CURRENT_LESSON_DATA) return '';
+  return `tapfill_${CURRENT_LESSON_DATA.book}_${CURRENT_LESSON_DATA.lessonNum}_${itemId}`;
+}
+
+function saveTapFillState(itemId) {
+  const item = document.getElementById(itemId);
+  if (!item) return;
+  const blanks = item.querySelectorAll('.tap-fill-blank');
+  const filled = Array.from(blanks).map(b => b.dataset.filled || '');
+  const allCorrect = item.querySelector('.tap-fill-feedback.is-correct') !== null;
+  const key = tapFillStateKey(itemId);
+  if (key) localStorage.setItem(key, JSON.stringify({ filled, correct: allCorrect }));
+}
+
+function clearTapFillState(itemId) {
+  const key = tapFillStateKey(itemId);
+  if (key) localStorage.removeItem(key);
+}
+
+function restoreTapFillStates(root = document) {
+  root.querySelectorAll('.tap-fill-item').forEach(item => {
+    const itemId = item.id;
+    const key = tapFillStateKey(itemId);
+    if (!key) return;
+    try {
+      const state = JSON.parse(localStorage.getItem(key));
+      if (!state?.filled?.length) return;
+      const blanks = item.querySelectorAll('.tap-fill-blank');
+      state.filled.forEach((word, i) => {
+        if (word && blanks[i]) {
+          blanks[i].textContent = word;
+          blanks[i].dataset.filled = word;
+          blanks[i].classList.add('is-filled');
+        }
+      });
+      const opts = item.querySelectorAll('.tap-fill-opt');
+      opts.forEach(btn => {
+        if (state.filled.includes(btn.dataset.word)) {
+          btn.classList.add('is-used');
+          btn.disabled = true;
+        }
+      });
+      if (state.correct) {
+        blanks.forEach(b => b.classList.add('is-correct'));
+        const fb = document.getElementById(`${itemId}_fb`);
+        if (fb) { fb.innerHTML = '✓ Perfect!'; fb.className = 'tap-fill-feedback is-correct'; }
+      }
+    } catch(e) { /* ignore */ }
+  });
 }
 
 function submitQuiz() {
@@ -976,10 +1030,12 @@ function buildVocabularyPanel(data) {
             <div class="guided-exercise-input-row">
               <input class="arabic-input guided-exercise-input" type="text" id="${eid}"
                 placeholder="${placeholder}"
-                autocomplete="off" dir="rtl" />
+                autocomplete="off" dir="rtl"
+                onkeydown="if(event.key==='Enter'){const c=document.getElementById('card_${eid}');if(c){const a=decodeExercisePayload(c.dataset.accepts);checkGuidedExercise('${eid}',a,Number(c.dataset.total||0))}}" />
               <button class="btn btn-secondary guided-exercise-check" type="button">Check</button>
             </div>
             <div class="guided-exercise-feedback" id="fb_${eid}"></div>
+            <div class="guided-exercise-hint">💡 You can type without harakāt</div>
             <div class="guided-exercise-reveal" id="rv_${eid}" style="display:none">${annotateArabicText(item.ideal, data.vocab)}</div>
             <button class="guided-exercise-redo" type="button" hidden>Redo</button>
           </article>
@@ -1014,13 +1070,14 @@ function buildVocabularyPanel(data) {
             ${exerciseItems.length ? 'disabled data-exercise-locked="true"' : ''}>
             ${pageIndex === total - 1 ? 'Next: Quiz →' : 'Next →'}
           </button>
-          ${exerciseItems.length ? '<p class="guided-exercise-lock-hint">Complete all exercises above to continue</p>' : ''}
+          ${exerciseItems.length ? '<p class="guided-exercise-lock-hint">🔒 Complete all exercises above to continue</p>' : ''}
         </div>
       `;
 
       attachArabicWordMeaningToggles(pager);
       attachGuidedExerciseHandlers(pager);
       restoreGuidedExerciseStates(pager);
+      restoreTapFillStates(pager);
 
       // Save current page to localStorage
       saveGuidedPage(pageIndex);
@@ -1301,7 +1358,8 @@ function checkGuidedExercise(eid, accepts, totalInPage) {
     if (btn) btn.disabled = true;
     reveal.style.display = 'block';
     if (redoBtn) redoBtn.hidden = false;
-    feedback.textContent = '✓ Correct!';
+    const cheers = ['✓ Excellent!', '✓ Well done!', '✓ Perfect!', '✓ Great job!', '✓ Right on!', '✓ Exactly!', '✓ Beautiful!'];
+    feedback.textContent = cheers[Math.floor(Math.random() * cheers.length)];
     feedback.className = 'guided-exercise-feedback correct';
     card.classList.add('is-correct');
     saveGuidedExerciseState(card, { status: 'correct', value: userRaw });
@@ -1322,7 +1380,8 @@ function checkGuidedExercise(eid, accepts, totalInPage) {
     if (btn) btn.disabled = true;
     reveal.style.display = 'block';
     if (redoBtn) redoBtn.hidden = false;
-    feedback.textContent = '✗ Not quite — here is the answer:';
+    const encouragements = ['Almost — here is the answer:', 'Nice try — the answer:', 'Keep going! The answer:', '✗ Close — here it is:', 'Not quite — the answer is:'];
+    feedback.textContent = encouragements[Math.floor(Math.random() * encouragements.length)];
     feedback.className = 'guided-exercise-feedback wrong';
     card.classList.add('is-wrong');
     saveGuidedExerciseState(card, { status: 'wrong', value: userRaw });
