@@ -1,519 +1,469 @@
 /* ============================================================
-   b1-lesson4.js - Lesson 4 Data
+   b1-lesson4.js — Lesson 4 Data
    ============================================================ */
 
 const LESSON_DATA = {
-  book: "book1",
+  book: 'book1',
   lessonNum: 4,
-  titleArabic: "حُرُوفُ الْجَرّ",
-  titleEnglish: "Prepositions & Pronouns",
-  summary: "In this lesson, you will learn the first four major prepositions: فِي (in), عَلَى (on), مِنْ (from), and إِلَى (to). You will also learn how these words change the ending of the nouns they follow, and introduce basic pronouns like هُوَ (he/it) and هِيَ (she/it).",
-  nextLesson: "b1-lesson5.html",
+  titleArabic: 'حُرُوفُ الجَرّ',
+  titleEnglish: 'Prepositions',
+  summary: 'Learn the four key prepositions — فِي (in), عَلَى (on), مِنْ (from), إِلَى (to) — and how they change the ending of the noun that follows. Then use them to say where things are and where people go.',
+  nextLesson: 'b1-lesson5.html',
   passMark: 8,
   totalQuestions: 11,
-  vocab: [
+
+  guidedPattern: 'فِي | عَلَى | مِنْ | إِلَى',
+  guidedIntro: 'These four words are called حُرُوفُ الجَرّ (prepositions). They attach to the noun after them and change its ending from ُ to ِ.',
+  reviewVocabAtEnd: true,
+
+  guidedPages: [
+    // ── Page 21a: pairs ────────────────────────────────────────
     {
-      ar: "فِي",
-      trans: "fī",
-      meaning: "In",
-      type: "Preposition"
+      titleArabic: 'الدَّرْسُ الرَّابِعُ',
+      title: 'Lesson Four',
+      pattern: 'فِي / عَلَى',
+      intro: 'Compare each noun before and after the preposition. Notice the ending changes from ُ to ِ.',
+      cards: [
+        { icon: '🏠', ar: 'البَيْتُ | فِي البَيْتِ' },
+        { icon: '<img src="../assets/icons/table.svg" alt="desk" style="width:2.2rem;height:2.2rem;">', ar: 'المَكْتَبُ | عَلَى المَكْتَبِ' },
+        { icon: '🕌', ar: 'المَسْجِدُ | فِي المَسْجِدِ' },
+        { icon: '🛏️', ar: 'السَّرِيرُ | عَلَى السَّرِيرِ' }
+      ],
+      keyPoints: [
+        'فِي = in · عَلَى = on',
+        'Noun ending changes from ُ to ِ after a preposition'
+      ]
     },
+
+    // ── Page 21b: أَيْنَ questions ─────────────────────────────
     {
-      ar: "عَلَى",
-      trans: "ʿalā",
-      meaning: "On / Upon",
-      type: "Preposition"
+      title: 'Where is...?',
+      pattern: 'أَيْنَ ...؟',
+      intro: 'Use أَيْنَ to ask where. Answer with هُوَ (he/it) for masculine and هِيَ (she/it) for feminine.',
+      groups: [
+        {
+          icon: '🛋️',
+          lines: [
+            { ar: 'أَيْنَ مُحَمَّدٌ؟', isPrompt: true },
+            { ar: 'هُوَ فِي الغُرْفَةِ.' }
+          ]
+        },
+        {
+          icon: '🚿',
+          lines: [
+            { ar: 'وَأَيْنَ يَاسِرٌ؟', isPrompt: true },
+            { ar: 'هُوَ فِي الحَمَّامِ.' }
+          ]
+        },
+        {
+          icon: '🍳',
+          lines: [
+            { ar: 'وَأَيْنَ آمِنَةُ؟', isPrompt: true },
+            { ar: 'هِيَ فِي المَطْبَخِ.' }
+          ]
+        },
+        {
+          icon: '<img src="../assets/icons/table.svg" alt="desk" style="width:2.2rem;height:2.2rem;">',
+          lines: [
+            { ar: 'أَيْنَ الكِتَابُ؟', isPrompt: true },
+            { ar: 'هُوَ عَلَى المَكْتَبِ.' }
+          ]
+        },
+        {
+          icon: '🛏️',
+          lines: [
+            { ar: 'وَأَيْنَ السَّاعَةُ؟', isPrompt: true },
+            { ar: 'هِيَ عَلَى السَّرِيرِ.' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'أَيْنَ = where?',
+        'هُوَ = he / it (masc.) · هِيَ = she / it (fem.)'
+      ],
+      exercise: [
+        {
+          icon: '📘',
+          prompt: 'أَيْنَ الكِتَابُ؟',
+          placeholder: 'هُوَ ...',
+          ideal: 'هُوَ عَلَى المَكْتَبِ',
+          accepts: ['هو على المكتب', 'هُوَ عَلَى المَكْتَبِ', 'هو على المكتبِ']
+        },
+        {
+          icon: '👦',
+          prompt: 'أَيْنَ مُحَمَّدٌ؟',
+          placeholder: 'هُوَ ...',
+          ideal: 'هُوَ فِي الغُرْفَةِ',
+          accepts: ['هو في الغرفة', 'هُوَ فِي الغُرْفَةِ', 'هو في الغرفةِ']
+        },
+        {
+          icon: '⌚',
+          prompt: 'أَيْنَ السَّاعَةُ؟',
+          placeholder: 'هِيَ ...',
+          ideal: 'هِيَ عَلَى السَّرِيرِ',
+          accepts: ['هي على السرير', 'هِيَ عَلَى السَّرِيرِ', 'هي على السريرِ']
+        },
+        {
+          icon: '🧑',
+          prompt: 'أَيْنَ يَاسِرٌ؟',
+          placeholder: 'هُوَ ...',
+          ideal: 'هُوَ فِي الحَمَّامِ',
+          accepts: ['هو في الحمام', 'هُوَ فِي الحَمَّامِ', 'هو في الحمامِ']
+        },
+        {
+          icon: '👧',
+          prompt: 'أَيْنَ آمِنَةُ؟',
+          placeholder: 'هِيَ ...',
+          ideal: 'هِيَ فِي المَطْبَخِ',
+          accepts: ['هي في المطبخ', 'هِيَ فِي المَطْبَخِ', 'هي في المطبخِ']
+        },
+        {
+          icon: '🛋️',
+          prompt: 'أَآمِنَةُ فِي الغُرْفَةِ؟',
+          placeholder: 'لا، هِيَ ...',
+          ideal: 'لا، هِيَ فِي المَطْبَخِ',
+          accepts: ['لا هي في المطبخ', 'لا، هي في المطبخ', 'لا، هِيَ فِي المَطْبَخِ']
+        },
+        {
+          icon: '🍳',
+          prompt: 'أَيَاسِرٌ فِي المَطْبَخِ؟',
+          placeholder: 'لا، هُوَ ...',
+          ideal: 'لا، هُوَ فِي الحَمَّامِ',
+          accepts: ['لا هو في الحمام', 'لا، هو في الحمام', 'لا، هُوَ فِي الحَمَّامِ']
+        }
+      ]
     },
+
+    // ── Page 22: more sentences ────────────────────────────────
     {
-      ar: "مِنْ",
-      trans: "min",
-      meaning: "From",
-      type: "Preposition"
+      title: 'More sentences',
+      pattern: 'فِي | عَلَى',
+      intro: 'Read each sentence. Tap any word for its meaning.',
+      groups: [
+        {
+          icon: '👨‍🎓',
+          lines: [
+            { ar: 'الطَّالِبُ فِي الجَامِعَةِ.' }
+          ]
+        },
+        {
+          icon: '👨🕌',
+          lines: [
+            { ar: 'الرَّجُلُ فِي المَسْجِدِ.' }
+          ]
+        },
+        {
+          icon: '🧑‍💼',
+          lines: [
+            { ar: 'أَيْنَ التَّاجِرُ؟', isPrompt: true },
+            { ar: 'هُوَ فِي الدُّكَّانِ.' }
+          ]
+        },
+        {
+          icon: '✏️',
+          lines: [
+            { ar: 'القَلَمُ عَلَى المَكْتَبِ.' }
+          ]
+        },
+        {
+          icon: '👧',
+          lines: [
+            { ar: 'أَيْنَ زَيْنَبُ؟', isPrompt: true },
+            { ar: 'هِيَ فِي الغُرْفَةِ.' }
+          ]
+        },
+        {
+          icon: '📄',
+          lines: [
+            { ar: 'أَيْنَ الوَرَقُ؟', isPrompt: true },
+            { ar: 'هُوَ عَلَى المَكْتَبِ.' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'Objects use هُوَ or هِيَ depending on their gender',
+        'الدُّكَّانُ → فِي الدُّكَّانِ = in the shop'
+      ]
     },
+
+    // ── Page 24b: مِنْ and إِلَى pairs ─────────────────────────
     {
-      ar: "إِلَى",
-      trans: "ilā",
-      meaning: "To / Towards",
-      type: "Preposition"
+      title: 'From and To',
+      pattern: 'مِنْ / إِلَى',
+      intro: 'The same rule applies — the noun ending changes from ُ to ِ after مِنْ (from) and إِلَى (to).',
+      cards: [
+        { icon: '🏠', ar: 'البَيْتُ | مِنَ البَيْتِ' },
+        { icon: '🕌', ar: 'المَسْجِدُ | إِلَى المَسْجِدِ' },
+        { icon: '🇯🇵', ar: 'اليَابَانُ | مِنَ اليَابَانِ' },
+        { icon: '🇮🇳', ar: 'الهِنْدُ | مِنَ الهِنْدِ' }
+      ],
+      keyPoints: [
+        'مِنْ = from · إِلَى = to',
+        'Same rule: ending changes to ِ'
+      ]
     },
+
+    // ── Page 24b: classroom dialogue ──────────────────────────
     {
-      ar: "أَيْنَ",
-      trans: "ayna",
-      meaning: "Where?",
-      type: "Interrogative"
+      title: 'Classroom dialogue',
+      pattern: 'مِنْ أَيْنَ أَنْتَ؟',
+      intro: 'A teacher asks students where they are from, and where Abbas went.',
+      groups: [
+        {
+          icon: '👨‍🏫👦',
+          lines: [
+            { ar: 'مِنْ أَيْنَ أَنْتَ؟', isPrompt: true },
+            { ar: 'أَنَا مِنَ اليَابَانِ.' }
+          ]
+        },
+        {
+          icon: '🇨🇳',
+          lines: [
+            { ar: 'وَمِنْ أَيْنَ عَمَّارٌ؟', isPrompt: true },
+            { ar: 'هُوَ مِنَ الصِّينِ.' }
+          ]
+        },
+        {
+          icon: '🇮🇳',
+          lines: [
+            { ar: 'وَمِنْ أَيْنَ حَامِدٌ؟', isPrompt: true },
+            { ar: 'هُوَ مِنَ الهِنْدِ.' }
+          ]
+        },
+        {
+          icon: '🚶',
+          lines: [
+            { ar: 'أَيْنَ عَبَّاسٌ؟', isPrompt: true },
+            { ar: 'خَرَجَ.' }
+          ]
+        },
+        {
+          icon: '🏃',
+          lines: [
+            { ar: 'أَيْنَ ذَهَبَ؟', isPrompt: true },
+            { ar: 'ذَهَبَ إِلَى المُدِيرِ.' }
+          ]
+        },
+        {
+          icon: '🚻',
+          lines: [
+            { ar: 'وَأَيْنَ ذَهَبَ عَلِيٌّ؟', isPrompt: true },
+            { ar: 'ذَهَبَ إِلَى المِرْحَاضِ.' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'مِنْ أَيْنَ أَنْتَ؟ = Where are you from?',
+        'خَرَجَ = he left · ذَهَبَ = he went'
+      ]
     },
+
+    // ── Exercise ───────────────────────────────────────────────
     {
-      ar: "هُوَ",
-      trans: "huwa",
-      meaning: "He / It (masc.)",
-      type: "Pronoun"
-    },
-    {
-      ar: "هِيَ",
-      trans: "hiya",
-      meaning: "She / It (fem.)",
-      type: "Pronoun"
-    },
-    {
-      ar: "أَنَا",
-      trans: "ana",
-      meaning: "I",
-      type: "Pronoun"
-    },
-    {
-      ar: "أَنْتَ",
-      trans: "anta",
-      meaning: "You (masc. sing.)",
-      type: "Pronoun"
-    },
-    {
-      ar: "الْغُرْفَةُ",
-      trans: "al-ghurfatu",
-      meaning: "The room",
-      type: "Noun"
-    },
-    {
-      ar: "الْحَمَّامُ",
-      trans: "al-ḥammāmu",
-      meaning: "The bathroom",
-      type: "Noun"
-    },
-    {
-      ar: "الْمَطْبَخُ",
-      trans: "al-maṭbakhu",
-      meaning: "The kitchen",
-      type: "Noun"
-    },
-    {
-      ar: "الْمِرْحَاضُ",
-      trans: "al-mirḥāḍu",
-      meaning: "The toilet / washroom",
-      type: "Noun"
-    },
-    {
-      ar: "الْمَدْرَسَةُ",
-      trans: "al-madrasatu",
-      meaning: "The school",
-      type: "Noun"
-    },
-    {
-      ar: "الْجَامِعَةُ",
-      trans: "al-jāmiʿatu",
-      meaning: "The university",
-      type: "Noun"
-    },
-    {
-      ar: "السُّوقُ",
-      trans: "as-sūqu",
-      meaning: "The market",
-      type: "Noun"
-    },
-    {
-      ar: "الْيَابَانُ",
-      trans: "al-yābānu",
-      meaning: "Japan",
-      type: "Noun"
-    },
-    {
-      ar: "الصِّينُ",
-      trans: "aṣ-ṣīnu",
-      meaning: "China",
-      type: "Noun"
-    },
-    {
-      ar: "الْهِنْدُ",
-      trans: "al-hindu",
-      meaning: "India",
-      type: "Noun"
-    },
-    {
-      ar: "الْفِلِبِّينُ",
-      trans: "al-filibbīnu",
-      meaning: "The Philippines",
-      type: "Noun"
-    },
-    {
-      ar: "آمِنَةُ",
-      trans: "Āminatu",
-      meaning: "Aminah",
-      type: "Name"
-    },
-    {
-      ar: "سَعِيدٌ",
-      trans: "Saʿīdun",
-      meaning: "Saed",
-      type: "Name"
-    },
-    {
-      ar: "فَاطِمَةُ",
-      trans: "Fāṭimatu",
-      meaning: "Fatimah",
-      type: "Name"
-    },
-    {
-      ar: "عَبَّاسٌ",
-      trans: "ʿAbbāsun",
-      meaning: "Abbas",
-      type: "Name"
-    },
-    {
-      ar: "خَرَجَ",
-      trans: "kharaja",
-      meaning: "He left / went out",
-      type: "Verb"
-    },
-    {
-      ar: "ذَهَبَ",
-      trans: "dhahaba",
-      meaning: "He went",
-      type: "Verb"
+      titleArabic: 'تَمارِين',
+      title: 'Practice',
+      pattern: 'فِي | عَلَى | مِنْ | إِلَى',
+      intro: 'Type the Arabic answer. You can type without vowels — the full answer appears after checking.',
+      tip: '💡 Tip: focus on the structure. Harakat can come later.',
+      exercise: [
+        {
+          icon: '🏠',
+          prompt: 'Type in Arabic: "In the house"',
+          ideal: 'فِي البَيْتِ',
+          accepts: ['في البيت', 'فِي البَيْتِ', 'في البيتِ', 'فِي البيت']
+        },
+        {
+          icon: '🗂️',
+          prompt: 'Type in Arabic: "On the desk"',
+          ideal: 'عَلَى المَكْتَبِ',
+          accepts: ['على المكتب', 'عَلَى المَكْتَبِ', 'على المكتبِ', 'عَلَى المكتب']
+        },
+        {
+          icon: '👦',
+          prompt: 'Type in Arabic: "He is in the room."',
+          ideal: 'هُوَ فِي الغُرْفَةِ',
+          accepts: ['هو في الغرفة', 'هُوَ فِي الغُرْفَةِ', 'هو في الغرفةِ', 'هُوَ في الغرفة']
+        },
+        {
+          icon: '🏃',
+          prompt: 'Type in Arabic: "He went to the mosque."',
+          ideal: 'ذَهَبَ إِلَى المَسْجِدِ',
+          accepts: ['ذهب إلى المسجد', 'ذَهَبَ إِلَى المَسْجِدِ', 'ذهب إلى المسجدِ']
+        }
+      ]
     }
   ],
+
+  // ============================================================
+  // VOCABULARY
+  // ============================================================
+  vocab: [
+    // Prepositions
+    { ar: 'فِي', trans: 'fī', meaning: 'In', type: 'Preposition' },
+    { ar: 'عَلَى', trans: 'ʿalā', meaning: 'On / Upon', type: 'Preposition' },
+    { ar: 'مِنْ', trans: 'min', meaning: 'From', type: 'Preposition' },
+    { ar: 'إِلَى', trans: 'ilā', meaning: 'To / Towards', type: 'Preposition' },
+    // Question words
+    { ar: 'أَيْنَ', trans: 'ayna', meaning: 'Where?', type: 'Question word' },
+    { ar: 'مِنْ أَيْنَ', trans: 'min ayna', meaning: 'Where from?', type: 'Question phrase' },
+    { ar: 'مَاذَا', trans: 'mādhā', meaning: 'What? (about things)', type: 'Question word' },
+    // Pronouns
+    { ar: 'هُوَ', trans: 'huwa', meaning: 'He / It (masc.)', type: 'Pronoun' },
+    { ar: 'هِيَ', trans: 'hiya', meaning: 'She / It (fem.)', type: 'Pronoun' },
+    { ar: 'أَنَا', trans: 'anā', meaning: 'I', type: 'Pronoun' },
+    { ar: 'أَنْتَ', trans: 'anta', meaning: 'You (masc.)', type: 'Pronoun' },
+    // Places & objects
+    { ar: 'البَيْتُ', trans: 'al-baytu', meaning: 'The house', type: 'Noun' },
+    { ar: 'المَكْتَبُ', trans: 'al-maktabu', meaning: 'The desk', type: 'Noun' },
+    { ar: 'المَسْجِدُ', trans: 'al-masjidu', meaning: 'The mosque', type: 'Noun' },
+    { ar: 'السَّرِيرُ', trans: 'al-sarīru', meaning: 'The bed', type: 'Noun' },
+    { ar: 'الكِتَابُ', trans: 'al-kitābu', meaning: 'The book', type: 'Noun' },
+    { ar: 'الدُّكَّانُ', trans: 'al-dukkānu', meaning: 'The shop', type: 'Noun' },
+    { ar: 'الغُرْفَةُ', trans: 'al-ghurfatu', meaning: 'The room', type: 'Noun' },
+    { ar: 'الحَمَّامُ', trans: 'al-ḥammāmu', meaning: 'The bathroom', type: 'Noun' },
+    { ar: 'المَطْبَخُ', trans: 'al-maṭbakhu', meaning: 'The kitchen', type: 'Noun' },
+    { ar: 'المِرْحَاضُ', trans: 'al-mirḥāḍu', meaning: 'The toilet', type: 'Noun' },
+    { ar: 'الفَصْلُ', trans: 'al-faṣlu', meaning: 'The classroom', type: 'Noun' },
+    { ar: 'المَدْرَسَةُ', trans: 'al-madrasatu', meaning: 'The school', type: 'Noun' },
+    { ar: 'الجَامِعَةُ', trans: 'al-jāmiʿatu', meaning: 'The university', type: 'Noun' },
+    { ar: 'السُّوقُ', trans: 'al-sūqu', meaning: 'The market', type: 'Noun' },
+    { ar: 'السَّمَاءُ', trans: 'al-samāʾu', meaning: 'The sky', type: 'Noun' },
+    { ar: 'السَّاعَةُ', trans: 'al-sāʿatu', meaning: 'The watch / clock', type: 'Noun' },
+    // Countries
+    { ar: 'اليَابَانُ', trans: 'al-yābānu', meaning: 'Japan', type: 'Place' },
+    { ar: 'الصِّينُ', trans: 'aṣ-ṣīnu', meaning: 'China', type: 'Place' },
+    { ar: 'الهِنْدُ', trans: 'al-hindu', meaning: 'India', type: 'Place' },
+    { ar: 'الفِلِبِّينُ', trans: 'al-filibbīnu', meaning: 'The Philippines', type: 'Place' },
+    // Verbs
+    { ar: 'خَرَجَ', trans: 'kharaja', meaning: 'He left / went out', type: 'Verb' },
+    { ar: 'ذَهَبَ', trans: 'dhahaba', meaning: 'He went', type: 'Verb' },
+    // Names
+    { ar: 'مُحَمَّدٌ', trans: 'Muḥammad', meaning: 'Muhammad', type: 'Name' },
+    { ar: 'يَاسِرٌ', trans: 'Yāsir', meaning: 'Yasir', type: 'Name' },
+    { ar: 'آمِنَةُ', trans: 'Āmina', meaning: 'Aminah', type: 'Name' },
+    { ar: 'عَمَّارٌ', trans: 'ʿAmmār', meaning: 'Ammar', type: 'Name' },
+    { ar: 'حَامِدٌ', trans: 'Ḥāmid', meaning: 'Hamid', type: 'Name' },
+    { ar: 'عَبَّاسٌ', trans: 'ʿAbbās', meaning: 'Abbas', type: 'Name' },
+    { ar: 'زَيْنَبُ', trans: 'Zaynab', meaning: 'Zaynab', type: 'Name' },
+    { ar: 'عَلِيٌّ', trans: 'ʿAlī', meaning: 'Ali', type: 'Name' }
+  ],
+
+  // ============================================================
+  // GRAMMAR BLOCKS
+  // ============================================================
   grammarBlocks: [
     {
-      title: "The Prepositions (Harf Jar)",
-      content: "<p>Prepositions in Arabic are called <strong>Harf Jar</strong>. They are short words that show the relationship between other words.</p><p>The four prepositions introduced here are: <strong>فِي</strong> (in), <strong>عَلَى</strong> (on), <strong>مِنْ</strong> (from), and <strong>إِلَى</strong> (to).</p>",
-      rule: "Prepositions change the ending of the following noun from a damma (u) to a kasra (i). This is called the Genitive case (Majrūr)."
+      title: 'حُرُوفُ الجَرّ — Prepositions',
+      content: '<p>Arabic has four core prepositions introduced in this lesson. They are short words that attach to the noun after them.</p>',
+      rule: 'فِي = in · عَلَى = on · مِنْ = from · إِلَى = to'
     },
     {
-      title: "The Genitive Case (Majrūr)",
-      content: "<p>When a noun is preceded by a preposition, its ending changes:</p><ul><li><strong>الْبَيْتُ</strong> (The house) → <strong>فِي الْبَيْتِ</strong> (In the house)</li><li><strong>الْمَكْتَبُ</strong> (The desk) → <strong>عَلَى الْمَكْتَبِ</strong> (On the desk)</li></ul>",
-      rule: "Noun + Preposition = Ending becomes -i (kasra)."
+      title: 'The ending changes after a preposition',
+      content: '<p>When a noun follows a preposition, its ending changes from ُ (damma) to ِ (kasra). This is called the <strong>majrūr</strong> (genitive) case.</p>',
+      rule: 'البَيْتُ = the house · فِي البَيْتِ = in the house'
     },
     {
-      title: "Pronouns: هُوَ and هِيَ",
-      content: "<p>Arabic nouns are either masculine or feminine. To refer to them, we use:</p><ul><li><strong>هُوَ</strong> (He/It): For masculine nouns (like <em>Kitāb</em> or <em>Muhammad</em>).</li><li><strong>هِيَ</strong> (She/It): For feminine nouns (like <em>Ghurfah</em> or <em>Aminah</em>).</li></ul>",
-      rule: "Use هُوَ for masculine and هِيَ for feminine, even for objects!"
+      title: 'هُوَ and هِيَ',
+      content: '<p>Use <strong>هُوَ</strong> for masculine nouns and people, <strong>هِيَ</strong> for feminine nouns and people — even when referring to objects.</p>',
+      rule: 'الكِتَابُ → هُوَ عَلَى المَكْتَبِ. السَّاعَةُ → هِيَ عَلَى السَّرِيرِ.'
     },
     {
-      title: "Asking \"Where?\"",
-      content: "<p>Use <strong>أَيْنَ</strong> (ayna) to ask about location. It usually comes at the beginning of the sentence.</p>",
-      rule: "أَيْنَ مُحَمَّدٌ؟ = \"Where is Muhammad?\""
+      title: 'مِنْ أَيْنَ أَنْتَ؟',
+      content: '<p>Combine مِنْ + أَيْنَ to ask "where from?" Answer with أَنَا مِنَ ... (I am from ...).</p>',
+      rule: 'مِنْ أَيْنَ أَنْتَ؟ = Where are you from? · أَنَا مِنَ اليَابَانِ. = I am from Japan.'
     }
   ],
+
+  // ============================================================
+  // READING COMPREHENSION
+  // ============================================================
   comprehension: {
-    title: "Where is Everyone?",
-    arabic: "مُحَمَّدٌ فِي الْغُرْفَةِ. هُوَ عَلَى السَّرِيرِ. آمِنَةُ فِي الْمَطْبَخِ. هِيَ أَمَامَ الْمَكْتَبِ. أَيْنَ الْكِتَابُ؟ هُوَ عَلَى الْمَكْتَبِ. أَيْنَ السَّاعَةُ؟ هِيَ فِي الْحَمَّامِ. عَبَّاسٌ خَرَجَ مِنَ الْمَدْرَسَةِ وَذَهَبَ إِلَى الْجَامِعَةِ.",
-    english: "Muhammad is in the room. He is on the bed. Aminah is in the kitchen. She is in front of the desk. Where is the book? It is on the desk. Where is the watch? It is in the bathroom. Abbas left the school and went to the university.",
+    title: 'Where is Everyone?',
+    arabic: 'مُحَمَّدٌ فِي الغُرْفَةِ. يَاسِرٌ فِي الحَمَّامِ. آمِنَةُ فِي المَطْبَخِ. الكِتَابُ عَلَى المَكْتَبِ. السَّاعَةُ عَلَى السَّرِيرِ. أَيْنَ عَبَّاسٌ؟ خَرَجَ مِنَ الفَصْلِ وَذَهَبَ إِلَى المُدِيرِ. وَذَهَبَ عَلِيٌّ إِلَى المِرْحَاضِ.',
+    english: 'Muhammad is in the room. Yasir is in the bathroom. Aminah is in the kitchen. The book is on the desk. The watch is on the bed. Where is Abbas? He left the classroom and went to the headmaster. And Ali went to the toilet.',
     questions: [
       {
-        text: "Where exactly is Muhammad in the room?",
-        options: [
-          "In front of the desk",
-          "On the bed",
-          "In the bathroom",
-          "In the kitchen"
-        ],
-        correct: "On the bed"
+        text: 'Where is Aminah?',
+        options: ['In the room', 'In the bathroom', 'In the kitchen', 'In the classroom'],
+        correct: 'In the kitchen'
       },
       {
-        text: "Who is in the kitchen?",
-        options: [
-          "Muhammad",
-          "Abbas",
-          "Aminah",
-          "The teacher"
-        ],
-        correct: "Aminah"
+        text: 'What is on the desk?',
+        options: ['The watch', 'The book', 'The pen', 'The key'],
+        correct: 'The book'
       },
       {
-        text: "Where is the watch (السَّاعَة)?",
-        options: [
-          "On the desk",
-          "In the room",
-          "In the bathroom",
-          "On the bed"
-        ],
-        correct: "In the bathroom"
-      },
-      {
-        text: "Where did Abbas go after leaving school?",
-        options: [
-          "To the market",
-          "To the university",
-          "To the house",
-          "To the mosque"
-        ],
-        correct: "To the university"
+        text: 'Where did Abbas go?',
+        options: ['To the market', 'To the toilet', 'To the headmaster', 'To the mosque'],
+        correct: 'To the headmaster'
       }
     ]
   },
+
+  // ============================================================
+  // QUIZ QUESTIONS
+  // ============================================================
   quizQuestions: {
     multipleChoice: [
       {
-        prompt: "What does عَلَى mean?",
-        options: [
-          "In",
-          "On",
-          "From",
-          "To"
-        ],
-        correct: 1
-      },
-      {
-        prompt: "Translate: \"In the room\"",
-        options: [
-          "فِي الْغُرْفَةُ",
-          "فِي الْغُرْفَةِ",
-          "عَلَى الْغُرْفَةِ",
-          "مِنَ الْغُرْفَةِ"
-        ],
-        correct: 1
-      },
-      {
-        prompt: "Which pronoun is used for a female or feminine object?",
-        options: [
-          "هُوَ",
-          "أَنْتَ",
-          "هِيَ",
-          "أَنَا"
-        ],
+        prompt: 'What does فِي mean?',
+        options: ['On', 'From', 'In', 'To'],
         correct: 2
       },
       {
-        prompt: "Translate: \"Where are you from?\"",
-        options: [
-          "مِنْ أَيْنَ أَنْتَ؟",
-          "أَيْنَ أَنْتَ؟",
-          "أَيْنَ هُوَ؟",
-          "مَنْ أَنْتَ؟"
-        ],
-        correct: 0
+        prompt: 'Which is correct for "in the house"?',
+        options: ['فِي البَيْتُ', 'فِي البَيْتِ', 'عَلَى البَيْتِ', 'مِنَ البَيْتُ'],
+        correct: 1
       },
       {
-        prompt: "What is the opposite of \"To\" (إِلَى) in a directional sense?",
-        options: [
-          "فِي",
-          "عَلَى",
-          "مِنْ",
-          "أَيْنَ"
-        ],
+        prompt: 'What pronoun do you use for a feminine noun like السَّاعَةُ?',
+        options: ['هُوَ', 'أَنَا', 'هِيَ', 'أَنْتَ'],
         correct: 2
       },
       {
-        prompt: "Translate: \"The watch is on the bed.\"",
-        options: [
-          "السَّاعَةُ فِي السَّرِيرِ",
-          "السَّاعَةُ عَلَى السَّرِيرِ",
-          "الْكِتَابُ عَلَى السَّرِيرِ",
-          "السَّاعَةُ عَلَى الْمَكْتَبِ"
-        ],
+        prompt: 'Translate: أَيْنَ يَاسِرٌ؟',
+        options: ['Who is Yasir?', 'Where is Yasir?', 'Where is Yasir from?', 'What is Yasir?'],
         correct: 1
+      },
+      {
+        prompt: 'What does ذَهَبَ mean?',
+        options: ['He left', 'He sat', 'He went', 'He stood'],
+        correct: 2
+      },
+      {
+        prompt: 'Translate: هُوَ مِنَ الهِنْدِ.',
+        options: ['He is in India.', 'He went to India.', 'He is from India.', 'He left India.'],
+        correct: 2
       }
     ],
     typing: [
       {
-        prompt: "Type in Arabic: \"In the house\"",
-        ideal: "فِي الْبَيْتِ",
-        accepts: [
-          "في البيت",
-          "فِي الْبَيْتِ",
-          "في البيتِ",
-          "فِي البيت"
-        ]
+        prompt: 'Type in Arabic: "In the house"',
+        ideal: 'فِي البَيْتِ',
+        accepts: ['في البيت', 'فِي البَيْتِ', 'في البيتِ', 'فِي البيت']
       },
       {
-        prompt: "Type in Arabic: \"On the desk\"",
-        ideal: "عَلَى الْمَكْتَبِ",
-        accepts: [
-          "على المكتب",
-          "عَلَى الْمَكْتَبِ",
-          "على المكتبِ",
-          "عَلَى المكتب"
-        ]
+        prompt: 'Type in Arabic: "On the desk"',
+        ideal: 'عَلَى المَكْتَبِ',
+        accepts: ['على المكتب', 'عَلَى المَكْتَبِ', 'على المكتبِ', 'عَلَى المكتب']
       }
     ],
     conceptCheck: [
       {
-        statement: "This lesson's main pattern is connected to: The Prepositions (Harf Jar).",
+        statement: 'After a preposition, the noun ending changes from ُ to ِ.',
         correct: true,
-        explanation: "Prepositions change the ending of the following noun from a damma (u) to a kasra (i). This is called the Genitive case (Majrūr)."
+        explanation: 'بَيْتُ → فِي البَيْتِ. This is called the majrūr (genitive) case — the preposition "pulls" the noun into it.'
       },
       {
-        statement: "The Concepts step gives more detail for: The Genitive Case (Majrūr).",
-        correct: true,
-        explanation: "Noun + Preposition = Ending becomes -i (kasra)."
-      },
-      {
-        statement: "In Prepositions & Pronouns, you can ignore the lesson pattern and still build the Arabic correctly.",
+        statement: 'هُوَ is used for both masculine and feminine nouns.',
         correct: false,
-        explanation: "The pattern is the point of the lesson. Learn keeps it small first, then Concepts explains the rule more fully."
+        explanation: 'هُوَ is only for masculine nouns and people. Use هِيَ for feminine nouns — even for objects like السَّاعَةُ (the watch).'
+      },
+      {
+        statement: 'مِنْ أَيْنَ أَنْتَ؟ means "Where are you from?"',
+        correct: true,
+        explanation: 'مِنْ (from) + أَيْنَ (where) + أَنْتَ (you) = Where are you from? Answer: أَنَا مِنَ ... (I am from ...).'
       }
     ]
-  },
-  guidedPattern: "حُرُوفُ الْجَرّ",
-  guidedIntro: "In this lesson, you will learn the first four major prepositions: فِي (in), عَلَى (on), مِنْ (from), and إِلَى (to). You will also learn how these words change the ending of the nouns they follow, and introduce basic pronouns like هُوَ (he/it) and هِيَ (she/it).",
-  reviewVocabAtEnd: true,
-  guidedPages: [
-    {
-      titleArabic: "حُرُوفُ الْجَرّ",
-      title: "Lesson 4",
-      pattern: "حُرُوفُ الْجَرّ",
-      intro: "In this lesson, you will learn the first four major prepositions: فِي (in), عَلَى (on), مِنْ (from), and إِلَى (to). You will also learn how these words change the ending of the nouns they follow, and introduce basic pronouns like هُوَ (he/it) and هِيَ (she/it).",
-      cards: [
-        {
-          icon: "📍",
-          ar: "فِي"
-        },
-        {
-          icon: "📍",
-          ar: "عَلَى"
-        },
-        {
-          icon: "📍",
-          ar: "مِنْ"
-        },
-        {
-          icon: "📍",
-          ar: "إِلَى"
-        },
-        {
-          icon: "📍",
-          ar: "أَيْنَ"
-        },
-        {
-          icon: "📍",
-          ar: "هُوَ"
-        },
-        {
-          icon: "📍",
-          ar: "هِيَ"
-        },
-        {
-          icon: "📍",
-          ar: "أَنَا"
-        }
-      ],
-      keyPoints: [
-        "حُرُوفُ الْجَرّ",
-        "The Prepositions (Harf Jar)"
-      ]
-    },
-    {
-      title: "Read the pattern",
-      pattern: "حُرُوفُ الْجَرّ",
-      intro: "Read these short lines before the Reading step. They reuse the same lesson pattern in context.",
-      groups: [
-        {
-          icon: "📘",
-          lines: [
-            {
-              ar: "مُحَمَّدٌ فِي الْغُرْفَةِ."
-            }
-          ]
-        },
-        {
-          icon: "📍",
-          lines: [
-            {
-              ar: "هُوَ عَلَى السَّرِيرِ."
-            }
-          ]
-        },
-        {
-          icon: "⭐",
-          lines: [
-            {
-              ar: "آمِنَةُ فِي الْمَطْبَخِ."
-            }
-          ]
-        },
-        {
-          icon: "🟢",
-          lines: [
-            {
-              ar: "هِيَ أَمَامَ الْمَكْتَبِ."
-            }
-          ]
-        },
-        {
-          icon: "✨",
-          lines: [
-            {
-              ar: "أَيْنَ الْكِتَابُ؟ هُوَ عَلَى الْمَكْتَبِ."
-            }
-          ]
-        }
-      ],
-      keyPoints: [
-        "The Prepositions (Harf Jar)",
-        "The Genitive Case (Majrūr)"
-      ]
-    },
-    {
-      title: "More lesson words",
-      pattern: "حُرُوفُ الْجَرّ",
-      intro: "Add these words to the same pattern. Tap the Arabic words if you need a meaning reminder.",
-      cards: [
-        {
-          icon: "📍",
-          ar: "أَنْتَ"
-        },
-        {
-          icon: "🏠",
-          ar: "الْغُرْفَةُ"
-        },
-        {
-          icon: "🏠",
-          ar: "الْحَمَّامُ"
-        },
-        {
-          icon: "🏠",
-          ar: "الْمَطْبَخُ"
-        },
-        {
-          icon: "🏠",
-          ar: "الْمِرْحَاضُ"
-        },
-        {
-          icon: "🏠",
-          ar: "الْمَدْرَسَةُ"
-        },
-        {
-          icon: "⭐",
-          ar: "الْجَامِعَةُ"
-        },
-        {
-          icon: "🟢",
-          ar: "السُّوقُ"
-        }
-      ],
-      keyPoints: [
-        "The Prepositions (Harf Jar)",
-        "The Genitive Case (Majrūr)"
-      ]
-    },
-    {
-      titleArabic: "????????",
-      title: "Quick practice",
-      pattern: "حُرُوفُ الْجَرّ",
-      intro: "Type the Arabic answer. You can type without vowels; the full answer appears after checking.",
-      tip: "Tip: focus on the structure first. Harakat can come later.",
-      exercise: [
-        {
-          icon: "✍️",
-          prompt: "Type in Arabic: \"In the house\"",
-          ideal: "فِي الْبَيْتِ",
-          accepts: [
-            "في البيت",
-            "فِي الْبَيْتِ",
-            "في البيتِ",
-            "فِي البيت"
-          ]
-        },
-        {
-          icon: "📘",
-          prompt: "Type in Arabic: \"On the desk\"",
-          ideal: "عَلَى الْمَكْتَبِ",
-          accepts: [
-            "على المكتب",
-            "عَلَى الْمَكْتَبِ",
-            "على المكتبِ",
-            "عَلَى المكتب"
-          ]
-        }
-      ]
-    }
-  ],
-  practiceQuestions: []
+  }
 };

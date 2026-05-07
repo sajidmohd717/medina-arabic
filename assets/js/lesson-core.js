@@ -14,7 +14,7 @@ let CURRENT_LESSON_NUM = null;
 let UNLOCKED_STEPS = { vocab: true, lesson: false, comprehension: false, quiz: false };
 let QUIZ_RESULTS = {};
 let COMPREHENSION_RESULTS = {};
-let CURRENT_STEP = 'vocab';
+let CURRENT_STEP = 'learn';
 
 // DOM elements (populated after load)
 let ELEMENTS = {};
@@ -92,11 +92,18 @@ function displayNumber(value) {
   return typeof toArabicNumeral === 'function' ? toArabicNumeral(value) : String(value);
 }
 
+function splitGraphemes(str) {
+  if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+    return [...new Intl.Segmenter().segment(str)].map(s => s.segment);
+  }
+  return [...str.replace(/️/g, '')];
+}
 function renderIcon(icon) {
   if (!icon) return '•';
-  const chars = [...icon];
-  if (chars.length <= 1) return icon;
-  return chars.map(c => `<span>${c}</span>`).join('');
+  if (icon.startsWith('<')) return icon;
+  const graphemes = splitGraphemes(icon);
+  if (graphemes.length <= 1) return icon;
+  return graphemes.map(c => `<span>${c}</span>`).join('');
 }
 
 function renderGuidedArabicLine(ar, vocab) {
@@ -183,7 +190,7 @@ function attachGuidedExerciseHandlers(root = document) {
 function goToStep(step) {
   if (!UNLOCKED_STEPS[step]) return;
 
-  const stepOrder = ['vocab', 'lesson', 'comprehension', 'quiz'];
+  const stepOrder = ['learn', 'lesson', 'comprehension', 'quiz'];
   const stepIndex = stepOrder.indexOf(step);
 
   stepOrder.forEach(s => {
@@ -233,7 +240,7 @@ function unlockAndGo(step) {
 /** Open all steps and go straight to the quiz (used with ?step=quiz from the book list). */
 function applyQuizJumpMode() {
   UNLOCKED_STEPS = { vocab: true, lesson: true, comprehension: true, quiz: true };
-  ['vocab', 'lesson', 'comprehension', 'quiz'].forEach(step => {
+  ['learn', 'lesson', 'comprehension', 'quiz'].forEach(step => {
     const btn = document.getElementById(`step-${step}`);
     if (btn) btn.classList.remove('locked');
   });
@@ -255,11 +262,12 @@ function setupLessonIntro() {
     return;
   }
 
-  if (shouldSkipLessonIntro()) {
-    intro.hidden = true;
-    page.classList.remove('is-waiting');
-    return;
-  }
+  const resumeKey = guidedResumeKey();
+  const savedStep = localStorage.getItem(lessonStepKey()) || 'learn';
+  const hasProgress = !!(resumeKey && localStorage.getItem(resumeKey) === 'active'
+    && (loadGuidedPage() > 0 || savedStep !== 'learn'));
+  const isCompleted = typeof getLessonStatus === 'function'
+    && getLessonStatus(CURRENT_LESSON_NUM, CURRENT_BOOK) === 'complete';
 
   const bookNum = CURRENT_BOOK.replace('book', '');
   const eyebrow = document.getElementById('lessonIntroEyebrow');
@@ -268,29 +276,55 @@ function setupLessonIntro() {
   const summary = document.getElementById('lessonIntroSummary');
   const mark = intro.querySelector('.lesson-intro-mark');
   const continueBtn = document.getElementById('lessonIntroContinue');
+  const restartBtn = document.getElementById('lessonIntroRestart');
 
   if (eyebrow) eyebrow.textContent = `Book ${displayNumber(bookNum)} · Lesson ${displayNumber(CURRENT_LESSON_NUM)}`;
   if (title) title.textContent = CURRENT_LESSON_DATA.titleArabic;
   if (english) english.textContent = CURRENT_LESSON_DATA.titleEnglish;
   if (summary) summary.textContent = CURRENT_LESSON_DATA.summary;
-  if (mark) mark.textContent = CURRENT_LESSON_DATA.titleArabic;
+  if (mark) mark.textContent = CURRENT_LESSON_DATA.guidedPattern || CURRENT_LESSON_DATA.titleArabic;
+
+  if (hasProgress) {
+    if (continueBtn) continueBtn.textContent = 'Continue';
+    if (restartBtn) restartBtn.hidden = false;
+  }
 
   page.classList.add('is-waiting');
   intro.hidden = false;
 
+  function dismissIntro(callback) {
+    intro.classList.add('is-leaving');
+    window.setTimeout(() => {
+      intro.hidden = true;
+      intro.classList.remove('is-leaving');
+      page.classList.remove('is-waiting');
+      page.classList.add('is-entering');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.setTimeout(() => page.classList.remove('is-entering'), 480);
+      callback();
+    }, 320);
+  }
+
   if (continueBtn) {
     continueBtn.addEventListener('click', () => {
-      intro.classList.add('is-leaving');
-      window.setTimeout(() => {
-        intro.hidden = true;
-        intro.classList.remove('is-leaving');
-        page.classList.remove('is-waiting');
-        page.classList.add('is-entering');
+      dismissIntro(() => {
+        if (hasProgress) {
+          restoreLessonResume();
+        } else {
+          saveGuidedPage(0);
+          saveLessonStep('learn');
+        }
+      });
+    }, { once: true });
+  }
+
+  if (restartBtn) {
+    restartBtn.addEventListener('click', () => {
+      dismissIntro(() => {
+        clearGuidedResume();
         saveGuidedPage(0);
-        saveLessonStep('vocab');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        window.setTimeout(() => page.classList.remove('is-entering'), 480);
-      }, 320);
+        saveLessonStep('learn');
+      });
     }, { once: true });
   }
 }
@@ -763,7 +797,7 @@ function buildVocabRatingLayout(data, slot, hintText) {
 // ─────────────────────────────────────────────────────────────
 
 function buildVocabularyPanel(data) {
-  const slot = document.querySelector('#panel-vocab .vocab-grid');
+  const slot = document.querySelector('#panel-learn .vocab-grid');
   if (!slot) return;
 
   slot.className = 'vocab-layout';
@@ -771,7 +805,7 @@ function buildVocabularyPanel(data) {
   slot._vocabCtx = null;
 
   if (data.guidedPages && data.guidedPages.length) {
-    const panelNav = document.querySelector('#panel-vocab > .panel-nav');
+    const panelNav = document.querySelector('#panel-learn > .panel-nav');
     if (panelNav) panelNav.hidden = true;
 
     const pager = document.createElement('section');
@@ -784,7 +818,7 @@ function buildVocabularyPanel(data) {
       const total = data.guidedPages.length;
       const cardsHtml = (page.cards || []).map(item => `
         <article class="guided-sentence-card">
-          <div class="guided-sentence-visual${item.icon && [...item.icon].length > 1 ? ' guided-sentence-visual--multi' : ''}" aria-hidden="true">${renderIcon(item.icon)}</div>
+          <div class="guided-sentence-visual${item.icon && !item.icon.startsWith('<') && splitGraphemes(item.icon).length > 1 ? ' guided-sentence-visual--multi' : ''}" aria-hidden="true">${renderIcon(item.icon)}</div>
           <div class="guided-sentence-body">
             ${renderGuidedArabicLine(item.ar, data.vocab)}
           </div>
@@ -807,7 +841,7 @@ function buildVocabularyPanel(data) {
 
       const groupsHtml = (page.groups || []).map(group => `
         <article class="guided-qa-card">
-          <div class="guided-sentence-visual${group.icon && [...group.icon].length > 1 ? ' guided-sentence-visual--multi' : ''}" aria-hidden="true">${renderIcon(group.icon)}</div>
+          <div class="guided-sentence-visual${group.icon && !group.icon.startsWith('<') && splitGraphemes(group.icon).length > 1 ? ' guided-sentence-visual--multi' : ''}" aria-hidden="true">${renderIcon(group.icon)}</div>
           <div class="guided-qa-body">
             ${(group.lines || []).map(line => `
               <div class="guided-qa-line${line.isPrompt ? ' guided-qa-line--prompt' : ''}">
@@ -822,7 +856,7 @@ function buildVocabularyPanel(data) {
       const exerciseHtml = exerciseItems.map((item, i) => {
         const eid = `ex_${pageIndex}_${i}`;
         const promptText = item.prompt || 'مَا هٰذَا؟';
-        const placeholder = promptText.includes('أَهٰذَا') ? 'نَعَمْ / لا ...' : 'هٰذَا ...';
+        const placeholder = item.placeholder || (promptText.includes('أَهٰذَا') ? 'نَعَمْ / لا ...' : 'هٰذَا ...');
         const acceptsPayload = encodeExercisePayload(item.accepts);
         return `
           <article class="guided-exercise-card" id="card_${eid}" data-exercise-id="${eid}" data-accepts="${acceptsPayload}" data-total="${exerciseItems.length}">
@@ -932,7 +966,7 @@ function buildVocabularyPanel(data) {
       const card = document.createElement('article');
       card.className = 'guided-sentence-card';
       card.innerHTML = `
-        <div class="guided-sentence-visual${item.icon && [...item.icon].length > 1 ? ' guided-sentence-visual--multi' : ''}" aria-hidden="true">${renderIcon(item.icon)}</div>
+        <div class="guided-sentence-visual${item.icon && !item.icon.startsWith('<') && splitGraphemes(item.icon).length > 1 ? ' guided-sentence-visual--multi' : ''}" aria-hidden="true">${renderIcon(item.icon)}</div>
         <div class="guided-sentence-body">
           <div class="guided-sentence-arabic">${annotateArabicText(item.ar, data.vocab)}</div>
           <div class="guided-sentence-trans">${item.trans}</div>
@@ -1080,7 +1114,8 @@ function buildQuizPanel(data) {
     const qNum = conceptCount + idx + 1;
     const optionsHtml = q.options.map((opt, optIdx) => {
       const isCorrect = optIdx === q.correct;
-      return `<button class="quiz-option" onclick="checkQuiz(this, ${qNum}, ${isCorrect})">${opt}</button>`;
+      const isArabic = /[؀-ۿ]/.test(opt);
+      return `<button class="quiz-option${isArabic ? ' quiz-option--arabic' : ''}" onclick="checkQuiz(this, ${qNum}, ${isCorrect})">${opt}</button>`;
     }).join('');
     html += `
       <div class="quiz-question" id="qq${qNum}">
@@ -1137,7 +1172,7 @@ function initLesson() {
   setupLessonIntro();
 
   if (CURRENT_LESSON_DATA.guidedSentences && CURRENT_LESSON_DATA.guidedSentences.length) {
-    const vocabStepLabel = document.querySelector('#step-vocab .step-label');
+    const vocabStepLabel = document.querySelector('#step-learn .step-label');
     const lessonStepLabel = document.querySelector('#step-lesson .step-label');
     if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
     if (lessonStepLabel) lessonStepLabel.textContent = 'Questions';
@@ -1145,7 +1180,7 @@ function initLesson() {
 
   if (CURRENT_LESSON_DATA.guidedPages && CURRENT_LESSON_DATA.guidedPages.length) {
     const lessonStepLabel = document.querySelector('#step-lesson .step-label');
-    const vocabStepLabel = document.querySelector('#step-vocab .step-label');
+    const vocabStepLabel = document.querySelector('#step-learn .step-label');
     const readingBackBtn = document.querySelector('#panel-comprehension .btn-secondary');
     if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
     if (lessonStepLabel) lessonStepLabel.textContent = 'Concepts';
@@ -1416,8 +1451,8 @@ function shouldSkipLessonIntro() {
   if (!resumeKey || localStorage.getItem(resumeKey) !== 'active') return false;
   const savedPage = loadGuidedPage();
   if (savedPage > 0) return true;
-  const savedStep = localStorage.getItem(lessonStepKey()) || 'vocab';
-  return savedStep !== 'vocab';
+  const savedStep = localStorage.getItem(lessonStepKey()) || 'learn';
+  return savedStep !== 'learn';
 }
 
 function restoreLessonResume() {
@@ -1425,8 +1460,8 @@ function restoreLessonResume() {
   const stepKey = lessonStepKey();
   if (!resumeKey || localStorage.getItem(resumeKey) !== 'active') return;
 
-  const savedStep = localStorage.getItem(stepKey) || 'vocab';
-  const stepOrder = ['vocab', 'lesson', 'comprehension', 'quiz'];
+  const savedStep = localStorage.getItem(stepKey) || 'learn';
+  const stepOrder = ['learn', 'lesson', 'comprehension', 'quiz'];
   const targetIndex = stepOrder.indexOf(savedStep);
   if (targetIndex <= 0) return;
 
