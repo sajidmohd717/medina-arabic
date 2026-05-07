@@ -389,11 +389,76 @@ function checkTyping(qNum, questionData) {
   }
 }
 
+function playPassSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Each note: sine fundamental + quiet octave harmonic = clean bell/marimba hit
+    function hit(freq, t, vol = 0.28, dur = 0.38) {
+      [[freq, vol], [freq * 2, vol * 0.12]].forEach(([f, v]) => {
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.value = f;
+        const s = ctx.currentTime + t;
+        gain.gain.setValueAtTime(0, s);
+        gain.gain.linearRampToValueAtTime(v, s + 0.006);   // snappy attack
+        gain.gain.exponentialRampToValueAtTime(0.001, s + dur);
+        osc.start(s);
+        osc.stop(s + dur + 0.02);
+      });
+    }
+
+    // E5 → G5 → C6 (with C5 under it for warmth) — tight and bright
+    hit(659.25, 0.00, 0.22, 0.30);   // E5
+    hit(783.99, 0.10, 0.25, 0.30);   // G5
+    hit(1046.5, 0.20, 0.28, 0.50);   // C6  ┐ resolution chord
+    hit(523.25, 0.20, 0.14, 0.50);   // C5  ┘
+  } catch (e) { /* audio unavailable — fail silently */ }
+}
+
+function checkConcept(btn, qNum, isCorrect, conceptIdx) {
+  const container = btn.closest('.quiz-question');
+  const feedback = container.querySelector('.quiz-feedback');
+  const btns = container.querySelectorAll('.concept-btn');
+  const explanation = CURRENT_LESSON_DATA.quizQuestions.conceptCheck[conceptIdx].explanation;
+
+  btns.forEach(b => b.disabled = true);
+  QUIZ_RESULTS[qNum] = isCorrect;
+
+  const label = isCorrect ? '✓ Correct!' : '✗ Not quite.';
+  const expId = `concept-exp-${qNum}`;
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    feedback.className = 'quiz-feedback correct';
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b => { if (b !== btn) b.classList.add('correct'); });
+    feedback.className = 'quiz-feedback wrong';
+  }
+
+  feedback.innerHTML = `
+    ${label}
+    <button class="concept-learn-more" onclick="
+      const el = document.getElementById('${expId}');
+      const open = el.style.display !== 'none';
+      el.style.display = open ? 'none' : 'block';
+      this.textContent = open ? 'Learn more ›' : 'Hide ‹';
+    ">Learn more ›</button>
+    <span class="quiz-concept-explanation" id="${expId}" style="display:none;">${explanation}</span>
+  `;
+}
+
 function submitQuiz() {
   // Auto-check any unanswered typing questions
   if (CURRENT_LESSON_DATA.quizQuestions.typing) {
+    const ccCount = (CURRENT_LESSON_DATA.quizQuestions.conceptCheck || []).length;
+    const mcLen = CURRENT_LESSON_DATA.quizQuestions.multipleChoice.length;
     CURRENT_LESSON_DATA.quizQuestions.typing.forEach((q, idx) => {
-      const qNum = idx + 1 + CURRENT_LESSON_DATA.quizQuestions.multipleChoice.length;
+      const qNum = ccCount + mcLen + idx + 1;
       if (QUIZ_RESULTS[qNum] === null) {
         checkTyping(qNum, q);
       }
@@ -426,6 +491,7 @@ function submitQuiz() {
   if (submitBtn) submitBtn.style.display = 'none';
   
   if (passed) {
+    playPassSound();
     if (typeof markComplete === 'function') {
       markComplete(CURRENT_LESSON_NUM, CURRENT_BOOK);
       clearGuidedResume();
@@ -447,18 +513,32 @@ function submitQuiz() {
 }
 
 function retryQuiz() {
+  const ccCount = (CURRENT_LESSON_DATA.quizQuestions.conceptCheck || []).length;
   const mcCount = CURRENT_LESSON_DATA.quizQuestions.multipleChoice.length;
   const typingCount = CURRENT_LESSON_DATA.quizQuestions.typing.length;
-  
+
+  // Reset concept check questions (now first in the quiz)
+  for (let i = 0; i < ccCount; i++) {
+    const qNum = i + 1;
+    QUIZ_RESULTS[qNum] = null;
+    const fb = document.getElementById(`qf${qNum}`);
+    if (fb) { fb.textContent = ''; fb.className = 'quiz-feedback'; }
+    const container = document.getElementById(`qq${qNum}`);
+    if (container) {
+      container.querySelectorAll('.concept-btn').forEach(b => {
+        b.disabled = false;
+        b.classList.remove('correct', 'wrong');
+      });
+    }
+  }
+
   // Reset multiple choice questions
   for (let i = 1; i <= mcCount; i++) {
-    QUIZ_RESULTS[i] = null;
-    const fb = document.getElementById(`qf${i}`);
-    if (fb) {
-      fb.textContent = '';
-      fb.className = 'quiz-feedback';
-    }
-    const container = document.getElementById(`qq${i}`);
+    const qNum = ccCount + i;
+    QUIZ_RESULTS[qNum] = null;
+    const fb = document.getElementById(`qf${qNum}`);
+    if (fb) { fb.textContent = ''; fb.className = 'quiz-feedback'; }
+    const container = document.getElementById(`qq${qNum}`);
     if (container) {
       container.querySelectorAll('.quiz-option').forEach(o => {
         o.disabled = false;
@@ -466,39 +546,26 @@ function retryQuiz() {
       });
     }
   }
-  
+
   // Reset typing questions
   for (let i = 1; i <= typingCount; i++) {
-    const qNum = mcCount + i;
+    const qNum = ccCount + mcCount + i;
     QUIZ_RESULTS[qNum] = null;
     const input = document.getElementById(`qi${qNum}`);
     const fb = document.getElementById(`qf${qNum}`);
     const ideal = document.getElementById(`ideal${qNum}`);
     const btn = document.getElementById(`checkBtn${qNum}`);
-    if (input) {
-      input.value = '';
-      input.disabled = false;
-      input.classList.remove('correct', 'wrong');
-    }
-    if (fb) {
-      fb.textContent = '';
-      fb.className = 'quiz-feedback';
-    }
-    if (ideal) {
-      ideal.style.display = 'none';
-      ideal.textContent = '';
-    }
-    if (btn) {
-      btn.disabled = false;
-      btn.style.opacity = '1';
-    }
+    if (input) { input.value = ''; input.disabled = false; input.classList.remove('correct', 'wrong'); }
+    if (fb) { fb.textContent = ''; fb.className = 'quiz-feedback'; }
+    if (ideal) { ideal.style.display = 'none'; ideal.textContent = ''; }
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
   }
-  
+
   const scoreCard = document.getElementById('scoreCard');
   const submitBtn = document.getElementById('submitQuizBtn');
   if (scoreCard) scoreCard.style.display = 'none';
   if (submitBtn) submitBtn.style.display = 'inline-block';
-  
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -913,23 +980,42 @@ function buildQuizPanel(data) {
 
   const mcCount = data.quizQuestions.multipleChoice.length;
   const typingCount = data.quizQuestions.typing.length;
-  const total = mcCount + typingCount;
+  const conceptCount = (data.quizQuestions.conceptCheck || []).length;
+  const total = mcCount + typingCount + conceptCount;
   const quizTotalLabel = document.getElementById('quizTotalLabel');
   if (quizTotalLabel) {
     quizTotalLabel.textContent = `${displayNumber(total)} questions. Score ${displayNumber(data.passMark)} or more to pass.`;
   }
   
   let html = '';
-  let qCounter = 1;
-  
+
+  // Concept check (True/False grammar questions) — rendered first
+  (data.quizQuestions.conceptCheck || []).forEach((q, idx) => {
+    const qNum = idx + 1;
+    const trueIsCorrect = q.correct === true;
+    html += `
+      <div class="quiz-question" id="qq${qNum}">
+        <div class="quiz-q-number">
+          <span class="concept-check-tag">Grammar Check</span>
+          Question ${displayNumber(qNum)} of ${displayNumber(total)}
+        </div>
+        <div class="concept-stmt">${q.statement}</div>
+        <div class="concept-btn-row">
+          <button class="concept-btn" onclick="checkConcept(this, ${qNum}, ${trueIsCorrect}, ${idx})">✓ True</button>
+          <button class="concept-btn" onclick="checkConcept(this, ${qNum}, ${!trueIsCorrect}, ${idx})">✗ False</button>
+        </div>
+        <div class="quiz-feedback" id="qf${qNum}"></div>
+      </div>
+    `;
+  });
+
   // Multiple choice questions
   data.quizQuestions.multipleChoice.forEach((q, idx) => {
-    const qNum = idx + 1;
+    const qNum = conceptCount + idx + 1;
     const optionsHtml = q.options.map((opt, optIdx) => {
       const isCorrect = optIdx === q.correct;
       return `<button class="quiz-option" onclick="checkQuiz(this, ${qNum}, ${isCorrect})">${opt}</button>`;
     }).join('');
-    
     html += `
       <div class="quiz-question" id="qq${qNum}">
         <div class="quiz-q-number">Question ${displayNumber(qNum)} of ${displayNumber(total)}</div>
@@ -939,12 +1025,11 @@ function buildQuizPanel(data) {
         <div class="quiz-feedback" id="qf${qNum}"></div>
       </div>
     `;
-    qCounter++;
   });
-  
+
   // Typing questions
   data.quizQuestions.typing.forEach((q, idx) => {
-    const qNum = mcCount + idx + 1;
+    const qNum = conceptCount + mcCount + idx + 1;
     html += `
       <div class="quiz-question" id="qq${qNum}">
         <div class="quiz-q-number">Question ${displayNumber(qNum)} of ${displayNumber(total)}</div>
@@ -960,11 +1045,10 @@ function buildQuizPanel(data) {
         <div class="quiz-ideal" id="ideal${qNum}" style="display:none; margin-top:0.5rem; font-family:'Amiri',serif; font-size:1.15rem; color:var(--text-mid); direction:rtl; text-align:right;"></div>
       </div>
     `;
-    qCounter++;
   });
-  
+
   quizContainer.innerHTML = html;
-  
+
   // Initialize QUIZ_RESULTS
   for (let i = 1; i <= total; i++) {
     QUIZ_RESULTS[i] = null;

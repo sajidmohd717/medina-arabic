@@ -9,8 +9,8 @@ const LESSON_DATA = {
   titleEnglish: 'This is...',
   summary: 'Begin with one useful Arabic pattern: هٰذَا + nounٌ. You will learn to say "This is a..." and ask simple questions like "What is this?" and "Is this a...?"',
   nextLesson: 'b1-lesson2.html',
-  passMark: 5,
-  totalQuestions: 8,
+  passMark: 8,
+  totalQuestions: 11,
 
   guidedPattern: 'هٰذَا + اِسْمٌ',
   guidedIntro: 'The first win is simple: هٰذَا means "this", and the noun after it names the thing. Tap any Arabic word in the cards to check its meaning.',
@@ -373,6 +373,23 @@ const LESSON_DATA = {
     typing: [
       { prompt: 'Type in Arabic: "This is a house."', ideal: 'هٰذَا بَيْتٌ', accepts: ['هذا بيت', 'هٰذَا بَيْتٌ', 'هذا بيتٌ', 'هَذَا بَيْتٌ', 'هَذَا بيت'] },
       { prompt: 'Type in Arabic: "What is this?"', ideal: 'مَا هٰذَا؟', accepts: ['ما هذا', 'مَا هٰذَا؟', 'مَا هَذَا؟', 'ما هٰذا'] }
+    ],
+    conceptCheck: [
+      {
+        statement: 'Arabic does not need a separate word for "is" in sentences like هٰذَا بَيْتٌ.',
+        correct: true,
+        explanation: 'هٰذَا and the noun placed side by side is enough. Arabic has no word for "is" in this pattern — the meaning is carried by the word order itself.'
+      },
+      {
+        statement: 'مَا هٰذَا؟ means "Is this a house?"',
+        correct: false,
+        explanation: 'مَا هٰذَا؟ means "What is this?" — it asks for the identity of something. To ask "Is this a house?" you add أَ to the start: أَهٰذَا بَيْتٌ؟'
+      },
+      {
+        statement: 'Adding أَ to the beginning of a sentence turns it into a yes/no question.',
+        correct: true,
+        explanation: 'أَهٰذَا بَيْتٌ؟ means "Is this a house?" The أَ at the start is the question marker. You answer with نَعَمْ (yes) or لا (no).'
+      }
     ]
   }
 };
