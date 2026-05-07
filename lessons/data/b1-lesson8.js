@@ -3,453 +3,380 @@
    ============================================================ */
 
 const LESSON_DATA = {
-  book: "book1",
+  book: 'book1',
   lessonNum: 8,
-  titleArabic: "Ø§Ù„Ù’Ø­ÙØ±ÙÙˆÙÙ Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³ÙÙŠÙŽÙ‘Ø©Ù ÙˆÙŽØ§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±ÙÙŠÙŽÙ‘Ø©Ù",
-  titleEnglish: "Sun and Moon Letters",
-  summary: "In this lesson, you will learn the rules of pronunciation for the definite article Ø§Ù„ (al-). Some letters cause the \"L\" to become silent and double the following letter (Sun Letters), while others keep the \"L\" sound clear (Moon Letters).",
-  nextLesson: "b1-lesson9.html",
+  titleArabic: 'الحُرُوفُ الشَّمْسِيَّةُ وَالقَمَرِيَّةُ',
+  titleEnglish: 'Sun and Moon Letters',
+  summary: 'Learn how الـ (the definite article) changes its pronunciation depending on the letter that follows. Sun letters swallow the ل sound; moon letters keep it. Master the 14 sun letters and their doubled sound.',
+  nextLesson: 'b1-lesson9.html',
   passMark: 8,
   totalQuestions: 11,
-  vocab: [
+
+  guidedPattern: 'الشَّمْسُ / القَمَرُ',
+  guidedIntro: 'الـ = "the." But sometimes the ل is silent and the next letter doubles — that is the sun letter rule.',
+  reviewVocabAtEnd: true,
+  milestoneAfterPage: 4,
+
+  guidedPages: [
     {
-      ar: "Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù",
-      trans: "ash-shamsu",
-      meaning: "The sun",
-      type: "Noun"
+      titleArabic: 'الحُرُوفُ الشَّمْسِيَّةُ وَالقَمَرِيَّةُ',
+      title: 'Lesson Eight',
+      pattern: 'الشَّمْسُ وَالقَمَرُ',
+      intro: 'Listen to the difference: الشَّمْسُ (ash-shamsu — the ل is silent) vs. القَمَرُ (al-qamaru — the ل is pronounced).',
+      groups: [
+        { type: 'scene', text: 'Sun letters make the ل of ال silent. The letter doubles instead.' },
+        {
+          icon: '☀️',
+          role: 'teacher',
+          lines: [
+            { ar: 'الشَّمْسُ — ash-shamsu (the sun)' },
+            { ar: 'الرَّجُلُ — ar-rajulu (the man)' },
+            { ar: 'الدَّارُ — ad-dāru (the house)' }
+          ]
+        },
+        {
+          icon: '🌙',
+          role: 'student',
+          lines: [
+            { ar: 'القَمَرُ — al-qamaru (the moon)' },
+            { ar: 'الكِتَابُ — al-kitābu (the book)' },
+            { ar: 'البَيْتُ — al-baytu (the house)' }
+          ]
+        },
+        { type: 'callout', icon: '💡', title: 'The key idea', body: '<strong>Sun letters</strong> = the ل is silent, the letter doubles with shadda.<br><strong>Moon letters</strong> = the ل is pronounced clearly.' }
+      ],
+      exerciseIntro: 'Say each word aloud — which has a silent ل?',
+      exercise: [
+        {
+          icon: '☀️',
+          prompt: 'الشَّمْسُ — is ل silent or pronounced?',
+          placeholder: 'silent / pronounced',
+          ideal: 'silent',
+          accepts: ['silent', 'Silent', 'ساكن', 'ساكنة']
+        },
+        {
+          icon: '🌙',
+          prompt: 'القَمَرُ — is ل silent or pronounced?',
+          placeholder: 'silent / pronounced',
+          ideal: 'pronounced',
+          accepts: ['pronounced', 'Pronounced', 'منطوق', 'منطوقة']
+        }
+      ],
+      keyPoints: [
+        'الشَّمْس = ash-shams (ل silent) — sun letter',
+        'القَمَر = al-qamar (ل pronounced) — moon letter'
+      ]
     },
     {
-      ar: "Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù",
-      trans: "ar-rajulu",
-      meaning: "The man",
-      type: "Noun"
+      title: 'Sun Letters (14)',
+      pattern: 'ت ث د ذ ر ز س ش ص ض ط ظ ل ن',
+      intro: 'These 14 letters eat the ل. The letter doubles with shadda.',
+      cards: [
+        { icon: '☀️', ar: 'التَّاجِرُ — at-tājiru' },
+        { icon: '☀️', ar: 'الثَّوْبُ — ath-thawbu' },
+        { icon: '☀️', ar: 'الدِّيكُ — ad-dīku' },
+        { icon: '☀️', ar: 'الذَّهَبُ — adh-dhahabu' },
+        { icon: '☀️', ar: 'الرَّجُلُ — ar-rajulu' },
+        { icon: '☀️', ar: 'الزَّهْرَةُ — az-zahratu' },
+        { icon: '☀️', ar: 'السَّمَكُ — as-samaku' },
+        { icon: '☀️', ar: 'الشَّمْسُ — ash-shamsu' }
+      ],
+      keyPoints: [
+        'ت ث د ذ ر ز س ش ص ض ط ظ ل ن = الحروف الشمسية',
+        'Memorise: the ل of ال is silent → letter doubles'
+      ]
     },
     {
-      ar: "Ø§Ù„Ø¯ÙŽÙ‘Ø§Ø±Ù",
-      trans: "ad-dÄru",
-      meaning: "The house / abode",
-      type: "Noun"
+      title: 'Moon Letters (14)',
+      pattern: 'أ ب ج ح خ ع غ ف ق ك م ه و ي',
+      intro: 'These 14 letters keep the ل clear and distinct.',
+      cards: [
+        { icon: '🌙', ar: 'الأُسْتَاذُ — al-ustādhu' },
+        { icon: '🌙', ar: 'البَابُ — al-bābu' },
+        { icon: '🌙', ar: 'الجَبَلُ — al-jabalu' },
+        { icon: '🌙', ar: 'الحِمَارُ — al-ḥimāru' },
+        { icon: '🌙', ar: 'الخُبْزُ — al-khubzu' },
+        { icon: '🌙', ar: 'العَيْنُ — al-ʿaynu' },
+        { icon: '🌙', ar: 'القَمَرُ — al-qamaru' },
+        { icon: '🌙', ar: 'الكَلْبُ — al-kalbu' }
+      ],
+      keyPoints: [
+        'أ ب ج ح خ ع غ ف ق ك م ه و ي = الحروف القمرية',
+        'The ل of ال is pronounced clearly'
+      ]
     },
     {
-      ar: "Ø§Ù„Ø«ÙŽÙ‘ÙˆÙ’Ø¨Ù",
-      trans: "ath-thawbu",
-      meaning: "The garment",
-      type: "Noun"
+      title: 'Sun or Moon?',
+      pattern: 'Choose the right group',
+      intro: 'Tap the correct category for each letter. Is it a sun letter or a moon letter?',
+      wordBank: ['شمسي', 'قمري'],
+      tapFill: [
+        { parts: ['حرف الـ', null, ' في: الشَّمْس'], answer: 'شمسي' },
+        { parts: ['حرف الـ', null, ' في: القَمَر'], answer: 'قمري' },
+        { parts: ['حرف الـ', null, ' في: الرَّجُل'], answer: 'شمسي' },
+        { parts: ['حرف الـ', null, ' في: الكِتَاب'], answer: 'قمري' },
+        { parts: ['حرف الـ', null, ' في: النَّجْم'], answer: 'شمسي' },
+        { parts: ['حرف الـ', null, ' في: البَيْت'], answer: 'قمري' },
+        { parts: ['حرف الـ', null, ' في: الطَّالِب'], answer: 'شمسي' },
+        { parts: ['حرف الـ', null, ' في: المَسْجِد'], answer: 'قمري' },
+        { parts: ['حرف الـ', null, ' في: السَّيَّارَة'], answer: 'شمسي' },
+        { parts: ['حرف الـ', null, ' في: الوَلَد'], answer: 'قمري' }
+      ],
+      keyPoints: [
+        'If ل is silent = sun letter (شمسي)',
+        'If ل is pronounced = moon letter (قمري)'
+      ]
     },
     {
-      ar: "Ø§Ù„Ø²ÙŽÙ‘Ù‡Ù’Ø±ÙŽØ©Ù",
-      trans: "az-zahratu",
-      meaning: "The flower",
-      type: "Noun"
+      title: 'Read the Pattern',
+      pattern: 'Sun and moon in sentences',
+      intro: 'Read these sentences. Notice where the ل is silent (sun) and where it is pronounced (moon).',
+      groups: [
+        {
+          icon: '☀️',
+          lines: [
+            { ar: 'الشَّمْسُ فِي السَّمَاءِ.' }
+          ]
+        },
+        {
+          icon: '🌙',
+          lines: [
+            { ar: 'القَمَرُ جَمِيلٌ اللَّيْلَةَ.' }
+          ]
+        },
+        {
+          icon: '🐟',
+          lines: [
+            { ar: 'السَّمَكُ فِي المَاءِ.' }
+          ]
+        },
+        {
+          icon: '👨',
+          lines: [
+            { ar: 'الرَّجُلُ عَلَى الطَّرِيقِ.' }
+          ]
+        },
+        {
+          icon: '🌹',
+          lines: [
+            { ar: 'الزَّهْرَةُ جَمِيلَةٌ فِي الجَنَّةِ.' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'ash-shamsu (sun ل) — al-qamaru (moon ل)',
+        'as-samaku (sun ل) — al-māʾi (moon ل)'
+      ]
     },
     {
-      ar: "Ø§Ù„Ø³ÙŽÙ‘Ù…ÙŽÙƒÙ",
-      trans: "as-samaku",
-      meaning: "The fish",
-      type: "Noun"
+      title: 'More Reading',
+      pattern: 'Mixed practice',
+      intro: 'Each sentence has both sun and moon letters. Read aloud and feel the difference.',
+      groups: [
+        {
+          icon: '🍞',
+          lines: [
+            { ar: 'الخُبْزُ عَلَى المَكْتَبِ.' }
+          ]
+        },
+        {
+          icon: '🏠',
+          lines: [
+            { ar: 'الدَّارُ قَرِيبَةٌ مِنَ المَدْرَسَةِ.' }
+          ]
+        },
+        {
+          icon: '🕌',
+          lines: [
+            { ar: 'الإِمَامُ فِي المَسْجِدِ.' }
+          ]
+        },
+        {
+          icon: '🧑‍🎓',
+          lines: [
+            { ar: 'الطَّالِبُ يَقْرَأُ الكِتَابَ.' }
+          ]
+        },
+        {
+          icon: '🌤️',
+          lines: [
+            { ar: 'الجَوُّ جَمِيلٌ وَالشَّمْسُ مُشْرِقَةٌ.' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'Sun: lām silent, letter doubled (shadda)',
+        'Moon: lām pronounced clearly'
+      ]
     },
     {
-      ar: "Ø§Ù„Ø¸ÙÙ‘Ù‡Ù’Ø±Ù",
-      trans: "aáº“-áº“uhru",
-      meaning: "Noon / Midday",
-      type: "Noun"
-    },
-    {
-      ar: "Ø§Ù„Ù„ÙŽÙ‘Ø­Ù’Ù…Ù",
-      trans: "al-laá¸¥mu",
-      meaning: "The meat",
-      type: "Noun"
-    },
-    {
-      ar: "Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù",
-      trans: "al-qamaru",
-      meaning: "The moon",
-      type: "Noun"
-    },
-    {
-      ar: "Ø§Ù„Ù’Ù‡ÙŽÙˆÙŽØ§Ø¡Ù",
-      trans: "al-hawÄ'u",
-      meaning: "The air",
-      type: "Noun"
-    },
-    {
-      ar: "Ø§Ù„Ù’ÙŠÙŽØ¯Ù",
-      trans: "al-yadu",
-      meaning: "The hand",
-      type: "Noun"
-    },
-    {
-      ar: "Ø§Ù„Ù’ØºÙŽØ¯ÙŽØ§Ø¡Ù",
-      trans: "al-ghadÄ'u",
-      meaning: "The lunch",
-      type: "Noun"
-    },
-    {
-      ar: "Ø§Ù„Ù’ÙÙŽÙ…Ù",
-      trans: "al-famu",
-      meaning: "The mouth",
-      type: "Noun"
-    },
-    {
-      ar: "Ø§Ù„Ù’Ù…ÙŽØ§Ø¡Ù",
-      trans: "al-mÄ'u",
-      meaning: "The water",
-      type: "Noun"
-    },
-    {
-      ar: "Ø§Ù„Ù’Ø¹ÙŽÙŠÙ’Ù†Ù",
-      trans: "al-Ê¿aynu",
-      meaning: "The eye",
-      type: "Noun"
-    },
-    {
-      ar: "Ø§Ù„Ù’Ø¬ÙŽÙ†ÙŽÙ‘Ø©Ù",
-      trans: "al-jannatu",
-      meaning: "The garden / Paradise",
-      type: "Noun"
+      titleArabic: 'تَمْرِين',
+      title: 'Practice',
+      pattern: 'Reading sun and moon words',
+      intro: 'Type the word with shadda on the sun letter if needed, or with clear ل for moon letters.',
+      tip: 'Tip: if the first letter of the noun is a sun letter, the ل is silent and the letter doubles.',
+      exercise: [
+        {
+          icon: '☀️',
+          prompt: 'Type: "the sun" (with shadda)',
+          ideal: 'الشَّمْسُ',
+          accepts: ['الشمس', 'الشَّمْسُ', 'الشمسُ']
+        },
+        {
+          icon: '🌙',
+          prompt: 'Type: "the moon"',
+          ideal: 'القَمَرُ',
+          accepts: ['القمر', 'القَمَرُ', 'القمرُ']
+        },
+        {
+          icon: '🐟',
+          prompt: 'Type: "the fish" (sun letter س)',
+          ideal: 'السَّمَكُ',
+          accepts: ['السمك', 'السَّمَكُ', 'السمكُ']
+        },
+        {
+          icon: '👨',
+          prompt: 'Type: "the man" (sun letter ر)',
+          ideal: 'الرَّجُلُ',
+          accepts: ['الرجل', 'الرَّجُلُ', 'الرجلُ']
+        }
+      ]
     }
   ],
+
+  vocab: [
+    { ar: 'الشَّمْسُ', trans: 'ash-shamsu', meaning: 'The sun (sun ل)', type: 'Noun' },
+    { ar: 'القَمَرُ', trans: 'al-qamaru', meaning: 'The moon (moon ل)', type: 'Noun' },
+    { ar: 'الرَّجُلُ', trans: 'ar-rajulu', meaning: 'The man', type: 'Noun' },
+    { ar: 'الدَّارُ', trans: 'ad-dāru', meaning: 'The house / home', type: 'Noun' },
+    { ar: 'الثَّوْبُ', trans: 'ath-thawbu', meaning: 'The garment', type: 'Noun' },
+    { ar: 'الزَّهْرَةُ', trans: 'az-zahratu', meaning: 'The flower', type: 'Noun' },
+    { ar: 'السَّمَكُ', trans: 'as-samaku', meaning: 'The fish', type: 'Noun' },
+    { ar: 'الظُّهْرُ', trans: 'aẓ-ẓuhru', meaning: 'The noon', type: 'Noun' },
+    { ar: 'اللَّحْمُ', trans: 'al-laḥmu', meaning: 'The meat', type: 'Noun' },
+    { ar: 'الهَوَاءُ', trans: 'al-hawāʾu', meaning: 'The air', type: 'Noun' },
+    { ar: 'اليَدُ', trans: 'al-yadu', meaning: 'The hand', type: 'Noun' },
+    { ar: 'الغَدَاءُ', trans: 'al-ghadāʾu', meaning: 'The lunch', type: 'Noun' },
+    { ar: 'الفَمُ', trans: 'al-famu', meaning: 'The mouth', type: 'Noun' },
+    { ar: 'المَاءُ', trans: 'al-māʾu', meaning: 'The water', type: 'Noun' },
+    { ar: 'العَيْنُ', trans: 'al-ʿaynu', meaning: 'The eye', type: 'Noun' },
+    { ar: 'الجَنَّةُ', trans: 'al-jannatu', meaning: 'The garden / paradise', type: 'Noun' }
+  ],
+
   grammarBlocks: [
     {
-      title: "The Definite Article: Ø§Ù„Ù€",
-      content: "<p>The Arabic alphabet is divided into two groups of 14 letters each: <strong>Sun Letters</strong> and <strong>Moon Letters</strong>. This division only matters when a word starts with the definite article <strong>Ø§Ù„Ù€</strong> (al-).</p>",
-      rule: "Written the same (Ø§Ù„Ù€), pronounced differently!"
+      title: 'The Definite Article الـ',
+      content: '<p>Arabic nouns become definite by adding <strong>الـ</strong> at the beginning. The way الـ is pronounced depends on the letter that follows.</p>',
+      rule: 'بَيْتٌ (a house) → البَيْتُ (the house)'
     },
     {
-      title: "Moon Letters (Al-Huruf al-Qamariyyah)",
-      content: "<p>When a word starts with a <strong>Moon Letter</strong>, the \"L\" in <strong>Ø§Ù„Ù€</strong> is pronounced clearly. You will see a <em>sukun</em> ( Ù’ ) on the <strong>Ù„</strong>.</p><p>Examples: <strong>Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù</strong> (al-qamaru), <strong>Ø§Ù„Ù’ÙƒÙØªÙŽØ§Ø¨Ù</strong> (al-kitÄbu).</p>",
-      rule: "L is pronounced clear and separate."
+      title: 'Moon Letters (الحروف القمرية) — 14 Letters',
+      content: '<p>With moon letters, the <strong>ل of الـ</strong> is pronounced clearly. There is no shadda on the following letter.</p><p>Moon letters: <strong>أ ب ج ح خ ع غ ف ق ك م ه و ي</strong></p>',
+      rule: 'القَمَرُ = al-qamaru (the moon) — ل is pronounced.'
     },
     {
-      title: "Sun Letters (Al-Huruf ash-Shamsiyyah)",
-      content: "<p>When a word starts with a <strong>Sun Letter</strong>, the \"L\" in <strong>Ø§Ù„Ù€</strong> is silent. Instead, the first letter of the word is doubled with a <em>shadda</em> ( Ù‘ ).</p><p>Examples: <strong>Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù</strong> (ash-shamsu), <strong>Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù</strong> (ar-rajulu).</p>",
-      rule: "L is silent; following letter takes a shadda."
+      title: 'Sun Letters (الحروف الشمسية) — 14 Letters',
+      content: '<p>With sun letters, the <strong>ل of الـ</strong> is silent (not pronounced). The sun letter takes a shadda (doubling).</p><p>Sun letters: <strong>ت ث د ذ ر ز س ش ص ض ط ظ ل ن</strong></p>',
+      rule: 'الشَّمْسُ = ash-shamsu (the sun) — ل is silent, ش doubles.'
     },
     {
-      title: "The 14 Sun Letters",
-      content: "<p>Øª Ø« Ø¯ Ø° Ø± Ø² Ø³ Ø´ Øµ Ø¶ Ø· Ø¸ Ù„ Ù†</p><p>A helpful tip: Sun letters are mostly \"coronal\" soundsâ€”they are made with the tip of the tongue near the front teeth.</p>",
-      rule: "Memorize these to know when to skip the \"L\" sound!"
+      title: 'How to Remember',
+      content: '<p>The word <strong>الشَّمْس</strong> itself starts with a sun letter (ش), and <strong>القَمَر</strong> starts with a moon letter (ق).</p><p>Sun letters are often pronounced with the tip of the tongue. Moon letters are pronounced further back or at the lips.</p>',
+      rule: 'Test: say the letter before ال. If your tongue touches your teeth/roof = sun letter.'
     }
   ],
+
   comprehension: {
-    title: "A Sunny Day in the Garden",
-    arabic: "Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù Ø­ÙŽØ§Ø±ÙŽÙ‘Ø©ÙŒ. Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù ÙÙÙŠ Ø§Ù„Ù’Ø¬ÙŽÙ†ÙŽÙ‘Ø©Ù. Ø§Ù„Ù’Ø¬ÙŽÙ†ÙŽÙ‘Ø©Ù Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ ÙˆÙŽØ§Ù„Ø²ÙŽÙ‘Ù‡Ù’Ø±ÙŽØ©Ù ÙÙÙŠÙ‡ÙŽØ§. Ø§Ù„Ø³ÙŽÙ‘Ù…ÙŽÙƒÙ ÙÙÙŠ Ø§Ù„Ù’Ù…ÙŽØ§Ø¡Ù. Ø§Ù„Ù’Ù‡ÙŽÙˆÙŽØ§Ø¡Ù Ø¨ÙŽØ§Ø±ÙØ¯ÙŒ ÙˆÙŽØ¬ÙŽÙ…ÙÙŠÙ„ÙŒ. Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù ÙŠÙŽØ£Ù’ÙƒÙÙ„Ù Ø§Ù„Ù„ÙŽÙ‘Ø­Ù’Ù…ÙŽ ÙˆÙŽØ§Ù„Ù’Ø®ÙØ¨Ù’Ø²ÙŽ. Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù Ø¨ÙŽØ¹ÙÙŠØ¯ÙŒ ÙˆÙŽØ§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù Ø¨ÙŽØ¹ÙÙŠØ¯ÙŽØ©ÙŒ Ø£ÙŽÙŠÙ’Ø¶Ù‹Ø§.",
-    english: "The sun is hot. The man is in the garden. The garden is beautiful and the flower is in it. The fish is in the water. The air is cold and beautiful. The man is eating the meat and the bread. The moon is far and the sun is also far.",
+    title: 'A Sunny Day in the Garden',
+    arabic: 'الجَوُّ جَمِيلٌ اليَوْمَ. الشَّمْسُ فِي السَّمَاءِ. الرَّجُلُ فِي الجَنَّةِ. الزَّهْرَةُ جَمِيلَةٌ. السَّمَكُ فِي المَاءِ. الهَوَاءُ نَقِيٌّ. الثَّوْبُ عَلَى الكُرْسِيِّ. القَمَرُ جَمِيلٌ فِي اللَّيْلِ. الحِمَارُ فِي الحَقْلِ. الكَلْبُ تَحْتَ الشَّجَرَةِ.',
+    english: 'The weather is beautiful today. The sun is in the sky. The man is in the garden. The flower is beautiful. The fish is in the water. The air is clean. The garment is on the chair. The moon is beautiful at night. The donkey is in the field. The dog is under the tree.',
     questions: [
       {
-        text: "How is the sun described?",
-        options: [
-          "Cold",
-          "Hot",
-          "Near",
-          "Small"
-        ],
-        correct: "Hot"
+        text: 'Where is the sun?',
+        options: ['In the garden', 'In the water', 'In the sky', 'Under the tree'],
+        correct: 'In the sky'
       },
       {
-        text: "Where is the fish?",
-        options: [
-          "In the air",
-          "In the garden",
-          "In the water",
-          "On the desk"
-        ],
-        correct: "In the water"
+        text: 'What is in the water?',
+        options: ['The flower', 'The fish', 'The dog', 'The donkey'],
+        correct: 'The fish'
       },
       {
-        text: "What is the man eating?",
-        options: [
-          "Fish and water",
-          "Meat and bread",
-          "Apple and sugar",
-          "Milk and honey"
-        ],
-        correct: "Meat and bread"
+        text: 'الشَّمْسُ starts with which type of letter?',
+        options: ['Sun letter', 'Moon letter', 'Neither', 'Both'],
+        correct: 'Sun letter'
       },
       {
-        text: "Is the moon near or far?",
-        options: [
-          "Near",
-          "Far",
-          "Beautiful but near",
-          "Hot"
-        ],
-        correct: "Far"
+        text: 'Where is the dog?',
+        options: ['In the field', 'On the chair', 'Under the tree', 'In the sky'],
+        correct: 'Under the tree'
       }
     ]
   },
+
   quizQuestions: {
     multipleChoice: [
       {
-        prompt: "In the word Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù, is the \"L\" pronounced?",
-        options: [
-          "Yes",
-          "No"
-        ],
+        prompt: 'In الشَّمْسُ, is the ل of ال pronounced or silent?',
+        options: ['Pronounced', 'Silent', 'Half-pronounced', 'It depends'],
         correct: 1
       },
       {
-        prompt: "In the word Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù, is the \"L\" pronounced?",
-        options: [
-          "Yes",
-          "No"
-        ],
-        correct: 0
-      },
-      {
-        prompt: "Which mark indicates a Sun Letter in writing?",
-        options: [
-          "Sukun on the Lam",
-          "Shadda on the Sun Letter",
-          "Fatha on the Alif",
-          "Kasra on the Lam"
-        ],
+        prompt: 'Which of these is a sun letter?',
+        options: ['ب (bāʾ)', 'ش (shīn)', 'ق (qāf)', 'م (mīm)'],
         correct: 1
       },
       {
-        prompt: "Which of these is a Sun Letter?",
-        options: [
-          "Ø£",
-          "Ø¨",
-          "Øª",
-          "Ø¬"
-        ],
-        correct: 2
-      },
-      {
-        prompt: "Which of these is a Moon Letter?",
-        options: [
-          "Ø¯",
-          "Ø°",
-          "Ø±",
-          "Ù"
-        ],
+        prompt: 'Which of these is a moon letter?',
+        options: ['ت (tāʾ)', 'د (dāl)', 'س (sīn)', 'ك (kāf)'],
         correct: 3
       },
       {
-        prompt: "Translate: \"The man is in the house.\"",
-        options: [
-          "Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù ÙÙÙŠ Ø§Ù„Ø¯ÙŽÙ‘Ø§Ø±Ù",
-          "Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù Ø¹ÙŽÙ„ÙŽÙ‰ Ø§Ù„Ø¯ÙŽÙ‘Ø§Ø±Ù",
-          "Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù Ù…ÙÙ†Ù’ Ø§Ù„Ø¯ÙŽÙ‘Ø§Ø±Ù",
-          "Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù Ø¥ÙÙ„ÙŽÙ‰ Ø§Ù„Ø¯ÙŽÙ‘Ø§Ø±Ù"
-        ],
-        correct: 0
+        prompt: 'How many sun letters are there?',
+        options: ['7', '10', '14', '28'],
+        correct: 2
+      },
+      {
+        prompt: 'How is الرَّجُلُ pronounced?',
+        options: ['al-rajulu', 'ar-rajulu', 'a-rajulu', 'al-rājulu'],
+        correct: 1
+      },
+      {
+        prompt: 'Which word has a moon letter after ال?',
+        options: ['النَّجْمُ', 'السَّمَكُ', 'الكِتَابُ', 'الثَّوْبُ'],
+        correct: 2
       }
     ],
     typing: [
       {
-        prompt: "Type in Arabic: \"The sun\" (include the shadda)",
-        ideal: "Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù",
-        accepts: [
-          "Ø§Ù„Ø´Ù…Ø³",
-          "Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù",
-          "Ø§Ù„Ø´Ù…Ø³Ù",
-          "Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³"
-        ]
+        prompt: 'Type in Arabic: "the sun" (with shadda)',
+        ideal: 'الشَّمْسُ',
+        accepts: ['الشمس', 'الشَّمْسُ', 'الشمسُ']
       },
       {
-        prompt: "Type in Arabic: \"The moon\" (include the sukun)",
-        ideal: "Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù",
-        accepts: [
-          "Ø§Ù„Ù‚Ù…Ø±",
-          "Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù",
-          "Ø§Ù„Ù‚Ù…Ø±Ù",
-          "Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±"
-        ]
+        prompt: 'Type in Arabic: "the moon"',
+        ideal: 'القَمَرُ',
+        accepts: ['القمر', 'القَمَرُ', 'القمرُ']
       }
     ],
     conceptCheck: [
       {
-        statement: "This lesson's main pattern is connected to: The Definite Article: Ø§Ù„Ù€.",
+        statement: 'With sun letters, the ل of ال is silent and the following letter doubles.',
         correct: true,
-        explanation: "Written the same (Ø§Ù„Ù€), pronounced differently!"
+        explanation: 'Sun letters "eat" the ل sound: الشَّمْس = ash-shams (not al-shams).'
       },
       {
-        statement: "The Concepts step gives more detail for: Moon Letters (Al-Huruf al-Qamariyyah).",
+        statement: 'There are 14 sun letters and 14 moon letters, making 28 total Arabic letters.',
         correct: true,
-        explanation: "L is pronounced clear and separate."
+        explanation: 'The Arabic alphabet has 28 letters — exactly half are sun letters and half are moon letters.'
       },
       {
-        statement: "In Sun and Moon Letters, you can ignore the lesson pattern and still build the Arabic correctly.",
+        statement: 'The word القَمَرُ starts with a sun letter.',
         correct: false,
-        explanation: "The pattern is the point of the lesson. Learn keeps it small first, then Concepts explains the rule more fully."
+        explanation: 'القَمَر starts with ق (qāf), which is a moon letter. The ل is pronounced: al-qamar.'
       }
     ]
   },
-  guidedPattern: "Ø§Ù„Ù’Ø­ÙØ±ÙÙˆÙÙ Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³ÙÙŠÙŽÙ‘Ø©Ù ÙˆÙŽØ§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±ÙÙŠÙŽÙ‘Ø©Ù",
-  guidedIntro: "In this lesson, you will learn the rules of pronunciation for the definite article Ø§Ù„ (al-). Some letters cause the \"L\" to become silent and double the following letter (Sun Letters), while others keep the \"L\" sound clear (Moon Letters).",
-  reviewVocabAtEnd: true,
-  guidedPages: [
-    {
-      titleArabic: "Ø§Ù„Ù’Ø­ÙØ±ÙÙˆÙÙ Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³ÙÙŠÙŽÙ‘Ø©Ù ÙˆÙŽØ§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±ÙÙŠÙŽÙ‘Ø©Ù",
-      title: "Lesson 8",
-      pattern: "Ø§Ù„Ù’Ø­ÙØ±ÙÙˆÙÙ Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³ÙÙŠÙŽÙ‘Ø©Ù ÙˆÙŽØ§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±ÙÙŠÙŽÙ‘Ø©Ù",
-      intro: "In this lesson, you will learn the rules of pronunciation for the definite article Ø§Ù„ (al-). Some letters cause the \"L\" to become silent and double the following letter (Sun Letters), while others keep the \"L\" sound clear (Moon Letters).",
-      cards: [
-        {
-          icon: "☀️",
-          ar: "Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù"
-        },
-        {
-          icon: "👤",
-          ar: "Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù"
-        },
-        {
-          icon: "🏠",
-          ar: "Ø§Ù„Ø¯ÙŽÙ‘Ø§Ø±Ù"
-        },
-        {
-          icon: "🟢",
-          ar: "Ø§Ù„Ø«ÙŽÙ‘ÙˆÙ’Ø¨Ù"
-        },
-        {
-          icon: "✨",
-          ar: "Ø§Ù„Ø²ÙŽÙ‘Ù‡Ù’Ø±ÙŽØ©Ù"
-        },
-        {
-          icon: "🐦",
-          ar: "Ø§Ù„Ø³ÙŽÙ‘Ù…ÙŽÙƒÙ"
-        },
-        {
-          icon: "☀️",
-          ar: "Ø§Ù„Ø¸ÙÙ‘Ù‡Ù’Ø±Ù"
-        },
-        {
-          icon: "🥛",
-          ar: "Ø§Ù„Ù„ÙŽÙ‘Ø­Ù’Ù…Ù"
-        }
-      ],
-      keyPoints: [
-        "Ø§Ù„Ù’Ø­ÙØ±ÙÙˆÙÙ Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³ÙÙŠÙŽÙ‘Ø©Ù ÙˆÙŽØ§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±ÙÙŠÙŽÙ‘Ø©Ù",
-        "The Definite Article: Ø§Ù„Ù€"
-      ]
-    },
-    {
-      title: "Read the pattern",
-      pattern: "Ø§Ù„Ù’Ø­ÙØ±ÙÙˆÙÙ Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³ÙÙŠÙŽÙ‘Ø©Ù ÙˆÙŽØ§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±ÙÙŠÙŽÙ‘Ø©Ù",
-      intro: "Read these short lines before the Reading step. They reuse the same lesson pattern in context.",
-      groups: [
-        {
-          icon: "📘",
-          lines: [
-            {
-              ar: "Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù Ø­ÙŽØ§Ø±ÙŽÙ‘Ø©ÙŒ."
-            }
-          ]
-        },
-        {
-          icon: "📍",
-          lines: [
-            {
-              ar: "Ø§Ù„Ø±ÙŽÙ‘Ø¬ÙÙ„Ù ÙÙÙŠ Ø§Ù„Ù’Ø¬ÙŽÙ†ÙŽÙ‘Ø©Ù."
-            }
-          ]
-        },
-        {
-          icon: "⭐",
-          lines: [
-            {
-              ar: "Ø§Ù„Ù’Ø¬ÙŽÙ†ÙŽÙ‘Ø©Ù Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ ÙˆÙŽØ§Ù„Ø²ÙŽÙ‘Ù‡Ù’Ø±ÙŽØ©Ù ÙÙÙŠÙ‡ÙŽØ§."
-            }
-          ]
-        },
-        {
-          icon: "🟢",
-          lines: [
-            {
-              ar: "Ø§Ù„Ø³ÙŽÙ‘Ù…ÙŽÙƒÙ ÙÙÙŠ Ø§Ù„Ù’Ù…ÙŽØ§Ø¡Ù."
-            }
-          ]
-        },
-        {
-          icon: "✨",
-          lines: [
-            {
-              ar: "Ø§Ù„Ù’Ù‡ÙŽÙˆÙŽØ§Ø¡Ù Ø¨ÙŽØ§Ø±ÙØ¯ÙŒ ÙˆÙŽØ¬ÙŽÙ…ÙÙŠÙ„ÙŒ."
-            }
-          ]
-        }
-      ],
-      keyPoints: [
-        "The Definite Article: Ø§Ù„Ù€",
-        "Moon Letters (Al-Huruf al-Qamariyyah)"
-      ]
-    },
-    {
-      title: "More lesson words",
-      pattern: "Ø§Ù„Ù’Ø­ÙØ±ÙÙˆÙÙ Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³ÙÙŠÙŽÙ‘Ø©Ù ÙˆÙŽØ§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±ÙÙŠÙŽÙ‘Ø©Ù",
-      intro: "Add these words to the same pattern. Tap the Arabic words if you need a meaning reminder.",
-      cards: [
-        {
-          icon: "☀️",
-          ar: "Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù"
-        },
-        {
-          icon: "☀️",
-          ar: "Ø§Ù„Ù’Ù‡ÙŽÙˆÙŽØ§Ø¡Ù"
-        },
-        {
-          icon: "⭐",
-          ar: "Ø§Ù„Ù’ÙŠÙŽØ¯Ù"
-        },
-        {
-          icon: "🥛",
-          ar: "Ø§Ù„Ù’ØºÙŽØ¯ÙŽØ§Ø¡Ù"
-        },
-        {
-          icon: "✨",
-          ar: "Ø§Ù„Ù’ÙÙŽÙ…Ù"
-        },
-        {
-          icon: "🥛",
-          ar: "Ø§Ù„Ù’Ù…ÙŽØ§Ø¡Ù"
-        },
-        {
-          icon: "⭐",
-          ar: "Ø§Ù„Ù’Ø¹ÙŽÙŠÙ’Ù†Ù"
-        },
-        {
-          icon: "🟢",
-          ar: "Ø§Ù„Ù’Ø¬ÙŽÙ†ÙŽÙ‘Ø©Ù"
-        }
-      ],
-      keyPoints: [
-        "The Definite Article: Ø§Ù„Ù€",
-        "Moon Letters (Al-Huruf al-Qamariyyah)"
-      ]
-    },
-    {
-      titleArabic: "????????",
-      title: "Quick practice",
-      pattern: "Ø§Ù„Ù’Ø­ÙØ±ÙÙˆÙÙ Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³ÙÙŠÙŽÙ‘Ø©Ù ÙˆÙŽØ§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±ÙÙŠÙŽÙ‘Ø©Ù",
-      intro: "Type the Arabic answer. You can type without vowels; the full answer appears after checking.",
-      tip: "Tip: focus on the structure first. Harakat can come later.",
-      exercise: [
-        {
-          icon: "✍️",
-          prompt: "Type in Arabic: \"The sun\" (include the shadda)",
-          ideal: "Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù",
-          accepts: [
-            "Ø§Ù„Ø´Ù…Ø³",
-            "Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³Ù",
-            "Ø§Ù„Ø´Ù…Ø³Ù",
-            "Ø§Ù„Ø´ÙŽÙ‘Ù…Ù’Ø³"
-          ]
-        },
-        {
-          icon: "📘",
-          prompt: "Type in Arabic: \"The moon\" (include the sukun)",
-          ideal: "Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù",
-          accepts: [
-            "Ø§Ù„Ù‚Ù…Ø±",
-            "Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±Ù",
-            "Ø§Ù„Ù‚Ù…Ø±Ù",
-            "Ø§Ù„Ù’Ù‚ÙŽÙ…ÙŽØ±"
-          ]
-        }
-      ]
-    }
-  ],
+
   practiceQuestions: []
 };

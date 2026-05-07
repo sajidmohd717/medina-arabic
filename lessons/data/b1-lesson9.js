@@ -3,470 +3,411 @@
    ============================================================ */
 
 const LESSON_DATA = {
-  book: "book1",
+  book: 'book1',
   lessonNum: 9,
-  titleArabic: "Ø§Ù„Ù†ÙŽÙ‘Ø¹Ù’ØªÙ ÙˆÙŽØ§Ù„Ù’Ù…ÙŽÙ†Ù’Ø¹ÙÙˆØªÙ",
-  titleEnglish: "Adjectives (Qualifying Nouns)",
-  summary: "In this lesson, you will learn how to use adjectives (Na't) to describe nouns (Man'ut). You will discover the \"Golden Rule\" of Arabic adjectives: they must match the noun they describe in gender, definiteness, and grammatical case.",
-  nextLesson: "b1-lesson10.html",
+  titleArabic: 'النَّعْتُ وَالمَنْعُوتُ',
+  titleEnglish: 'Adjectives (Qualifying Nouns)',
+  summary: 'Learn how adjectives describe nouns in Arabic. The adjective (نَعْت) matches the noun (مَنْعُوت) in four things: definiteness, gender, number, and case. Also meet the diptote adjectives that never take tanwīn.',
+  nextLesson: 'b1-lesson10.html',
   passMark: 8,
   totalQuestions: 11,
-  vocab: [
+
+  guidedPattern: 'بَيْتٌ جَمِيلٌ',
+  guidedIntro: 'Arabic adjectives follow the noun and match it. بَيْتٌ جَمِيلٌ = a beautiful house. البَيْتُ الجَمِيلُ = the beautiful house.',
+  reviewVocabAtEnd: true,
+  milestoneAfterPage: 4,
+
+  guidedPages: [
     {
-      ar: "Ù†ÙŽØ¹Ù’ØªÙŒ",
-      trans: "na'tun",
-      meaning: "Adjective / Qualifiers",
-      type: "Grammar"
+      titleArabic: 'النَّعْتُ وَالمَنْعُوتُ',
+      title: 'Lesson Nine',
+      pattern: 'بَيْتٌ جَمِيلٌ',
+      intro: 'In Arabic, the adjective comes AFTER the noun and matches it in definiteness, gender, number, and case.',
+      groups: [
+        { type: 'scene', text: 'Khalid and Hamid are describing things they see.' },
+        {
+          icon: '🏠',
+          role: 'teacher',
+          lines: [
+            { label: 'خالد', ar: 'هٰذَا بَيْتٌ جَمِيلٌ.', isPrompt: true },
+            { label: 'حامد', ar: 'نَعَمْ، البَيْتُ الجَمِيلُ كَبِيرٌ أَيْضًا.' }
+          ]
+        },
+        {
+          icon: '📖',
+          role: 'student',
+          lines: [
+            { label: 'خالد', ar: 'هَلْ هٰذَا كِتَابٌ جَدِيدٌ؟', isPrompt: true },
+            { label: 'حامد', ar: 'نَعَمْ، هُوَ كِتَابٌ جَدِيدٌ.' }
+          ]
+        },
+        {
+          icon: '🚗',
+          role: 'teacher',
+          lines: [
+            { label: 'خالد', ar: 'هٰذِهِ سَيَّارَةٌ سَرِيعَةٌ.', isPrompt: true },
+            { label: 'حامد', ar: 'السَّيَّارَةُ السَّرِيعَةُ جَمِيلَةٌ جِدًّا.' }
+          ]
+        },
+        {
+          icon: '🕌',
+          role: 'student',
+          lines: [
+            { label: 'خالد', ar: 'المَسْجِدُ الكَبِيرُ قَرِيبٌ.', isPrompt: true },
+            { label: 'حامد', ar: 'وَالمَدْرَسَةُ الصَّغِيرَةُ بَعِيدَةٌ.' }
+          ]
+        }
+      ],
+      exerciseIntro: 'Answer from the dialogue',
+      exercise: [
+        {
+          icon: '🏠',
+          prompt: 'كَيْفَ البَيْتُ؟',
+          placeholder: 'البَيْتُ ...',
+          ideal: 'البَيْتُ الجَمِيلُ كَبِيرٌ.',
+          accepts: ['البيت الجميل كبير', 'البَيْتُ الجَمِيلُ كَبِيرٌ', 'البيت الجميل كبير.', 'البَيْتُ الجَمِيلُ كَبِيرٌ.']
+        },
+        {
+          icon: '🚗',
+          prompt: 'كَيْفَ السَّيَّارَةُ؟',
+          placeholder: 'السَّيَّارَةُ ...',
+          ideal: 'السَّيَّارَةُ السَّرِيعَةُ جَمِيلَةٌ.',
+          accepts: ['السيارة السريعة جميلة', 'السَّيَّارَةُ السَّرِيعَةُ جَمِيلَةٌ', 'السيارة السريعة جميلة.', 'السَّيَّارَةُ السَّرِيعَةُ جَمِيلَةٌ.']
+        }
+      ],
+      keyPoints: [
+        'نَعْت = adjective (describes the noun)',
+        'مَنْعُوت = the noun being described'
+      ]
     },
     {
-      ar: "Ù…ÙŽÙ†Ù’Ø¹ÙÙˆØªÙŒ",
-      trans: "man'Å«tun",
-      meaning: "The noun being described",
-      type: "Grammar"
+      title: 'The Matching Rule',
+      pattern: 'نَعْت matches مَنْعُوت',
+      intro: 'The adjective copies four things from the noun: definiteness, gender, number, and case.',
+      groups: [
+        {
+          icon: '📘',
+          lines: [
+            { ar: 'كِتَابٌ جَدِيدٌ — a new book (indefinite)' },
+            { ar: 'الكِتَابُ الجَدِيدُ — the new book (definite)' }
+          ]
+        },
+        {
+          icon: '🚗',
+          lines: [
+            { ar: 'سَيَّارَةٌ جَدِيدَةٌ — a new car (indefinite, fem.)' },
+            { ar: 'السَّيَّارَةُ الجَدِيدَةُ — the new car (definite, fem.)' }
+          ]
+        },
+        {
+          icon: '👨‍🏫',
+          lines: [
+            { ar: 'مُدَرِّسٌ جَدِيدٌ — a new teacher (masc.)' },
+            { ar: 'مُدَرِّسَةٌ جَدِيدَةٌ — a new teacher (fem.)' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'If noun has ال → adjective gets ال too',
+        'If noun is feminine → adjective is feminine',
+        'If noun has ḍamma → adjective has ḍamma'
+      ]
     },
     {
-      ar: "Ø¹ÙØµÙ’ÙÙÙˆØ±ÙŒ",
-      trans: "Ê¿uá¹£fÅ«run",
-      meaning: "A sparrow",
-      type: "Noun"
+      title: 'Read the Pattern',
+      pattern: 'النَّعْتُ وَالمَنْعُوتُ',
+      intro: 'Read these sentences. Notice how each adjective matches its noun.',
+      groups: [
+        {
+          icon: '🏠',
+          lines: [
+            { ar: 'البَيْتُ الكَبِيرُ جَمِيلٌ.' }
+          ]
+        },
+        {
+          icon: '📖',
+          lines: [
+            { ar: 'القُرْآنُ كِتَابٌ كَرِيمٌ.' }
+          ]
+        },
+        {
+          icon: '👦',
+          lines: [
+            { ar: 'الطَّالِبُ المُجْتَهِدُ نَاجِحٌ.' }
+          ]
+        },
+        {
+          icon: '🌆',
+          lines: [
+            { ar: 'القَاهِرَةُ مَدِينَةٌ كَبِيرَةٌ.' }
+          ]
+        },
+        {
+          icon: '📝',
+          lines: [
+            { ar: 'اللُّغَةُ العَرَبِيَّةُ لُغَةٌ جَمِيلَةٌ.' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'البَيْتُ الكَبِيرُ = the big house',
+        'اللُّغَةُ العَرَبِيَّةُ = the Arabic language'
+      ]
     },
     {
-      ar: "Ø·ÙŽÙŠÙ’Ø±ÙŒ",
-      trans: "á¹­ayrun",
-      meaning: "A bird",
-      type: "Noun"
+      title: 'More Adjectives',
+      pattern: 'Opposites and descriptions',
+      intro: 'Common adjective pairs. Tap for meanings.',
+      cards: [
+        { icon: '📏', ar: 'كَبِيرٌ | صَغِيرٌ' },
+        { icon: '📏', ar: 'طَوِيلٌ | قَصِيرٌ' },
+        { icon: '⭐', ar: 'جَمِيلٌ | قَبِيحٌ' },
+        { icon: '⚡', ar: 'سَرِيعٌ | بَطِيءٌ' },
+        { icon: '📖', ar: 'جَدِيدٌ | قَدِيمٌ' },
+        { icon: '💪', ar: 'قَوِيٌّ | ضَعِيفٌ' },
+        { icon: '💰', ar: 'غَنِيٌّ | فَقِيرٌ' },
+        { icon: '😊', ar: 'سَعِيدٌ | حَزِينٌ' }
+      ],
+      keyPoints: [
+        'Adjectives with opposite pairs',
+        'All match gender: كَبِيرَة / صَغِيرَة (fem.)'
+      ]
     },
     {
-      ar: "Ù„ÙØºÙŽØ©ÙŒ",
-      trans: "lughatun",
-      meaning: "A language",
-      type: "Noun"
+      title: 'Diptote Adjectives',
+      pattern: 'كَسْلَانُ / جَوْعَانُ',
+      intro: 'Some adjectives ending in ـَانُ never take tanwīn. They are called diptotes.',
+      groups: [
+        {
+          icon: '😴',
+          lines: [
+            { ar: 'الوَلَدُ كَسْلَانُ. — The boy is lazy.' },
+            { ar: 'البِنْتُ كَسْلَى. — The girl is lazy.' }
+          ]
+        },
+        {
+          icon: '🍽️',
+          lines: [
+            { ar: 'حَامِدٌ جَوْعَانُ. — Hamid is hungry.' },
+            { ar: 'آمِنَةُ جَوْعَى. — Aminah is hungry.' }
+          ]
+        },
+        {
+          icon: '💧',
+          lines: [
+            { ar: 'الرَّجُلُ عَطْشَانُ. — The man is thirsty.' },
+            { ar: 'المَرْأَةُ عَطْشَى. — The woman is thirsty.' }
+          ]
+        },
+        {
+          icon: '😡',
+          lines: [
+            { ar: 'المُدَرِّسُ غَضْبَانُ. — The teacher is angry.' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'Diptotes: never take tanwīn (no ـٌ)',
+        'Feminine form ends in ـَى: كَسْلَى, جَوْعَى, عَطْشَى'
+      ]
     },
     {
-      ar: "Ù…ÙŽØ¯ÙÙŠÙ†ÙŽØ©ÙŒ",
-      trans: "madÄ«natun",
-      meaning: "A city",
-      type: "Noun"
+      title: 'Easy vs Difficult',
+      pattern: 'سَهْل / صَعْب',
+      intro: 'These adjectives appear often. They also match their noun.',
+      groups: [
+        {
+          icon: '✅',
+          lines: [
+            { ar: 'الدَّرْسُ سَهْلٌ. — The lesson is easy.' },
+            { ar: 'اللُّغَةُ العَرَبِيَّةُ سَهْلَةٌ. — Arabic is easy.' }
+          ]
+        },
+        {
+          icon: '❌',
+          lines: [
+            { ar: 'الاِمْتِحَانُ صَعْبٌ. — The exam is difficult.' },
+            { ar: 'المَسْأَلَةُ صَعْبَةٌ. — The problem is difficult.' }
+          ]
+        },
+        {
+          icon: '📖',
+          lines: [
+            { ar: 'هٰذَا كِتَابٌ سَهْلٌ. — This is an easy book.' },
+            { ar: 'هٰذِهِ قِصَّةٌ سَهْلَةٌ. — This is an easy story.' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'سَهْل (masc.) / سَهْلَة (fem.) = easy',
+        'صَعْب (masc.) / صَعْبَة (fem.) = difficult'
+      ]
     },
     {
-      ar: "Ø§Ù„Ù’Ù‚ÙŽØ§Ù‡ÙØ±ÙŽØ©Ù",
-      trans: "al-qÄhiratu",
-      meaning: "Cairo",
-      type: "Noun"
-    },
-    {
-      ar: "Ø§Ù„Ù’ÙŠÙŽÙˆÙ’Ù…ÙŽ",
-      trans: "al-yawma",
-      meaning: "Today",
-      type: "Adverb"
-    },
-    {
-      ar: "Ù„ÙÙ…ÙŽØ§Ø°ÙŽØ§",
-      trans: "limÄdhÄ",
-      meaning: "Why?",
-      type: "Interrogative"
-    },
-    {
-      ar: "Ø§Ù„Ù’ÙƒÙÙˆØ¨Ù",
-      trans: "al-kÅ«bu",
-      meaning: "The cup / glass",
-      type: "Noun"
-    },
-    {
-      ar: "Ø´ÙŽÙ‡ÙÙŠØ±ÙŒ",
-      trans: "shahÄ«run",
-      meaning: "Famous",
-      type: "Adjective"
-    },
-    {
-      ar: "Ø³ÙŽÙ‡Ù’Ù„ÙŒ",
-      trans: "sahlun",
-      meaning: "Easy",
-      type: "Adjective"
-    },
-    {
-      ar: "ØµÙŽØ¹Ù’Ø¨ÙŒ",
-      trans: "á¹£aÊ¿bun",
-      meaning: "Difficult",
-      type: "Adjective"
-    },
-    {
-      ar: "Ù…ÙØ¬Ù’ØªÙŽÙ‡ÙØ¯ÙŒ",
-      trans: "mujtahidun",
-      meaning: "Hardworking",
-      type: "Adjective"
-    },
-    {
-      ar: "ÙƒÙŽØ³Ù’Ù„ÙŽØ§Ù†Ù",
-      trans: "kaslÄnu",
-      meaning: "Lazy",
-      type: "Adjective"
-    },
-    {
-      ar: "Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù",
-      trans: "jawÊ¿Änu",
-      meaning: "Hungry",
-      type: "Adjective"
-    },
-    {
-      ar: "Ø¹ÙŽØ·Ù’Ø´ÙŽØ§Ù†Ù",
-      trans: "Ê¿aá¹­shÄnu",
-      meaning: "Thirsty",
-      type: "Adjective"
-    },
-    {
-      ar: "ØºÙŽØ¶Ù’Ø¨ÙŽØ§Ù†Ù",
-      trans: "ghaá¸bÄnu",
-      meaning: "Angry",
-      type: "Adjective"
-    },
-    {
-      ar: "Ù…ÙŽÙ„Ù’Ø¢Ù†Ù",
-      trans: "mal'Änu",
-      meaning: "Full",
-      type: "Adjective"
+      titleArabic: 'تَمْرِين',
+      title: 'Practice',
+      pattern: 'النَّعْتُ وَالمَنْعُوتُ',
+      intro: 'Type the Arabic. Make sure the adjective matches the noun.',
+      tip: 'Tip: if the noun has ال, the adjective needs ال too.',
+      exercise: [
+        {
+          icon: '📖',
+          prompt: 'Type: "the new book"',
+          ideal: 'الكِتَابُ الجَدِيدُ',
+          accepts: ['الكتاب الجديد', 'الكِتَابُ الجَدِيدُ', 'الكتابُ الجديدُ']
+        },
+        {
+          icon: '🏠',
+          prompt: 'Type: "a beautiful house"',
+          ideal: 'بَيْتٌ جَمِيلٌ',
+          accepts: ['بيت جميل', 'بَيْتٌ جَمِيلٌ', 'بيتٌ جميلٌ']
+        },
+        {
+          icon: '🚗',
+          prompt: 'Type: "the fast car"',
+          ideal: 'السَّيَّارَةُ السَّرِيعَةُ',
+          accepts: ['السيارة السريعة', 'السَّيَّارَةُ السَّرِيعَةُ', 'السيارةُ السريعةُ']
+        },
+        {
+          icon: '😴',
+          prompt: 'Type: "the boy is lazy" (diptote)',
+          ideal: 'الوَلَدُ كَسْلَانُ',
+          accepts: ['الولد كسلان', 'الوَلَدُ كَسْلَانُ', 'الولدُ كسلانُ']
+        }
+      ]
     }
   ],
+
+  vocab: [
+    { ar: 'نَعْتٌ', trans: 'naʿtun', meaning: 'An adjective', type: 'Grammar' },
+    { ar: 'مَنْعُوتٌ', trans: 'manʿūtun', meaning: 'The noun being described', type: 'Grammar' },
+    { ar: 'جَدِيدٌ', trans: 'jadīdun', meaning: 'New', type: 'Adjective' },
+    { ar: 'قَدِيمٌ', trans: 'qadīmun', meaning: 'Old', type: 'Adjective' },
+    { ar: 'صَغِيرٌ', trans: 'ṣaghīrun', meaning: 'Small', type: 'Adjective' },
+    { ar: 'كَبِيرٌ', trans: 'kabīrun', meaning: 'Big', type: 'Adjective' },
+    { ar: 'جَمِيلٌ', trans: 'jamīlun', meaning: 'Beautiful', type: 'Adjective' },
+    { ar: 'سَهْلٌ', trans: 'sahlun', meaning: 'Easy', type: 'Adjective' },
+    { ar: 'صَعْبٌ', trans: 'ṣaʿbun', meaning: 'Difficult', type: 'Adjective' },
+    { ar: 'مُجْتَهِدٌ', trans: 'mujtahidun', meaning: 'Hardworking', type: 'Adjective' },
+    { ar: 'كَسْلَانُ', trans: 'kaslānu', meaning: 'Lazy (diptote)', type: 'Adjective (Diptote)' },
+    { ar: 'جَوْعَانُ', trans: 'jawʿānu', meaning: 'Hungry (diptote)', type: 'Adjective (Diptote)' },
+    { ar: 'عَطْشَانُ', trans: 'ʿaṭshānu', meaning: 'Thirsty (diptote)', type: 'Adjective (Diptote)' },
+    { ar: 'غَضْبَانُ', trans: 'ghaḍbānu', meaning: 'Angry (diptote)', type: 'Adjective (Diptote)' },
+    { ar: 'القَاهِرَةُ', trans: 'al-qāhiratu', meaning: 'Cairo', type: 'Place' },
+    { ar: 'لُغَةٌ', trans: 'lughatun', meaning: 'A language', type: 'Noun' },
+    { ar: 'مَدِينَةٌ', trans: 'madīnatun', meaning: 'A city', type: 'Noun' },
+    { ar: 'عُصْفُورٌ', trans: 'ʿuṣfūrun', meaning: 'A sparrow', type: 'Noun' }
+  ],
+
   grammarBlocks: [
     {
-      title: "The Noun-Adjective Phrase",
-      content: "<p>In Arabic, the adjective (<strong>Na't</strong>) comes <u>after</u> the noun it describes (<strong>Man'ut</strong>). For example, \"A new book\" is written as \"Book new\".</p>",
-      rule: "ÙƒÙØªÙŽØ§Ø¨ÙŒ (Man'ut) + Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ (Na't) = ÙƒÙØªÙŽØ§Ø¨ÙŒ Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ (A new book)."
+      title: 'The Noun-Adjective Phrase',
+      content: '<p>In Arabic the adjective (<strong>نَعْت</strong>) comes <em>after</em> the noun it describes (<strong>مَنْعُوت</strong>). Together they form the <strong>نَعْت وَمَنْعُوت</strong> phrase.</p>',
+      rule: 'بَيْتٌ جَمِيلٌ = a beautiful house<br>مَنْعُوت + نَعْت = noun + adjective'
     },
     {
-      title: "The Matching Rule",
-      content: "<p>The adjective is a \"follower\". It must match the noun in four things:</p><ul><li><strong>Gender</strong>: Masc/Masc or Fem/Fem.</li><li><strong>Definiteness</strong>: Both have Ø§Ù„Ù€ or both have tanwÄ«n.</li><li><strong>Case</strong>: Both end in damma, kasra, or fatha.</li></ul>",
-      rule: "Ø§Ù„Ù’Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³Ù (Definite) + Ø§Ù„Ù’Ø¬ÙŽØ¯ÙÙŠØ¯Ù (Definite) = \"The new teacher.\""
+      title: 'The Four Matching Rules',
+      content: '<p>The adjective must match the noun in <strong>four things</strong>:</p><ol><li><strong>Definiteness</strong> — both indefinite or both definite (with ال)</li><li><strong>Gender</strong> — both masculine or both feminine</li><li><strong>Number</strong> — both singular, dual, or plural</li><li><strong>Case</strong> — both nominative (ـُ), accusative (ـَ), or genitive (ـِ)</li></ol>',
+      rule: 'الكِتَابُ الجَدِيدُ (def. masc. nom. sing.)<br>كِتَابٌ جَدِيدٌ (indef. masc. nom. sing.)'
     },
     {
-      title: "Diptote Adjectives (-aanu)",
-      content: "<p>Some adjectives follow a special pattern ending in <strong>Ù€ÙŽØ§Ù†Ù</strong> (aanu). These words <u>never</u> take tanwÄ«n and only have one damma at the end.</p>",
-      rule: "Ø£ÙŽÙ†ÙŽØ§ Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù (I am hungry) â€” never say Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†ÙŒ âŒ"
+      title: 'Diptote Adjectives (الممنوع من الصرف)',
+      content: '<p>Some adjectives ending in <strong>ـَانُ</strong> never take tanwīn. In the indefinite form they end with a single ḍamma (ـُ), never ـٌ.</p><p>Their feminine form ends in <strong>ـَى</strong> (short alif): كَسْلَى, جَوْعَى, عَطْشَى.</p>',
+      rule: 'كَسْلَانُ · جَوْعَانُ · عَطْشَانُ · غَضْبَانُ · مَلْآنُ<br>Feminine: كَسْلَى · جَوْعَى · عَطْشَى'
     }
   ],
+
   comprehension: {
-    title: "The Hardworking Student",
-    arabic: "Ù‡ÙŽØ°ÙŽØ§ Ø­ÙŽØ§Ù…ÙØ¯ÙŒ. Ù‡ÙÙˆÙŽ Ø·ÙŽØ§Ù„ÙØ¨ÙŒ Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ ÙÙÙŠ Ø§Ù„Ù’Ù…ÙŽØ¯Ù’Ø±ÙŽØ³ÙŽØ©Ù. Ø­ÙŽØ§Ù…ÙØ¯ÙŒ Ø·ÙŽØ§Ù„ÙØ¨ÙŒ Ù…ÙØ¬Ù’ØªÙŽÙ‡ÙØ¯ÙŒ ÙˆÙŽØ°ÙŽÙƒÙÙŠÙŒÙ‘. Ø§Ù„Ù’Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø©Ù Ù„ÙØºÙŽØ©ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ ÙˆÙŽØ³ÙŽÙ‡Ù’Ù„ÙŽØ©ÙŒ. Ø­ÙŽØ§Ù…ÙØ¯ÙŒ Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù Ø§Ù„Ø¢Ù†ÙŽ. Ù‡ÙÙˆÙŽ ÙŠÙŽØ°Ù’Ù‡ÙŽØ¨Ù Ø¥ÙÙ„ÙŽÙ‰ Ø§Ù„Ù’Ù…ÙŽØ·Ù’Ø¹ÙŽÙ…Ù. Ø§Ù„Ù’Ù…ÙŽØ·Ù’Ø¹ÙŽÙ…Ù Ø¨ÙŽØ¹ÙÙŠØ¯ÙŒ Ø¹ÙŽÙ†Ù Ø§Ù„Ù’Ù…ÙŽØ¯Ù’Ø±ÙŽØ³ÙŽØ©Ù. Ø­ÙŽØ§Ù…ÙØ¯ÙŒ ØºÙŽØ¶Ù’Ø¨ÙŽØ§Ù†Ù Ù„ÙÙ…ÙŽØ§Ø°ÙŽØ§ØŸ Ù„ÙØ£ÙŽÙ†ÙŽÙ‘ Ø§Ù„Ù’ÙƒÙÙˆØ¨ÙŽ ÙˆÙŽØ³ÙØ®ÙŒ.",
-    english: "This is Hamid. He is a new student in the school. Hamid is a hardworking and intelligent student. Arabic is a beautiful and easy language. Hamid is hungry now. He is going to the restaurant. The restaurant is far from the school. Why is Hamid angry? Because the cup is dirty.",
+    title: 'The Hardworking Student',
+    arabic: 'هٰذَا طَالِبٌ مُجْتَهِدٌ. اِسْمُهُ حَامِدٌ. هُوَ طَالِبٌ جَدِيدٌ فِي الجَامِعَةِ. اللُّغَةُ العَرَبِيَّةُ لُغَةٌ جَمِيلَةٌ. الدَّرْسُ سَهْلٌ وَالكِتَابُ جَدِيدٌ. حَامِدٌ سَعِيدٌ اليَوْمَ. صَدِيقُهُ كَسْلَانُ وَجَوْعَانُ. القَاهِرَةُ مَدِينَةٌ كَبِيرَةٌ. الجَوُّ جَمِيلٌ وَالشَّمْسُ مُشْرِقَةٌ.',
+    english: 'This is a hardworking student. His name is Hamid. He is a new student at the university. The Arabic language is a beautiful language. The lesson is easy and the book is new. Hamid is happy today. His friend is lazy and hungry. Cairo is a big city. The weather is beautiful and the sun is shining.',
     questions: [
       {
-        text: "How is Hamid described as a student?",
-        options: [
-          "Lazy and small",
-          "Hardworking and intelligent",
-          "Famous and rich",
-          "Old and tall"
-        ],
-        correct: "Hardworking and intelligent"
+        text: 'What kind of student is Hamid?',
+        options: ['A lazy student', 'A hardworking student', 'A hungry student', 'A new teacher'],
+        correct: 'A hardworking student'
       },
       {
-        text: "What is Hamid's opinion of the Arabic language?",
-        options: [
-          "Difficult and old",
-          "Beautiful and easy",
-          "Famous and large",
-          "New and clean"
-        ],
-        correct: "Beautiful and easy"
+        text: 'How is the Arabic language described?',
+        options: ['Difficult', 'Beautiful', 'Old', 'Small'],
+        correct: 'Beautiful'
       },
       {
-        text: "Why is Hamid going to the restaurant?",
-        options: [
-          "Because he is thirsty",
-          "Because he is hungry",
-          "Because he is angry",
-          "Because he is a teacher"
-        ],
-        correct: "Because he is hungry"
+        text: 'How is the lesson described?',
+        options: ['Difficult (صَعْب)', 'Easy (سَهْل)', 'New (جَدِيد)', 'Big (كَبِير)'],
+        correct: 'Easy (سَهْل)'
       },
       {
-        text: "Why is Hamid angry (ØºÙŽØ¶Ù’Ø¨ÙŽØ§Ù†) at the end?",
-        options: [
-          "Because the school is far",
-          "Because the restaurant is closed",
-          "Because the cup is dirty",
-          "Because the teacher is new"
-        ],
-        correct: "Because the cup is dirty"
+        text: 'What is his friend like?',
+        options: ['Happy and rich', 'Lazy and hungry', 'Tall and strong', 'Angry and sad'],
+        correct: 'Lazy and hungry'
       }
     ]
   },
+
   quizQuestions: {
     multipleChoice: [
       {
-        prompt: "Translate: \"A hardworking student\"",
-        options: [
-          "Ø·ÙŽØ§Ù„ÙØ¨ÙŒ Ù…ÙØ¬Ù’ØªÙŽÙ‡ÙØ¯ÙŒ",
-          "Ø§Ù„Ø·ÙŽÙ‘Ø§Ù„ÙØ¨Ù Ø§Ù„Ù’Ù…ÙØ¬Ù’ØªÙŽÙ‡ÙØ¯Ù",
-          "Ø·ÙŽØ§Ù„ÙØ¨ÙŒ Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ",
-          "Ø·ÙŽØ§Ù„ÙØ¨ÙŒ ÙƒÙŽØ³Ù’Ù„ÙŽØ§Ù†Ù"
-        ],
+        prompt: 'In بَيْتٌ جَمِيلٌ, which word is the adjective (نَعْت)?',
+        options: ['بَيْتٌ', 'جَمِيلٌ', 'Both', 'Neither'],
+        correct: 1
+      },
+      {
+        prompt: 'Choose the correct phrase: "the big house"',
+        options: ['البَيْتُ الكَبِيرُ', 'بَيْتٌ كَبِيرٌ', 'البَيْتُ كَبِيرٌ', 'بَيْتٌ الكَبِيرُ'],
         correct: 0
       },
       {
-        prompt: "Which of these adjectives does NOT take tanwÄ«n?",
-        options: [
-          "Ø´ÙŽÙ‡ÙÙŠØ±ÙŒ",
-          "Ø³ÙŽÙ‡Ù’Ù„ÙŒ",
-          "ØºÙŽØ¶Ù’Ø¨ÙŽØ§Ù†Ù",
-          "Ø¬ÙŽÙ…ÙÙŠÙ„ÙŒ"
-        ],
+        prompt: 'What must the adjective match?',
+        options: ['Only gender', 'Only definiteness', 'Definiteness, gender, number, and case', 'Only case'],
         correct: 2
       },
       {
-        prompt: "Translate: \"The easy language\"",
-        options: [
-          "Ù„ÙØºÙŽØ©ÙŒ Ø³ÙŽÙ‡Ù’Ù„ÙŽØ©ÙŒ",
-          "Ø§Ù„Ù„ÙÙ‘ØºÙŽØ©Ù Ø§Ù„Ø³ÙŽÙ‘Ù‡Ù’Ù„ÙŽØ©Ù",
-          "Ø§Ù„Ù„ÙÙ‘ØºÙŽØ©Ù Ø§Ù„ØµÙŽÙ‘Ø¹Ù’Ø¨ÙŽØ©Ù",
-          "Ù„ÙØºÙŽØ©ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ"
-        ],
+        prompt: 'Choose the correct form: "a new car" (fem.)',
+        options: ['سَيَّارَةٌ جَدِيدٌ', 'السَّيَّارَةُ الجَدِيدَةُ', 'سَيَّارَةٌ جَدِيدَةٌ', 'سَيَّارَةٌ جَدِيدٍ'],
+        correct: 2
+      },
+      {
+        prompt: 'Why does كَسْلَانُ not take tanwīn?',
+        options: ['It is feminine', 'It is a diptote', 'It has ال', 'It is broken plural'],
         correct: 1
       },
       {
-        prompt: "What does Ù…ÙŽÙ„Ù’Ø¢Ù†Ù mean?",
-        options: [
-          "Empty",
-          "Full",
-          "Broken",
-          "Open"
-        ],
-        correct: 1
-      },
-      {
-        prompt: "In Arabic, where does the adjective go?",
-        options: [
-          "Before the noun",
-          "After the noun",
-          "Inside the noun",
-          "Anywhere"
-        ],
-        correct: 1
-      },
-      {
-        prompt: "Translate: \"I am thirsty.\"",
-        options: [
-          "Ø£ÙŽÙ†ÙŽØ§ Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù",
-          "Ø£ÙŽÙ†ÙŽØ§ Ø¹ÙŽØ·Ù’Ø´ÙŽØ§Ù†Ù",
-          "Ø£ÙŽÙ†ÙŽØ§ ÙƒÙŽØ³Ù’Ù„ÙŽØ§Ù†Ù",
-          "Ø£ÙŽÙ†ÙŽØ§ ØºÙŽØ¶Ù’Ø¨ÙŽØ§Ù†Ù"
-        ],
+        prompt: 'What is the feminine of جَوْعَانُ?',
+        options: ['جَوْعَانَةٌ', 'جَوْعَى', 'جَوْعَاءُ', 'جَوْعَانِيَّةٌ'],
         correct: 1
       }
     ],
     typing: [
       {
-        prompt: "Type in Arabic: \"Arabic is a beautiful language.\"",
-        ideal: "Ø§Ù„Ù’Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø©Ù Ù„ÙØºÙŽØ©ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ",
-        accepts: [
-          "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© Ù„ØºØ© Ø¬Ù…ÙŠÙ„Ø©",
-          "Ø§Ù„Ù’Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø©Ù Ù„ÙØºÙŽØ©ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ",
-          "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© Ù„ØºØ© Ø¬Ù…ÙŠÙ„Ø©ÙŒ",
-          "Ø§Ù„Ù’Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø© Ù„ÙØºÙŽØ© Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©"
-        ]
+        prompt: 'Type: "the new book"',
+        ideal: 'الكِتَابُ الجَدِيدُ',
+        accepts: ['الكتاب الجديد', 'الكِتَابُ الجَدِيدُ', 'الكتابُ الجديدُ']
       },
       {
-        prompt: "Type in Arabic: \"I am hungry.\"",
-        ideal: "Ø£ÙŽÙ†ÙŽØ§ Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù",
-        accepts: [
-          "Ø£Ù†Ø§ Ø¬ÙˆØ¹Ø§Ù†",
-          "Ø£ÙŽÙ†ÙŽØ§ Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù",
-          "Ø£Ù†Ø§ Ø¬ÙˆØ¹Ø§Ù†Ù",
-          "Ø£ÙŽÙ†ÙŽØ§ Ø¬ÙˆØ¹Ø§Ù†"
-        ]
+        prompt: 'Type: "the boy is hungry"',
+        ideal: 'الوَلَدُ جَوْعَانُ',
+        accepts: ['الولد جوعان', 'الوَلَدُ جَوْعَانُ', 'الولدُ جوعانُ']
       }
     ],
     conceptCheck: [
       {
-        statement: "This lesson's main pattern is connected to: The Noun-Adjective Phrase.",
+        statement: 'In Arabic, the adjective (نَعْت) comes after the noun it describes (مَنْعُوت).',
         correct: true,
-        explanation: "ÙƒÙØªÙŽØ§Ø¨ÙŒ (Man'ut) + Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ (Na't) = ÙƒÙØªÙŽØ§Ø¨ÙŒ Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ (A new book)."
+        explanation: 'Unlike English (where "beautiful house" puts the adjective first), Arabic puts it second: بَيْتٌ جَمِيلٌ.'
       },
       {
-        statement: "The Concepts step gives more detail for: The Matching Rule.",
+        statement: 'If the noun has ال, the adjective must also have ال.',
         correct: true,
-        explanation: "Ø§Ù„Ù’Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³Ù (Definite) + Ø§Ù„Ù’Ø¬ÙŽØ¯ÙÙŠØ¯Ù (Definite) = \"The new teacher.\""
+        explanation: 'Definiteness must match: البَيْتُ الجَمِيلُ (both definite), not البَيْتُ جَمِيلٌ.'
       },
       {
-        statement: "In Adjectives (Qualifying Nouns), you can ignore the lesson pattern and still build the Arabic correctly.",
+        statement: 'Diptote adjectives like كَسْلَانُ and جَوْعَانُ take regular tanwīn like other adjectives.',
         correct: false,
-        explanation: "The pattern is the point of the lesson. Learn keeps it small first, then Concepts explains the rule more fully."
+        explanation: 'Diptotes never take tanwīn. They end in a single ḍamma (ـُ) in the indefinite form: كَسْلَانُ, not كَسْلَانٌ.'
       }
     ]
   },
-  guidedPattern: "Ø§Ù„Ù†ÙŽÙ‘Ø¹Ù’ØªÙ ÙˆÙŽØ§Ù„Ù’Ù…ÙŽÙ†Ù’Ø¹ÙÙˆØªÙ",
-  guidedIntro: "In this lesson, you will learn how to use adjectives (Na't) to describe nouns (Man'ut). You will discover the \"Golden Rule\" of Arabic adjectives: they must match the noun they describe in gender, definiteness, and grammatical case.",
-  reviewVocabAtEnd: true,
-  guidedPages: [
-    {
-      titleArabic: "Ø§Ù„Ù†ÙŽÙ‘Ø¹Ù’ØªÙ ÙˆÙŽØ§Ù„Ù’Ù…ÙŽÙ†Ù’Ø¹ÙÙˆØªÙ",
-      title: "Lesson 9",
-      pattern: "Ø§Ù„Ù†ÙŽÙ‘Ø¹Ù’ØªÙ ÙˆÙŽØ§Ù„Ù’Ù…ÙŽÙ†Ù’Ø¹ÙÙˆØªÙ",
-      intro: "In this lesson, you will learn how to use adjectives (Na't) to describe nouns (Man'ut). You will discover the \"Golden Rule\" of Arabic adjectives: they must match the noun they describe in gender, definiteness, and grammatical case.",
-      cards: [
-        {
-          icon: "✨",
-          ar: "Ù†ÙŽØ¹Ù’ØªÙŒ"
-        },
-        {
-          icon: "📍",
-          ar: "Ù…ÙŽÙ†Ù’Ø¹ÙÙˆØªÙŒ"
-        },
-        {
-          icon: "🐦",
-          ar: "Ø¹ÙØµÙ’ÙÙÙˆØ±ÙŒ"
-        },
-        {
-          icon: "🐦",
-          ar: "Ø·ÙŽÙŠÙ’Ø±ÙŒ"
-        },
-        {
-          icon: "📘",
-          ar: "Ù„ÙØºÙŽØ©ÙŒ"
-        },
-        {
-          icon: "🏠",
-          ar: "Ù…ÙŽØ¯ÙÙŠÙ†ÙŽØ©ÙŒ"
-        },
-        {
-          icon: "☀️",
-          ar: "Ø§Ù„Ù’Ù‚ÙŽØ§Ù‡ÙØ±ÙŽØ©Ù"
-        },
-        {
-          icon: "📍",
-          ar: "Ø§Ù„Ù’ÙŠÙŽÙˆÙ’Ù…ÙŽ"
-        }
-      ],
-      keyPoints: [
-        "Ø§Ù„Ù†ÙŽÙ‘Ø¹Ù’ØªÙ ÙˆÙŽØ§Ù„Ù’Ù…ÙŽÙ†Ù’Ø¹ÙÙˆØªÙ",
-        "The Noun-Adjective Phrase"
-      ]
-    },
-    {
-      title: "Read the pattern",
-      pattern: "Ø§Ù„Ù†ÙŽÙ‘Ø¹Ù’ØªÙ ÙˆÙŽØ§Ù„Ù’Ù…ÙŽÙ†Ù’Ø¹ÙÙˆØªÙ",
-      intro: "Read these short lines before the Reading step. They reuse the same lesson pattern in context.",
-      groups: [
-        {
-          icon: "📘",
-          lines: [
-            {
-              ar: "Ù‡ÙŽØ°ÙŽØ§ Ø­ÙŽØ§Ù…ÙØ¯ÙŒ."
-            }
-          ]
-        },
-        {
-          icon: "📍",
-          lines: [
-            {
-              ar: "Ù‡ÙÙˆÙŽ Ø·ÙŽØ§Ù„ÙØ¨ÙŒ Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ ÙÙÙŠ Ø§Ù„Ù’Ù…ÙŽØ¯Ù’Ø±ÙŽØ³ÙŽØ©Ù."
-            }
-          ]
-        },
-        {
-          icon: "⭐",
-          lines: [
-            {
-              ar: "Ø­ÙŽØ§Ù…ÙØ¯ÙŒ Ø·ÙŽØ§Ù„ÙØ¨ÙŒ Ù…ÙØ¬Ù’ØªÙŽÙ‡ÙØ¯ÙŒ ÙˆÙŽØ°ÙŽÙƒÙÙŠÙŒÙ‘."
-            }
-          ]
-        },
-        {
-          icon: "🟢",
-          lines: [
-            {
-              ar: "Ø§Ù„Ù’Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø©Ù Ù„ÙØºÙŽØ©ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ ÙˆÙŽØ³ÙŽÙ‡Ù’Ù„ÙŽØ©ÙŒ."
-            }
-          ]
-        },
-        {
-          icon: "✨",
-          lines: [
-            {
-              ar: "Ø­ÙŽØ§Ù…ÙØ¯ÙŒ Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù Ø§Ù„Ø¢Ù†ÙŽ."
-            }
-          ]
-        }
-      ],
-      keyPoints: [
-        "The Noun-Adjective Phrase",
-        "The Matching Rule"
-      ]
-    },
-    {
-      title: "More lesson words",
-      pattern: "Ø§Ù„Ù†ÙŽÙ‘Ø¹Ù’ØªÙ ÙˆÙŽØ§Ù„Ù’Ù…ÙŽÙ†Ù’Ø¹ÙÙˆØªÙ",
-      intro: "Add these words to the same pattern. Tap the Arabic words if you need a meaning reminder.",
-      cards: [
-        {
-          icon: "📍",
-          ar: "Ù„ÙÙ…ÙŽØ§Ø°ÙŽØ§"
-        },
-        {
-          icon: "🔹",
-          ar: "Ø§Ù„Ù’ÙƒÙÙˆØ¨Ù"
-        },
-        {
-          icon: "⭐",
-          ar: "Ø´ÙŽÙ‡ÙÙŠØ±ÙŒ"
-        },
-        {
-          icon: "🟢",
-          ar: "Ø³ÙŽÙ‡Ù’Ù„ÙŒ"
-        },
-        {
-          icon: "✨",
-          ar: "ØµÙŽØ¹Ù’Ø¨ÙŒ"
-        },
-        {
-          icon: "📍",
-          ar: "Ù…ÙØ¬Ù’ØªÙŽÙ‡ÙØ¯ÙŒ"
-        },
-        {
-          icon: "⭐",
-          ar: "ÙƒÙŽØ³Ù’Ù„ÙŽØ§Ù†Ù"
-        },
-        {
-          icon: "🟢",
-          ar: "Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù"
-        }
-      ],
-      keyPoints: [
-        "The Noun-Adjective Phrase",
-        "The Matching Rule"
-      ]
-    },
-    {
-      titleArabic: "????????",
-      title: "Quick practice",
-      pattern: "Ø§Ù„Ù†ÙŽÙ‘Ø¹Ù’ØªÙ ÙˆÙŽØ§Ù„Ù’Ù…ÙŽÙ†Ù’Ø¹ÙÙˆØªÙ",
-      intro: "Type the Arabic answer. You can type without vowels; the full answer appears after checking.",
-      tip: "Tip: focus on the structure first. Harakat can come later.",
-      exercise: [
-        {
-          icon: "✍️",
-          prompt: "Type in Arabic: \"Arabic is a beautiful language.\"",
-          ideal: "Ø§Ù„Ù’Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø©Ù Ù„ÙØºÙŽØ©ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ",
-          accepts: [
-            "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© Ù„ØºØ© Ø¬Ù…ÙŠÙ„Ø©",
-            "Ø§Ù„Ù’Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø©Ù Ù„ÙØºÙŽØ©ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ",
-            "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© Ù„ØºØ© Ø¬Ù…ÙŠÙ„Ø©ÙŒ",
-            "Ø§Ù„Ù’Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø© Ù„ÙØºÙŽØ© Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©"
-          ]
-        },
-        {
-          icon: "📘",
-          prompt: "Type in Arabic: \"I am hungry.\"",
-          ideal: "Ø£ÙŽÙ†ÙŽØ§ Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù",
-          accepts: [
-            "Ø£Ù†Ø§ Ø¬ÙˆØ¹Ø§Ù†",
-            "Ø£ÙŽÙ†ÙŽØ§ Ø¬ÙŽÙˆÙ’Ø¹ÙŽØ§Ù†Ù",
-            "Ø£Ù†Ø§ Ø¬ÙˆØ¹Ø§Ù†Ù",
-            "Ø£ÙŽÙ†ÙŽØ§ Ø¬ÙˆØ¹Ø§Ù†"
-          ]
-        }
-      ]
-    }
-  ],
+
   practiceQuestions: []
 };

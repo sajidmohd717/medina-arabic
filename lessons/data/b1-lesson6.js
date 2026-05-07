@@ -3,511 +3,440 @@
    ============================================================ */
 
 const LESSON_DATA = {
-  book: "book1",
+  book: 'book1',
   lessonNum: 6,
-  titleArabic: "Ù‡ÙŽØ°ÙÙ‡Ù",
-  titleEnglish: "This isâ€¦ (Feminine)",
-  summary: "In this lesson, you will learn the feminine counterpart to Ù‡ÙŽØ°ÙŽØ§, which is Ù‡ÙŽØ°ÙÙ‡Ù. You will learn how to identify feminine nouns using the tÄ' marbÅ«á¹­a (Ø©), how adjectives change to match the gender of the noun, and how to use the preposition Ù„ÙÙ€ (for/belongs to).",
-  nextLesson: "b1-lesson7.html",
+  titleArabic: 'هٰذِهِ',
+  titleEnglish: 'This is… (Feminine)',
+  summary: 'Learn the feminine counterpart to هٰذَا: هٰذِهِ. You will identify feminine nouns by the tāʾ marbūṭa (ة), see how adjectives match gender, and use the preposition لِـ (for / belongs to).',
+  nextLesson: 'b1-lesson7.html',
   passMark: 8,
   totalQuestions: 11,
-  vocab: [
+
+  guidedPattern: 'هٰذِهِ',
+  guidedIntro: 'هٰذَا points to masculine things. Now learn هٰذِهِ for feminine nouns — watch for the ة ending.',
+  reviewVocabAtEnd: true,
+  milestoneAfterPage: 4,
+
+  guidedPages: [
     {
-      ar: "Ù‡ÙŽØ°ÙÙ‡Ù",
-      trans: "hÄdhihi",
-      meaning: "This (fem.)",
-      type: "Demonstrative"
+      titleArabic: 'هٰذِهِ',
+      title: 'Lesson Six',
+      pattern: 'هٰذِهِ',
+      intro: 'Start with a short dialogue. Listen for هٰذِهِ when pointing to feminine objects.',
+      groups: [
+        { type: 'scene', text: 'Hamid and Aminah are looking at things in the house.' },
+        {
+          icon: '🥄',
+          role: 'teacher',
+          lines: [
+            { label: 'حامد', ar: 'مَا هٰذِهِ يَا آمِنَةُ؟', isPrompt: true },
+            { label: 'آمنة', ar: 'هٰذِهِ مِلْعَقَةٌ.' }
+          ]
+        },
+        {
+          icon: '🔧',
+          role: 'student',
+          lines: [
+            { label: 'حامد', ar: 'أَهٰذِهِ مِكْوَاةٌ؟', isPrompt: true },
+            { label: 'آمنة', ar: 'نَعَمْ، هٰذِهِ مِكْوَاةٌ.' }
+          ]
+        },
+        {
+          icon: '🚗',
+          role: 'teacher',
+          lines: [
+            { label: 'حامد', ar: 'وَمَا هٰذِهِ؟', isPrompt: true },
+            { label: 'آمنة', ar: 'هٰذِهِ سَيَّارَةٌ.' }
+          ]
+        },
+        {
+          icon: '⏰',
+          role: 'student',
+          lines: [
+            { label: 'حامد', ar: 'أَهٰذِهِ سَاعَةٌ جَدِيدَةٌ؟', isPrompt: true },
+            { label: 'آمنة', ar: 'نَعَمْ، هِيَ سَاعَةٌ جَمِيلَةٌ.' }
+          ]
+        }
+      ],
+      exerciseIntro: 'Answer from the dialogue',
+      exercise: [
+        {
+          icon: '🥄',
+          prompt: 'مَا هٰذِهِ؟',
+          placeholder: 'هٰذِهِ ...',
+          ideal: 'هٰذِهِ مِلْعَقَةٌ.',
+          accepts: ['هذه ملعقة', 'هٰذِهِ مِلْعَقَةٌ', 'هذه ملعقة.', 'هٰذِهِ مِلْعَقَةٌ.']
+        },
+        {
+          icon: '🚗',
+          prompt: 'وَمَا هٰذِهِ؟',
+          placeholder: 'هٰذِهِ ...',
+          ideal: 'هٰذِهِ سَيَّارَةٌ.',
+          accepts: ['هذه سيارة', 'هٰذِهِ سَيَّارَةٌ', 'هذه سيارة.', 'هٰذِهِ سَيَّارَةٌ.']
+        },
+        {
+          icon: '⏰',
+          prompt: 'كَيْفَ السَّاعَةُ؟',
+          placeholder: 'هِيَ ...',
+          ideal: 'هِيَ سَاعَةٌ جَمِيلَةٌ.',
+          accepts: ['هي ساعة جميلة', 'هِيَ سَاعَةٌ جَمِيلَةٌ', 'هي ساعة جميلة.', 'هِيَ سَاعَةٌ جَمِيلَةٌ.']
+        }
+      ],
+      keyPoints: [
+        'هٰذِهِ = this (feminine)',
+        'مَا هٰذِهِ؟ = What is this? (fem.)',
+        'أَهٰذِهِ ...؟ = Is this ...? (fem.)'
+      ]
     },
     {
-      ar: "Ù…ÙÙ„Ù’Ø¹ÙŽÙ‚ÙŽØ©ÙŒ",
-      trans: "milÊ¿aqatun",
-      meaning: "A spoon",
-      type: "Noun"
+      title: 'The Feminine Pattern',
+      pattern: 'هٰذِهِ + noun with ة',
+      intro: 'هٰذِهِ is used with feminine nouns. Most feminine nouns end with ة (tāʾ marbūṭa).',
+      wordBank: ['هٰذَا', 'هٰذِهِ'],
+      tapFill: [
+        { parts: [null, ' مِلْعَقَةٌ.'], answer: 'هٰذِهِ' },
+        { parts: [null, ' مِكْوَاةٌ.'], answer: 'هٰذِهِ' },
+        { parts: [null, ' كِتَابٌ.'], answer: 'هٰذَا' },
+        { parts: [null, ' دَرَّاجَةٌ.'], answer: 'هٰذِهِ' },
+        { parts: [null, ' قَلَمٌ.'], answer: 'هٰذَا' },
+        { parts: [null, ' سَاعَةٌ.'], answer: 'هٰذِهِ' },
+        { parts: [null, ' ثَلَّاجَةٌ.'], answer: 'هٰذِهِ' },
+        { parts: [null, ' بَيْتٌ.'], answer: 'هٰذَا' }
+      ],
+      keyPoints: [
+        'هٰذَا for masculine nouns',
+        'هٰذِهِ for feminine nouns',
+        'Look for ة at the end = feminine'
+      ]
     },
     {
-      ar: "Ù…ÙÙƒÙ’ÙˆÙŽØ§Ø©ÙŒ",
-      trans: "mikwÄtun",
-      meaning: "An iron",
-      type: "Noun"
+      title: 'Read the Pattern',
+      pattern: 'هٰذِهِ',
+      intro: 'Read these lines from the book. They reuse هٰذِهِ in short meaningful sentences.',
+      groups: [
+        {
+          icon: '👩‍⚕️',
+          lines: [
+            { ar: 'هٰذِهِ آمِنَةُ. هِيَ طَبِيبَةٌ.' }
+          ]
+        },
+        {
+          icon: '🚗',
+          lines: [
+            { ar: 'هٰذِهِ سَيَّارَةُ الطَّبِيبَةِ.' }
+          ]
+        },
+        {
+          icon: '⭐',
+          lines: [
+            { ar: 'السَّيَّارَةُ جَمِيلَةٌ وَسَرِيعَةٌ جِدًّا.' }
+          ]
+        },
+        {
+          icon: '⏰',
+          lines: [
+            { ar: 'هٰذِهِ سَاعَةُ آمِنَةَ. هِيَ عَلَى المَكْتَبِ.' }
+          ]
+        },
+        {
+          icon: '🍳',
+          lines: [
+            { ar: 'المِلْعَقَةُ فِي القِدْرِ. القِدْرُ عَلَى النَّارِ.' }
+          ]
+        },
+        {
+          icon: '🎓',
+          lines: [
+            { ar: 'آمِنَةُ أَيْضًا طَالِبَةٌ فِي الجَامِعَةِ.' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'هٰذِهِ آمِنَةُ = This is Aminah',
+        'لِمَنْ هٰذِهِ؟ = Whose is this? (fem.)'
+      ]
     },
     {
-      ar: "Ø¯ÙŽØ±ÙŽÙ‘Ø§Ø¬ÙŽØ©ÙŒ",
-      trans: "darrÄjatun",
-      meaning: "A bicycle",
-      type: "Noun"
+      title: 'More Feminine Words',
+      pattern: 'هٰذِهِ + body parts / more nouns',
+      intro: 'Many body parts and special words are feminine even without ة. Tap for meanings.',
+      cards: [
+        { icon: '🖐️', ar: 'يَدٌ' },
+        { icon: '🦶', ar: 'رِجْلٌ' },
+        { icon: '👁️', ar: 'عَيْنٌ' },
+        { icon: '👂', ar: 'أُذُنٌ' },
+        { icon: '🗣️', ar: 'رَأْسٌ' },
+        { icon: '👃', ar: 'أَنْفٌ' },
+        { icon: '👄', ar: 'فَمٌ' },
+        { icon: '🍲', ar: 'قِدْرٌ' }
+      ],
+      keyPoints: [
+        'Body parts in pairs are feminine: يَدٌ, رِجْلٌ, عَيْنٌ, أُذُنٌ',
+        'Some words are feminine by convention: قِدْرٌ (pot)'
+      ]
     },
     {
-      ar: "Ø³ÙŽØ§Ø¹ÙŽØ©ÙŒ",
-      trans: "sÄÊ¿atun",
-      meaning: "A watch / clock",
-      type: "Noun"
+      title: 'Adjectives Match Gender',
+      pattern: 'noun + adjective (matching)',
+      intro: 'Adjectives must match the gender of the noun. Add ة to make an adjective feminine.',
+      groups: [
+        {
+          icon: '🚗',
+          lines: [
+            { ar: 'سَيَّارَةٌ جَمِيلَةٌ — a beautiful car (fem.)' },
+            { ar: 'بَيْتٌ جَمِيلٌ — a beautiful house (masc.)' }
+          ]
+        },
+        {
+          icon: '⚡',
+          lines: [
+            { ar: 'دَرَّاجَةٌ سَرِيعَةٌ — a fast bicycle (fem.)' },
+            { ar: 'حِصَانٌ سَرِيعٌ — a fast horse (masc.)' }
+          ]
+        },
+        {
+          icon: '📏',
+          lines: [
+            { ar: 'سَاعَةٌ كَبِيرَةٌ — a big watch (fem.)' },
+            { ar: 'مَكْتَبٌ كَبِيرٌ — a big desk (masc.)' }
+          ]
+        },
+        {
+          icon: '👩‍🏫',
+          lines: [
+            { ar: 'مُدَرِّسَةٌ جَدِيدَةٌ — a new teacher (fem.)' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'مذكّر (masc.): جَمِيلٌ، سَرِيعٌ، كَبِيرٌ',
+        'مؤنّث (fem.): جَمِيلَةٌ، سَرِيعَةٌ، كَبِيرَةٌ'
+      ]
     },
     {
-      ar: "Ø«ÙŽÙ„ÙŽÙ‘Ø§Ø¬ÙŽØ©ÙŒ",
-      trans: "thallÄjatun",
-      meaning: "A fridge",
-      type: "Noun"
+      title: 'لِمَنْ — Whose Is This?',
+      pattern: 'لِمَنْ هٰذِهِ؟',
+      intro: 'The preposition لِـ means "for / belongs to." لِمَنْ asks "whose?"',
+      groups: [
+        {
+          icon: '🔑',
+          lines: [
+            { ar: 'هٰذِهِ سَيَّارَةٌ.', isPrompt: true },
+            { ar: 'لِمَنْ هٰذِهِ السَّيَّارَةُ؟' },
+            { ar: 'هِيَ لِخَالِدٍ.' }
+          ]
+        },
+        {
+          icon: '⏰',
+          lines: [
+            { ar: 'لِمَنْ هٰذِهِ السَّاعَةُ؟', isPrompt: true },
+            { ar: 'هِيَ لِآمِنَةَ.' }
+          ]
+        },
+        {
+          icon: '🥄',
+          lines: [
+            { ar: 'لِمَنْ هٰذِهِ المِلْعَقَةُ؟', isPrompt: true },
+            { ar: 'هِيَ لِلطَّبِيبَةِ.' }
+          ]
+        }
+      ],
+      exercise: [
+        {
+          icon: '🚗',
+          prompt: 'لِمَنْ هٰذِهِ السَّيَّارَةُ؟ (خَالِد)',
+          ideal: 'هِيَ لِخَالِدٍ.',
+          accepts: ['هي لخالد', 'هِيَ لِخَالِدٍ', 'هي لخالد.', 'هِيَ لِخَالِدٍ.']
+        },
+        {
+          icon: '⏰',
+          prompt: 'لِمَنْ هٰذِهِ السَّاعَةُ؟ (آمِنَة)',
+          ideal: 'هِيَ لِآمِنَةَ.',
+          accepts: ['هي لآمنة', 'هِيَ لِآمِنَةَ', 'هي لآمنة.', 'هِيَ لِآمِنَةَ.']
+        },
+        {
+          icon: '📖',
+          prompt: 'لِمَنْ هٰذَا الكِتَابُ؟ (المُدَرِّس)',
+          ideal: 'هُوَ لِلْمُدَرِّسِ.',
+          accepts: ['هو للمدرس', 'هُوَ لِلْمُدَرِّسِ', 'هو للمدرس.', 'هُوَ لِلْمُدَرِّسِ.']
+        }
+      ],
+      keyPoints: [
+        'لِمَنْ = whose? / to whom?',
+        'لِـ + noun with kasra = belongs to'
+      ]
     },
     {
-      ar: "Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙŒ",
-      trans: "sayyÄratun",
-      meaning: "A car",
-      type: "Noun"
-    },
-    {
-      ar: "Ù†ÙŽØ§ÙÙØ°ÙŽØ©ÙŒ",
-      trans: "nÄfidhatun",
-      meaning: "A window",
-      type: "Noun"
-    },
-    {
-      ar: "Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³ÙŽØ©ÙŒ",
-      trans: "mudarrisatun",
-      meaning: "A teacher (fem.)",
-      type: "Noun"
-    },
-    {
-      ar: "Ø·ÙŽØ¨ÙÙŠØ¨ÙŽØ©ÙŒ",
-      trans: "á¹­abÄ«batun",
-      meaning: "A doctor (fem.)",
-      type: "Noun"
-    },
-    {
-      ar: "Ù‚ÙØ¯Ù’Ø±ÙŒ",
-      trans: "qidrun",
-      meaning: "A cooking pot",
-      type: "Noun (Fem.)"
-    },
-    {
-      ar: "ÙŠÙŽØ¯ÙŒ",
-      trans: "yadun",
-      meaning: "A hand",
-      type: "Noun (Fem.)"
-    },
-    {
-      ar: "Ø±ÙØ¬Ù’Ù„ÙŒ",
-      trans: "rijlun",
-      meaning: "A leg / foot",
-      type: "Noun (Fem.)"
-    },
-    {
-      ar: "Ø¹ÙŽÙŠÙ’Ù†ÙŒ",
-      trans: "Ê¿aynun",
-      meaning: "An eye",
-      type: "Noun (Fem.)"
-    },
-    {
-      ar: "Ø£ÙØ°ÙÙ†ÙŒ",
-      trans: "udhunun",
-      meaning: "An ear",
-      type: "Noun (Fem.)"
-    },
-    {
-      ar: "Ø±ÙŽØ£Ù’Ø³ÙŒ",
-      trans: "ra'sun",
-      meaning: "A head",
-      type: "Noun"
-    },
-    {
-      ar: "Ø£ÙŽÙ†Ù’ÙÙŒ",
-      trans: "anfun",
-      meaning: "A nose",
-      type: "Noun"
-    },
-    {
-      ar: "ÙÙŽÙ…ÙŒ",
-      trans: "famun",
-      meaning: "A mouth",
-      type: "Noun"
-    },
-    {
-      ar: "Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ",
-      trans: "jamÄ«latun",
-      meaning: "Beautiful (fem.)",
-      type: "Adjective"
-    },
-    {
-      ar: "Ø³ÙŽØ±ÙÙŠØ¹ÙŽØ©ÙŒ",
-      trans: "sarÄ«Ê¿atun",
-      meaning: "Fast (fem.)",
-      type: "Adjective"
-    },
-    {
-      ar: "ÙƒÙŽØ¨ÙÙŠØ±ÙŽØ©ÙŒ",
-      trans: "kabÄ«ratun",
-      meaning: "Big (fem.)",
-      type: "Adjective"
-    },
-    {
-      ar: "Ù„ÙÙ€",
-      trans: "li-",
-      meaning: "For / Belongs to",
-      type: "Preposition"
-    },
-    {
-      ar: "Ù„ÙÙ…ÙŽÙ†Ù’",
-      trans: "li-man",
-      meaning: "Whose? / To whom?",
-      type: "Interrogative"
-    },
-    {
-      ar: "Ø£ÙŽÙŠÙ’Ø¶Ù‹Ø§",
-      trans: "ayá¸an",
-      meaning: "Also / Too",
-      type: "Particle"
-    },
-    {
-      ar: "Ø¬ÙØ¯Ù‹Ù‘Ø§",
-      trans: "jiddan",
-      meaning: "Very",
-      type: "Adverb"
+      titleArabic: 'تَمْرِين',
+      title: 'Practice',
+      pattern: 'هٰذِهِ',
+      intro: 'Type the Arabic answer. You can skip harakāt — the full form appears when you check.',
+      tip: 'Tip: focus on getting the words right first. Harakāt come with practice.',
+      exercise: [
+        {
+          icon: '🚗',
+          prompt: 'Type in Arabic: "This is a car."',
+          ideal: 'هٰذِهِ سَيَّارَةٌ.',
+          accepts: ['هذه سيارة', 'هٰذِهِ سَيَّارَةٌ', 'هذه سيارة.', 'هٰذِهِ سَيَّارَةٌ.']
+        },
+        {
+          icon: '⏰',
+          prompt: 'Type in Arabic: "This is a beautiful watch."',
+          ideal: 'هٰذِهِ سَاعَةٌ جَمِيلَةٌ.',
+          accepts: ['هذه ساعة جميلة', 'هٰذِهِ سَاعَةٌ جَمِيلَةٌ', 'هذه ساعة جميلة.', 'هٰذِهِ سَاعَةٌ جَمِيلَةٌ.']
+        },
+        {
+          icon: '🥄',
+          prompt: 'Type in Arabic: "Whose is this spoon?"',
+          ideal: 'لِمَنْ هٰذِهِ المِلْعَقَةُ؟',
+          accepts: ['لمن هذه الملعقة', 'لِمَنْ هٰذِهِ المِلْعَقَةُ', 'لمن هذه الملعقة؟', 'لِمَنْ هٰذِهِ المِلْعَقَةُ؟']
+        }
+      ]
     }
   ],
+
+  vocab: [
+    { ar: 'هٰذِهِ', trans: 'hādhihi', meaning: 'This (fem.)', type: 'Demonstrative' },
+    { ar: 'مِلْعَقَةٌ', trans: 'milʿaqatun', meaning: 'A spoon', type: 'Noun' },
+    { ar: 'مِكْوَاةٌ', trans: 'mikwātun', meaning: 'An iron', type: 'Noun' },
+    { ar: 'دَرَّاجَةٌ', trans: 'darrājatun', meaning: 'A bicycle', type: 'Noun' },
+    { ar: 'سَاعَةٌ', trans: 'sāʿatun', meaning: 'A watch / clock', type: 'Noun' },
+    { ar: 'ثَلَّاجَةٌ', trans: 'thallājatun', meaning: 'A fridge', type: 'Noun' },
+    { ar: 'سَيَّارَةٌ', trans: 'sayyāratun', meaning: 'A car', type: 'Noun' },
+    { ar: 'نَافِذَةٌ', trans: 'nāfidhatun', meaning: 'A window', type: 'Noun' },
+    { ar: 'مُدَرِّسَةٌ', trans: 'mudarrisatun', meaning: 'A teacher (fem.)', type: 'Noun' },
+    { ar: 'طَبِيبَةٌ', trans: 'ṭabībatun', meaning: 'A doctor (fem.)', type: 'Noun' },
+    { ar: 'قِدْرٌ', trans: 'qidrun', meaning: 'A cooking pot', type: 'Noun (Fem.)' },
+    { ar: 'يَدٌ', trans: 'yadun', meaning: 'A hand', type: 'Noun (Fem.)' },
+    { ar: 'رِجْلٌ', trans: 'rijlun', meaning: 'A leg / foot', type: 'Noun (Fem.)' },
+    { ar: 'عَيْنٌ', trans: 'ʿaynun', meaning: 'An eye', type: 'Noun (Fem.)' },
+    { ar: 'أُذُنٌ', trans: 'udhunun', meaning: 'An ear', type: 'Noun (Fem.)' },
+    { ar: 'رَأْسٌ', trans: 'raʾsun', meaning: 'A head', type: 'Noun' },
+    { ar: 'أَنْفٌ', trans: 'anfun', meaning: 'A nose', type: 'Noun' },
+    { ar: 'فَمٌ', trans: 'famun', meaning: 'A mouth', type: 'Noun' },
+    { ar: 'جَمِيلَةٌ', trans: 'jamīlatun', meaning: 'Beautiful (fem.)', type: 'Adjective' },
+    { ar: 'سَرِيعَةٌ', trans: 'sarīʿatun', meaning: 'Fast (fem.)', type: 'Adjective' },
+    { ar: 'كَبِيرَةٌ', trans: 'kabīratun', meaning: 'Big (fem.)', type: 'Adjective' },
+    { ar: 'لِـ', trans: 'li-', meaning: 'For / Belongs to', type: 'Preposition' },
+    { ar: 'لِمَنْ', trans: 'liman', meaning: 'Whose? / To whom?', type: 'Interrogative' },
+    { ar: 'أَيْضًا', trans: 'ayḍan', meaning: 'Also / Too', type: 'Particle' },
+    { ar: 'جِدًّا', trans: 'jiddan', meaning: 'Very', type: 'Adverb' }
+  ],
+
   grammarBlocks: [
     {
-      title: "The Feminine \"This\": Ù‡ÙŽØ°ÙÙ‡Ù",
-      content: "<p>In Arabic, every noun is either masculine or feminine. To point at a feminine noun that is near, we use <strong>Ù‡ÙŽØ°ÙÙ‡Ù</strong> (hÄdhihi).</p>",
-      rule: "Ù‡ÙŽØ°ÙŽØ§ (Masculine) vs. Ù‡ÙŽØ°ÙÙ‡Ù (Feminine)."
+      title: 'The Feminine "This": هٰذِهِ',
+      content: '<p>In Arabic, every noun is either masculine or feminine. To point at a feminine noun that is near, we use <strong>هٰذِهِ</strong> (hādhihi).</p>',
+      rule: 'هٰذَا (Masculine) vs. هٰذِهِ (Feminine).'
     },
     {
-      title: "Identifying Feminine Nouns",
-      content: "<p>The most common sign of a feminine noun is the <strong>TÄ' MarbÅ«á¹­a (Ø©)</strong> at the end. For example: <strong>Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙŒ</strong> (car), <strong>Ø³ÙŽØ§Ø¹ÙŽØ©ÙŒ</strong> (watch).</p><p>However, some words are feminine by nature (like \"mother\" or \"sister\") or by convention (like <strong>Ù‚ÙØ¯Ù’Ø±ÙŒ</strong> - pot, or <strong>Ø´ÙŽÙ…Ù’Ø³ÙŒ</strong> - sun). Double body parts (eyes, ears, hands, legs) are also feminine.</p>",
-      rule: "Look for Ø© at the end, but remember body parts and special exceptions!"
+      title: 'Identifying Feminine Nouns',
+      content: '<p>The most common sign of a feminine noun is the <strong>Tāʾ Marbūṭa (ة)</strong> at the end. For example: <strong>سَيَّارَةٌ</strong> (car), <strong>سَاعَةٌ</strong> (watch).</p><p>However, some words are feminine by nature (like body parts in pairs: eyes, ears, hands, legs) or by convention (like <strong>قِدْرٌ</strong> — pot, or <strong>شَمْسٌ</strong> — sun).</p>',
+      rule: 'Look for ة at the end, but remember body parts and special exceptions!'
     },
     {
-      title: "Noun-Adjective Agreement",
-      content: "<p>Adjectives must match the gender of the noun they describe. To make a masculine adjective feminine, add a Ø© to the end.</p><ul><li><strong>Ø¨ÙŽÙŠÙ’ØªÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŒ</strong> (A beautiful house - masc.)</li><li><strong>Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ</strong> (A beautiful car - fem.)</li></ul>",
-      rule: "Noun gender = Adjective gender."
+      title: 'Noun-Adjective Agreement',
+      content: '<p>Adjectives must match the gender of the noun they describe. To make a masculine adjective feminine, add a ة to the end.</p><ul><li><strong>بَيْتٌ جَمِيلٌ</strong> (A beautiful house — masc.)</li><li><strong>سَيَّارَةٌ جَمِيلَةٌ</strong> (A beautiful car — fem.)</li></ul>',
+      rule: 'Noun gender = Adjective gender.'
     },
     {
-      title: "The Preposition Ù„ÙÙ€ (Belongs to)",
-      content: "<p>The preposition <strong>Ù„ÙÙ€</strong> (li-) means \"for\" or \"belongs to\". It causes the following noun to take a kasra (genitive case).</p><p><strong>Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡ÙØŸ</strong> means \"Whose is this?\" or \"To whom does this belong?\"</p>",
-      rule: "Ù‡ÙŽØ°ÙÙ‡Ù Ù„ÙØ®ÙŽØ§Ù„ÙØ¯Ù = This belongs to Khalid."
+      title: 'The Preposition لِـ (Belongs to)',
+      content: '<p>The preposition <strong>لِـ</strong> (li-) means "for" or "belongs to." It causes the following noun to take a kasra (genitive case).</p><p><strong>لِمَنْ هٰذِهِ؟</strong> means "Whose is this?" or "To whom does this belong?"</p>',
+      rule: 'هٰذِهِ لِخَالِدٍ = This belongs to Khalid.'
     }
   ],
+
   comprehension: {
-    title: "Aminah's Belongings",
-    arabic: "Ù‡ÙŽØ°ÙÙ‡Ù Ø¢Ù…ÙÙ†ÙŽØ©Ù. Ù‡ÙÙŠÙŽ Ø·ÙŽØ¨ÙÙŠØ¨ÙŽØ©ÙŒ. Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©Ù Ø§Ù„Ø·ÙŽÙ‘Ø¨ÙÙŠØ¨ÙŽØ©Ù. Ø§Ù„Ø³ÙŽÙ‘ÙŠÙŽÙ‘Ø§Ø±ÙŽØ©Ù Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ ÙˆÙŽØ³ÙŽØ±ÙÙŠØ¹ÙŽØ©ÙŒ Ø¬ÙØ¯Ù‹Ù‘Ø§. Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŽØ§Ø¹ÙŽØ©Ù Ø¢Ù…ÙÙ†ÙŽØ©ÙŽ. Ù‡ÙÙŠÙŽ Ø¹ÙŽÙ„ÙŽÙ‰ Ø§Ù„Ù’Ù…ÙŽÙƒÙ’ØªÙŽØ¨Ù. Ø§Ù„Ù’Ù…ÙÙ„Ù’Ø¹ÙŽÙ‚ÙŽØ©Ù ÙÙÙŠ Ø§Ù„Ù’Ù‚ÙØ¯Ù’Ø±Ù. Ø§Ù„Ù’Ù‚ÙØ¯Ù’Ø±Ù Ø¹ÙŽÙ„ÙŽÙ‰ Ø§Ù„Ù†ÙŽÙ‘Ø§Ø±Ù. Ù‡ÙŽØ°ÙÙ‡Ù Ø£ÙØ°ÙÙ†ÙŒ ÙˆÙŽÙ‡ÙŽØ°ÙÙ‡Ù Ø¹ÙŽÙŠÙ’Ù†ÙŒ. Ø¢Ù…ÙÙ†ÙŽØ©Ù Ø£ÙŽÙŠÙ’Ø¶Ù‹Ø§ Ø·ÙŽØ§Ù„ÙØ¨ÙŽØ©ÙŒ ÙÙÙŠ Ø§Ù„Ù’Ø¬ÙŽØ§Ù…ÙØ¹ÙŽØ©Ù.",
-    english: "This is Aminah. She is a doctor. This is the doctor's car. The car is beautiful and very fast. This is Aminah's watch. It is on the desk. The spoon is in the pot. The pot is on the fire. This is an ear and this is an eye. Aminah is also a student in the university.",
+    title: 'Aminah\'s Belongings',
+    arabic: 'هٰذِهِ آمِنَةُ. هِيَ طَبِيبَةٌ. هٰذِهِ سَيَّارَةُ الطَّبِيبَةِ. السَّيَّارَةُ جَمِيلَةٌ وَسَرِيعَةٌ جِدًّا. هٰذِهِ سَاعَةُ آمِنَةَ. هِيَ عَلَى المَكْتَبِ. المِلْعَقَةُ فِي القِدْرِ. القِدْرُ عَلَى النَّارِ. هٰذِهِ أُذُنٌ وَهٰذِهِ عَيْنٌ. آمِنَةُ أَيْضًا طَالِبَةٌ فِي الجَامِعَةِ.',
+    english: 'This is Aminah. She is a doctor. This is the doctor\'s car. The car is beautiful and very fast. This is Aminah\'s watch. It is on the desk. The spoon is in the pot. The pot is on the fire. This is an ear and this is an eye. Aminah is also a student in the university.',
     questions: [
       {
-        text: "What is Aminah's profession?",
-        options: [
-          "A teacher",
-          "A doctor",
-          "An engineer",
-          "A merchant"
-        ],
-        correct: "A doctor"
+        text: 'What is Aminah\'s profession?',
+        options: ['A teacher', 'A doctor', 'An engineer', 'A merchant'],
+        correct: 'A doctor'
       },
       {
-        text: "How is the car described?",
-        options: [
-          "Old and slow",
-          "Big and heavy",
-          "Beautiful and very fast",
-          "Small and clean"
-        ],
-        correct: "Beautiful and very fast"
+        text: 'How is the car described?',
+        options: ['Old and slow', 'Big and heavy', 'Beautiful and very fast', 'Small and clean'],
+        correct: 'Beautiful and very fast'
       },
       {
-        text: "Where is the spoon (Ø§Ù„Ù’Ù…ÙÙ„Ù’Ø¹ÙŽÙ‚ÙŽØ©)?",
-        options: [
-          "On the desk",
-          "In the car",
-          "In the pot",
-          "In the room"
-        ],
-        correct: "In the pot"
+        text: 'Where is the spoon (المِلْعَقَة)?',
+        options: ['On the desk', 'In the car', 'In the pot', 'In the room'],
+        correct: 'In the pot'
       },
       {
-        text: "Is Aminah only a doctor?",
-        options: [
-          "Yes, only a doctor",
-          "No, she is also a student",
-          "No, she is also a teacher",
-          "Yes, she is an engineer"
-        ],
-        correct: "No, she is also a student"
+        text: 'Is Aminah only a doctor?',
+        options: ['Yes, only a doctor', 'No, she is also a student', 'No, she is also a teacher', 'Yes, she is an engineer'],
+        correct: 'No, she is also a student'
       }
     ]
   },
+
   quizQuestions: {
     multipleChoice: [
       {
-        prompt: "What is the feminine counterpart to Ù‡ÙŽØ°ÙŽØ§?",
-        options: [
-          "ØªÙÙ„Ù’ÙƒÙŽ",
-          "Ù‡ÙŽØ°ÙÙ‡Ù",
-          "Ø°ÙŽÙ„ÙÙƒÙŽ",
-          "Ù‡ÙÙŠÙŽ"
-        ],
+        prompt: 'What is the feminine counterpart to هٰذَا?',
+        options: ['تِلْكَ', 'هٰذِهِ', 'ذٰلِكَ', 'هِيَ'],
         correct: 1
       },
       {
-        prompt: "Translate: \"This is a teacher (fem.)\"",
-        options: [
-          "Ù‡ÙŽØ°ÙŽØ§ Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³ÙŒ",
-          "Ù‡ÙŽØ°ÙÙ‡Ù Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³ÙŽØ©ÙŒ",
-          "Ù‡ÙŽØ°ÙÙ‡Ù Ø·ÙŽØ¨ÙÙŠØ¨ÙŽØ©ÙŒ",
-          "Ù‡ÙÙŠÙŽ Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³ÙŒ"
-        ],
+        prompt: 'Translate: "This is a teacher (fem.)"',
+        options: ['هٰذَا مُدَرِّسٌ', 'هٰذِهِ مُدَرِّسَةٌ', 'هٰذِهِ طَبِيبَةٌ', 'هِيَ مُدَرِّسٌ'],
         correct: 1
       },
       {
-        prompt: "Which of these is a sign of a feminine noun?",
-        options: [
-          "TanwÄ«n",
-          "Al- prefix",
-          "TÄ' MarbÅ«á¹­a (Ø©)",
-          "Damma ending"
-        ],
+        prompt: 'Which of these is a sign of a feminine noun?',
+        options: ['Tanwīn', 'Al- prefix', 'Tāʾ Marbūṭa (ة)', 'Ḍamma ending'],
         correct: 2
       },
       {
-        prompt: "Translate: \"Whose is this car?\"",
-        options: [
-          "Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙŽØ§ Ø§Ù„Ø³ÙŽÙ‘ÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙØŸ",
-          "Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡Ù Ø§Ù„Ø³ÙŽÙ‘ÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙØŸ",
-          "Ù…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡Ù Ø§Ù„Ø³ÙŽÙ‘ÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙØŸ",
-          "Ø£ÙŽÙŠÙ’Ù†ÙŽ Ù‡ÙŽØ°ÙÙ‡Ù Ø§Ù„Ø³ÙŽÙ‘ÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙØŸ"
-        ],
+        prompt: 'Translate: "Whose is this car?"',
+        options: ['لِمَنْ هٰذَا السَّيَّارَةُ؟', 'لِمَنْ هٰذِهِ السَّيَّارَةُ؟', 'مَنْ هٰذِهِ السَّيَّارَةُ؟', 'أَيْنَ هٰذِهِ السَّيَّارَةُ؟'],
         correct: 1
       },
       {
-        prompt: "Which of these body parts is masculine?",
-        options: [
-          "Ø¹ÙŽÙŠÙ’Ù†ÙŒ (Eye)",
-          "Ø£ÙØ°ÙÙ†ÙŒ (Ear)",
-          "ÙŠÙŽØ¯ÙŒ (Hand)",
-          "Ø£ÙŽÙ†Ù’ÙÙŒ (Nose)"
-        ],
+        prompt: 'Which of these body parts is masculine?',
+        options: ['عَيْنٌ (Eye)', 'أُذُنٌ (Ear)', 'يَدٌ (Hand)', 'أَنْفٌ (Nose)'],
         correct: 3
       },
       {
-        prompt: "Translate: \"The bicycle is fast.\"",
-        options: [
-          "Ø§Ù„Ø¯ÙŽÙ‘Ø±ÙŽÙ‘Ø§Ø¬ÙŽØ©Ù Ø³ÙŽØ±ÙÙŠØ¹ÙŒ",
-          "Ø§Ù„Ø¯ÙŽÙ‘Ø±ÙŽÙ‘Ø§Ø¬ÙŽØ©Ù Ø³ÙŽØ±ÙÙŠØ¹ÙŽØ©ÙŒ",
-          "Ø§Ù„Ù’Ø­ÙØµÙŽØ§Ù†Ù Ø³ÙŽØ±ÙÙŠØ¹ÙŒ",
-          "Ø§Ù„Ø¯ÙŽÙ‘Ø±ÙŽÙ‘Ø§Ø¬ÙŽØ©Ù Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ"
-        ],
+        prompt: 'Translate: "The bicycle is fast."',
+        options: ['الدَّرَّاجَةُ سَرِيعٌ', 'الدَّرَّاجَةُ سَرِيعَةٌ', 'الحِصَانُ سَرِيعٌ', 'الدَّرَّاجَةُ جَمِيلَةٌ'],
         correct: 1
       }
     ],
     typing: [
       {
-        prompt: "Type in Arabic: \"This is a car.\"",
-        ideal: "Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙŒ",
-        accepts: [
-          "Ù‡Ø°Ù‡ Ø³ÙŠØ§Ø±Ø©",
-          "Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙŒ",
-          "Ù‡Ø°Ù‡ Ø³ÙŠØ§Ø±Ø©ÙŒ",
-          "Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŠØ§Ø±Ø©"
-        ]
+        prompt: 'Type in Arabic: "This is a car."',
+        ideal: 'هٰذِهِ سَيَّارَةٌ',
+        accepts: ['هذه سيارة', 'هٰذِهِ سَيَّارَةٌ', 'هذه سيارة.', 'هٰذِهِ سَيَّارَةٌ.']
       },
       {
-        prompt: "Type in Arabic: \"Whose is this?\" (feminine)",
-        ideal: "Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡ÙØŸ",
-        accepts: [
-          "Ù„Ù…Ù† Ù‡Ø°Ù‡",
-          "Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡Ù",
-          "Ù„Ù…Ù† Ù‡Ø°Ù‡ØŸ",
-          "Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡ÙØŸ"
-        ]
+        prompt: 'Type in Arabic: "Whose is this?" (feminine)',
+        ideal: 'لِمَنْ هٰذِهِ؟',
+        accepts: ['لمن هذه', 'لِمَنْ هٰذِهِ', 'لمن هذه؟', 'لِمَنْ هٰذِهِ؟']
       }
     ],
     conceptCheck: [
       {
-        statement: "This lesson's main pattern is connected to: The Feminine \"This\": Ù‡ÙŽØ°ÙÙ‡Ù.",
+        statement: 'In Arabic, هٰذِهِ is used to point to feminine things that are near.',
         correct: true,
-        explanation: "Ù‡ÙŽØ°ÙŽØ§ (Masculine) vs. Ù‡ÙŽØ°ÙÙ‡Ù (Feminine)."
+        explanation: 'هٰذِهِ is the feminine form of "this," just as هٰذَا is the masculine form.'
       },
       {
-        statement: "The Concepts step gives more detail for: Identifying Feminine Nouns.",
-        correct: true,
-        explanation: "Look for Ø© at the end, but remember body parts and special exceptions!"
-      },
-      {
-        statement: "In This isâ€¦ (Feminine), you can ignore the lesson pattern and still build the Arabic correctly.",
+        statement: 'All Arabic nouns ending with ة are feminine, and all feminine nouns end with ة.',
         correct: false,
-        explanation: "The pattern is the point of the lesson. Learn keeps it small first, then Concepts explains the rule more fully."
+        explanation: 'Most feminine nouns end with ة, but some feminine nouns (like يَدٌ, شَمْسٌ) do not have ة.'
+      },
+      {
+        statement: 'When you describe a feminine noun, the adjective must also be feminine.',
+        correct: true,
+        explanation: 'Adjectives match the noun in gender: سَيَّارَةٌ جَمِيلَةٌ (a beautiful car — both fem.).'
       }
     ]
   },
-  guidedPattern: "Ù‡ÙŽØ°ÙÙ‡Ù",
-  guidedIntro: "In this lesson, you will learn the feminine counterpart to Ù‡ÙŽØ°ÙŽØ§, which is Ù‡ÙŽØ°ÙÙ‡Ù. You will learn how to identify feminine nouns using the tÄ' marbÅ«á¹­a (Ø©), how adjectives change to match the gender of the noun, and how to use the preposition Ù„ÙÙ€ (for/belongs to).",
-  reviewVocabAtEnd: true,
-  guidedPages: [
-    {
-      titleArabic: "Ù‡ÙŽØ°ÙÙ‡Ù",
-      title: "Lesson 6",
-      pattern: "Ù‡ÙŽØ°ÙÙ‡Ù",
-      intro: "In this lesson, you will learn the feminine counterpart to Ù‡ÙŽØ°ÙŽØ§, which is Ù‡ÙŽØ°ÙÙ‡Ù. You will learn how to identify feminine nouns using the tÄ' marbÅ«á¹­a (Ø©), how adjectives change to match the gender of the noun, and how to use the preposition Ù„ÙÙ€ (for/belongs to).",
-      cards: [
-        {
-          icon: "📍",
-          ar: "Ù‡ÙŽØ°ÙÙ‡Ù"
-        },
-        {
-          icon: "📍",
-          ar: "Ù…ÙÙ„Ù’Ø¹ÙŽÙ‚ÙŽØ©ÙŒ"
-        },
-        {
-          icon: "📍",
-          ar: "Ù…ÙÙƒÙ’ÙˆÙŽØ§Ø©ÙŒ"
-        },
-        {
-          icon: "🚗",
-          ar: "Ø¯ÙŽØ±ÙŽÙ‘Ø§Ø¬ÙŽØ©ÙŒ"
-        },
-        {
-          icon: "⏱️",
-          ar: "Ø³ÙŽØ§Ø¹ÙŽØ©ÙŒ"
-        },
-        {
-          icon: "🔹",
-          ar: "Ø«ÙŽÙ„ÙŽÙ‘Ø§Ø¬ÙŽØ©ÙŒ"
-        },
-        {
-          icon: "🚗",
-          ar: "Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙŒ"
-        },
-        {
-          icon: "🚪",
-          ar: "Ù†ÙŽØ§ÙÙØ°ÙŽØ©ÙŒ"
-        }
-      ],
-      keyPoints: [
-        "Ù‡ÙŽØ°ÙÙ‡Ù",
-        "The Feminine \"This\": Ù‡ÙŽØ°ÙÙ‡Ù"
-      ]
-    },
-    {
-      title: "Read the pattern",
-      pattern: "Ù‡ÙŽØ°ÙÙ‡Ù",
-      intro: "Read these short lines before the Reading step. They reuse the same lesson pattern in context.",
-      groups: [
-        {
-          icon: "📘",
-          lines: [
-            {
-              ar: "Ù‡ÙŽØ°ÙÙ‡Ù Ø¢Ù…ÙÙ†ÙŽØ©Ù."
-            }
-          ]
-        },
-        {
-          icon: "📍",
-          lines: [
-            {
-              ar: "Ù‡ÙÙŠÙŽ Ø·ÙŽØ¨ÙÙŠØ¨ÙŽØ©ÙŒ."
-            }
-          ]
-        },
-        {
-          icon: "⭐",
-          lines: [
-            {
-              ar: "Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©Ù Ø§Ù„Ø·ÙŽÙ‘Ø¨ÙÙŠØ¨ÙŽØ©Ù."
-            }
-          ]
-        },
-        {
-          icon: "🟢",
-          lines: [
-            {
-              ar: "Ø§Ù„Ø³ÙŽÙ‘ÙŠÙŽÙ‘Ø§Ø±ÙŽØ©Ù Ø¬ÙŽÙ…ÙÙŠÙ„ÙŽØ©ÙŒ ÙˆÙŽØ³ÙŽØ±ÙÙŠØ¹ÙŽØ©ÙŒ Ø¬ÙØ¯Ù‹Ù‘Ø§."
-            }
-          ]
-        },
-        {
-          icon: "✨",
-          lines: [
-            {
-              ar: "Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŽØ§Ø¹ÙŽØ©Ù Ø¢Ù…ÙÙ†ÙŽØ©ÙŽ."
-            }
-          ]
-        }
-      ],
-      keyPoints: [
-        "The Feminine \"This\": Ù‡ÙŽØ°ÙÙ‡Ù",
-        "Identifying Feminine Nouns"
-      ]
-    },
-    {
-      title: "More lesson words",
-      pattern: "Ù‡ÙŽØ°ÙÙ‡Ù",
-      intro: "Add these words to the same pattern. Tap the Arabic words if you need a meaning reminder.",
-      cards: [
-        {
-          icon: "👤",
-          ar: "Ù…ÙØ¯ÙŽØ±ÙÙ‘Ø³ÙŽØ©ÙŒ"
-        },
-        {
-          icon: "👤",
-          ar: "Ø·ÙŽØ¨ÙÙŠØ¨ÙŽØ©ÙŒ"
-        },
-        {
-          icon: "📍",
-          ar: "Ù‚ÙØ¯Ù’Ø±ÙŒ"
-        },
-        {
-          icon: "🟢",
-          ar: "ÙŠÙŽØ¯ÙŒ"
-        },
-        {
-          icon: "✨",
-          ar: "Ø±ÙØ¬Ù’Ù„ÙŒ"
-        },
-        {
-          icon: "🔹",
-          ar: "Ø¹ÙŽÙŠÙ’Ù†ÙŒ"
-        },
-        {
-          icon: "⭐",
-          ar: "Ø£ÙØ°ÙÙ†ÙŒ"
-        },
-        {
-          icon: "🟢",
-          ar: "Ø±ÙŽØ£Ù’Ø³ÙŒ"
-        }
-      ],
-      keyPoints: [
-        "The Feminine \"This\": Ù‡ÙŽØ°ÙÙ‡Ù",
-        "Identifying Feminine Nouns"
-      ]
-    },
-    {
-      titleArabic: "????????",
-      title: "Quick practice",
-      pattern: "Ù‡ÙŽØ°ÙÙ‡Ù",
-      intro: "Type the Arabic answer. You can type without vowels; the full answer appears after checking.",
-      tip: "Tip: focus on the structure first. Harakat can come later.",
-      exercise: [
-        {
-          icon: "✍️",
-          prompt: "Type in Arabic: \"This is a car.\"",
-          ideal: "Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙŒ",
-          accepts: [
-            "Ù‡Ø°Ù‡ Ø³ÙŠØ§Ø±Ø©",
-            "Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŽÙŠÙŽÙ‘Ø§Ø±ÙŽØ©ÙŒ",
-            "Ù‡Ø°Ù‡ Ø³ÙŠØ§Ø±Ø©ÙŒ",
-            "Ù‡ÙŽØ°ÙÙ‡Ù Ø³ÙŠØ§Ø±Ø©"
-          ]
-        },
-        {
-          icon: "📘",
-          prompt: "Type in Arabic: \"Whose is this?\" (feminine)",
-          ideal: "Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡ÙØŸ",
-          accepts: [
-            "Ù„Ù…Ù† Ù‡Ø°Ù‡",
-            "Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡Ù",
-            "Ù„Ù…Ù† Ù‡Ø°Ù‡ØŸ",
-            "Ù„ÙÙ…ÙŽÙ†Ù’ Ù‡ÙŽØ°ÙÙ‡ÙØŸ"
-          ]
-        }
-      ]
-    }
-  ],
+
   practiceQuestions: []
 };

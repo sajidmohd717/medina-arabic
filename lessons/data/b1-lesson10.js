@@ -3,450 +3,409 @@
    ============================================================ */
 
 const LESSON_DATA = {
-  book: "book1",
+  book: 'book1',
   lessonNum: 10,
-  titleArabic: "Ø§Ù„Ø¶ÙŽÙ‘Ù…ÙŽØ§Ø¦ÙØ±Ù Ø§Ù„Ù’Ù…ÙØªÙŽÙ‘ØµÙÙ„ÙŽØ©Ù",
-  titleEnglish: "Attached Pronouns",
-  summary: "In this lesson, you will learn how to show possession and relationships using attached pronouns (suffixes). You will also learn the difference between \"having\" an object and \"having\" a relative, and introduce the word Ù…ÙŽØ¹ÙŽ (with).",
-  nextLesson: "b1-lesson11.html",
+  titleArabic: 'الضَّمَائِرُ المُتَّصِلَةُ',
+  titleEnglish: 'Attached Pronouns',
+  summary: 'Learn how to show possession in Arabic by attaching pronoun suffixes to nouns: كِتَابِي (my book), كِتَابُكَ (your book), كِتَابُهُ (his book). Also learn عِنْدَ (have) and مَعَ (with).',
+  nextLesson: 'b1-lesson11.html',
   passMark: 8,
   totalQuestions: 11,
-  vocab: [
+
+  guidedPattern: 'كِتَابِي',
+  guidedIntro: 'Instead of saying "the book of me," Arabic attaches a small pronoun ending to the noun: كِتَابِي = my book.',
+  reviewVocabAtEnd: true,
+  milestoneAfterPage: 4,
+
+  guidedPages: [
     {
-      ar: "Ù€ÙÙŠ",
-      trans: "-Ä«",
-      meaning: "My / Mine",
-      type: "Pronoun suffix"
+      titleArabic: 'الضَّمَائِرُ المُتَّصِلَةُ',
+      title: 'Lesson Ten',
+      pattern: 'كِتَابِي',
+      intro: 'Start with a dialogue about belongings. Listen for the short endings that mean "my," "your," "his," and "her."',
+      groups: [
+        { type: 'scene', text: 'Khalid and Hamid talk about their books, pens, and family.' },
+        {
+          icon: '📖',
+          role: 'teacher',
+          lines: [
+            { label: 'خالد', ar: 'أَيْنَ كِتَابُكَ يَا حَامِدُ؟', isPrompt: true },
+            { label: 'حامد', ar: 'كِتَابِي عَلَى المَكْتَبِ.' }
+          ]
+        },
+        {
+          icon: '✏️',
+          role: 'student',
+          lines: [
+            { label: 'خالد', ar: 'وَقَلَمُكَ؟', isPrompt: true },
+            { label: 'حامد', ar: 'قَلَمِي فِي حَقِيبَتِي.' }
+          ]
+        },
+        {
+          icon: '👨',
+          role: 'teacher',
+          lines: [
+            { label: 'خالد', ar: 'مَا اسْمُ أَبِيكَ؟', isPrompt: true },
+            { label: 'حامد', ar: 'اسْمُ أَبِي عَبَّاسٌ.' }
+          ]
+        },
+        {
+          icon: '👩',
+          role: 'student',
+          lines: [
+            { label: 'خالد', ar: 'وَأَيْنَ أُمُّكَ؟', isPrompt: true },
+            { label: 'حامد', ar: 'أُمِّي فِي البَيْتِ.' }
+          ]
+        }
+      ],
+      exerciseIntro: 'Answer from the dialogue',
+      exercise: [
+        {
+          icon: '📖',
+          prompt: 'أَيْنَ كِتَابُ حَامِدٍ؟',
+          placeholder: 'كِتَابُهُ ...',
+          ideal: 'كِتَابُهُ عَلَى المَكْتَبِ.',
+          accepts: ['كتابه على المكتب', 'كِتَابُهُ عَلَى المَكْتَبِ', 'كتابه على المكتب.', 'كِتَابُهُ عَلَى المَكْتَبِ.']
+        },
+        {
+          icon: '👨',
+          prompt: 'مَا اسْمُ أَبِي حَامِدٍ؟',
+          placeholder: 'اسْمُ ...',
+          ideal: 'اسْمُ أَبِيهِ عَبَّاسٌ.',
+          accepts: ['اسم ابيه عباس', 'اسْمُ أَبِيهِ عَبَّاسٌ', 'اسم أبيه عباس.', 'اسْمُ أَبِيهِ عَبَّاسٌ.']
+        }
+      ],
+      keyPoints: [
+        'كِتَابِي = my book',
+        'كِتَابُكَ = your book (masc.)',
+        'أَبُوكَ = your father'
+      ]
     },
     {
-      ar: "Ù€ÙƒÙŽ",
-      trans: "-ka",
-      meaning: "Your / Yours (masc.)",
-      type: "Pronoun suffix"
+      title: 'The Pronoun Suffixes',
+      pattern: 'ـِي · ـكَ · ـكِ · ـهُ · ـهَا',
+      intro: 'These five endings attach to the end of a noun to show who it belongs to.',
+      cards: [
+        { icon: '👤', ar: 'كِتَابِي — my book' },
+        { icon: '👤', ar: 'كِتَابُكَ — your book (m.)' },
+        { icon: '👤', ar: 'كِتَابُكِ — your book (f.)' },
+        { icon: '👤', ar: 'كِتَابُهُ — his book' },
+        { icon: '👤', ar: 'كِتَابُهَا — her book' },
+        { icon: '👤', ar: 'قَلَمِي — my pen' },
+        { icon: '👤', ar: 'بَيْتُكَ — your house (m.)' },
+        { icon: '👤', ar: 'اِسْمُهَا — her name' }
+      ],
+      keyPoints: [
+        'ـِي = my        ـهُ = his',
+        'ـكَ = your (m.)   ـهَا = her',
+        'ـكِ = your (f.)'
+      ]
     },
     {
-      ar: "Ù€ÙƒÙ",
-      trans: "-ki",
-      meaning: "Your / Yours (fem.)",
-      type: "Pronoun suffix"
+      title: 'Choose the Pronoun',
+      pattern: 'Pick the right ending',
+      intro: 'Tap the correct pronoun suffix for each meaning.',
+      wordBank: ['ـِي', 'ـكَ', 'ـكِ', 'ـهُ', 'ـهَا'],
+      tapFill: [
+        { parts: ['my book: كِتَاب', null], answer: 'ـِي' },
+        { parts: ['your (m.) pen: قَلَم', null], answer: 'ـكَ' },
+        { parts: ['his house: بَيْت', null], answer: 'ـهُ' },
+        { parts: ['her name: اِسْم', null], answer: 'ـهَا' },
+        { parts: ['your (f.) bag: حَقِيبَة', null], answer: 'ـكِ' },
+        { parts: ['my mother: أُمّ', null], answer: 'ـِي' },
+        { parts: ['his book: كِتَاب', null], answer: 'ـهُ' },
+        { parts: ['her pen: قَلَم', null], answer: 'ـهَا' }
+      ],
+      keyPoints: [
+        'The suffix replaces "of me / of you / of him / of her"',
+        'The noun before the suffix takes ḍamma: كِتَابُ + هُ = كِتَابُهُ'
+      ]
     },
     {
-      ar: "Ù€Ù‡Ù",
-      trans: "-hu",
-      meaning: "His / Its (masc.)",
-      type: "Pronoun suffix"
+      title: 'Family Words with Pronouns',
+      pattern: 'أَبِي · أَخُوكَ · أُمُّهَا',
+      intro: 'Family words are very common with attached pronouns. Notice that أَب and أَخ have special forms.',
+      groups: [
+        {
+          icon: '👨‍👩‍👦',
+          lines: [
+            { ar: 'أَبِي — my father' },
+            { ar: 'أَبُوكَ — your father (m.)' },
+            { ar: 'أَبُوهُ — his father' }
+          ]
+        },
+        {
+          icon: '👨‍👩‍👦',
+          lines: [
+            { ar: 'أَخِي — my brother' },
+            { ar: 'أَخُوكَ — your brother (m.)' },
+            { ar: 'أَخُوهَا — her brother' }
+          ]
+        },
+        {
+          icon: '👨‍👩‍👦',
+          lines: [
+            { ar: 'أُمِّي — my mother' },
+            { ar: 'اِبْنُكَ — your son' },
+            { ar: 'بِنْتُهُ — his daughter' }
+          ]
+        }
+      ],
+      keyPoints: [
+        'أَب becomes أَبُو before pronouns (except ـِي)',
+        'أَخ becomes أَخُو before pronouns (except ـِي)'
+      ]
     },
     {
-      ar: "Ù€Ù‡ÙŽØ§",
-      trans: "-hÄ",
-      meaning: "Her / Its (fem.)",
-      type: "Pronoun suffix"
+      title: 'Read the Pattern',
+      pattern: 'Pronouns in sentences',
+      intro: 'Read these sentences. Each has a pronoun suffix showing possession.',
+      groups: [
+        {
+          icon: '📖',
+          lines: [
+            { ar: 'كِتَابِي جَدِيدٌ وَكِتَابُكَ قَدِيمٌ.' }
+          ]
+        },
+        {
+          icon: '🏠',
+          lines: [
+            { ar: 'بَيْتُهُ كَبِيرٌ وَبَيْتُهَا صَغِيرٌ.' }
+          ]
+        },
+        {
+          icon: '👨',
+          lines: [
+            { ar: 'اِسْمُ أَبِي خَالِدٌ وَاسْمُ أُمِّي آمِنَةُ.' }
+          ]
+        },
+        {
+          icon: '📝',
+          lines: [
+            { ar: 'مَا اسْمُكَ؟ اِسْمِي حَامِدٌ.', isPrompt: true }
+          ]
+        },
+        {
+          icon: '🕌',
+          lines: [
+            { ar: 'أَيْنَ مَسْجِدُكُمْ؟ مَسْجِدُنَا قَرِيبٌ.', isPrompt: true }
+          ]
+        }
+      ],
+      keyPoints: [
+        'كِتَابِي = my book',
+        'مَا اسْمُكَ؟ = What is your name?'
+      ]
     },
     {
-      ar: "Ø£ÙŽØ¨ÙŒ",
-      trans: "abun",
-      meaning: "Father",
-      type: "Noun"
+      title: 'عِنْدَ — To Have',
+      pattern: 'عِنْدِي كِتَابٌ',
+      intro: 'Arabic expresses "have" using عِنْدَ followed by a pronoun suffix. عِنْدِي = I have.',
+      groups: [
+        {
+          icon: '📖',
+          lines: [
+            { ar: 'عِنْدِي كِتَابٌ. — I have a book.' },
+            { ar: 'عِنْدَكَ قَلَمٌ. — You (m.) have a pen.' }
+          ]
+        },
+        {
+          icon: '🚗',
+          lines: [
+            { ar: 'عِنْدَهُ سَيَّارَةٌ. — He has a car.' },
+            { ar: 'عِنْدَهَا سَاعَةٌ. — She has a watch.' }
+          ]
+        },
+        {
+          icon: '❓',
+          lines: [
+            { ar: 'هَلْ عِنْدَكَ دَفْتَرٌ؟', isPrompt: true },
+            { ar: 'نَعَمْ، عِنْدِي دَفْتَرٌ.' }
+          ]
+        }
+      ],
+      exercise: [
+        {
+          icon: '📖',
+          prompt: 'Type: "You (m.) have a book."',
+          ideal: 'عِنْدَكَ كِتَابٌ.',
+          accepts: ['عندك كتاب', 'عِنْدَكَ كِتَابٌ', 'عندك كتاب.', 'عِنْدَكَ كِتَابٌ.']
+        },
+        {
+          icon: '🚗',
+          prompt: 'Type: "He has a car."',
+          ideal: 'عِنْدَهُ سَيَّارَةٌ.',
+          accepts: ['عنده سيارة', 'عِنْدَهُ سَيَّارَةٌ', 'عنده سيارة.', 'عِنْدَهُ سَيَّارَةٌ.']
+        }
+      ],
+      keyPoints: [
+        'عِنْدَ + pronoun suffix = to have',
+        'عِنْدِي = I have · عِنْدَكَ = you (m.) have'
+      ]
     },
     {
-      ar: "Ø£ÙŽØ®ÙŒ",
-      trans: "akhun",
-      meaning: "Brother",
-      type: "Noun"
-    },
-    {
-      ar: "Ø²ÙŽÙ…ÙÙŠÙ„ÙŒ",
-      trans: "zamÄ«lun",
-      meaning: "Colleague / Classmate",
-      type: "Noun"
-    },
-    {
-      ar: "Ø²ÙŽÙˆÙ’Ø¬ÙŒ",
-      trans: "zawjun",
-      meaning: "Husband",
-      type: "Noun"
-    },
-    {
-      ar: "Ø·ÙÙÙ’Ù„ÙŒ",
-      trans: "á¹­iflun",
-      meaning: "Child / Infant",
-      type: "Noun"
-    },
-    {
-      ar: "ÙÙŽØªÙ‹Ù‰",
-      trans: "fatan",
-      meaning: "Young man",
-      type: "Noun"
-    },
-    {
-      ar: "Ø¹ÙÙ†Ù’Ø¯ÙŽ",
-      trans: "Ê¿inda",
-      meaning: "With / At / Has (possession)",
-      type: "Preposition/Adverb"
-    },
-    {
-      ar: "Ù…ÙŽØ¹ÙŽ",
-      trans: "maÊ¿a",
-      meaning: "With (physical company)",
-      type: "Preposition"
-    },
-    {
-      ar: "Ù„ÙÙŠ",
-      trans: "lÄ«",
-      meaning: "I have (for relatives)",
-      type: "Phrase"
-    },
-    {
-      ar: "Ø£ÙØ­ÙØ¨ÙÙ‘",
-      trans: "uá¸¥ibbu",
-      meaning: "I love / I like",
-      type: "Verb"
-    },
-    {
-      ar: "Ø§Ù„Ù’ÙƒÙÙˆÙŽÙŠÙ’ØªÙ",
-      trans: "al-kuwaytu",
-      meaning: "Kuwait",
-      type: "Noun"
+      titleArabic: 'تَمْرِين',
+      title: 'Practice',
+      pattern: 'Attached pronouns',
+      intro: 'Type the Arabic using the correct pronoun suffix.',
+      tip: 'Tip: كِتَاب + ي = كِتَابِي. The noun gets ḍamma before the suffix.',
+      exercise: [
+        {
+          icon: '📖',
+          prompt: 'Type: "my book"',
+          ideal: 'كِتَابِي',
+          accepts: ['كتابي', 'كِتَابِي']
+        },
+        {
+          icon: '📖',
+          prompt: 'Type: "your (m.) book"',
+          ideal: 'كِتَابُكَ',
+          accepts: ['كتابك', 'كِتَابُكَ', 'كتابُكَ']
+        },
+        {
+          icon: '👨',
+          prompt: 'Type: "his name"',
+          ideal: 'اِسْمُهُ',
+          accepts: ['اسمه', 'اِسْمُهُ', 'اسمُهُ']
+        },
+        {
+          icon: '📖',
+          prompt: 'Type: "I have a book."',
+          ideal: 'عِنْدِي كِتَابٌ.',
+          accepts: ['عندي كتاب', 'عِنْدِي كِتَابٌ', 'عندي كتاب.', 'عِنْدِي كِتَابٌ.']
+        }
+      ]
     }
   ],
+
+  vocab: [
+    { ar: 'ـِي', trans: '-ī', meaning: 'My (attached pronoun)', type: 'Grammar' },
+    { ar: 'ـكَ', trans: '-ka', meaning: 'Your — masc. (attached pronoun)', type: 'Grammar' },
+    { ar: 'ـكِ', trans: '-ki', meaning: 'Your — fem. (attached pronoun)', type: 'Grammar' },
+    { ar: 'ـهُ', trans: '-hu', meaning: 'His (attached pronoun)', type: 'Grammar' },
+    { ar: 'ـهَا', trans: '-hā', meaning: 'Her (attached pronoun)', type: 'Grammar' },
+    { ar: 'أَبٌ', trans: 'abun', meaning: 'A father', type: 'Noun' },
+    { ar: 'أَخٌ', trans: 'akhun', meaning: 'A brother', type: 'Noun' },
+    { ar: 'أُمٌّ', trans: 'ummun', meaning: 'A mother', type: 'Noun' },
+    { ar: 'زَمِيلٌ', trans: 'zamīlun', meaning: 'A colleague', type: 'Noun' },
+    { ar: 'عِنْدَ', trans: 'ʿinda', meaning: 'At / with (to have)', type: 'Preposition' },
+    { ar: 'مَعَ', trans: 'maʿa', meaning: 'With (accompanying)', type: 'Preposition' },
+    { ar: 'لِي', trans: 'lī', meaning: 'I have / Mine', type: 'Expression' },
+    { ar: 'أُحِبُّ', trans: 'uḥibbu', meaning: 'I love / like', type: 'Verb' },
+    { ar: 'زَوْجٌ', trans: 'zawjun', meaning: 'A husband', type: 'Noun' },
+    { ar: 'طِفْلٌ', trans: 'ṭiflun', meaning: 'A child', type: 'Noun' },
+    { ar: 'فَتىً', trans: 'fatan', meaning: 'A young man / boy', type: 'Noun' }
+  ],
+
   grammarBlocks: [
     {
-      title: "Attached Pronouns (Possessive)",
-      content: "<p>Instead of using separate words for \"my\" or \"your\", Arabic attaches short suffixes to the end of nouns.</p><ul><li><strong>ÙƒÙØªÙŽØ§Ø¨ÙŒ</strong> (Book) + <strong>Ù€ÙÙŠ</strong> = <strong>ÙƒÙØªÙŽØ§Ø¨ÙÙŠ</strong> (My book)</li><li><strong>ÙƒÙØªÙŽØ§Ø¨ÙŒ</strong> + <strong>Ù€ÙƒÙŽ</strong> = <strong>ÙƒÙØªÙŽØ§Ø¨ÙÙƒÙŽ</strong> (Your book - masc.)</li><li><strong>ÙƒÙØªÙŽØ§Ø¨ÙŒ</strong> + <strong>Ù€Ù‡Ù</strong> = <strong>ÙƒÙØªÙŽØ§Ø¨ÙÙ‡Ù</strong> (His book)</li></ul>",
-      rule: "Noun + Suffix = Possession. Note: The tanwÄ«n is removed when a suffix is attached."
+      title: 'Attached Pronouns (Possessive)',
+      content: '<p>To show possession in Arabic, attach a short pronoun suffix directly to the end of the noun. The noun takes ḍamma before the suffix.</p><table><tr><td>ـِي (-ī)</td><td>my</td><td>كِتَابِي = my book</td></tr><tr><td>ـكَ (-ka)</td><td>your (m.)</td><td>كِتَابُكَ = your book</td></tr><tr><td>ـكِ (-ki)</td><td>your (f.)</td><td>كِتَابُكِ = your book</td></tr><tr><td>ـهُ (-hu)</td><td>his</td><td>كِتَابُهُ = his book</td></tr><tr><td>ـهَا (-hā)</td><td>her</td><td>كِتَابُهَا = her book</td></tr></table>',
+      rule: 'Noun (with ḍamma) + pronoun suffix = possession'
     },
     {
-      title: "Expressing \"To Have\"",
-      content: "<p>Arabic uses different words for \"have\" depending on what you possess:</p><ul><li><strong>Ø¹ÙÙ†Ù’Ø¯ÙÙŠ</strong> (Ê¿indÄ«): For objects (e.g., \"I have a pen\").</li><li><strong>Ù„ÙÙŠ</strong> (lÄ«): For people/relatives (e.g., \"I have a brother\").</li></ul>",
-      rule: "Use Ø¹ÙÙ†Ù’Ø¯ÙŽ for things, and Ù„ÙÙ€ for people."
+      title: 'Expressing "to Have" with عِنْدَ',
+      content: '<p>Arabic does not have a verb "to have." Instead, use <strong>عِنْدَ</strong> followed by a pronoun suffix.</p><ul><li><strong>عِنْدِي كِتَابٌ</strong> = I have a book (literally "at me is a book")</li><li><strong>عِنْدَهُ سَيَّارَةٌ</strong> = He has a car</li></ul>',
+      rule: 'عِنْدَ + pronoun suffix + noun = possession / having'
     },
     {
-      title: "Ù…ÙŽØ¹ÙŽ vs. Ø¹ÙÙ†Ù’Ø¯ÙŽ",
-      content: "<p>Both can be translated as \"with\", but they are used differently:</p><ul><li><strong>Ø¹ÙÙ†Ù’Ø¯ÙÙŠ</strong> means you \"own\" it or it is \"at\" your place.</li><li><strong>Ù…ÙŽØ¹ÙÙŠ</strong> means it is physically \"with\" you right now.</li></ul>",
-      rule: "Ù…ÙŽØ¹ÙÙŠ means \"in my company\" or \"in my pocket/hand\"."
+      title: 'مَعَ (With) vs عِنْدَ (At/Have)',
+      content: '<p><strong>مَعَ</strong> means "with" in the sense of accompanying someone.</p><ul><li><strong>الكِتَابُ مَعِي</strong> = The book is with me (I have it on me)</li></ul><p><strong>عِنْدَ</strong> means having something (ownership or possession, not necessarily with you right now).</p><ul><li><strong>عِنْدِي كِتَابٌ</strong> = I have a book (I own one)</li></ul>',
+      rule: 'مَعَ = physically with · عِنْدَ = own / possess'
     }
   ],
+
   comprehension: {
-    title: "My New Colleague",
-    arabic: "Ù‡ÙŽØ°ÙŽØ§ Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ. Ø§Ø³Ù’Ù…ÙÙ‡Ù Ø®ÙŽØ§Ù„ÙØ¯ÙŒ. Ù‡ÙÙˆÙŽ Ù…ÙÙ†ÙŽ Ø§Ù„Ù’ÙƒÙÙˆÙŽÙŠÙ’ØªÙ. Ø®ÙŽØ§Ù„ÙØ¯ÙŒ Ø·ÙŽØ§Ù„ÙØ¨ÙŒ Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ ÙÙÙŠ Ù…ÙŽØ¯Ù’Ø±ÙŽØ³ÙŽØªÙÙŠ. Ø¹ÙÙ†Ù’Ø¯ÙŽÙ‡Ù Ù‚ÙŽÙ„ÙŽÙ…ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŒ ÙˆÙŽÙƒÙØªÙŽØ§Ø¨ÙŒ Ù‚ÙŽØ¯ÙÙŠÙ…ÙŒ. Ù…ÙŽØ¹ÙŽÙ‡Ù Ø­ÙŽÙ‚ÙÙŠØ¨ÙŽØªÙÙ‡Ù Ø§Ù„Ø³ÙŽÙ‘ÙˆÙ’Ø¯ÙŽØ§Ø¡Ù. Ù„ÙŽÙ‡Ù Ø£ÙŽØ®ÙŒ ÙˆÙŽØ§Ø­ÙØ¯ÙŒ ÙˆÙŽØ£ÙØ®Ù’ØªÙŒ ÙˆÙŽØ§Ø­ÙØ¯ÙŽØ©ÙŒ. Ø£ÙŽØ¨ÙÙˆÙ‡Ù Ù…ÙÙ‡ÙŽÙ†Ù’Ø¯ÙØ³ÙŒ Ø´ÙŽÙ‡ÙÙŠØ±ÙŒ ÙˆÙŽØ£ÙÙ…ÙÙ‘Ù‡Ù Ø·ÙŽØ¨ÙÙŠØ¨ÙŽØ©ÙŒ. Ø£ÙŽÙ†ÙŽØ§ Ø£ÙØ­ÙØ¨ÙÙ‘ Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ Ø®ÙŽØ§Ù„ÙØ¯Ù‹Ø§.",
-    english: "This is my colleague. His name is Khalid. He is from Kuwait. Khalid is a new student in my school. He has a beautiful pen and an old book. With him is his black bag. He has one brother and one sister. His father is a famous engineer and his mother is a doctor. I love my colleague Khalid.",
+    title: 'My New Colleague',
+    arabic: 'اِسْمِي حَامِدٌ. أَنَا طَالِبٌ فِي الجَامِعَةِ. عِنْدِي زَمِيلٌ جَدِيدٌ. اِسْمُهُ خَالِدٌ. هُوَ مِنَ الكُوَيْتِ. عِنْدَهُ أَخٌ وَأُخْتٌ. أَبُوهُ طَبِيبٌ وَأُمُّهُ مُدَرِّسَةٌ. كِتَابُهُ عَلَى المَكْتَبِ وَقَلَمُهُ فِي حَقِيبَتِهِ. نَحْنُ مَعًا فِي الفَصْلِ. أُحِبُّ اللُّغَةَ العَرَبِيَّةَ. الكِتَابُ مَعِي دَائِمًا.',
+    english: 'My name is Hamid. I am a student at the university. I have a new colleague. His name is Khalid. He is from Kuwait. He has a brother and a sister. His father is a doctor and his mother is a teacher. His book is on the desk and his pen is in his bag. We are together in class. I love the Arabic language. The book is always with me.',
     questions: [
       {
-        text: "Where is Khalid from?",
-        options: [
-          "India",
-          "Japan",
-          "Kuwait",
-          "Egypt"
-        ],
-        correct: "Kuwait"
+        text: 'What is Hamid?',
+        options: ['A teacher', 'A doctor', 'A student', 'An engineer'],
+        correct: 'A student'
       },
       {
-        text: "What does Khalid have (Ø¹ÙÙ†Ù’Ø¯ÙŽÙ‡Ù)?",
-        options: [
-          "A new car",
-          "A beautiful pen and old book",
-          "A small cat",
-          "A large house"
-        ],
-        correct: "A beautiful pen and old book"
+        text: 'Where is Khalid from?',
+        options: ['Egypt', 'Kuwait', 'India', 'Japan'],
+        correct: 'Kuwait'
       },
       {
-        text: "How many siblings does Khalid have?",
-        options: [
-          "Two brothers",
-          "One brother and one sister",
-          "No siblings",
-          "Three sisters"
-        ],
-        correct: "One brother and one sister"
+        text: 'What is Khalid\'s father?',
+        options: ['An engineer', 'A teacher', 'A doctor', 'A merchant'],
+        correct: 'A doctor'
       },
       {
-        text: "What is the profession of Khalid's father?",
-        options: [
-          "A doctor",
-          "A teacher",
-          "A famous engineer",
-          "A merchant"
-        ],
-        correct: "A famous engineer"
+        text: 'Where is the book always?',
+        options: ['On the desk', 'In the bag', 'With Hamid (مَعِي)', 'With Khalid'],
+        correct: 'With Hamid (مَعِي)'
       }
     ]
   },
+
   quizQuestions: {
     multipleChoice: [
       {
-        prompt: "Translate: \"His house\"",
-        options: [
-          "Ø¨ÙŽÙŠÙ’ØªÙÙƒÙŽ",
-          "Ø¨ÙŽÙŠÙ’ØªÙÙ‡ÙŽØ§",
-          "Ø¨ÙŽÙŠÙ’ØªÙÙ‡Ù",
-          "Ø¨ÙŽÙŠÙ’ØªÙÙŠ"
-        ],
+        prompt: 'What does كِتَابِي mean?',
+        options: ['Your book', 'His book', 'My book', 'Her book'],
         correct: 2
       },
       {
-        prompt: "Translate: \"Your (fem.) pen\"",
-        options: [
-          "Ù‚ÙŽÙ„ÙŽÙ…ÙÙƒÙŽ",
-          "Ù‚ÙŽÙ„ÙŽÙ…ÙÙƒÙ",
-          "Ù‚ÙŽÙ„ÙŽÙ…ÙÙ‡Ù",
-          "Ù‚ÙŽÙ„ÙŽÙ…ÙÙŠ"
-        ],
+        prompt: 'What is the suffix for "your" (masc.)?',
+        options: ['ـِي', 'ـكَ', 'ـهُ', 'ـهَا'],
         correct: 1
       },
       {
-        prompt: "Which word is used for \"having\" a relative?",
-        options: [
-          "Ø¹ÙÙ†Ù’Ø¯ÙŽ",
-          "Ù…ÙŽØ¹ÙŽ",
-          "Ù„ÙÙ€",
-          "ÙÙÙŠ"
-        ],
+        prompt: 'Translate: "his house"',
+        options: ['بَيْتُكَ', 'بَيْتِي', 'بَيْتُهُ', 'بَيْتُهَا'],
         correct: 2
       },
       {
-        prompt: "Translate: \"My father is in the mosque.\"",
-        options: [
-          "Ø£ÙŽØ¨ÙÙˆÙ‡Ù ÙÙÙŠ Ø§Ù„Ù’Ù…ÙŽØ³Ù’Ø¬ÙØ¯Ù",
-          "Ø£ÙŽØ¨ÙÙŠ ÙÙÙŠ Ø§Ù„Ù’Ù…ÙŽØ³Ù’Ø¬ÙØ¯Ù",
-          "Ø£ÙŽØ¨ÙÙˆÙƒÙŽ ÙÙÙŠ Ø§Ù„Ù’Ù…ÙŽØ³Ù’Ø¬ÙØ¯Ù",
-          "Ø£ÙŽØ¨ÙÙŠ ÙÙÙŠ Ø§Ù„Ù’Ø¨ÙŽÙŠÙ’ØªÙ"
-        ],
+        prompt: 'How do you say "I have a pen"?',
+        options: ['مَعِي قَلَمٌ', 'عِنْدِي قَلَمٌ', 'لِي قَلَمٌ', 'قَلَمِي'],
         correct: 1
       },
       {
-        prompt: "What does Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ mean?",
-        options: [
-          "My friend",
-          "My brother",
-          "My colleague",
-          "My teacher"
-        ],
+        prompt: 'What does عِنْدَكَ كِتَابٌ mean?',
+        options: ['My book', 'Your book', 'You have a book', 'His book'],
         correct: 2
       },
       {
-        prompt: "Translate: \"What is your (masc.) name?\"",
-        options: [
-          "Ù…ÙŽØ§ Ø§Ø³Ù’Ù…ÙÙƒÙØŸ",
-          "Ù…ÙŽØ§ Ø§Ø³Ù’Ù…ÙÙƒÙŽØŸ",
-          "Ù…ÙŽØ§ Ø§Ø³Ù’Ù…ÙÙ‡ÙØŸ",
-          "Ù…ÙŽØ§ Ø§Ø³Ù’Ù…ÙÙŠØŸ"
-        ],
-        correct: 1
+        prompt: 'Translate: "her mother"',
+        options: ['أُمِّي', 'أُمُّكَ', 'أُمُّهُ', 'أُمُّهَا'],
+        correct: 3
       }
     ],
     typing: [
       {
-        prompt: "Type in Arabic: \"My book\"",
-        ideal: "ÙƒÙØªÙŽØ§Ø¨ÙÙŠ",
-        accepts: [
-          "ÙƒØªØ§Ø¨ÙŠ",
-          "ÙƒÙØªÙŽØ§Ø¨ÙÙŠ",
-          "ÙƒØªØ§Ø¨ÙŠÙŽ"
-        ]
+        prompt: 'Type: "my book"',
+        ideal: 'كِتَابِي',
+        accepts: ['كتابي', 'كِتَابِي']
       },
       {
-        prompt: "Type in Arabic: \"I have a pen\"",
-        ideal: "Ø¹ÙÙ†Ù’Ø¯ÙÙŠ Ù‚ÙŽÙ„ÙŽÙ…ÙŒ",
-        accepts: [
-          "Ø¹Ù†Ø¯ÙŠ Ù‚Ù„Ù…",
-          "Ø¹ÙÙ†Ù’Ø¯ÙÙŠ Ù‚ÙŽÙ„ÙŽÙ…ÙŒ",
-          "Ø¹Ù†Ø¯ÙŠ Ù‚Ù„Ù…ÙŒ",
-          "Ø¹ÙÙ†Ù’Ø¯ÙÙŠ Ù‚Ù„Ù…"
-        ]
+        prompt: 'Type: "I have a pen"',
+        ideal: 'عِنْدِي قَلَمٌ',
+        accepts: ['عندي قلم', 'عِنْدِي قَلَمٌ', 'عندي قلم.', 'عِنْدِي قَلَمٌ.']
       }
     ],
     conceptCheck: [
       {
-        statement: "This lesson's main pattern is connected to: Attached Pronouns (Possessive).",
+        statement: 'To show possession in Arabic, you attach a pronoun suffix to the end of the noun.',
         correct: true,
-        explanation: "Noun + Suffix = Possession. Note: The tanwÄ«n is removed when a suffix is attached."
+        explanation: 'كِتَاب (book) + ـِي (my) = كِتَابِي (my book). The pronoun attaches directly to the noun.'
       },
       {
-        statement: "The Concepts step gives more detail for: Expressing \"To Have\".",
-        correct: true,
-        explanation: "Use Ø¹ÙÙ†Ù’Ø¯ÙŽ for things, and Ù„ÙÙ€ for people."
-      },
-      {
-        statement: "In Attached Pronouns, you can ignore the lesson pattern and still build the Arabic correctly.",
+        statement: 'Arabic uses a verb "to have" just like English does.',
         correct: false,
-        explanation: "The pattern is the point of the lesson. Learn keeps it small first, then Concepts explains the rule more fully."
+        explanation: 'Arabic uses عِنْدَ + pronoun to express "having" — there is no single verb for "to have."'
+      },
+      {
+        statement: 'مَعَ and عِنْدَ mean exactly the same thing and are interchangeable.',
+        correct: false,
+        explanation: 'مَعَ means "with" (physical accompaniment), while عِنْدَ means "at" / "to have" (possession). They are used differently.'
       }
     ]
   },
-  guidedPattern: "Ø§Ù„Ø¶ÙŽÙ‘Ù…ÙŽØ§Ø¦ÙØ±Ù Ø§Ù„Ù’Ù…ÙØªÙŽÙ‘ØµÙÙ„ÙŽØ©Ù",
-  guidedIntro: "In this lesson, you will learn how to show possession and relationships using attached pronouns (suffixes). You will also learn the difference between \"having\" an object and \"having\" a relative, and introduce the word Ù…ÙŽØ¹ÙŽ (with).",
-  reviewVocabAtEnd: true,
-  guidedPages: [
-    {
-      titleArabic: "Ø§Ù„Ø¶ÙŽÙ‘Ù…ÙŽØ§Ø¦ÙØ±Ù Ø§Ù„Ù’Ù…ÙØªÙŽÙ‘ØµÙÙ„ÙŽØ©Ù",
-      title: "Lesson 10",
-      pattern: "Ø§Ù„Ø¶ÙŽÙ‘Ù…ÙŽØ§Ø¦ÙØ±Ù Ø§Ù„Ù’Ù…ÙØªÙŽÙ‘ØµÙÙ„ÙŽØ©Ù",
-      intro: "In this lesson, you will learn how to show possession and relationships using attached pronouns (suffixes). You will also learn the difference between \"having\" an object and \"having\" a relative, and introduce the word Ù…ÙŽØ¹ÙŽ (with).",
-      cards: [
-        {
-          icon: "📍",
-          ar: "Ù€ÙÙŠ"
-        },
-        {
-          icon: "📍",
-          ar: "Ù€ÙƒÙŽ"
-        },
-        {
-          icon: "📍",
-          ar: "Ù€ÙƒÙ"
-        },
-        {
-          icon: "📍",
-          ar: "Ù€Ù‡Ù"
-        },
-        {
-          icon: "📍",
-          ar: "Ù€Ù‡ÙŽØ§"
-        },
-        {
-          icon: "👤",
-          ar: "Ø£ÙŽØ¨ÙŒ"
-        },
-        {
-          icon: "👤",
-          ar: "Ø£ÙŽØ®ÙŒ"
-        },
-        {
-          icon: "👤",
-          ar: "Ø²ÙŽÙ…ÙÙŠÙ„ÙŒ"
-        }
-      ],
-      keyPoints: [
-        "Ø§Ù„Ø¶ÙŽÙ‘Ù…ÙŽØ§Ø¦ÙØ±Ù Ø§Ù„Ù’Ù…ÙØªÙŽÙ‘ØµÙÙ„ÙŽØ©Ù",
-        "Attached Pronouns (Possessive)"
-      ]
-    },
-    {
-      title: "Read the pattern",
-      pattern: "Ø§Ù„Ø¶ÙŽÙ‘Ù…ÙŽØ§Ø¦ÙØ±Ù Ø§Ù„Ù’Ù…ÙØªÙŽÙ‘ØµÙÙ„ÙŽØ©Ù",
-      intro: "Read these short lines before the Reading step. They reuse the same lesson pattern in context.",
-      groups: [
-        {
-          icon: "📘",
-          lines: [
-            {
-              ar: "Ù‡ÙŽØ°ÙŽØ§ Ø²ÙŽÙ…ÙÙŠÙ„ÙÙŠ."
-            }
-          ]
-        },
-        {
-          icon: "📍",
-          lines: [
-            {
-              ar: "Ø§Ø³Ù’Ù…ÙÙ‡Ù Ø®ÙŽØ§Ù„ÙØ¯ÙŒ."
-            }
-          ]
-        },
-        {
-          icon: "⭐",
-          lines: [
-            {
-              ar: "Ù‡ÙÙˆÙŽ Ù…ÙÙ†ÙŽ Ø§Ù„Ù’ÙƒÙÙˆÙŽÙŠÙ’ØªÙ."
-            }
-          ]
-        },
-        {
-          icon: "🟢",
-          lines: [
-            {
-              ar: "Ø®ÙŽØ§Ù„ÙØ¯ÙŒ Ø·ÙŽØ§Ù„ÙØ¨ÙŒ Ø¬ÙŽØ¯ÙÙŠØ¯ÙŒ ÙÙÙŠ Ù…ÙŽØ¯Ù’Ø±ÙŽØ³ÙŽØªÙÙŠ."
-            }
-          ]
-        },
-        {
-          icon: "✨",
-          lines: [
-            {
-              ar: "Ø¹ÙÙ†Ù’Ø¯ÙŽÙ‡Ù Ù‚ÙŽÙ„ÙŽÙ…ÙŒ Ø¬ÙŽÙ…ÙÙŠÙ„ÙŒ ÙˆÙŽÙƒÙØªÙŽØ§Ø¨ÙŒ Ù‚ÙŽØ¯ÙÙŠÙ…ÙŒ."
-            }
-          ]
-        }
-      ],
-      keyPoints: [
-        "Attached Pronouns (Possessive)",
-        "Expressing \"To Have\""
-      ]
-    },
-    {
-      title: "More lesson words",
-      pattern: "Ø§Ù„Ø¶ÙŽÙ‘Ù…ÙŽØ§Ø¦ÙØ±Ù Ø§Ù„Ù’Ù…ÙØªÙŽÙ‘ØµÙÙ„ÙŽØ©Ù",
-      intro: "Add these words to the same pattern. Tap the Arabic words if you need a meaning reminder.",
-      cards: [
-        {
-          icon: "👤",
-          ar: "Ø²ÙŽÙˆÙ’Ø¬ÙŒ"
-        },
-        {
-          icon: "👤",
-          ar: "Ø·ÙÙÙ’Ù„ÙŒ"
-        },
-        {
-          icon: "👤",
-          ar: "ÙÙŽØªÙ‹Ù‰"
-        },
-        {
-          icon: "📍",
-          ar: "Ø¹ÙÙ†Ù’Ø¯ÙŽ"
-        },
-        {
-          icon: "📍",
-          ar: "Ù…ÙŽØ¹ÙŽ"
-        },
-        {
-          icon: "📍",
-          ar: "Ù„ÙÙŠ"
-        },
-        {
-          icon: "⭐",
-          ar: "Ø£ÙØ­ÙØ¨ÙÙ‘"
-        },
-        {
-          icon: "🟢",
-          ar: "Ø§Ù„Ù’ÙƒÙÙˆÙŽÙŠÙ’ØªÙ"
-        }
-      ],
-      keyPoints: [
-        "Attached Pronouns (Possessive)",
-        "Expressing \"To Have\""
-      ]
-    },
-    {
-      titleArabic: "????????",
-      title: "Quick practice",
-      pattern: "Ø§Ù„Ø¶ÙŽÙ‘Ù…ÙŽØ§Ø¦ÙØ±Ù Ø§Ù„Ù’Ù…ÙØªÙŽÙ‘ØµÙÙ„ÙŽØ©Ù",
-      intro: "Type the Arabic answer. You can type without vowels; the full answer appears after checking.",
-      tip: "Tip: focus on the structure first. Harakat can come later.",
-      exercise: [
-        {
-          icon: "✍️",
-          prompt: "Type in Arabic: \"My book\"",
-          ideal: "ÙƒÙØªÙŽØ§Ø¨ÙÙŠ",
-          accepts: [
-            "ÙƒØªØ§Ø¨ÙŠ",
-            "ÙƒÙØªÙŽØ§Ø¨ÙÙŠ",
-            "ÙƒØªØ§Ø¨ÙŠÙŽ"
-          ]
-        },
-        {
-          icon: "📘",
-          prompt: "Type in Arabic: \"I have a pen\"",
-          ideal: "Ø¹ÙÙ†Ù’Ø¯ÙÙŠ Ù‚ÙŽÙ„ÙŽÙ…ÙŒ",
-          accepts: [
-            "Ø¹Ù†Ø¯ÙŠ Ù‚Ù„Ù…",
-            "Ø¹ÙÙ†Ù’Ø¯ÙÙŠ Ù‚ÙŽÙ„ÙŽÙ…ÙŒ",
-            "Ø¹Ù†Ø¯ÙŠ Ù‚Ù„Ù…ÙŒ",
-            "Ø¹ÙÙ†Ù’Ø¯ÙÙŠ Ù‚Ù„Ù…"
-          ]
-        }
-      ]
-    }
-  ],
+
   practiceQuestions: []
 };
