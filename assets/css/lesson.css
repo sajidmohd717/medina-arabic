@@ -102,6 +102,10 @@
   animation: bounceIn 0.62s ease 0.12s both;
 }
 
+.lesson-intro-mark[hidden] {
+  display: none;
+}
+
 .lesson-intro-eyebrow {
   position: relative;
   display: inline-flex;

@@ -281,7 +281,11 @@ function setupLessonIntro() {
   if (title) title.textContent = CURRENT_LESSON_DATA.titleArabic;
   if (english) english.textContent = CURRENT_LESSON_DATA.titleEnglish;
   if (summary) summary.textContent = CURRENT_LESSON_DATA.summary;
-  if (mark) mark.textContent = CURRENT_LESSON_DATA.guidedPattern || CURRENT_LESSON_DATA.titleArabic;
+  if (mark) {
+    const markText = CURRENT_LESSON_DATA.guidedPattern || CURRENT_LESSON_DATA.titleArabic;
+    mark.hidden = normalise(markText) === normalise(CURRENT_LESSON_DATA.titleArabic);
+    mark.textContent = markText;
+  }
 
   if (hasProgress) {
     if (continueBtn) continueBtn.textContent = 'Continue';
@@ -320,12 +324,37 @@ function setupLessonIntro() {
   if (restartBtn) {
     restartBtn.addEventListener('click', () => {
       dismissIntro(() => {
-        clearGuidedResume();
-        saveGuidedPage(0);
-        saveLessonStep('learn');
+        restartLessonFromBeginning();
       });
     }, { once: true });
   }
+}
+
+function restartLessonFromBeginning() {
+  clearGuidedResume();
+  UNLOCKED_STEPS = { vocab: true, lesson: false, quiz: false };
+  CURRENT_STEP = 'learn';
+  QUIZ_RESULTS = {};
+
+  const stepOrder = ['learn', 'lesson', 'quiz'];
+  stepOrder.forEach(step => {
+    const btn = document.getElementById(`step-${step}`);
+    const panel = document.getElementById(`panel-${step}`);
+    if (btn) {
+      btn.classList.remove('active', 'completed');
+      btn.classList.toggle('locked', step !== 'learn');
+      btn.style.animation = '';
+    }
+    if (panel) panel.classList.toggle('active', step === 'learn');
+  });
+
+  buildVocabularyPanel(CURRENT_LESSON_DATA);
+  buildLessonPanel(CURRENT_LESSON_DATA);
+  buildQuizPanel(CURRENT_LESSON_DATA);
+
+  saveGuidedPage(0);
+  saveLessonStep('learn');
+  updateGuidedProgress(0, CURRENT_LESSON_DATA.guidedPages?.length || 0);
 }
 
 // ─────────────────────────────────────────────────────────────
