@@ -110,16 +110,17 @@
      correct = true  → advance level (cap at 4)
      correct = false → drop level (floor at 0), schedule for now
   ── */
-  function gradeWord(key, correct) {
+  function gradeWord(key, correct, opts) {
+    opts = opts || {};
     const srs   = load(KEY_SRS, {});
     const state = srs[key] || { level: 0, nextReview: 0, lastSeen: 0, reviews: 0 };
 
     const oldLevel = state.level;
     let newLevel;
     if (correct) {
-      newLevel = Math.min(4, oldLevel + 1);
+      newLevel = opts.promote === false ? oldLevel : Math.min(4, oldLevel + 1);
     } else {
-      newLevel = Math.max(0, oldLevel - 1);
+      newLevel = opts.demote === false ? oldLevel : Math.max(0, oldLevel - 1);
     }
 
     const interval = LEVELS[newLevel].days * MS_PER_DAY;

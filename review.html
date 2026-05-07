@@ -33,43 +33,38 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(124,92,252,0.1);
-      padding: 0.65rem 1.25rem;
-      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.7rem max(1rem, env(safe-area-inset-right)) 0.7rem max(1rem, env(safe-area-inset-left));
+      display: flex;
+      justify-content: center;
+      align-items: center;
       box-shadow: 0 1px 12px rgba(124,92,252,0.06);
     }
-    .rv-back {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.78rem; font-weight: 700;
-      color: var(--brand); text-decoration: none;
-      display: flex; align-items: center; gap: 5px;
-      padding: 0.3rem 0.55rem;
-      border-radius: var(--radius-sm);
-      transition: all 0.2s ease;
-    }
-    .rv-back:hover { background: var(--surface-tint); transform: translateX(-2px); }
-    .rv-title {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.95rem; font-weight: 800;
-      color: var(--text-dark);
-    }
     .rv-tab-row {
-      margin-left: auto;
-      display: flex; gap: 6px;
+      display: inline-grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      padding: 3px;
+      border-radius: var(--radius-full);
+      background: rgba(124,92,252,0.08);
+      border: 1px solid rgba(124,92,252,0.1);
+      width: min(100%, 320px);
     }
     .rv-tab {
       font-family: 'Nunito', sans-serif;
-      font-size: 0.68rem; font-weight: 800;
-      letter-spacing: 0.05em; text-transform: uppercase;
+      font-size: 0.72rem; font-weight: 900;
+      letter-spacing: 0; text-transform: none;
       color: var(--text-mid);
-      background: none; border: 1.5px solid rgba(124,92,252,0.15);
+      background: transparent; border: none;
       border-radius: var(--radius-full);
-      padding: 0.3rem 0.75rem;
+      min-height: 32px;
+      padding: 0.35rem 0.75rem;
       cursor: pointer; transition: all 0.18s ease;
+      white-space: nowrap;
     }
     .rv-tab:hover, .rv-tab--active {
-      color: var(--brand);
-      border-color: var(--brand-light);
-      background: var(--surface-tint);
+      color: var(--brand-dark);
+      background: #fff;
+      box-shadow: var(--shadow-xs);
     }
 
     /* ── Progress bar ── */
@@ -338,6 +333,38 @@
       justify-content: center;
     }
 
+    .satchel-sort-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+      padding: 4px;
+      border: 1px solid rgba(124,92,252,0.12);
+      border-radius: var(--radius-full);
+      background: rgba(124,92,252,0.07);
+    }
+    .satchel-sort-btn {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--text-mid);
+      min-height: 34px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-full);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+    }
+    .satchel-sort-btn:hover,
+    .satchel-sort-btn--active {
+      color: var(--brand-dark);
+      background: #fff;
+      border-color: rgba(124,92,252,0.12);
+      box-shadow: var(--shadow-xs);
+    }
+
     .satchel-empty {
       text-align: center; padding: 3rem 1rem;
       color: var(--text-muted); font-size: 0.9rem; font-weight: 600;
@@ -413,9 +440,16 @@
 
     /* ── Responsive ── */
     @media (max-width: 600px) {
+      .rv-nav {
+        padding: 0.65rem 0.85rem;
+      }
+      .rv-tab-row { width: 100%; }
+      .rv-tab { min-height: 36px; padding-inline: 0.5rem; }
       .rv-card-face { min-height: 240px; padding: 1.6rem 1.25rem; }
       .rv-card-arabic { font-size: clamp(1.8rem, 11vw, 2.5rem); }
       .rv-rate-btn { min-height: 52px; font-size: 0.85rem; }
+      .satchel-sort-row { max-width: none; }
+      .satchel-sort-btn { min-height: 36px; }
       .satchel-word-ar { min-width: 70px; font-size: 1.1rem; }
     }
   </style>
@@ -425,8 +459,6 @@
 <div class="rv-page">
 
   <nav class="rv-nav">
-    <a href="index.html" class="rv-back">← Home</a>
-    <span class="rv-title">🎒 Review</span>
     <div class="rv-tab-row">
       <button class="rv-tab rv-tab--active" id="tab-review" onclick="switchTab('review')">Review</button>
       <button class="rv-tab" id="tab-satchel" onclick="switchTab('satchel')">Satchel</button>
@@ -464,7 +496,6 @@
       <div class="rv-stat-bar" id="start-stat-bar"></div>
       <div class="rv-btn-row">
         <button class="rv-btn" onclick="startSession()">Start Review</button>
-        <a href="index.html" class="rv-btn rv-btn--ghost">Not now</a>
       </div>
     </div>
 
@@ -522,6 +553,10 @@
       <div class="satchel-header-sub" id="satchel-sub">All words you've discovered</div>
     </div>
     <div class="satchel-levels-row" id="satchel-levels-row"></div>
+    <div class="satchel-sort-row" aria-label="Satchel grouping">
+      <button class="satchel-sort-btn satchel-sort-btn--active" id="satchel-sort-lesson" type="button" onclick="setSatchelSort('lesson')">By Lesson</button>
+      <button class="satchel-sort-btn" id="satchel-sort-level" type="button" onclick="setSatchelSort('level')">By Level</button>
+    </div>
     <div id="satchel-content"></div>
   </div>
 
@@ -538,12 +573,60 @@
 
 const MAX_SESSION = 20;
 const XP_REWARD   = 15;
+const RETRY_SPACING = 4;
 
 var _queue   = [];
 var _index   = 0;
 var _correct = 0;
+var _sessionTotal = 0;
 var _flipped = false;
 var _activeTab = 'review';
+var _satchelSort = 'lesson';
+var _missedKeys = new Set();
+var _completedKeys = new Set();
+
+const REVIEW_BACKFILL_TOTALS = { book1: 23 };
+
+function completedLessonNumbers(book = 'book1') {
+  const total = REVIEW_BACKFILL_TOTALS[book] || 0;
+  const completed = [];
+  for (let i = 1; i <= total; i++) {
+    if (typeof getLessonStatus === 'function' && getLessonStatus(i, book) === 'complete') {
+      completed.push(i);
+    }
+  }
+  return completed;
+}
+
+async function loadLessonDataForReview(book, lessonNum) {
+  const bookNum = String(book).replace('book', '');
+  const url = `lessons/data/b${bookNum}-lesson${lessonNum}.js`;
+
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) return null;
+
+    const source = await res.text();
+    const runnable = source.replace(/^\s*const\s+LESSON_DATA\s*=/m, 'return');
+    if (runnable === source) return null;
+    return Function(runnable)();
+  } catch (e) {
+    console.warn(`Could not load ${url} for review backfill`, e);
+    return null;
+  }
+}
+
+async function backfillCompletedLessonWords() {
+  if (!window.SRS || typeof getLessonStatus !== 'function') return;
+
+  const lessons = completedLessonNumbers('book1');
+  for (const lessonNum of lessons) {
+    const data = await loadLessonDataForReview('book1', lessonNum);
+    if (data && data.vocab) {
+      SRS.discoverWords(data.book || 'book1', data.lessonNum || lessonNum, data.vocab);
+    }
+  }
+}
 
 /* ── Tab switching ── */
 function switchTab(tab) {
@@ -566,6 +649,7 @@ function show(id) {
 /* ── Init ── */
 async function init() {
   show('state-loading');
+  await backfillCompletedLessonWords();
   const satchel = SRS.getSatchel();
 
   if (!satchel.length) { show('state-empty'); return; }
@@ -602,7 +686,10 @@ function buildStatBar(stats) {
 function startSession() {
   _index   = 0;
   _correct = 0;
+  _sessionTotal = _queue.length;
   _flipped = false;
+  _missedKeys = new Set();
+  _completedKeys = new Set();
   showCard();
 }
 
@@ -649,15 +736,28 @@ function flipCard() {
 
 function gradeCard(correct) {
   const word = _queue[_index];
-  SRS.gradeWord(word.key, correct);
-  if (correct) _correct++;
+  const wasMissed = _missedKeys.has(word.key);
+
+  if (correct) {
+    SRS.gradeWord(word.key, true, { promote: !wasMissed });
+    if (!_completedKeys.has(word.key)) {
+      _completedKeys.add(word.key);
+      _correct++;
+    }
+  } else {
+    _missedKeys.add(word.key);
+    SRS.gradeWord(word.key, false, { demote: false });
+    const retryAt = Math.min(_index + RETRY_SPACING + 1, _queue.length);
+    _queue.splice(retryAt, 0, { ...word });
+  }
+
   _index++;
   setTimeout(showCard, 100);
 }
 
 function endSession() {
   document.getElementById('rv-progress').style.width = '100%';
-  const total = _queue.length;
+  const total = _sessionTotal || _queue.length;
   const pct   = total ? _correct / total : 0;
 
   document.getElementById('end-score').textContent = `${_correct} / ${total}`;
@@ -697,11 +797,14 @@ function restartSession() {
 
 function renderSatchel() {
   const stats   = SRS.getSatchelStats();
-  const byLesson = SRS.getWordsByLesson();
+  const groups = _satchelSort === 'level' ? getWordsByLevel() : getWordsByLessonGroup();
 
   // Sub-header
   document.getElementById('satchel-sub').textContent =
     `${stats.total} words discovered · ${stats.dueCount} due for review`;
+
+  document.getElementById('satchel-sort-lesson')?.classList.toggle('satchel-sort-btn--active', _satchelSort === 'lesson');
+  document.getElementById('satchel-sort-level')?.classList.toggle('satchel-sort-btn--active', _satchelSort === 'level');
 
   // Level legend
   const levRow = document.getElementById('satchel-levels-row');
@@ -718,22 +821,20 @@ function renderSatchel() {
   const container = document.getElementById('satchel-content');
   container.innerHTML = '';
 
-  if (!byLesson.length) {
+  if (!groups.length) {
     container.innerHTML = `<div class="satchel-empty"><div class="satchel-empty-icon">🎒</div>Your satchel is empty.<br>Complete lessons and pack words to fill it up!</div>`;
     return;
   }
 
-  byLesson.forEach((group, gi) => {
-    const lvlAll = group.words.map(w => SRS.getLevelInfo(w.level || 0));
-
+  groups.forEach((group, gi) => {
     const el = document.createElement('div');
-    el.className = 'satchel-lesson-group';
+    el.className = 'satchel-lesson-group collapsed';
     el.style.animationDelay = `${gi * 60}ms`;
 
     const head = document.createElement('div');
     head.className = 'satchel-lesson-head';
     head.innerHTML = `
-      <span class="satchel-lesson-label">Lesson ${group.lessonNum}</span>
+      <span class="satchel-lesson-label">${group.label}</span>
       <span class="satchel-lesson-count">${group.words.length} words</span>
       <span class="satchel-lesson-chevron">▾</span>
     `;
@@ -760,6 +861,39 @@ function renderSatchel() {
     el.appendChild(wordsEl);
     container.appendChild(el);
   });
+}
+
+function setSatchelSort(sort) {
+  _satchelSort = sort === 'level' ? 'level' : 'lesson';
+  renderSatchel();
+}
+
+function getWordsByLevel() {
+  const byLesson = SRS.getWordsByLesson();
+  const words = byLesson.flatMap(group => group.words);
+  const groups = SRS.getAllLevels().map((lvl, level) => ({
+    label: `${lvl.emoji} ${lvl.label}`,
+    level,
+    words: []
+  }));
+
+  words.forEach(word => {
+    const level = Math.max(0, Math.min(groups.length - 1, word.level || 0));
+    groups[level].words.push(word);
+  });
+
+  groups.forEach(group => {
+    group.words.sort((a, b) => a.lessonNum - b.lessonNum || a.wordIndex - b.wordIndex);
+  });
+
+  return groups.filter(group => group.words.length);
+}
+
+function getWordsByLessonGroup() {
+  return SRS.getWordsByLesson().map(group => ({
+    ...group,
+    label: `Lesson ${group.lessonNum}`
+  }));
 }
 
 /* ── Boot ── */

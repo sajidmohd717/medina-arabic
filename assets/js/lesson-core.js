@@ -419,6 +419,15 @@ function playPassSound() {
   } catch (e) { /* audio unavailable — fail silently */ }
 }
 
+function discoverCurrentLessonWords() {
+  if (!window.SRS || !CURRENT_LESSON_DATA || !CURRENT_LESSON_DATA.vocab) return;
+  SRS.discoverWords(
+    CURRENT_LESSON_DATA.book || CURRENT_BOOK || 'book1',
+    CURRENT_LESSON_DATA.lessonNum || CURRENT_LESSON_NUM,
+    CURRENT_LESSON_DATA.vocab
+  );
+}
+
 function checkConcept(btn, qNum, isCorrect, conceptIdx) {
   const container = btn.closest('.quiz-question');
   const feedback = container.querySelector('.quiz-feedback');
@@ -494,6 +503,7 @@ function submitQuiz() {
     playPassSound();
     if (typeof markComplete === 'function') {
       markComplete(CURRENT_LESSON_NUM, CURRENT_BOOK);
+      discoverCurrentLessonWords();
       clearGuidedResume();
       if (typeof updateProgressBar === 'function') updateProgressBar(CURRENT_BOOK);
       if (typeof updateCompletedCount === 'function') updateCompletedCount(CURRENT_BOOK);
