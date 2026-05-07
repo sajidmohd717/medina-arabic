@@ -15,7 +15,7 @@ const LESSON_DATA = {
   guidedPattern: 'كِتَابُ مُحَمَّدٍ',
   guidedIntro: 'Arabic does not need a separate word for "of" here. Put the thing first, then the owner: كِتَابُ مُحَمَّدٍ = Muhammad\'s book.',
   reviewVocabAtEnd: true,
-  skipMidMilestone: true,
+  milestoneAfterPage: 3,
 
   guidedPages: [
     {
@@ -99,7 +99,7 @@ const LESSON_DATA = {
     {
       title: 'The Pattern',
       pattern: 'مُضَافٌ + مُضَافٌ إِلَيْهِ',
-      intro: 'Tap the right ending vowels. The first word loses tanwīn and takes ـُ. The owner takes ـٍ for names and ـِ when it has ال.',
+      intro: 'Tap the right ending vowels. The first word loses tanwīn and takes ـُ. The owner (a name) takes ـٍ.',
       wordBank: ['ـُ', 'ـِ', 'ـٍ', 'ـٌ'],
       tapFillMatchMode: 'exact',
       tapFill: [
@@ -119,6 +119,45 @@ const LESSON_DATA = {
           answers: ['ـُ', 'ـٍ']
         },
         {
+          parts: ['غُرْفَة', null, ' عَلِيّ', null],
+          source: 'غُرْفَةٌ، عَلِيٌّ',
+          answers: ['ـُ', 'ـٍ']
+        },
+        {
+          parts: ['دَفْتَر', null, ' سَعِيد', null],
+          source: 'دَفْتَرٌ، سَعِيدٌ',
+          answers: ['ـُ', 'ـٍ']
+        },
+        {
+          parts: ['مِنْدِيل', null, ' يَاسِر', null],
+          source: 'مِنْدِيلٌ، يَاسِرٌ',
+          answers: ['ـُ', 'ـٍ']
+        },
+        {
+          parts: ['قَمِيص', null, ' عَمَّار', null],
+          source: 'قَمِيصٌ، عَمَّارٌ',
+          answers: ['ـُ', 'ـٍ']
+        },
+        {
+          parts: ['سَرِير', null, ' خَالِد', null],
+          source: 'سَرِيرٌ، خَالِدٌ',
+          answers: ['ـُ', 'ـٍ']
+        }
+      ],
+      keyPoints: [
+        'Muḍāf ending: ـُ',
+        'Owner name ending: ـٍ'
+      ]
+    },
+    {
+      titleArabic: 'تَمْرِين (٢)',
+      title: 'The Pattern with ال',
+      pattern: 'مُضَافٌ + مُضَافٌ إِلَيْهِ',
+      intro: 'Same pattern, but now the owner has ال. The ending changes to ـِ instead of ـٍ.',
+      wordBank: ['ـُ', 'ـِ', 'ـٍ', 'ـٌ'],
+      tapFillMatchMode: 'exact',
+      tapFill: [
+        {
           parts: ['مَكْتَب', null, ' المُدَرِّس', null],
           source: 'مَكْتَبٌ، المُدَرِّسُ',
           answers: ['ـُ', 'ـِ']
@@ -127,51 +166,41 @@ const LESSON_DATA = {
           parts: ['مِفْتَاح', null, ' البَيْت', null],
           source: 'مِفْتَاحٌ، البَيْتُ',
           answers: ['ـُ', 'ـِ']
+        },
+        {
+          parts: ['دُكَّان', null, ' التَّاجِر', null],
+          source: 'دُكَّانٌ، التَّاجِرُ',
+          answers: ['ـُ', 'ـِ']
+        },
+        {
+          parts: ['بَيْت', null, ' المُهَنْدِس', null],
+          source: 'بَيْتٌ، المُهَنْدِسُ',
+          answers: ['ـُ', 'ـِ']
+        },
+        {
+          parts: ['اِسْم', null, ' الوَلَد', null],
+          source: 'اِسْمٌ، الوَلَدُ',
+          answers: ['ـُ', 'ـِ']
+        },
+        {
+          parts: ['كِتَاب', null, ' الله', null],
+          source: 'كِتَابٌ، اللهُ',
+          answers: ['ـُ', 'ـِ']
+        },
+        {
+          parts: ['بَيْت', null, ' الطَّبِيب', null],
+          source: 'بَيْتٌ، الطَّبِيبُ',
+          answers: ['ـُ', 'ـِ']
+        },
+        {
+          parts: ['مِفْتَاح', null, ' السَّيَّارَة', null],
+          source: 'مِفْتَاحٌ، السَّيَّارَةُ',
+          answers: ['ـُ', 'ـِ']
         }
       ],
       keyPoints: [
         'Muḍāf ending: ـُ',
-        'Owner name ending: ـٍ',
         'Owner with ال ending: ـِ'
-      ]
-    },
-    {
-      titleArabic: 'تَمْرِين (٢)',
-      title: 'Join the Two Words',
-      pattern: 'أَضِفِ الكَلِمَةَ الأُولَى إِلَى الثَّانِيَةِ',
-      intro: 'Build the iḍāfa phrase. Watch the endings: the first word gets ُ and the owner gets ِ or ٍ.',
-      tip: 'Example: كِتَاب، مُحَمَّد ← كِتَابُ مُحَمَّدٍ',
-      exercise: [
-        {
-          icon: '✏️',
-          prompt: 'قَلَم، حَامِد',
-          ideal: 'قَلَمُ حَامِدٍ',
-          accepts: ['قلم حامد', 'قَلَمُ حَامِدٍ', 'قلم حامدٍ', 'قلمُ حامد']
-        },
-        {
-          icon: '🏠',
-          prompt: 'بَيْت، عَبَّاس',
-          ideal: 'بَيْتُ عَبَّاسٍ',
-          accepts: ['بيت عباس', 'بَيْتُ عَبَّاسٍ', 'بيت عباسٍ', 'بيتُ عباس']
-        },
-        {
-          icon: '🛏️',
-          prompt: 'سَرِير، خَالِد',
-          ideal: 'سَرِيرُ خَالِدٍ',
-          accepts: ['سرير خالد', 'سَرِيرُ خَالِدٍ', 'سرير خالدٍ', 'سريرُ خالد']
-        },
-        {
-          icon: '🔑',
-          prompt: 'مِفْتَاح، البَيْت',
-          ideal: 'مِفْتَاحُ البَيْتِ',
-          accepts: ['مفتاح البيت', 'مِفْتَاحُ البَيْتِ', 'مفتاح البيتِ', 'مفتاحُ البيت']
-        },
-        {
-          icon: '📖',
-          prompt: 'كِتَاب، الله',
-          ideal: 'كِتَابُ اللهِ',
-          accepts: ['كتاب الله', 'كِتَابُ اللهِ', 'كتاب اللهِ', 'كتابُ الله']
-        }
       ]
     },
     {
