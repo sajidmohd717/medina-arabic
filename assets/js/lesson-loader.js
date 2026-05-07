@@ -76,9 +76,9 @@
     }
     
     // Reset state
-    UNLOCKED_STEPS = { vocab: true, lesson: false, comprehension: false, practice: false, quiz: false };
+    UNLOCKED_STEPS = { lesson: true, learn: false, quiz: false };
     QUIZ_RESULTS = {};
-    CURRENT_STEP = 'vocab';
+    CURRENT_STEP = 'lesson';
     
     // Call the main initialisation function from lesson-core.js
     if (typeof initLesson === 'function') {

@@ -11,9 +11,9 @@
 let CURRENT_LESSON_DATA = null;
 let CURRENT_BOOK = null;
 let CURRENT_LESSON_NUM = null;
-let UNLOCKED_STEPS = { vocab: true, lesson: false, quiz: false };
+let UNLOCKED_STEPS = { lesson: true, learn: false, quiz: false };
 let QUIZ_RESULTS = {};
-let CURRENT_STEP = 'learn';
+let CURRENT_STEP = 'lesson';
 
 // DOM elements (populated after load)
 let ELEMENTS = {};
@@ -189,7 +189,7 @@ function attachGuidedExerciseHandlers(root = document) {
 function goToStep(step) {
   if (!UNLOCKED_STEPS[step]) return;
 
-  const stepOrder = ['learn', 'lesson', 'quiz'];
+  const stepOrder = ['lesson', 'learn', 'quiz'];
   const stepIndex = stepOrder.indexOf(step);
 
   stepOrder.forEach(s => {
@@ -238,8 +238,8 @@ function unlockAndGo(step) {
 
 /** Open all steps and go straight to the quiz (used with ?step=quiz from the book list). */
 function applyQuizJumpMode() {
-  UNLOCKED_STEPS = { vocab: true, lesson: true, quiz: true };
-  ['learn', 'lesson', 'quiz'].forEach(step => {
+  UNLOCKED_STEPS = { lesson: true, learn: true, quiz: true };
+  ['lesson', 'learn', 'quiz'].forEach(step => {
     const btn = document.getElementById(`step-${step}`);
     if (btn) btn.classList.remove('locked');
   });
@@ -262,9 +262,9 @@ function setupLessonIntro() {
   }
 
   const resumeKey = guidedResumeKey();
-  const savedStep = localStorage.getItem(lessonStepKey()) || 'learn';
+  const savedStep = localStorage.getItem(lessonStepKey()) || 'lesson';
   const hasProgress = !!(resumeKey && localStorage.getItem(resumeKey) === 'active'
-    && (loadGuidedPage() > 0 || savedStep !== 'learn'));
+    && (loadGuidedPage() > 0 || savedStep !== 'lesson'));
   const isCompleted = typeof getLessonStatus === 'function'
     && getLessonStatus(CURRENT_LESSON_NUM, CURRENT_BOOK) === 'complete';
 
@@ -315,7 +315,7 @@ function setupLessonIntro() {
           restoreLessonResume();
         } else {
           saveGuidedPage(0);
-          saveLessonStep('learn');
+          saveLessonStep('lesson');
         }
       });
     }, { once: true });
@@ -332,20 +332,20 @@ function setupLessonIntro() {
 
 function restartLessonFromBeginning() {
   clearGuidedResume();
-  UNLOCKED_STEPS = { vocab: true, lesson: false, quiz: false };
-  CURRENT_STEP = 'learn';
+  UNLOCKED_STEPS = { lesson: true, learn: false, quiz: false };
+  CURRENT_STEP = 'lesson';
   QUIZ_RESULTS = {};
 
-  const stepOrder = ['learn', 'lesson', 'quiz'];
+  const stepOrder = ['lesson', 'learn', 'quiz'];
   stepOrder.forEach(step => {
     const btn = document.getElementById(`step-${step}`);
     const panel = document.getElementById(`panel-${step}`);
     if (btn) {
       btn.classList.remove('active', 'completed');
-      btn.classList.toggle('locked', step !== 'learn');
+      btn.classList.toggle('locked', step !== 'lesson');
       btn.style.animation = '';
     }
-    if (panel) panel.classList.toggle('active', step === 'learn');
+    if (panel) panel.classList.toggle('active', step === 'lesson');
   });
 
   buildVocabularyPanel(CURRENT_LESSON_DATA);
@@ -353,7 +353,7 @@ function restartLessonFromBeginning() {
   buildQuizPanel(CURRENT_LESSON_DATA);
 
   saveGuidedPage(0);
-  saveLessonStep('learn');
+  saveLessonStep('lesson');
   updateGuidedProgress(0, CURRENT_LESSON_DATA.guidedPages?.length || 0);
 }
 
@@ -521,12 +521,16 @@ function tapFillCheck(itemId) {
   const item = document.getElementById(itemId);
   const answers = JSON.parse(decodeURIComponent(item.dataset.answers));
   const blanks = item.querySelectorAll('.tap-fill-blank');
+  const exactMatch = item.dataset.matchMode === 'exact';
   let allCorrect = true;
 
   blanks.forEach((blank, i) => {
-    const correct = stripDiacritics(answers[i] || '');
-    const given = stripDiacritics(blank.dataset.filled || '');
-    if (given === correct) {
+    const correct = answers[i] || '';
+    const given = blank.dataset.filled || '';
+    const isCorrect = exactMatch
+      ? given === correct
+      : stripDiacritics(given) === stripDiacritics(correct);
+    if (isCorrect) {
       blank.classList.add('is-correct');
     } else {
       blank.classList.add('is-wrong');
@@ -936,6 +940,7 @@ function buildVocabularyPanel(data) {
         const tid = `tf_${pageIndex}_${i}`;
         const answers = Array.isArray(item.answers) ? item.answers : [item.answer];
         const answersEncoded = encodeURIComponent(JSON.stringify(answers));
+        const matchMode = item.matchMode || page.tapFillMatchMode || '';
         let blankIdx = 0;
         const partsHtml = item.parts.map(part => {
           if (part === null) {
@@ -945,9 +950,9 @@ function buildVocabularyPanel(data) {
           return `<span class="tap-fill-part">${annotateArabicText(part, data.vocab)}</span>`;
         }).join('');
         return `
-          <div class="tap-fill-item" id="${tid}" data-answers="${answersEncoded}" data-total-blanks="${blankIdx}">
+          <div class="tap-fill-item" id="${tid}" data-answers="${answersEncoded}" data-total-blanks="${blankIdx}" data-match-mode="${matchMode}">
+            ${item.source ? `<div class="tap-fill-source"><span>Original</span><strong dir="rtl">${item.source}</strong></div>` : ''}
             <div class="tap-fill-sentence" dir="rtl">${partsHtml}</div>
-            ${item.translation ? `<div class="tap-fill-translation">${item.translation}</div>` : ''}
             <div class="tap-fill-options">
               ${wordBank.map(w => `<button class="tap-fill-opt" type="button" data-word="${w}" onclick="tapFillSelect('${tid}',this)" dir="rtl">${w}</button>`).join('')}
             </div>
@@ -988,14 +993,11 @@ function buildVocabularyPanel(data) {
       ` : '';
 
       pager.innerHTML = `
-        ${exerciseItems.length ? '' : `
+        ${!exerciseItems.length && page.intro ? `
           <div class="guided-lesson-intro">
-            ${page.titleArabic ? `<div class="guided-page-title-arabic">${page.titleArabic}</div>` : ''}
-            ${page.title ? `<div class="guided-page-title">${page.title}</div>` : ''}
-            ${page.pattern ? `<div class="guided-pattern">${page.pattern}</div>` : ''}
-            ${page.intro ? `<p>${page.intro}</p>` : ''}
+            <p>${page.intro}</p>
           </div>
-        `}
+        ` : ''}
         ${cardsHtml ? `<div class="guided-sentence-grid">${cardsHtml}</div>` : ''}
         ${groupsHtml ? `<div class="guided-qa-stack">${groupsHtml}</div>` : ''}
         ${linesHtml ? `<div class="guided-line-stack">${linesHtml}</div>` : ''}
@@ -1006,11 +1008,11 @@ function buildVocabularyPanel(data) {
         ${keyHtml}
         <div class="guided-page-controls">
           ${pageIndex === 0
-            ? '<a class="btn btn-secondary" href="../book1.html">← Back to Book</a>'
+            ? '<button type="button" class="btn btn-secondary" onclick="goToStep(\'lesson\')">← Concepts</button>'
             : '<button type="button" class="btn btn-secondary" data-guided-prev>← Back</button>'}
           <button type="button" class="btn btn-primary" data-guided-next
             ${exerciseItems.length ? 'disabled data-exercise-locked="true"' : ''}>
-            ${pageIndex === total - 1 ? 'Next: Reading →' : 'Next →'}
+            ${pageIndex === total - 1 ? 'Next: Quiz →' : 'Next →'}
           </button>
           ${exerciseItems.length ? '<p class="guided-exercise-lock-hint">Complete all exercises above to continue</p>' : ''}
         </div>
@@ -1047,7 +1049,7 @@ function buildVocabularyPanel(data) {
             return;
           }
           showGuidedFinalMilestone(data, () => {
-            unlockAndGo('lesson');
+            unlockAndGo('quiz');
           });
         });
       }
@@ -1233,19 +1235,14 @@ function initLesson() {
     const vocabStepLabel = document.querySelector('#step-learn .step-label');
     const lessonStepLabel = document.querySelector('#step-lesson .step-label');
     if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
-    if (lessonStepLabel) lessonStepLabel.textContent = 'Questions';
+    if (lessonStepLabel) lessonStepLabel.textContent = 'Concepts';
   }
 
   if (CURRENT_LESSON_DATA.guidedPages && CURRENT_LESSON_DATA.guidedPages.length) {
     const lessonStepLabel = document.querySelector('#step-lesson .step-label');
     const vocabStepLabel = document.querySelector('#step-learn .step-label');
-    const readingBackBtn = null;
     if (vocabStepLabel) vocabStepLabel.textContent = 'Learn';
     if (lessonStepLabel) lessonStepLabel.textContent = 'Concepts';
-    if (readingBackBtn) {
-      readingBackBtn.textContent = '← Concepts';
-      readingBackBtn.setAttribute('onclick', "goToStep('lesson')");
-    }
   }
   
   // Build all panels
@@ -1508,8 +1505,8 @@ function shouldSkipLessonIntro() {
   if (!resumeKey || localStorage.getItem(resumeKey) !== 'active') return false;
   const savedPage = loadGuidedPage();
   if (savedPage > 0) return true;
-  const savedStep = localStorage.getItem(lessonStepKey()) || 'learn';
-  return savedStep !== 'learn';
+  const savedStep = localStorage.getItem(lessonStepKey()) || 'lesson';
+  return savedStep !== 'lesson';
 }
 
 function restoreLessonResume() {
@@ -1517,8 +1514,8 @@ function restoreLessonResume() {
   const stepKey = lessonStepKey();
   if (!resumeKey || localStorage.getItem(resumeKey) !== 'active') return;
 
-  const savedStep = localStorage.getItem(stepKey) || 'learn';
-  const stepOrder = ['learn', 'lesson', 'quiz'];
+  const savedStep = localStorage.getItem(stepKey) || 'lesson';
+  const stepOrder = ['lesson', 'learn', 'quiz'];
   const targetIndex = stepOrder.indexOf(savedStep);
   if (targetIndex <= 0) return;
 

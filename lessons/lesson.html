@@ -52,8 +52,8 @@
       <div class="lesson-intro-english" id="lessonIntroEnglish"></div>
       <p class="lesson-intro-summary" id="lessonIntroSummary"></p>
       <div class="lesson-intro-path" aria-label="Lesson path">
-        <span>Learn</span>
         <span>Concepts</span>
+        <span>Learn</span>
         <span>Quiz</span>
       </div>
       <p class="lesson-intro-hint">💡 Tap any Arabic word to see its meaning</p>
@@ -71,23 +71,32 @@
     <!-- Step indicator -->
     <div class="step-indicator">
       <div class="step-buttons">
-        <button class="step-btn active" id="step-learn" onclick="goToStep('learn')">
-          <div class="step-icon">📖</div>
-          <span class="step-label">Learn</span>
-        </button>
-        <button class="step-btn locked" id="step-lesson" onclick="goToStep('lesson')">
+        <button class="step-btn active" id="step-lesson" onclick="goToStep('lesson')">
           <div class="step-icon">🧠</div>
           <span class="step-label">Concepts</span>
         </button>
-<button class="step-btn locked" id="step-quiz" onclick="goToStep('quiz')">
+        <button class="step-btn locked" id="step-learn" onclick="goToStep('learn')">
+          <div class="step-icon">📖</div>
+          <span class="step-label">Learn</span>
+        </button>
+        <button class="step-btn locked" id="step-quiz" onclick="goToStep('quiz')">
           <div class="step-icon">🎯</div>
           <span class="step-label">Quiz</span>
         </button>
       </div>
     </div>
 
-    <!-- PANEL 1 — LEARN -->
-    <div class="lesson-panel active" id="panel-learn">
+    <!-- PANEL 1 — CONCEPTS -->
+    <div class="lesson-panel active" id="panel-lesson">
+      <div class="lesson-content-inner"></div>
+      <div class="panel-nav">
+        <a class="btn btn-secondary" id="panelVocabBackLink" href="../book1.html">← Back to Book</a>
+        <button class="btn btn-primary" onclick="unlockAndGo('learn')">Start Learn →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 2 — LEARN -->
+    <div class="lesson-panel" id="panel-learn">
       <div class="guided-page-progress" id="guidedPageProgress" style="display:none">
         <div class="guided-page-progress-bar">
           <div class="guided-page-progress-fill" id="guidedProgressFill"></div>
@@ -98,21 +107,12 @@
       </div>
       <div class="vocab-grid"></div>
       <div class="panel-nav">
-        <a class="btn btn-secondary" id="panelVocabBackLink" href="../book1.html">← Back to Book</a>
-        <button class="btn btn-primary" onclick="unlockAndGo('lesson')">Next: Questions →</button>
+        <button class="btn btn-secondary" onclick="goToStep('lesson')">← Concepts</button>
+        <button class="btn btn-primary" onclick="unlockAndGo('quiz')">Next: Quiz →</button>
       </div>
     </div>
 
-    <!-- PANEL 2 — LESSON CONTENT -->
-    <div class="lesson-panel" id="panel-lesson">
-      <div class="lesson-content-inner"></div>
-      <div class="panel-nav">
-        <button class="btn btn-secondary" onclick="goToStep('learn')">← Learn</button>
-        <button class="btn btn-primary" onclick="unlockAndGo('quiz')">I understand — Next: Quiz →</button>
-      </div>
-    </div>
-
-<!-- PANEL 3 — QUIZ -->
+    <!-- PANEL 3 — QUIZ -->
     <div class="lesson-panel" id="panel-quiz">
       <div class="quiz-intro-card" id="quizIntroCard"></div>
       <p class="quiz-total-label" id="quizTotalLabel"></p>
@@ -120,7 +120,7 @@
 
       <!-- Submit + score -->
       <div class="panel-nav" id="quizPanelNav">
-        <button class="btn btn-secondary" onclick="goToStep('lesson')">← Concepts</button>
+        <button class="btn btn-secondary" onclick="goToStep('learn')">← Learn</button>
         <button class="btn btn-primary" id="submitQuizBtn" onclick="submitQuiz()">Submit Quiz →</button>
       </div>
 

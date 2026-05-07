@@ -24,7 +24,7 @@ const LESSON_DATA = {
       pattern: 'كِتَابُ مُحَمَّدٍ',
       intro: 'Start with the book dialogue. Listen for the owned thing first, then the owner.',
       groups: [
-        { type: 'scene', text: 'Page 27: Saeed asks Yaasir and Ali about books, notebooks, a pen, and the teacher\'s bag.' },
+        { type: 'scene', text: 'Saeed asks Yaasir and Ali about books, notebooks, a pen, and the teacher\'s bag.' },
         {
           icon: '📘',
           role: 'teacher',
@@ -66,36 +66,7 @@ const LESSON_DATA = {
           ]
         }
       ],
-      keyPoints: [
-        'كِتَابُ مُحَمَّدٍ = Muhammad\'s book',
-        'مَكْتَبُ المُدَرِّسِ = the teacher\'s desk',
-        'قَلَمُ مَنْ هٰذَا؟ = Whose pen is this?'
-      ]
-    },
-    {
-      title: 'The Pattern',
-      pattern: 'مُضَافٌ + مُضَافٌ إِلَيْهِ',
-      intro: 'Join the two words. The first word loses tanwīn and takes one ḍamma. The owner comes after it with kasra or kasratayn.',
-      cards: [
-        { icon: '📘', ar: 'كِتَابٌ + مُحَمَّدٌ ← كِتَابُ مُحَمَّدٍ' },
-        { icon: '✏️', ar: 'قَلَمٌ + حَامِدٌ ← قَلَمُ حَامِدٍ' },
-        { icon: '🏠', ar: 'بَيْتٌ + عَبَّاسٌ ← بَيْتُ عَبَّاسٍ' },
-        { icon: '🛏️', ar: 'سَرِيرٌ + خَالِدٌ ← سَرِيرُ خَالِدٍ' },
-        { icon: '🧾', ar: 'مَكْتَبٌ + المُدَرِّسُ ← مَكْتَبُ المُدَرِّسِ' },
-        { icon: '🔑', ar: 'مِفْتَاحٌ + البَيْتُ ← مِفْتَاحُ البَيْتِ' }
-      ],
-      keyPoints: [
-        'First word: كِتَابٌ becomes كِتَابُ',
-        'Second word: مُحَمَّدٌ becomes مُحَمَّدٍ',
-        'If the second word has ال, it ends with kasra: المُدَرِّسِ'
-      ]
-    },
-    {
-      titleArabic: 'تَمْرِين (١)',
-      title: 'Answer from the Dialogue',
-      pattern: 'أَيْنَ ...؟',
-      intro: 'Answer using the exact information from the opening dialogue.',
-      tip: 'Tip: type the full answer, but you can leave out vowel marks.',
+      exerciseIntro: 'Answer from the dialogue',
       exercise: [
         {
           icon: '📘',
@@ -118,6 +89,50 @@ const LESSON_DATA = {
           ideal: 'هِيَ تَحْتَ المَكْتَبِ.',
           accepts: ['هي تحت المكتب', 'هي تحت المكتب.', 'هِيَ تَحْتَ المَكْتَبِ', 'هِيَ تَحْتَ المَكْتَبِ.']
         }
+      ],
+      keyPoints: [
+        'كِتَابُ مُحَمَّدٍ = Muhammad\'s book',
+        'مَكْتَبُ المُدَرِّسِ = the teacher\'s desk',
+        'قَلَمُ مَنْ هٰذَا؟ = Whose pen is this?'
+      ]
+    },
+    {
+      title: 'The Pattern',
+      pattern: 'مُضَافٌ + مُضَافٌ إِلَيْهِ',
+      intro: 'Tap the right ending vowels. The first word loses tanwīn and takes ـُ. The owner takes ـٍ for names and ـِ when it has ال.',
+      wordBank: ['ـُ', 'ـِ', 'ـٍ', 'ـٌ'],
+      tapFillMatchMode: 'exact',
+      tapFill: [
+        {
+          parts: ['كِتَاب', null, ' مُحَمَّد', null],
+          source: 'كِتَابٌ، مُحَمَّدٌ',
+          answers: ['ـُ', 'ـٍ']
+        },
+        {
+          parts: ['قَلَم', null, ' حَامِد', null],
+          source: 'قَلَمٌ، حَامِدٌ',
+          answers: ['ـُ', 'ـٍ']
+        },
+        {
+          parts: ['بَيْت', null, ' عَبَّاس', null],
+          source: 'بَيْتٌ، عَبَّاسٌ',
+          answers: ['ـُ', 'ـٍ']
+        },
+        {
+          parts: ['مَكْتَب', null, ' المُدَرِّس', null],
+          source: 'مَكْتَبٌ، المُدَرِّسُ',
+          answers: ['ـُ', 'ـِ']
+        },
+        {
+          parts: ['مِفْتَاح', null, ' البَيْت', null],
+          source: 'مِفْتَاحٌ، البَيْتُ',
+          answers: ['ـُ', 'ـِ']
+        }
+      ],
+      keyPoints: [
+        'Muḍāf ending: ـُ',
+        'Owner name ending: ـٍ',
+        'Owner with ال ending: ـِ'
       ]
     },
     {
