@@ -22,11 +22,13 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 - Today-first app dashboard for returning/onboarded users
 - App-wide navigation: Today, Course, Reading, Review. Desktop uses a top pill nav; mobile uses bottom tabs.
 - Book 1 lesson list page with progress tracking, section nav, and lesson cards
-- Lessons 1–13 complete with full content; Lessons 1–3 use the newer guided-pages format (Madinah-style pattern-first flow)
+- Lessons 1–13 complete with full content; Lessons 1–2 are the current gold-standard guided-page reference for new/revised beginner lessons
 - Hover/tap-translate tooltips on reading comprehension Arabic text
 - Focused reading comprehension track: one unlocked story, then questions directly below it
 - Collapsible reading progress overview for stories passed, current level, words unlocked, and next-level progress
-- Word Review flow positioned as Anki-style flashcards for vocabulary the learner is still acquiring
+- Word Review flow positioned as Anki-style flashcards for vocabulary learned from completed lessons and reading
+- Review sessions are capped at 20 cards; missed cards reappear later in the same session and do not rank up until answered correctly in a clean review attempt
+- Satchel view supports grouping words by lesson or by familiarity/SRS level, with groups collapsed by default
 - Vocabulary rating system (know / still practising / difficult) with localStorage persistence
 - Progress tracking — sequential lesson locks, completed/in-progress/not-started states
 - SEO: meta descriptions, Open Graph tags, canonical URLs on all pages
@@ -39,7 +41,7 @@ A modern, interactive platform for learning the Arabic language, built on the fo
 2. Book 1 final quiz content
 3. Book 2 lessons
 4. Book 3 lessons
-5. Upgrade Review into true spaced repetition (due dates, ease, review intervals)
+5. Upgrade Review with fuller spaced repetition scheduling (due dates, ease, review intervals)
 
 ### Product direction
 Kalamo is now an app-like learning product, not just a course library. The intended learner loop is:
@@ -47,11 +49,11 @@ Kalamo is now an app-like learning product, not just a course library. The inten
 1. **Today** — the default home after onboarding. Shows the next lesson, daily quests, progress, and quick links.
 2. **Course** — structured Madinah Arabic lesson path. New and revised lessons should teach through simple sentence patterns first, then reading, word review, and quiz.
 3. **Reading** — the main practice surface. A short Arabic passage appears first, with comprehension questions directly underneath.
-4. **Review** — Anki-like vocabulary flashcards. This should become the memory system for words learned in lessons and reading.
+4. **Review** — Anki-like vocabulary flashcards and satchel browsing. This is the memory system for words learned in lessons and reading.
 
 The old standalone Daily Practice/Drill route is not part of the visible product navigation. Keep `drill.html` only as archived/experimental code unless a future decision explicitly revives it.
 
-The UX target is Duolingo-like return momentum with a calmer Arabic-learning identity: cheerful, sticky, clear next action, but not cluttered. The app should feel premium and focused, with lesson screens that introduce the goal first and then get out of the learner's way. Avoid adding new top-level features unless they reinforce the loop above.
+The UX target is Duolingo-like return momentum with a calmer Arabic-learning identity: cheerful, sticky, clear next action, but not cluttered. The app should feel premium and focused, with lesson screens that introduce the goal first and then get out of the learner's way. Premium primary buttons are reserved for the main action on the screen; navigation should feel polished and consistent without competing with the CTA. Avoid adding new top-level features unless they reinforce the loop above.
 
 ### Lesson content direction
 Kalamo should follow the Madinah Arabic Books more closely in pacing. Do not start beginner lessons with a large vocabulary dump. The lesson flow is four steps:
@@ -59,11 +61,15 @@ Kalamo should follow the Madinah Arabic Books more closely in pacing. Do not sta
 1. **Learn** — guided pages that introduce one sentence pattern at a time with concrete examples and visual cues. Uses the `guidedPages` format (see data structure). This is the main teaching surface.
 2. **Concepts** — grammar reference blocks only. No example sentences that duplicate what was just taught in Learn.
 3. **Reading** — a short controlled comprehension passage with MCQ questions. Arabic text has hover/tap-translate on vocab words.
-4. **Quiz** — MC + typing questions. Pass mark is roughly 75% (`passMark: 6` for an 8-question quiz). No on-screen keyboard — learners use their device keyboard.
+4. **Quiz** — a short intro card, then MC, concept-check, and typing questions. Pass mark is roughly 75% (`passMark: 8` for an 11-question quiz). No on-screen keyboard — learners use their device keyboard.
 
 The Practice panel has been removed. Learn already contains interactive exercises via the `exercise` sub-format in `guidedPages`.
 
-Lessons 1–3 model this direction. Use those as the reference when revising later lessons. The lesson intro popup should give the learner a short heads-up about what they are about to learn, then transition into the lesson with one clear primary button. If the learner has already progressed past page 1, skip the intro on return.
+Lessons 1–2 model this direction most closely. Use Lesson 1 for the full component/image/milestone pattern and Lesson 2 for a short Madinah page-reference lesson with conceptual quiz checks. The lesson intro popup should give the learner a short heads-up about what they are about to learn, then transition into the lesson with one clear primary button. If the learner has already progressed past page 1, skip the intro on return.
+
+Guided lessons may show a satchel milestone popup after meaningful chunks of new words. For very short lessons, skip the mid-lesson milestone and show one polished final milestone with the total words learned.
+
+Quiz completion must use a modal result screen, not an inline score card inside the quiz page. The result modal should lock the background page, fit on small mobile screens without zooming out, keep focus inside the result dialog, preserve the pass/fail music and celebration, and avoid letting learners casually scroll back to answers after submission.
 
 After the intro, keep the working lesson surface uncluttered: step controls, the active panel, and only the context needed for the current task. Do not show lesson titles or pattern headers on pages where the intro already oriented the learner — go straight to the content.
 
@@ -73,6 +79,14 @@ Do not duplicate lesson summaries inside the active lesson view after the intro.
 Work in sessions, batch related changes, and push to `main` once a meaningful chunk is done. Do not commit every small tweak — keep the git history clean and meaningful.
 
 For meaningful changes, use the lightweight agent briefs in `.agents/`: Content Lead for lesson quality, Experience Lead for UI/UX, and QA Lead for validation and pre-push checks. Do not use the agent workflow for tiny fixes unless requested.
+
+Before pushing user-facing changes, run the relevant local checks:
+- JavaScript parse checks for touched scripts and lesson data
+- CSS brace-balance checks for touched stylesheets
+- `node scripts/validate-lessons.js` when lesson data changes
+- A browser/mobile smoke test for changed UI flows, especially modals, navigation, review, and quiz results
+
+GitHub Pages deploys through a service worker. When changing cached HTML/CSS/JS/lesson data, bump `CACHE_NAME` in `sw.js` and update asset query versions when needed, otherwise returning Chrome users may keep seeing stale cached files until they hard refresh.
 
 ---
 
@@ -110,12 +124,17 @@ medina-arabic/
 ├── assets/
 │   ├── css/
 │   │   ├── shared.css             ← Variables, base reset, nav, chips, animations
+│   │   ├── mobile.css             ← App-wide responsive navigation
+│   │   ├── gamification.css       ← XP, streak, review, reward, and shared app surfaces
 │   │   ├── book-list.css          ← Book lesson-list page styles
 │   │   ├── lesson.css             ← Lesson page styles (guided pages, quiz, tooltips)
 │   │   └── reading.css            ← Reading comprehension styles
 │   │
 │   └── js/
 │       ├── progress.js            ← localStorage progress + vocab rating tracking
+│       ├── vocab-srs.js           ← Review/SRS vocabulary state and lesson-word discovery
+│       ├── gamification.js        ← XP/streak/reward helpers
+│       ├── bottom-nav.js          ← App-wide Today/Course/Reading/Review navigation
 │       ├── book1-lesson-list.js   ← Book 1 section/lesson data + card rendering
 │       ├── lesson-core.js         ← All lesson UI logic (guided pages, quiz, tooltips)
 │       ├── lesson-loader.js       ← Reads URL params, injects data file, calls initLesson()
@@ -155,8 +174,8 @@ const LESSON_DATA = {
   titleEnglish: 'English title',
   summary: 'One or two sentences shown in the lesson intro popup.',
   nextLesson: 'b1-lesson6.html',    // used to build the Next Lesson button
-  passMark: 6,                      // correct answers needed to pass (~75% of totalQuestions)
-  totalQuestions: 8,                // must equal multipleChoice.length + typing.length
+  passMark: 8,                      // correct answers needed to pass (~75% of totalQuestions)
+  totalQuestions: 11,               // must equal conceptCheck.length + multipleChoice.length + typing.length
 
   // optional: enables bite-sized guided pages in the Learn step
   // title, titleArabic, and pattern are all optional on each page.
@@ -233,6 +252,15 @@ const LESSON_DATA = {
   },
 
   quizQuestions: {
+    conceptCheck: [
+      // Conceptual checks come before translation/typing questions in the quiz UI
+      {
+        statement: 'Short learner-facing grammar/concept question',
+        options: ['A', 'B', 'C'],
+        correct: 0,
+        feedback: 'Brief explanation shown after answering.'
+      },
+    ],
     multipleChoice: [
       // correct is the 0-based index of the right option
       { prompt: 'Translate: X', options: ['A', 'B', 'C', 'D'], correct: 2 },
@@ -249,8 +277,9 @@ const LESSON_DATA = {
 ```
 
 **Key rules for lesson data:**
-- `totalQuestions` must equal `multipleChoice.length + typing.length`
-- `passMark` should be roughly 75% of `totalQuestions` (e.g. 6 for an 8-question quiz)
+- `totalQuestions` must equal `conceptCheck.length + multipleChoice.length + typing.length`
+- `passMark` should be roughly 75% of `totalQuestions` (e.g. 8 for an 11-question quiz)
+- Concept checks are for short grammar/meaning decisions that test whether the learner understood the pattern, not extra trivia
 - Comprehension question `correct` is the **exact string** of the right option (not an index)
 - Quiz `correct` is a **0-based index** into the options array
 - Vocab is **new words only** — words from earlier lessons may appear in exercises for reinforcement but must not be listed as new vocab
@@ -325,7 +354,7 @@ Loaded by lesson pages only. Contains:
 - Grammar blocks and example tables
 - Quiz question styles (MC and typing)
 - Arabic typing input
-- Score card
+- Quiz intro card and mobile-fitted score result modal
 - **Hover/tap-translate tooltip** styles (`.ar-word[data-meaning]`) — dashed underline + dark tooltip for hover, focus, and tap
 
 ### reading.css
@@ -405,15 +434,22 @@ All lesson UI logic. Key functions:
 | `buildVocabularyPanel(data)` | Renders guided sentence cards when present; otherwise renders vocab cards with rating buttons and the known-words bucket |
 | `buildLessonPanel(data)` | Renders grammar blocks and example table |
 | `buildComprehensionPanel(data)` | Renders story with hover/tap-translate, MCQ questions |
-| uildQuizPanel(data) | Renders MC + typing quiz questions |
-| nnotateArabicText(text, vocab) | Splits Arabic text into words, matches against vocab, wraps matched words in `<span class="ar-word" data-meaning="...">` for hover/tap tooltips |
+| `buildQuizPanel(data)` | Renders quiz intro, concept checks, MC questions, and typing questions |
+| `annotateArabicText(text, vocab)` | Splits Arabic text into words, matches against vocab, wraps matched words in `<span class="ar-word" data-meaning="...">` for hover/tap tooltips |
 | checkComprehension / checkQuiz / checkTyping | Answer checking |
-| submitQuiz() / 
-etryQuiz() | Quiz scoring and reset |
-| stripDiacritics(str) / 
-ormalise(str) | Lenient answer matching |
-| 
-enderIcon(icon) | Splits multi-emoji strings into individual spans for side-by-side display |
+| `submitQuiz()` / `retryQuiz()` | Quiz scoring result modal and quiz reset |
+| `startQuiz()` / `showQuizIntro()` | Quiz intro entry flow |
+| `stripDiacritics(str)` / `normalise(str)` | Lenient answer matching |
+| `renderIcon(icon)` | Splits multi-emoji strings into individual spans for side-by-side display |
+
+### vocab-srs.js
+Owns review vocabulary discovery and SRS state.
+
+- Completed lessons should backfill their new vocab into the learner's satchel.
+- Review sessions cap at 20 cards.
+- Cards answered wrong should return later in the same session.
+- A card missed earlier in the session does not rank up even if answered correctly on a repeat in that same session.
+- Satchel browsing should support both lesson grouping and familiarity/SRS grouping.
 
 ### lesson-loader.js
 Reads URL params → builds data file path → injects `<script>` → calls `initLesson()`. Also checks lesson lock state (redirects if locked) and marks lesson in-progress.
@@ -494,12 +530,12 @@ So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After
 - Mobile may use smaller component-level type and tighter spacing when needed for scanability; do not blindly preserve desktop scale on phones
 
 ### Colour
-- Palette is a soft pastel dream: lavender purple (#b8a3f5), baby blue (#93c5fd), bubblegum pink (#f9a8d4), sunny yellow (#fde047)
-- Background is a dreamy lavender-to-pink gradient (#faf8ff → #fff5f8 → #f0f9ff)
-- Brand lavender → primary buttons, links, active states
-- Mint green → completed / correct (subtle, not dominant)
-- Gold/amber → in-progress, streaks, warm accents
-- Soft rose → errors / wrong answers (never colour alone)
+- Palette follows the current Duolingo-inspired Kalamo tokens: green primary action, sky-blue/purple/coral accents, warm cream surfaces, and clear success/warning/error states
+- Background is the warm app surface with the subtle geometric pattern; do not replace daily-use screens with heavy gradient/orb decoration
+- Brand green → primary buttons, links, completed/correct states, and selected learning progress
+- Purple/blue/coral → supporting accents and small highlights, not whole-screen monotone themes
+- Gold/amber → in-progress states, streaks, XP/reward moments, and warm accents
+- Soft red/rose → errors / wrong answers (never colour alone)
 - All colours are defined as CSS custom properties in `shared.css` — never hardcode hex values
 
 ### Layout
@@ -508,6 +544,7 @@ So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After
 - Mobile gets purpose-built compact layouts, not just a squeezed desktop layout
 - Onboarded users should land on the Today dashboard by default. Do not redirect returning users straight to Course.
 - Keep top-level navigation consistent across desktop and mobile: Today, Course, Reading, Review.
+- Active navigation should look selected and premium, but not like the main CTA button. The primary button treatment belongs to one clear main action per screen.
 - At phone widths, prefer short rows, tighter padding, fewer decorative chips, and smaller Arabic display sizes where the desktop treatment would create excessive scrolling
 - Vocabulary cards should become compact study rows on mobile: Arabic + meaning remain visible, secondary metadata can be reduced or hidden
 - Lesson/book cards can hide nonessential chips/descriptions on very narrow screens if the primary action and lesson identity remain clear
@@ -520,9 +557,10 @@ So `هذا بيت` and `هَذَا بَيْتٌ` are treated as identical. After
 - Lesson entry should feel like a focused start screen: short summary, clear lesson identity, one strong Continue action.
 - After the learner continues, lesson pages should avoid repeated headers and summaries. The content area should start with the step controls and active learning task.
 - Reading should not feel like a dashboard. It is a comprehension surface.
-- Review should move toward Anki-style spaced repetition, not generic mixed drills.
+- Review should stay Anki-style spaced repetition, not generic mixed drills.
 - Avoid adding new persistent panels, badges, ladders, or drawers unless they directly improve the learner loop.
 - The app may be playful and colorful, but daily-use screens should stay quick to scan.
+- Any modal or popup must be tested on small mobile viewports. It should fit without requiring browser zoom, lock background scrolling when appropriate, and leave only the modal content scrollable as a last resort.
 
 ### Accessibility
 - Arabic-Indic numerals (٠١٢٣٤٥٦٧٨٩) for all numbers shown to users — use `toArabicNumeral()`
@@ -611,7 +649,7 @@ All HTML pages have: `<meta name="description">`, Open Graph tags (`og:title`, `
 - Do not hardcode hex colours — use CSS variables
 - Do not add CSS variables outside `shared.css`
 - Do not store anything in localStorage except lesson progress and vocab ratings (keys: `kalamo_book*_progress`, `kalamo_vocab_ratings`; legacy `medina_*` keys are migration-only)
-- Also allowed localStorage keys: onboarding/current-book state, XP/streak state, and reading progress (`kalamo_onboarded`, `kalamo_current_book`, `kalamo_learning_mode`, `kalamo_xp`, `kalamo_streak`, `kalamo_reading_progress`, `kalamo_reading_satchel`)
+- Also allowed localStorage keys: onboarding/current-book state, XP/streak state, review/SRS state, and reading progress (`kalamo_onboarded`, `kalamo_current_book`, `kalamo_learning_mode`, `kalamo_xp`, `kalamo_streak`, `kalamo_satchel`, `kalamo_srs`, `kalamo_reading_progress`, `kalamo_reading_satchel`)
 - Do not reduce the desktop base font size (`20px`) or max content widths without good reason
 - Do not treat mobile as an afterthought — every new page/component needs a phone-width pass for spacing, type size, and scrolling density
 - Do not use italics on body text or font weights below 400

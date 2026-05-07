@@ -70,8 +70,9 @@ for (const file of files) {
     });
   });
 
-  assert(Array.isArray(data.practiceQuestions), `${label} practiceQuestions must be an array`);
-  (data.practiceQuestions || []).forEach((question, index) => {
+  const practiceQuestions = data.practiceQuestions || [];
+  assert(Array.isArray(practiceQuestions), `${label} practiceQuestions must be an array when present`);
+  practiceQuestions.forEach((question, index) => {
     assert(Array.isArray(question.options) && question.options.length >= 2, `${label} practiceQuestions[${index}] needs at least two options`);
     assert(question.options && question.options.includes(question.correct), `${label} practiceQuestions[${index}].correct must match one option string`);
     assert(isNonEmptyString(question.text) || isNonEmptyString(question.arabic), `${label} practiceQuestions[${index}] needs text or arabic`);
@@ -79,13 +80,23 @@ for (const file of files) {
 
   assert(data.quizQuestions && Array.isArray(data.quizQuestions.multipleChoice), `${label} quizQuestions.multipleChoice must be an array`);
   assert(data.quizQuestions && Array.isArray(data.quizQuestions.typing), `${label} quizQuestions.typing must be an array`);
+  if (data.quizQuestions?.conceptCheck !== undefined) {
+    assert(Array.isArray(data.quizQuestions.conceptCheck), `${label} quizQuestions.conceptCheck must be an array when present`);
+  }
 
+  const conceptCheck = data.quizQuestions?.conceptCheck || [];
   const multipleChoice = data.quizQuestions?.multipleChoice || [];
   const typing = data.quizQuestions?.typing || [];
-  const computedTotal = multipleChoice.length + typing.length;
+  const computedTotal = conceptCheck.length + multipleChoice.length + typing.length;
 
-  assert(data.totalQuestions === computedTotal, `${label} totalQuestions (${data.totalQuestions}) should equal MC + typing (${computedTotal})`);
+  assert(data.totalQuestions === computedTotal, `${label} totalQuestions (${data.totalQuestions}) should equal concept + MC + typing (${computedTotal})`);
   assert(Number.isInteger(data.passMark) && data.passMark > 0 && data.passMark <= computedTotal, `${label} passMark should be between 1 and totalQuestions`);
+
+  conceptCheck.forEach((question, index) => {
+    assert(isNonEmptyString(question.statement), `${label} conceptCheck[${index}].statement is required`);
+    assert(typeof question.correct === 'boolean', `${label} conceptCheck[${index}].correct must be true or false`);
+    assert(isNonEmptyString(question.explanation), `${label} conceptCheck[${index}].explanation is required`);
+  });
 
   multipleChoice.forEach((question, index) => {
     assert(isNonEmptyString(question.prompt), `${label} multipleChoice[${index}].prompt is required`);
